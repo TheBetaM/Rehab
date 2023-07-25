@@ -1,0 +1,98 @@
+[gd_scene load_steps=3 format=3 uid="uid://dj63qinhimnyd"]
+
+[ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://frontend/ControlTheme_Rehab.tres" id="1"]
+[ext_resource type="Script" path="res://code/Frontend/LevelSelectList.gd" id="1_axws6"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_axws6")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_top = 0.1
+anchor_right = 1.0
+anchor_bottom = 0.9
+color = Color(0.2, 0.698039, 0.882353, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 256.0
+offset_bottom = 256.0
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+metadata/_edit_layout_mode = 1
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.05
+anchor_right = 0.5
+anchor_bottom = 0.05
+offset_left = -44.5
+offset_top = -10.0
+offset_right = 44.5
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1")
+text = "level select"
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_custom_anchors = true
+
+[node name="TitleLabel2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -36.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1")
+text = "project rehab - tech demo by team nitro"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_custom_anchors = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 0
+anchor_left = 0.15
+anchor_top = 0.1
+anchor_right = 0.85
+anchor_bottom = 0.87
+grow_horizontal = 2
+theme = ExtResource("1")
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VideoPlayer" type="VideoStreamPlayer" parent="."]
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+volume_db = -12.23
+autoplay = true
+expand = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -13.983
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -19.677
+
+[connection signal="finished" from="VideoPlayer" to="." method="_on_VideoPlayer_finished"]
