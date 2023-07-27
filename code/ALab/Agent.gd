@@ -50,11 +50,11 @@ enum SSlot {
 
 func _ready():
 	AudioSource = $AudioStreamPlayer3D
-	if (get_node("Children")):
+	if (get_node_or_null("Children")):
 		for i in $Children.get_children():
 			if (i is Agent):
 				SubActors.append(i)
-	if (get_node("Models")):
+	if (get_node_or_null("Models")):
 		for i in $Models.get_children():
 			SubModels.append(i)
 	#if (!Engine.is_editor_hint()):

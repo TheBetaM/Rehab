@@ -89,11 +89,20 @@ var physBody : Node3D
 var physCam : Camera3D
 
 static var activeCharacter : Agent
+static var ActiveActorTypes : Dictionary
 
 func _ready():
 	super()
+	
+	if (!ActiveActorTypes.find_key(RegInt[CharISlot.AgentType])):
+		ActiveActorTypes[RegInt[CharISlot.AgentType]] = self
+	else:
+		visible = false
+		process_mode = Node.PROCESS_MODE_DISABLED
+		
 	if (activeCharacter != null):
 		return
+		
 	activeCharacter = self
 	physCam = Camera3D.new()
 	physCam.far = 90000.0;
@@ -106,6 +115,13 @@ func _ready():
 	charBody.get_child(0).disabled = false
 	oldBody.queue_free()
 	physBody = charBody
+
+func _exit_tree():
+	if (ActiveActorTypes.find_key(RegInt[CharISlot.AgentType]) != null):
+		if (ActiveActorTypes[RegInt[CharISlot.AgentType]] == self):
+			ActiveActorTypes.erase(RegInt[CharISlot.AgentType])
+	if (activeCharacter == self):
+		activeCharacter = null
 
 func _physics_process(delta):
 	var direction = Vector3.ZERO
@@ -131,8 +147,19 @@ func _physics_process(delta):
 		pressed = true
 	if Input.is_action_pressed("ui_accept"):
 		velocity.y += 100 * delta
-	if Input.is_action_pressed("ui_cancel"):
+	if Input.is_action_just_pressed("ui_select"):
 		ReturnToLevelSelect()
+	if Input.is_action_just_pressed("ui_cancel"):
+		var cam = FreeLookCamera.new()
+		cam.testAgent = self
+		get_parent().add_child(cam)
+		physCam.current = false
+		cam.current = true
+		cam.far = 90000.0
+		cam.global_position = physCam.global_position
+		cam.global_rotation_degrees = physCam.global_rotation_degrees
+		process_mode = Node.PROCESS_MODE_DISABLED
+		return;
 	if Input.is_action_pressed("pad1_rstick_left"):
 		camdir += Input.get_action_raw_strength("pad1_rstick_left")
 	if Input.is_action_pressed("pad1_rstick_right"):
@@ -185,6 +212,6 @@ func _physics_process(delta):
 func ReturnToLevelSelect():
 	if (activeCharacter == self):
 		await get_tree().create_timer(0.1).timeout
-		get_tree().change_scene_to_file("Frontend/FE_LevelSelect.tscn")
+		RehabSceneRoot.Root.ExitLevel()
 
 

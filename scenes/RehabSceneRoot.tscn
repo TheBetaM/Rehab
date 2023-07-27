@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://by5ieljhkskx8"]
+
+[ext_resource type="Script" path="res://code/Game/RehabSceneRoot.gd" id="1_nokr2"]
+[ext_resource type="PackedScene" uid="uid://dj63qinhimnyd" path="res://frontend/FE_LevelSelect.tscn" id="2_hbkbo"]
+[ext_resource type="PackedScene" uid="uid://dbctcygs8r8uu" path="res://frontend/FE_Loading.tscn" id="3_w1df3"]
+
+[sub_resource type="Environment" id="Environment_e4v8o"]
+
+[node name="Root" type="Node3D"]
+script = ExtResource("1_nokr2")
+
+[node name="LevelSelect" parent="." instance=ExtResource("2_hbkbo")]
+process_mode = 4
+visible = false
+
+[node name="Loading" parent="." instance=ExtResource("3_w1df3")]
+process_mode = 4
+visible = false
+
+[node name="WorldEnv" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_e4v8o")

@@ -4,7 +4,7 @@ extends Marker3D
 class_name ActorInstance
 @export var Prefab : PackedScene
 @export var InstanceScript : ALabScript
-@export var RefList: int
+@export var RefList: int = -1
 @export var LinkInstance : Array[NodePath]
 @export var LinkPath : Array[NodePath]
 @export var LinkPoint : Array[NodePath]
