@@ -14,6 +14,10 @@ class_name ActorInstance
 var Actor : Agent
 
 func _ready():
+	#Preventing load stutter
+	for i in randi_range(1, 60):
+		await get_tree().process_frame
+	
 	var act = Prefab.instantiate()
 	if (act is Agent):
 		Actor = act

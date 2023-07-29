@@ -1,5 +1,5 @@
 extends ALab_Percept
 class_name Percept_AmIHarmful
 
-static func Result(Param : int, Interval : float, Threshold : float, Caller : Agent):
-	return true
+func Result():
+	return false

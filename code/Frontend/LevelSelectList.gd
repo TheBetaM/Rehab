@@ -18,14 +18,14 @@ func _ready():
 	
 	#var success = ProjectSettings.load_resource_pack("res://test.zip")
 	#if (success):
-	#	print("pack loaded")
+		#print("pack loaded")
 	#else:
-	#	print("pack failed")
+		#print("pack failed")
 	
-	if (!DirAccess.dir_exists_absolute(RehabGame.AssetsPath + "Levels/")):
-		printerr("No Levels directory found!")
-		$TitleLabel.text = "imported assets not found"
-		return
+	#if (!DirAccess.dir_exists_absolute(RehabGame.AssetsPath + "Levels/")):
+		#printerr("No Levels directory found!")
+		#$TitleLabel.text = "imported assets not found"
+		#return
 		
 	var dir = DirAccess.open(RehabGame.AssetsPath + "Levels/");
 	if dir:

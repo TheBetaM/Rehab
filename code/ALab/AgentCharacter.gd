@@ -87,19 +87,22 @@ var camangle = 0.0
 #var camheight = 0.0
 var physBody : Node3D
 var physCam : Camera3D
+var isReparenting : bool = false
 
 static var activeCharacter : Agent
-static var ActiveActorTypes : Dictionary
+static var ActiveActorTypes : Dictionary #int type : Agent character
 
 func _ready():
 	super()
 	
-	if (!ActiveActorTypes.find_key(RegInt[CharISlot.AgentType])):
-		ActiveActorTypes[RegInt[CharISlot.AgentType]] = self
+	if (!ActiveActorTypes.has(RegInt[CharISlot.AgentType])):
+		ActiveActorTypes[RegInt[CharISlot.AgentType]] = get_path()
 	else:
 		visible = false
 		process_mode = Node.PROCESS_MODE_DISABLED
 		
+	if (RegInt[CharISlot.AgentType] > 2):
+		return
 	if (activeCharacter != null):
 		return
 		
@@ -117,8 +120,11 @@ func _ready():
 	physBody = charBody
 
 func _exit_tree():
-	if (ActiveActorTypes.find_key(RegInt[CharISlot.AgentType]) != null):
-		if (ActiveActorTypes[RegInt[CharISlot.AgentType]] == self):
+	if (isReparenting):
+		isReparenting = false
+		return
+	if (ActiveActorTypes.has(RegInt[CharISlot.AgentType])):
+		if (ActiveActorTypes[RegInt[CharISlot.AgentType]] == get_path()):
 			ActiveActorTypes.erase(RegInt[CharISlot.AgentType])
 	if (activeCharacter == self):
 		activeCharacter = null
@@ -128,6 +134,7 @@ func _physics_process(delta):
 	var camdir = 0.0
 	var pressed = false
 	
+	ActiveActorTypes[RegInt[CharISlot.AgentType]] = get_path()
 	if (physBody == null):
 		return
 	if (activeCharacter != self):

@@ -8,6 +8,7 @@ static var Game : RehabGame = RehabGame.new()
 static var Root : RehabSceneRoot
 var Chunks : Array[ChunkScene]
 var ChunkNames : Array[StringName]
+var LoadingChunkName : String
 
 func _init():
 	Root = self
@@ -18,6 +19,8 @@ func _ready():
 
 func LoadScene(path : String):
 	UnloadAllChunks()
+	LoadingChunkName = path.split("/")[-1].trim_suffix(".tscn")
+	$Loading.UpdateVisuals()
 	$Loading.visible = true
 	$Loading.process_mode = Node.PROCESS_MODE_INHERIT
 	ResourceLoader.load_threaded_request(path)
@@ -31,17 +34,16 @@ func LoadScene(path : String):
 		add_child(loadedScene)
 		Chunks.append(loadedScene)
 		ChunkNames.append(loadedScene.name)
+		ActiveChunk = loadedScene
 		var skypath : String = RehabGame.AssetsPath + loadedScene.SkydomePath
-		if (!skypath.is_empty()):
+		if (!loadedScene.SkydomePath.is_empty()):
 			var sky = ResourceLoader.load(skypath)
 			SkydomePath = skypath
 			Skydome = sky.instantiate()
 			add_child(Skydome)
 		$Loading.visible = false
 		$Loading.process_mode = Node.PROCESS_MODE_DISABLED
-		await get_tree().process_frame
-		await get_tree().process_frame
-		await get_tree().process_frame
+		await get_tree().create_timer(5.0).timeout
 		if (AgentCharacter.activeCharacter == null):
 			printerr("LEVEL LOADED WITH NO CHARACTER")
 			ExitLevel()
@@ -63,6 +65,68 @@ func LoadChunk(chunk : PackedScene, chunkName : String, holder : Node3D):
 	else:
 		return null
 
+func SwitchToChunk(chunk : ChunkScene):
+	
+	if (chunk == ActiveChunk):
+		return
+	
+	var OldChunk = ActiveChunk
+	OldChunk.ActiveScene = false
+	print("[ROOT] Entering " + chunk.name)
+	
+	# Updating World Environment
+	$WorldEnv.environment = chunk.WorldEnv
+	
+	# Updating Skydome
+	var skypath : String = RehabGame.AssetsPath + chunk.SkydomePath
+	if (SkydomePath != skypath and !chunk.SkydomePath.is_empty()):
+		if (Skydome):
+			Skydome.queue_free()
+		var sky = ResourceLoader.load(skypath)
+		SkydomePath = skypath
+		Skydome = sky.instantiate()
+		add_child(Skydome)
+	elif chunk.SkydomePath.is_empty():
+		if (Skydome):
+			Skydome.queue_free()
+		SkydomePath = ""
+	
+	# Centering active chunk to (0,0,0) and others around it
+	var ChunkOffset = chunk.global_position;
+	for c in Chunks:
+		c.global_position += -ChunkOffset
+	
+	# Collision layer swapping
+	# todo maybe have that in AgentCharacter
+	
+	# Disabling links of chunk that we're exiting
+	for i  in OldChunk.Links:
+		i.DisableLink()
+	
+	# Disposing of unlinked chunks
+	for cn in ChunkNames:
+		var found = false
+		for c in chunk.Links:
+			if (c.ChunkName == cn):
+				found = true
+				break
+		if (!found and cn != chunk.name):
+			UnloadChunk(cn)
+	
+	ActiveChunk = chunk
+	chunk.ActiveScene = true
+	chunk.visible = true
+	chunk.process_mode = Node.PROCESS_MODE_INHERIT
+	
+	# Activating and starting links of entered chunk
+	for i  in chunk.Links:
+		if (i.ChunkName == OldChunk.name):
+			i.IsBufferred = true
+		i.ActivateLink()
+	
+	
+	
+
 func UnloadChunk(chunk : String):
 	var pos = ChunkNames.find(chunk)
 	if (pos != -1):
@@ -80,6 +144,8 @@ func UnloadAllChunks():
 		ChunkNames.remove_at(i)
 	Chunks.clear()
 	ChunkNames.clear()
+	AgentCharacter.ActiveActorTypes.clear()
+	AgentCharacter.activeCharacter = null
 	if (Skydome != null):
 		Skydome.queue_free()
 

@@ -3,24 +3,26 @@ extends Node3D
 class_name ChunkLink
 @export_file("*.tscn") var ChunkPath : String
 @export var ChunkName : String
-@export var Type : int
-@export var Flags : int
+@export var IsDisabled : bool
+@export var SpawnInvisible : bool
 
 var ParentScene : ChunkScene
 var LoadedScene : PackedScene
 var LoadedChunk : Node3D
 var EnterTrigger : Area3D
 var LoadTriggers : Area3D #todo array
-#todo load area : cases where the load area only loads and not instantiates
+var IsBufferred : bool
+#var BufferAgent : Agent
 
 func _ready():
 	
 	ParentScene = get_parent().get_parent()
+	ParentScene.Links.append(self)
 	
 	if (ChunkPath.is_empty()):
 		return
 	
-	if (get_node_or_null("EnterTrigger") != null):
+	if (get_node_or_null("EnterTrigger") != null and !IsDisabled):
 		EnterTrigger = get_node("EnterTrigger")
 		EnterTrigger.connect("body_entered", TrigEnter)
 		EnterTrigger.connect("body_exited", TrigExit)
@@ -31,21 +33,52 @@ func _ready():
 		LoadTriggers.connect("body_exited", LoadTrigExit)
 	elif (ParentScene.ActiveScene):
 		SpawnChunk()
+	
+	if (!ParentScene.ActiveScene):
+		DisableLink()
+
+func DisableLink():
+	process_mode = Node.PROCESS_MODE_DISABLED
+
+func ActivateLink():
+	if (ChunkPath.is_empty()):
+		return
+	process_mode = Node.PROCESS_MODE_INHERIT
+	if (ParentScene.ActiveScene and LoadedChunk != null):
+		LoadedChunk.visible = !SpawnInvisible
+		if (SpawnInvisible):
+			LoadedChunk.process_mode = Node.PROCESS_MODE_DISABLED
+		else:
+			LoadedChunk.process_mode = Node.PROCESS_MODE_INHERIT
+	if (ParentScene.ActiveScene and LoadTriggers == null):
+		SpawnChunk()
 
 func TrigEnter(body):
+	if (process_mode == Node.PROCESS_MODE_DISABLED):
+		return
 	if (LoadedChunk == null):
 		return
 	if (!ParentScene.ActiveScene):
 		return
+	if (IsBufferred):
+		return
 	if (body is CharacterBody3D):
 		var agent = body.get_parent().get_parent().get_parent()
-		if (agent is AgentCharacter and AgentCharacter.activeCharacter == agent):
-			pass
+		if (agent is AgentCharacter):
+			DisableLink() #todo remove this
+			agent.isReparenting = true
+			agent.reparent(LoadedChunk)
+			if (AgentCharacter.activeCharacter == agent):
+				SwitchToChunk(LoadedChunk)
 
 func TrigExit(body):
-	pass
+	if (process_mode == Node.PROCESS_MODE_DISABLED):
+		return
+	IsBufferred = false
 	
 func LoadTrigEnter(body):
+	if (process_mode == Node.PROCESS_MODE_DISABLED):
+		return
 	if (LoadedChunk != null):
 		return
 	if (!ParentScene.ActiveScene):
@@ -56,6 +89,8 @@ func LoadTrigEnter(body):
 			SpawnChunk()
 
 func LoadTrigExit(body):
+	if (process_mode == Node.PROCESS_MODE_DISABLED):
+		return
 	if (LoadedChunk == null):
 		return
 	if (!ParentScene.ActiveScene):
@@ -82,10 +117,16 @@ func SpawnChunk():
 			printerr("FAILED TO FIND SCENE AT " + FullChunkPath)
 			return
 	LoadedChunk = RehabSceneRoot.Root.LoadChunk(LoadedScene, ChunkName, $ChunkHolder)
+	if (LoadedChunk != null and SpawnInvisible):
+		LoadedChunk.visible = false
+		LoadedChunk.process_mode = Node.PROCESS_MODE_DISABLED
 
 func DespawnChunk():
 	if (LoadedChunk == null):
 		return
 	RehabSceneRoot.Root.UnloadChunk(LoadedChunk.name)
 	LoadedChunk = null
+
+func SwitchToChunk(chunk):
+	RehabSceneRoot.Root.SwitchToChunk(chunk)
 

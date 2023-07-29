@@ -9,7 +9,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Label:scale")
+tracks/0/path = NodePath("Control/Label:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -42,20 +42,47 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Label" type="Label" parent="."]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-offset_left = 561.0
-offset_top = 620.0
-offset_right = 719.0
-offset_bottom = 720.0
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="Label" type="Label" parent="Control"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -79.0
+offset_top = -50.0
+offset_right = 79.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(1.1, 1.1)
 pivot_offset = Vector2(79, 50)
 theme = ExtResource("1_oyfxq")
 theme_override_font_sizes/font_size = 48
 text = "loading"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelLevelName" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_oyfxq")
+theme_override_font_sizes/font_size = 48
 horizontal_alignment = 1
 vertical_alignment = 1
 

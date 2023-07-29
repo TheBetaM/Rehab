@@ -58,11 +58,11 @@ func _ready():
 		for i in $Models.get_children():
 			SubModels.append(i)
 	#if (!Engine.is_editor_hint()):
-	#	Scripts[SSlot.Spawn].run()
+	#	Scripts[SSlot.Spawn].run(0)
 
 func _process(delta):
 	if (ActiveState):
-		ActiveState.run()
+		ActiveState.run(delta)
 	
 func OnMessage(message : int):
 	if Messages.find_key(message):
@@ -87,7 +87,11 @@ func DoSound(slot : int):
 		AudioSource.play()
 
 func ControlPackUpdate():
-	pass
+	CTRLPACK.Update()
+
+func ControlPackRun(delta):
+	var cont : bool = CTRLPACK.Run(delta)
+	return cont
 
 func ControlPackReset():
 	CTRLPACK.Reset()
@@ -135,6 +139,21 @@ class ControlPacket:
 	var Bounce_BankLimit #float
 	var SyncUnit #int
 	var JointIndex #int
+	
+	var DelayTimer : float = 0.0
+	
+	func Run(delta):
+		if Delay != null:
+			DelayTimer -= delta
+			if (DelayTimer > 0.0):
+				return false
+		if Stalls:
+			return false
+		return true
+	
+	func Update():
+		if Delay != null:
+			DelayTimer = Delay
 	
 	func Reset():
 		Translates = false
