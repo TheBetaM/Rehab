@@ -13,6 +13,7 @@ var CTRLPACK : ControlPacket
 var SubActors : Array[Agent]
 var SubModels : Array[Node3D]
 var AudioSource : AudioStreamPlayer3D
+var ParentScene : ChunkScene
 
 # Instance data
 @export var InstanceScript : ALabScript
@@ -57,6 +58,16 @@ func _ready():
 	if (get_node_or_null("Models")):
 		for i in $Models.get_children():
 			SubModels.append(i)
+	
+	var parent = get_parent()
+	while ParentScene == null and parent != null:
+		if (parent is ChunkScene):
+			ParentScene = parent
+		else:
+			parent = parent.get_parent()
+	
+	if (ParentScene != null):
+		UpdateLayers(ParentScene.ChunkLayer)
 	#if (!Engine.is_editor_hint()):
 	#	Scripts[SSlot.Spawn].run(0)
 
@@ -85,6 +96,24 @@ func DoSound(slot : int):
 	if (Sounds[slot]):
 		AudioSource.stream = Sounds[slot]
 		AudioSource.play()
+
+func UpdateLayers(layer : int):
+	#Updating collision and light layers in child nodes
+	UpdateLayersNested(self, layer)
+
+func UpdateLayersNested(parent : Node, layer : int):
+	for i in parent.get_children():
+		UpdateLayersNested(i, layer)
+		if (i is VisualInstance3D):
+			i.set_layer_mask_value(1, false)
+			i.set_layer_mask_value(layer, true)
+			if (i is Light3D):
+				i.light_cull_mask = i.light_cull_mask | (1 << (layer - 1)) 
+		elif (i is CollisionObject3D):
+			i.set_collision_mask_value(1, false)
+			i.set_collision_layer_value(1, false)
+			i.set_collision_mask_value(layer, true)
+			i.set_collision_layer_value(layer, true)
 
 func ControlPackUpdate():
 	CTRLPACK.Update()

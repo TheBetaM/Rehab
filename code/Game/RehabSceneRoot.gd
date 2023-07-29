@@ -8,6 +8,7 @@ static var Game : RehabGame = RehabGame.new()
 static var Root : RehabSceneRoot
 var Chunks : Array[ChunkScene]
 var ChunkNames : Array[StringName]
+var ChunkLayers : Array[int]
 var LoadingChunkName : String
 
 func _init():
@@ -30,11 +31,16 @@ func LoadScene(path : String):
 		var loadedPack = ResourceLoader.load_threaded_get(path)
 		var loadedScene = loadedPack.instantiate()
 		loadedScene.ActiveScene = true
-		$WorldEnv.environment = loadedScene.WorldEnv
-		add_child(loadedScene)
+		ActiveChunk = loadedScene
 		Chunks.append(loadedScene)
 		ChunkNames.append(loadedScene.name)
-		ActiveChunk = loadedScene
+		for i in range(1, 20):
+			if (!ChunkLayers.has(i)):
+				ChunkLayers.append(i)
+				loadedScene.UpdateLayers(i)
+				break
+		$WorldEnv.environment = loadedScene.WorldEnv
+		add_child(loadedScene)
 		var skypath : String = RehabGame.AssetsPath + loadedScene.SkydomePath
 		if (!loadedScene.SkydomePath.is_empty()):
 			var sky = ResourceLoader.load(skypath)
@@ -56,11 +62,13 @@ func LoadChunk(chunk : PackedScene, chunkName : String, holder : Node3D):
 		var LoadedChunk = chunk.instantiate()
 		holder.add_child(LoadedChunk)
 		LoadedChunk.reparent(self)
-		if (LoadedChunk.get_node_or_null("Lights") != null):
-			LoadedChunk.get_node("Lights").visible = false
-		#todo: disable collision?
 		Chunks.append(LoadedChunk)
 		ChunkNames.append(chunkName)
+		for i in range(1, 20):
+			if (!ChunkLayers.has(i)):
+				ChunkLayers.append(i)
+				LoadedChunk.UpdateLayers(i)
+				break
 		return LoadedChunk
 	else:
 		return null
@@ -74,7 +82,7 @@ func SwitchToChunk(chunk : ChunkScene):
 	OldChunk.ActiveScene = false
 	print("[ROOT] Entering " + chunk.name)
 	
-	# Updating World Environment
+	# Updating World Environment and Lights
 	$WorldEnv.environment = chunk.WorldEnv
 	
 	# Updating Skydome
@@ -95,9 +103,6 @@ func SwitchToChunk(chunk : ChunkScene):
 	var ChunkOffset = chunk.global_position;
 	for c in Chunks:
 		c.global_position += -ChunkOffset
-	
-	# Collision layer swapping
-	# todo maybe have that in AgentCharacter
 	
 	# Disabling links of chunk that we're exiting
 	for i  in OldChunk.Links:
@@ -124,8 +129,6 @@ func SwitchToChunk(chunk : ChunkScene):
 			i.IsBufferred = true
 		i.ActivateLink()
 	
-	
-	
 
 func UnloadChunk(chunk : String):
 	var pos = ChunkNames.find(chunk)
@@ -134,20 +137,20 @@ func UnloadChunk(chunk : String):
 		Chunks[pos].queue_free()
 		Chunks.remove_at(pos)
 		ChunkNames.remove_at(pos)
+		ChunkLayers.remove_at(pos)
 		return
 
 func UnloadAllChunks():
 	for i in range(Chunks.size()):
 		Chunks[i].queue_free()
-	for i in range(Chunks.size()):
-		Chunks.remove_at(i)
-		ChunkNames.remove_at(i)
 	Chunks.clear()
 	ChunkNames.clear()
+	ChunkLayers.clear()
 	AgentCharacter.ActiveActorTypes.clear()
 	AgentCharacter.activeCharacter = null
 	if (Skydome != null):
 		Skydome.queue_free()
+	SkydomePath = ""
 
 func ExitLevel():
 	UnloadAllChunks()

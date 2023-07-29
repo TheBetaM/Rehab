@@ -15,7 +15,7 @@ var Actor : Agent
 
 func _ready():
 	#Preventing load stutter
-	for i in randi_range(1, 60):
+	for i in randi_range(1, 30):
 		await get_tree().process_frame
 	
 	var act = Prefab.instantiate()
