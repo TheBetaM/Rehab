@@ -14,4 +14,4 @@ var SavePointRot
 var CheckPointChunk
 var CheckPointPos
 var CheckPointRot
-static var AssetsPath : String = "res://assets/"
+static var AssetsPath : String = "res://import/"

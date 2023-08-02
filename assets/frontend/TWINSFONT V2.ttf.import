@@ -1,0 +1,39 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://cp8ao2aynd5e1"
+path="res://.godot/imported/TWINSFONT V2.ttf-39ebbd176813c39cc755f1fb806300e8.fontdata"
+
+[deps]
+
+source_file="res://assets/frontend/TWINSFONT V2.ttf"
+dest_files=["res://.godot/imported/TWINSFONT V2.ttf-39ebbd176813c39cc755f1fb806300e8.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=1
+generate_mipmaps=false
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=true
+force_autohinter=false
+hinting=1
+subpixel_positioning=1
+oversampling=0.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=true
+preload=[{
+"chars": [33, 37, 40, 41, 43, 44, 45, 46, 47, 79, 63, 111, 110, 78, 77, 109, 108, 92, 76, 61, 75, 107, 106, 122, 112, 80, 64, 48, 49, 65, 81, 97, 113, 114, 50, 66, 82, 98, 115, 116, 117, 118, 119, 120, 121, 58, 74, 90, 51, 52, 53, 54, 55, 56, 57, 67, 83, 99, 100, 84, 68, 69, 85, 101, 102, 86, 70, 71, 87, 103, 104, 88, 72, 73, 89, 105],
+"glyphs": [],
+"name": "RehabFont",
+"size": Vector2i(64, 7),
+"variation_embolden": 0.0
+}]
+language_support={}
+script_support={}
+opentype_features={}

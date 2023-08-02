@@ -1,0 +1,7 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://b0d28n0ldq4v0"]
+
+[ext_resource type="FontFile" uid="uid://cp8ao2aynd5e1" path="res://assets/frontend/TWINSFONT V2.ttf" id="1_fktq5"]
+
+[resource]
+base_font = ExtResource("1_fktq5")
+spacing_glyph = 4

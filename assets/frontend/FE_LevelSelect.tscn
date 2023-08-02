@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dj63qinhimnyd"]
+[gd_scene load_steps=4 format=3 uid="uid://dj63qinhimnyd"]
 
-[ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://frontend/ControlTheme_Rehab.tres" id="1"]
+[ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="1"]
 [ext_resource type="Script" path="res://code/Frontend/LevelSelectList.gd" id="1_axws6"]
+[ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="2_kyw6x"]
 
 [node name="LevelSelect" type="Control"]
 layout_mode = 3
@@ -34,6 +35,7 @@ scale = Vector2(0.5, 0.5)
 metadata/_edit_layout_mode = 1
 
 [node name="TitleLabel" type="Label" parent="."]
+material = ExtResource("2_kyw6x")
 custom_minimum_size = Vector2(0, 75)
 layout_mode = 1
 anchors_preset = 10
@@ -48,6 +50,7 @@ metadata/_edit_layout_mode = 1
 metadata/_edit_use_custom_anchors = true
 
 [node name="TitleLabel2" type="Label" parent="."]
+material = ExtResource("2_kyw6x")
 custom_minimum_size = Vector2(0, 75)
 layout_mode = 1
 anchors_preset = 12

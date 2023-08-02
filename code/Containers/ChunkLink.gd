@@ -68,6 +68,7 @@ func TrigEnter(body):
 			DisableLink() #todo remove this
 			agent.isReparenting = true
 			agent.reparent(LoadedChunk)
+			agent.ParentScene = LoadedChunk
 			agent.UpdateLayers(LoadedChunk.ChunkLayer)
 			if (AgentCharacter.activeCharacter == agent):
 				SwitchToChunk(LoadedChunk)

@@ -14,6 +14,7 @@ var SubActors : Array[Agent]
 var SubModels : Array[Node3D]
 var AudioSource : AudioStreamPlayer3D
 var ParentScene : ChunkScene
+var ActiveModel : int = 0
 
 # Instance data
 @export var InstanceScript : ALabScript
@@ -82,15 +83,21 @@ func OnMessage(message : int):
 func DoAnimation(slot : int):
 	if (ModelActions[slot].keys()[0] == null):
 		pass
-	var ogi : int = ModelActions[slot].keys()[0]
-	var animName : String = ModelActions[slot].values()[0]
-	for i in SubModels:
-		i.visible = false
-		i.process_mode = Node.PROCESS_MODE_DISABLED
-	SubModels[ogi].visible = true
-	SubModels[ogi].process_mode = Node.PROCESS_MODE_INHERIT
-	var animPlayer : AnimationPlayer = SubModels[ogi].get_node("AnimationPlayer")
-	animPlayer.play(animName)
+	var ogi = ModelActions[slot].keys()[0]
+	var animName = ModelActions[slot].values()[0]
+	if (ogi != ActiveModel):
+		for i in SubModels:
+			i.visible = false
+			i.process_mode = Node.PROCESS_MODE_DISABLED
+		SubModels[ogi].get_child(0).global_position = SubModels[ActiveModel].get_child(0).global_position
+		SubModels[ogi].get_child(0).global_rotation_degrees = SubModels[ActiveModel].get_child(0).global_rotation_degrees
+		SubModels[ogi].get_child(0).global_scale = SubModels[ActiveModel].get_child(0).global_scale
+		SubModels[ogi].visible = true
+		SubModels[ogi].process_mode = Node.PROCESS_MODE_INHERIT
+		ActiveModel = ogi
+	if (animName != null):
+		var animPlayer : AnimationPlayer = SubModels[ogi].get_node("AnimationPlayer")
+		animPlayer.play(animName)
 
 func DoSound(slot : int):
 	if (Sounds[slot]):

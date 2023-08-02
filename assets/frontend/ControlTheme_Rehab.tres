@@ -1,0 +1,31 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://b06yjyl4s3uf6"]
+
+[ext_resource type="FontVariation" uid="uid://b0d28n0ldq4v0" path="res://assets/frontend/TwinsFont.tres" id="1_6fysd"]
+
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="3"]
+
+[sub_resource type="StyleBoxFlat" id="4"]
+
+[resource]
+default_font = ExtResource("1_6fysd")
+default_font_size = 32
+Button/colors/font_focus_color = Color(0, 0.752941, 1, 1)
+Button/colors/font_hover_color = Color(0, 0.752941, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0.466667, 1, 1)
+Button/constants/outline_size = 16
+Button/font_sizes/font_size = 32
+Label/colors/font_color = Color(1, 0, 0, 1)
+Label/colors/font_outline_color = Color(0, 1, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0, 1, 1)
+Label/constants/outline_size = 7
+Label/constants/shadow_offset_x = 4
+Label/constants/shadow_offset_y = 4
+Label/constants/shadow_outline_size = 10
+Label/font_sizes/font_size = 32
+VScrollBar/styles/grabber = SubResource("2")
+VScrollBar/styles/grabber_highlight = SubResource("3")
+VScrollBar/styles/grabber_pressed = SubResource("4")

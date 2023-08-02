@@ -1,5 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
 
-# Rehab - exported assets must not be checked in!
-assets/
+# Rehab - imported assets must not be checked in!
+import/
