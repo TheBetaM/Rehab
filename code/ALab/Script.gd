@@ -1,7 +1,8 @@
 extends Resource
 class_name ALabScript
 
-var Priority : int = 50
+@export var Priority : int = 50
+@export var ParticipantTypes : Array[int]
 var Participants : Array[Agent]
 var ME : Agent
 var Unit
@@ -33,3 +34,11 @@ func Run(delta):
 	
 func Reset():
 	_init()
+
+enum ParticipantType {
+	ME = 0,
+	HUMAN_PLAYER = 1,
+	ORIGINATOR = 2,
+	GLOBAL_CRASH = 3,
+	GLOBAL_CORTEX = 4,
+}

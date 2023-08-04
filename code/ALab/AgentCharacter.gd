@@ -115,7 +115,7 @@ func _ready():
 	var charBody = CharacterBody3D.new()
 	physBody.replace_by(charBody)
 	charBody.global_position.y += 5.0
-	charBody.get_child(0).disabled = false
+	#charBody.get_child(0).disabled = false
 	oldBody.queue_free()
 	physBody = charBody
 

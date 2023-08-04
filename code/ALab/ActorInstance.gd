@@ -36,3 +36,5 @@ func _ready():
 	#for i in LinkPoint:
 	#	Actor.LinkPoint.append(get_node_or_null(i))
 	add_child(Actor)
+	if (Engine.is_editor_hint()):
+		Actor.set("metadata/_edit_lock_", true)

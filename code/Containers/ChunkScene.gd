@@ -5,7 +5,7 @@ class_name ChunkScene
 @export var WorldEnv : Environment
 @export var ActiveScene : bool
 @export var Links : Array[ChunkLink]
-var ChunkLayer : int
+var ChunkLayer : int = 1
 
 
 func UpdateLayers(layer : int):
