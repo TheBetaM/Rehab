@@ -13,6 +13,7 @@ uniform bool deform = false;
 uniform vec2 deformspeed;
 uniform vec2 deformspeed2;
 uniform float metallic_specular = 0.0;
+uniform bool swapcolors = false;
 
 void vertex()
 {
@@ -48,6 +49,12 @@ void fragment()
 	{
 		vec4 albedo_tex = textureProj(albedo_texture,INV_PROJECTION_MATRIX * VIEW_MATRIX * vec4(VIEW,0));
 		ALBEDO = albedo_tex.rgb * COLOR.rgb;
+		ALPHA = albedo_tex.w * COLOR.a;
+	}
+	
+	if (swapcolors)
+	{
+		ALBEDO.rgb = vec3(ALBEDO.r, ALBEDO.b, ALBEDO.g);
 	}
 
     METALLIC = metallic_specular;

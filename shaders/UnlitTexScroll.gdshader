@@ -48,6 +48,7 @@ void fragment()
 	{
 		vec4 albedo_tex = textureProj(albedo_texture,INV_PROJECTION_MATRIX * VIEW_MATRIX * vec4(VIEW,0));
 		ALBEDO = albedo_tex.rgb * COLOR.rgb;
+		ALPHA = albedo_tex.w * COLOR.a;
 	}
 
     METALLIC = metallic_specular;

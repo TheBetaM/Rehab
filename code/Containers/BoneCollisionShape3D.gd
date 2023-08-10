@@ -10,8 +10,7 @@ var noParent : bool = false
 func _ready():
 	skeleton = get_parent().get_node("Armature")
 	if (bone == 255):
-		noParent = true
+		bone = 0
 
 func _physics_process(delta):
-	if !noParent:
-		transform = skeleton.get_bone_pose(bone)
+	transform = skeleton.get_bone_pose(bone)
