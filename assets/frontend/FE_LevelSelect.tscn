@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="1"]
 [ext_resource type="Script" path="res://code/Frontend/LevelSelectList.gd" id="1_axws6"]
-[ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="2_kyw6x"]
+[ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="2_5qxim"]
 
 [node name="LevelSelect" type="Control"]
 layout_mode = 3
@@ -23,7 +23,7 @@ layout_mode = 0
 anchor_top = 0.1
 anchor_right = 1.0
 anchor_bottom = 0.9
-color = Color(0.2, 0.698039, 0.882353, 1)
+color = Color(0.223529, 0.588235, 1, 1)
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
@@ -34,38 +34,26 @@ rotation = 1.5708
 scale = Vector2(0.5, 0.5)
 metadata/_edit_layout_mode = 1
 
-[node name="TitleLabel" type="Label" parent="."]
-material = ExtResource("2_kyw6x")
-custom_minimum_size = Vector2(0, 75)
+[node name="TitleLabel" parent="." instance=ExtResource("2_5qxim")]
+custom_minimum_size = Vector2(0, 70)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 36.0
+offset_bottom = 52.0
 grow_horizontal = 2
-theme = ExtResource("1")
 text = "level select"
-horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_layout_mode = 1
-metadata/_edit_use_custom_anchors = true
 
-[node name="TitleLabel2" type="Label" parent="."]
-material = ExtResource("2_kyw6x")
-custom_minimum_size = Vector2(0, 75)
+[node name="TitleLabel2" parent="." instance=ExtResource("2_5qxim")]
+custom_minimum_size = Vector2(0, 70)
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -36.0
+offset_top = -52.0
 grow_horizontal = 2
 grow_vertical = 0
-theme = ExtResource("1")
-text = "project rehab - tech demo by team nitro"
-horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_layout_mode = 1
-metadata/_edit_use_custom_anchors = true
+text = "project rehab by team nitro"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 0

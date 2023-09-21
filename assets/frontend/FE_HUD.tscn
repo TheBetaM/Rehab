@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://deku1jgir0rrr"]
+[gd_scene load_steps=7 format=3 uid="uid://deku1jgir0rrr"]
 
 [ext_resource type="Script" path="res://code/Frontend/LoadingVisuals.gd" id="1_pulw8"]
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="2_rt1ju"]
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="3_updjh"]
+[ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="4_w5x18"]
 
 [sub_resource type="Animation" id="Animation_tdvw6"]
 resource_name = "TextAnim"
@@ -94,23 +95,17 @@ text = "99"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="LabelBottom" type="Label" parent="."]
-material = ExtResource("2_rt1ju")
+[node name="LabelBottom" parent="." instance=ExtResource("4_w5x18")]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -49.0
+offset_top = -52.0
 grow_horizontal = 2
 grow_vertical = 0
-theme = ExtResource("3_updjh")
-theme_override_font_sizes/font_size = 48
-text = "this is a long label for bottom text
-"
-horizontal_alignment = 1
-vertical_alignment = 1
+text = "this is a long label for bottom text"
 
 [node name="LabelTimer" type="Label" parent="."]
 material = ExtResource("2_rt1ju")

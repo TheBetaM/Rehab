@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbctcygs8r8uu"]
+[gd_scene load_steps=5 format=3 uid="uid://dbctcygs8r8uu"]
 
 [ext_resource type="Script" path="res://code/Frontend/LoadingVisuals.gd" id="1_3aivc"]
-[ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="1_oyfxq"]
-[ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="2_7o1g7"]
+[ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="2_51th8"]
 
 [sub_resource type="Animation" id="Animation_tdvw6"]
 resource_name = "TextAnim"
@@ -53,41 +52,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Label" type="Label" parent="Control"]
-material = ExtResource("2_7o1g7")
-custom_minimum_size = Vector2(0, 100)
+[node name="Label" parent="Control" instance=ExtResource("2_51th8")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -79.0
-offset_top = -50.0
-offset_right = 79.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.1, 1.1)
-pivot_offset = Vector2(79, 50)
-theme = ExtResource("1_oyfxq")
-theme_override_font_sizes/font_size = 48
+offset_left = -91.0
+offset_right = 91.0
+pivot_offset = Vector2(90, 50)
 text = "loading"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="LabelLevelName" type="Label" parent="."]
-material = ExtResource("2_7o1g7")
+[node name="LabelLevelName" parent="." instance=ExtResource("2_51th8")]
 layout_mode = 1
 anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_oyfxq")
-theme_override_font_sizes/font_size = 48
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+text = ""
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

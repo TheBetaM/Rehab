@@ -14,6 +14,9 @@ void vertex()
 		MODELVIEW_MATRIX = VIEW_MATRIX * mat4(vec4(normalize(cross(vec3(0.0, 1.0, 0.0), INV_VIEW_MATRIX[2].xyz)), 0.0), vec4(0.0, 1.0, 0.0, 0.0), vec4(normalize(cross(INV_VIEW_MATRIX[0].xyz, vec3(0.0, 1.0, 0.0))), 0.0), MODEL_MATRIX[3]);
 		MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
 	}
+	if (!OUTPUT_IS_SRGB) {
+		COLOR.rgb = mix(pow((COLOR.rgb + vec3(0.055)) * (1.0 / (1.0 + 0.055)), vec3(2.4)), COLOR.rgb * (1.0 / 12.92), lessThan(COLOR.rgb, vec3(0.04045)));
+	}
 }
 
 void fragment() 
@@ -32,9 +35,11 @@ void fragment()
 	
 	if (envmap)
 	{
-		vec4 albedo_tex = textureProj(albedo_texture,INV_PROJECTION_MATRIX * VIEW_MATRIX * vec4(VIEW,0));
-		ALBEDO = albedo_tex.rgb * COLOR.rgb;
+		//vec4 albedo_tex = textureProj(albedo_texture,INV_PROJECTION_MATRIX * VIEW_MATRIX * vec4(VIEW,0));
+		//ALBEDO = albedo_tex.rgb * COLOR.rgb;
 		//ALPHA = albedo_tex.w * COLOR.a;
+		vec3 normal = (VIEW_MATRIX * vec4(VIEW,0)).xyz * vec3(-1, -1, 1);
+    	ALBEDO = texturePanorama(normal, albedo_texture).xyz;
 	}
 	
 	if (swapcolors)

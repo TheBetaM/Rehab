@@ -10,3 +10,17 @@ uniform vec2 deformspeed;
 uniform vec2 deformspeed2;
 uniform float metallic_specular = 0.0;
 uniform bool swapcolors = false;
+
+vec4 texturePanorama(vec3 normal, sampler2D pano) 
+{
+    vec2 st = vec2(
+            atan(normal.x, normal.z),
+            acos(normal.y));
+
+    if (st.x < 0.0)
+        st.x += PI * 2.0;
+
+    st /= vec2(PI * 2.0, PI);
+
+    return textureLod(pano, st, 0.0);
+}

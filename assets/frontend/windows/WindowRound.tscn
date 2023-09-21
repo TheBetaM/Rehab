@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=3 uid="uid://v2rbsdmdkbbt"]
+
+[ext_resource type="Shader" path="res://shaders/canvas/Circle.gdshader" id="1_hjxmv"]
+[ext_resource type="Shader" path="res://shaders/canvas/CircleFadeout.gdshader" id="2_5gd3h"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qertq"]
+shader = ExtResource("1_hjxmv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n76hi"]
+shader = ExtResource("2_5gd3h")
+
+[node name="WindowRound" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Shadow" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_qertq")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.501961)
+
+[node name="Outline" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_qertq")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Insides" type="ColorRect" parent="."]
+clip_children = 2
+material = SubResource("ShaderMaterial_qertq")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.223529, 0.588235, 1, 1)
+
+[node name="InsidesGrad" type="ColorRect" parent="Insides"]
+material = SubResource("ShaderMaterial_n76hi")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.4
+anchor_bottom = 0.4
+color = Color(0, 0.788235, 1, 1)

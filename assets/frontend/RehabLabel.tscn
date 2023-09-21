@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://pej4x1tt5ify"]
+
+[ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="1_myucd"]
+[ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="2_sgerh"]
+
+[node name="RehabLabel" type="Label"]
+material = ExtResource("1_myucd")
+theme = ExtResource("2_sgerh")
+text = "rehab label"
+horizontal_alignment = 1
+vertical_alignment = 1
