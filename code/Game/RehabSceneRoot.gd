@@ -20,7 +20,7 @@ func _ready():
 	$LevelSelect.visible = true
 	$LevelSelect.process_mode = Node.PROCESS_MODE_INHERIT
 	PlayerCam = $PlayerCam
-	FreeLookCam = $PlayerCam/FreeLookCam
+	FreeLookCam = $FreeLookCam
 
 func LoadScene(path : String):
 	UnloadAllChunks()

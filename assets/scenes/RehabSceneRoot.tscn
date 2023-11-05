@@ -26,7 +26,7 @@ environment = SubResource("Environment_e4v8o")
 far = 90000.0
 script = ExtResource("4_dyya7")
 
-[node name="FreeLookCam" type="Camera3D" parent="PlayerCam"]
+[node name="FreeLookCam" type="Camera3D" parent="."]
 process_mode = 4
 far = 90000.0
 script = ExtResource("5_7wkgt")

@@ -105,7 +105,7 @@ func UpdateCamControls(delta):
 
 func ExitCam():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	var mainCam = get_parent()
+	var mainCam = RehabSceneRoot.Root.PlayerCam
 	current = false
 	mainCam.current = true
 	process_mode = Node.PROCESS_MODE_DISABLED

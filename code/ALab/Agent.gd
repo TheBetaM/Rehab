@@ -15,6 +15,7 @@ var SubModels : Array[Node3D]
 var AudioSource : AudioStreamPlayer3D
 var ParentScene : ChunkScene
 var ActiveModel : int = 0
+var ActiveAnim : int = -1
 
 # Instance data
 @export var InstanceScript : ALabScript
@@ -80,11 +81,15 @@ func OnMessage(message : int):
 	if Messages.find_key(message):
 		Messages[message].run()
 
-func DoAnimation(slot : int):
+func DoAnimation(slot : int, loop : bool):
+	if (slot >= ModelActions.size()):
+		return;
 	if (ModelActions[slot].keys()[0] == null):
-		pass
+		return;
 	var ogi = ModelActions[slot].keys()[0]
 	var animName = ModelActions[slot].values()[0]
+	if (ActiveAnim == slot && ogi == ActiveModel):
+		return;
 	if (ogi != ActiveModel):
 		for i in SubModels:
 			i.visible = false
@@ -96,7 +101,12 @@ func DoAnimation(slot : int):
 		SubModels[ogi].process_mode = Node.PROCESS_MODE_INHERIT
 		ActiveModel = ogi
 	if (animName != null):
+		ActiveAnim = slot
 		var animPlayer : AnimationPlayer = SubModels[ogi].get_node("AnimationPlayer")
+		if (loop):
+			animPlayer.get_animation(animName).loop_mode = Animation.LOOP_LINEAR
+		else:
+			animPlayer.get_animation(animName).loop_mode = Animation.LOOP_NONE
 		animPlayer.play(animName)
 
 func DoSound(slot : int):

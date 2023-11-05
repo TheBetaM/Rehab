@@ -115,6 +115,10 @@ func _ready():
 	physBody = charBody
 	physCam = RehabSceneRoot.Root.PlayerCam
 	physCam.camTarget = physBody
+	var animPlayer : AnimationPlayer = SubModels[0].get_node("AnimationPlayer")
+	var armature = charBody.get_node("Armature")
+	animPlayer.root_node = armature.get_path()
+	DoAnimation(8, true)
 
 func _exit_tree():
 	if (isReparenting):
@@ -130,6 +134,7 @@ func _physics_process(delta):
 	var direction = Vector3.ZERO
 	var camdir = 0.0
 	var pressed = false
+	var isJumping = false
 	
 	ActiveActorTypes[RegInt[CharISlot.AgentType]] = get_path()
 	if (physBody == null || physBody.process_mode == PROCESS_MODE_DISABLED):
@@ -151,6 +156,8 @@ func _physics_process(delta):
 		pressed = true
 	if Input.is_action_pressed("ui_accept"):
 		velocity.y += 100 * delta
+		DoAnimation(19, false)
+		isJumping = true
 	
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
@@ -167,10 +174,17 @@ func _physics_process(delta):
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 		physBody.global_rotation = Vector3(physBody.global_rotation.x, atan2(direction.x, direction.z), physBody.global_rotation.z)
+		if (!isJumping && physBody.is_on_floor()):
+			DoAnimation(11, true)
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
+		if (!isJumping && physBody.is_on_floor()):
+			DoAnimation(8, true)
 		
+	if (!isJumping && !physBody.is_on_floor()):
+		DoAnimation(27, false)
+	
 	if not physBody.is_on_floor():
 		velocity.y -= fall_acceleration * delta
 	

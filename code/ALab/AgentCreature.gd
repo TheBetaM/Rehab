@@ -17,3 +17,8 @@ enum CreatureISlot {
 	UnkInt1 = 1,
 	UnkInt2 = 2,
 }
+
+func _ready():
+	super()
+	
+	DoAnimation(1, true)
