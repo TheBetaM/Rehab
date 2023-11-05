@@ -53,7 +53,7 @@ anchor_bottom = 1.0
 offset_top = -52.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "project rehab by team nitro"
+text = "project rehab - explorer tech demo"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 0

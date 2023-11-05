@@ -27,8 +27,7 @@ func LoadScene(path : String):
 	LoadingChunkName = path.split("/")[-1].trim_suffix(".tscn")
 	PlayerCam.FullReset()
 	FreeLookCam.FullReset()
-	$Loading.UpdateVisuals()
-	$Loading.visible = true
+	$Loading.AnimIn()
 	$Loading.process_mode = Node.PROCESS_MODE_INHERIT
 	ResourceLoader.load_threaded_request(path)
 	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
@@ -53,9 +52,12 @@ func LoadScene(path : String):
 			SkydomePath = skypath
 			Skydome = sky.instantiate()
 			add_child(Skydome)
+		await get_tree().create_timer(1.0).timeout
+		$Loading.AnimOut()
+		await get_tree().create_timer(0.5).timeout
 		$Loading.visible = false
 		$Loading.process_mode = Node.PROCESS_MODE_DISABLED
-		await get_tree().create_timer(5.0).timeout
+		await get_tree().create_timer(3.5).timeout
 		if (AgentCharacter.activeCharacter == null):
 			printerr("LEVEL LOADED WITH NO CHARACTER")
 			ExitLevel()
@@ -109,6 +111,7 @@ func SwitchToChunk(chunk : ChunkScene):
 	var ChunkOffset = chunk.global_position;
 	for c in Chunks:
 		c.global_position += -ChunkOffset
+	PlayerCam.global_position += -ChunkOffset
 	
 	# Disabling links of chunk that we're exiting
 	for i  in OldChunk.Links:

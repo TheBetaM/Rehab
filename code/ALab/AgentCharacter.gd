@@ -117,7 +117,7 @@ func _ready():
 	physCam.camTarget = physBody
 	var animPlayer : AnimationPlayer = SubModels[0].get_node("AnimationPlayer")
 	var armature = charBody.get_node("Armature")
-	animPlayer.root_node = armature.get_path()
+	animPlayer.root_node = NodePath("../" + charBody.name + "/Armature")
 	DoAnimation(8, true)
 
 func _exit_tree():

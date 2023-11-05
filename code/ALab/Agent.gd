@@ -101,13 +101,16 @@ func DoAnimation(slot : int, loop : bool):
 		SubModels[ogi].process_mode = Node.PROCESS_MODE_INHERIT
 		ActiveModel = ogi
 	if (animName != null):
-		ActiveAnim = slot
 		var animPlayer : AnimationPlayer = SubModels[ogi].get_node("AnimationPlayer")
 		if (loop):
 			animPlayer.get_animation(animName).loop_mode = Animation.LOOP_LINEAR
 		else:
 			animPlayer.get_animation(animName).loop_mode = Animation.LOOP_NONE
-		animPlayer.play(animName)
+		if (ActiveAnim == -1):
+			animPlayer.play(animName)
+		else:
+			animPlayer.play(animName, 0.25)
+		ActiveAnim = slot
 
 func DoSound(slot : int):
 	if (Sounds[slot]):
