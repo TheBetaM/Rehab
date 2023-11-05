@@ -1,7 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbctcygs8r8uu"]
+[gd_scene load_steps=7 format=3 uid="uid://dbctcygs8r8uu"]
 
 [ext_resource type="Script" path="res://code/Frontend/LoadingVisuals.gd" id="1_3aivc"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="2_51th8"]
+[ext_resource type="Shader" path="res://shaders/canvas/Circle.gdshader" id="2_85e8d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ou5l"]
+shader = ExtResource("2_85e8d")
 
 [sub_resource type="Animation" id="Animation_tdvw6"]
 resource_name = "TextAnim"
@@ -42,34 +46,111 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
+[node name="LoadingBG" type="Control" parent="."]
+clip_contents = true
+layout_mode = 1
+anchor_top = 0.15
+anchor_right = 1.0
+anchor_bottom = 0.85
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRectCenter" type="ColorRect" parent="LoadingBG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Circle3" type="ColorRect" parent="LoadingBG/ColorRectCenter"]
+clip_children = 2
+material = SubResource("ShaderMaterial_7ou5l")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_left = -269.0
+offset_top = -167.0
+offset_right = -240.0
+offset_bottom = -103.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.0349066
+scale = Vector2(1.6, 1.6)
+color = Color(0.223529, 0.588235, 1, 1)
+
+[node name="Circle2" type="ColorRect" parent="LoadingBG/ColorRectCenter"]
+clip_children = 2
+material = SubResource("ShaderMaterial_7ou5l")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_left = -151.0
+offset_top = -118.0
+offset_right = -187.0
+offset_bottom = -103.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.0349066
+scale = Vector2(1.5, 1.5)
+
+[node name="Circle1" type="ColorRect" parent="LoadingBG/ColorRectCenter"]
+clip_children = 2
+material = SubResource("ShaderMaterial_7ou5l")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_left = -67.0
+offset_top = -27.0
+offset_right = -67.0
+offset_bottom = -27.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.0349066
+scale = Vector2(1.2, 1.2)
+color = Color(0.223529, 0.588235, 1, 1)
+
 [node name="Control" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 110)
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
+offset_top = -110.0
 grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Label" parent="Control" instance=ExtResource("2_51th8")]
 layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 offset_left = -91.0
+offset_top = -26.0
 offset_right = 91.0
-pivot_offset = Vector2(90, 50)
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(90, 26)
 text = "loading"
 
 [node name="LabelLevelName" parent="." instance=ExtResource("2_51th8")]
 layout_mode = 1
 anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 text = ""
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

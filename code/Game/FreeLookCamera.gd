@@ -29,9 +29,11 @@ var _shift = false
 var _alt = false
 
 var cooldown = 0.1
-@export var testAgent : Agent
 
 func _input(event):
+	if (process_mode == Node.PROCESS_MODE_DISABLED):
+		return;
+		
 	# Receives mouse motion
 	if event is InputEventMouseMotion:
 		_mouse_position = event.relative
@@ -103,8 +105,12 @@ func UpdateCamControls(delta):
 
 func ExitCam():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	testAgent.process_mode = Node.PROCESS_MODE_INHERIT
-	queue_free()
+	var mainCam = get_parent()
+	current = false
+	mainCam.current = true
+	process_mode = Node.PROCESS_MODE_DISABLED
+	mainCam.process_mode = Node.PROCESS_MODE_INHERIT
+	mainCam.camTarget.process_mode = Node.PROCESS_MODE_INHERIT
 
 # Updates camera movement
 func _update_movement(delta):
@@ -152,3 +158,12 @@ func _update_mouselook():
 	
 		rotate_y(deg_to_rad(-yaw))
 		rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
+
+func FullReset():
+	_mouse_position = Vector2(0.0, 0.0)
+	_total_pitch = 0.0
+	_direction = Vector3(0.0, 0.0, 0.0)
+	_velocity = Vector3(0.0, 0.0, 0.0)
+	_acceleration = 30
+	_deceleration = -10
+	_vel_multiplier = 4

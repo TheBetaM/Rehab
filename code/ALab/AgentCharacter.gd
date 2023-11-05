@@ -83,8 +83,6 @@ var fall_acceleration = 30
 
 var velocity = Vector3.ZERO
 var modeldirection = Vector3.ZERO
-var camangle = 0.0
-#var camheight = 0.0
 var physBody : Node3D
 var physCam : Camera3D
 var isReparenting : bool = false
@@ -107,9 +105,6 @@ func _ready():
 		return
 		
 	activeCharacter = self
-	physCam = Camera3D.new()
-	physCam.far = 90000.0;
-	add_child(physCam)
 	physBody = SubModels[0].get_node("RigidBody")
 	var oldBody = SubModels[0].get_node("RigidBody")
 	var charBody = CharacterBody3D.new()
@@ -118,6 +113,8 @@ func _ready():
 	#charBody.get_child(0).disabled = false
 	oldBody.queue_free()
 	physBody = charBody
+	physCam = RehabSceneRoot.Root.PlayerCam
+	physCam.camTarget = physBody
 
 func _exit_tree():
 	if (isReparenting):
@@ -135,7 +132,7 @@ func _physics_process(delta):
 	var pressed = false
 	
 	ActiveActorTypes[RegInt[CharISlot.AgentType]] = get_path()
-	if (physBody == null):
+	if (physBody == null || physBody.process_mode == PROCESS_MODE_DISABLED):
 		return
 	if (activeCharacter != self):
 		return
@@ -154,49 +151,13 @@ func _physics_process(delta):
 		pressed = true
 	if Input.is_action_pressed("ui_accept"):
 		velocity.y += 100 * delta
-	if Input.is_action_just_pressed("ui_select"):
-		ReturnToLevelSelect()
-	if Input.is_action_just_pressed("ui_cancel"):
-		var cam = FreeLookCamera.new()
-		cam.testAgent = self
-		get_parent().add_child(cam)
-		physCam.current = false
-		cam.current = true
-		cam.far = 90000.0
-		cam.global_position = physCam.global_position
-		cam.global_rotation_degrees = physCam.global_rotation_degrees
-		process_mode = Node.PROCESS_MODE_DISABLED
-		return;
-	if Input.is_action_pressed("pad1_rstick_left"):
-		camdir += Input.get_action_raw_strength("pad1_rstick_left")
-	if Input.is_action_pressed("pad1_rstick_right"):
-		camdir -= Input.get_action_raw_strength("pad1_rstick_right")
-	
-	var camvector = physCam.global_transform.basis.z
-	camvector = camvector.normalized()
-	var right = Vector3(camvector.z, 0, -camvector.x)
-	
-	camangle += camdir * delta * 1.0
-	if (camangle < -1.0):
-		camangle = 1.0
-	if (camangle > 1.0):
-		camangle = -1.0
 	
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
 	
-	direction = (direction.x * camvector) + (direction.z * right)
+	direction = (direction.x * physCam.camvector) + (direction.z * physCam.camright)
 	#direction.x *= camvector.x
 	#direction.z *= camvector.z
-	
-	var camx = 0.0
-	var camz = 0.0
-	var angle = Vector3.FORWARD.rotated(Vector3.UP, camangle * PI)
-	camx += clamp((angle.x * 6), -6.0, 6.0)
-	camz += clamp((angle.z * 6), -6.0, 6.0)
-	
-	physCam.global_position = physCam.global_position.lerp( physBody.global_transform.origin + Vector3(camx, 4.5, camz), delta * 8.0)
-	physCam.look_at(physBody.global_transform.origin + (Vector3.UP * 3), Vector3.UP)
 	
 	if (pressed):
 		#var dirVector = Vector2(direction.x, direction.z)
@@ -216,9 +177,6 @@ func _physics_process(delta):
 	physBody.velocity = velocity
 	physBody.move_and_slide()
 	
-func ReturnToLevelSelect():
-	if (activeCharacter == self):
-		await get_tree().create_timer(0.1).timeout
-		RehabSceneRoot.Root.ExitLevel()
+
 
 

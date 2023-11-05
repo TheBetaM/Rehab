@@ -6,6 +6,8 @@ var Skydome : Node3D
 var SkydomePath : String
 static var Game : RehabGame = RehabGame.new()
 static var Root : RehabSceneRoot
+static var PlayerCam : Camera3D
+static var FreeLookCam : Camera3D
 var Chunks : Array[ChunkScene]
 var ChunkNames : Array[StringName]
 var ChunkLayers : Array[int]
@@ -17,10 +19,14 @@ func _init():
 func _ready():
 	$LevelSelect.visible = true
 	$LevelSelect.process_mode = Node.PROCESS_MODE_INHERIT
+	PlayerCam = $PlayerCam
+	FreeLookCam = $PlayerCam/FreeLookCam
 
 func LoadScene(path : String):
 	UnloadAllChunks()
 	LoadingChunkName = path.split("/")[-1].trim_suffix(".tscn")
+	PlayerCam.FullReset()
+	FreeLookCam.FullReset()
 	$Loading.UpdateVisuals()
 	$Loading.visible = true
 	$Loading.process_mode = Node.PROCESS_MODE_INHERIT
