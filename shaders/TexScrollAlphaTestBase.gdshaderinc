@@ -17,6 +17,7 @@ void vertex()
 	if (!OUTPUT_IS_SRGB) {
 		COLOR.rgb = mix(pow((COLOR.rgb + vec3(0.055)) * (1.0 / (1.0 + 0.055)), vec3(2.4)), COLOR.rgb * (1.0 / 12.92), lessThan(COLOR.rgb, vec3(0.04045)));
 	}
+	COLOR.rgb = ColorCheck(COLOR.rgb);
 }
 
 void fragment() 

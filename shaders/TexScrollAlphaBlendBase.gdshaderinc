@@ -17,6 +17,7 @@ void vertex()
 	if (!OUTPUT_IS_SRGB) {
 		COLOR.rgb = mix(pow((COLOR.rgb + vec3(0.055)) * (1.0 / (1.0 + 0.055)), vec3(2.4)), COLOR.rgb * (1.0 / 12.92), lessThan(COLOR.rgb, vec3(0.04045)));
 	}
+	COLOR.rgb = ColorCheck(COLOR.rgb);
 }
 
 void fragment() 
@@ -38,8 +39,13 @@ void fragment()
 		//vec4 albedo_tex = textureProj(albedo_texture,INV_PROJECTION_MATRIX * VIEW_MATRIX * vec4(VIEW,0));
 		//ALBEDO = albedo_tex.rgb * COLOR.rgb;
 		//ALPHA = albedo_tex.w * COLOR.a;
-		vec3 normal = (VIEW_MATRIX * vec4(VIEW,0)).xyz * vec3(-1, -1, 1);
-    	ALBEDO = texturePanorama(normal, albedo_texture).xyz;
+		
+		//vec3 normal = (VIEW_MATRIX * vec4(VIEW, 0)).xyz * vec3(-1, -1, 1);
+		//vec3 normal = (MODEL_MATRIX * vec4(VIEW, 0)).xyz * vec3(-1, -1, 1);
+		vec3 normal = (MODEL_MATRIX * vec4(VIEW, 0)).xyz * vec3(-1, -1, 1);
+		vec4 tex = texturePanorama(normal, albedo_texture);
+    	ALBEDO = tex.xyz;
+		ALPHA = tex.w * COLOR.a;
 		
 		//IRRADIANCE = albedo_tex.rgba;
 	}
