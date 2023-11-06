@@ -15,3 +15,26 @@ var CheckPointChunk
 var CheckPointPos
 var CheckPointRot
 static var AssetsPath : String = "res://import/"
+
+func ResetGame():
+	Fruit = 0
+	Lives = 4
+	Progress = 0
+	Crystals = 0
+
+func AddWumpa(amount : int):
+	Fruit += amount;
+	if (Fruit > 99):
+		Fruit = 0
+		AddLives(amount)
+	if (Fruit < 0):
+		Fruit = 0
+	RehabSceneRoot.Root.GameHUD.UpdateWumpa()
+
+func AddLives(amount: int):
+	Lives += amount;
+	if (Lives > 99):
+		Lives = 99
+	if (Lives < 0):
+		Lives = 0
+	RehabSceneRoot.Root.GameHUD.UpdateLives()

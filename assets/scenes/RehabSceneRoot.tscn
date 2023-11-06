@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://by5ieljhkskx8"]
+[gd_scene load_steps=8 format=3 uid="uid://by5ieljhkskx8"]
 
 [ext_resource type="Script" path="res://code/Game/RehabSceneRoot.gd" id="1_nokr2"]
 [ext_resource type="PackedScene" uid="uid://dj63qinhimnyd" path="res://assets/frontend/FE_LevelSelect.tscn" id="2_hbkbo"]
 [ext_resource type="PackedScene" uid="uid://dbctcygs8r8uu" path="res://assets/frontend/FE_Loading.tscn" id="3_w1df3"]
+[ext_resource type="PackedScene" uid="uid://deku1jgir0rrr" path="res://assets/frontend/FE_HUD.tscn" id="4_ckn0n"]
 [ext_resource type="Script" path="res://code/Game/PlayerCamera.gd" id="4_dyya7"]
 [ext_resource type="Script" path="res://code/Game/FreeLookCamera.gd" id="5_7wkgt"]
 
@@ -18,6 +19,8 @@ visible = false
 [node name="Loading" parent="." instance=ExtResource("3_w1df3")]
 process_mode = 4
 visible = false
+
+[node name="FE_HUD" parent="." instance=ExtResource("4_ckn0n")]
 
 [node name="WorldEnv" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_e4v8o")

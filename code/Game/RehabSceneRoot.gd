@@ -8,10 +8,12 @@ static var Game : RehabGame = RehabGame.new()
 static var Root : RehabSceneRoot
 static var PlayerCam : Camera3D
 static var FreeLookCam : Camera3D
+static var GameHUD : Control
 var Chunks : Array[ChunkScene]
 var ChunkNames : Array[StringName]
 var ChunkLayers : Array[int]
 var LoadingChunkName : String
+const MaxChunksLoaded : int = 8 # at the same time
 
 func _init():
 	Root = self
@@ -21,12 +23,14 @@ func _ready():
 	$LevelSelect.process_mode = Node.PROCESS_MODE_INHERIT
 	PlayerCam = $PlayerCam
 	FreeLookCam = $FreeLookCam
+	GameHUD = $FE_HUD
 
 func LoadScene(path : String):
 	UnloadAllChunks()
 	LoadingChunkName = path.split("/")[-1].trim_suffix(".tscn")
 	PlayerCam.FullReset()
 	FreeLookCam.FullReset()
+	GameHUD.Clear()
 	$Loading.AnimIn()
 	$Loading.process_mode = Node.PROCESS_MODE_INHERIT
 	ResourceLoader.load_threaded_request(path)
@@ -39,7 +43,7 @@ func LoadScene(path : String):
 		ActiveChunk = loadedScene
 		Chunks.append(loadedScene)
 		ChunkNames.append(loadedScene.name)
-		for i in range(1, 20):
+		for i in range(1, MaxChunksLoaded):
 			if (!ChunkLayers.has(i)):
 				ChunkLayers.append(i)
 				loadedScene.UpdateLayers(i)
@@ -72,7 +76,7 @@ func LoadChunk(chunk : PackedScene, chunkName : String, holder : Node3D):
 		LoadedChunk.reparent(self)
 		Chunks.append(LoadedChunk)
 		ChunkNames.append(chunkName)
-		for i in range(1, 20):
+		for i in range(1, MaxChunksLoaded):
 			if (!ChunkLayers.has(i)):
 				ChunkLayers.append(i)
 				LoadedChunk.UpdateLayers(i)
@@ -163,6 +167,7 @@ func UnloadAllChunks():
 
 func ExitLevel():
 	UnloadAllChunks()
+	GameHUD.Clear()
 	$LevelSelect.visible = true
 	$LevelSelect.process_mode = Node.PROCESS_MODE_INHERIT
 	$LevelSelect.ResetMenu()

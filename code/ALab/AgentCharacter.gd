@@ -99,7 +99,7 @@ func _ready():
 		visible = false
 		process_mode = Node.PROCESS_MODE_DISABLED
 		
-	if (RegInt[CharISlot.AgentType] > 2):
+	if (RegInt[CharISlot.AgentType] > 3):
 		return
 	if (activeCharacter != null):
 		return

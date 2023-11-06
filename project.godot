@@ -71,3 +71,14 @@ pad1_rstick_down={
 [internationalization]
 
 locale/translations=PackedStringArray("res://assets/lang/frontend.en.translation", "res://assets/lang/ingame.en.translation")
+
+[layer_names]
+
+3d_physics/layer_1="ChunkLayer1"
+3d_physics/layer_2="ChunkLayer2"
+3d_physics/layer_3="ChunkLayer3"
+3d_physics/layer_4="ChunkLayer4"
+3d_physics/layer_5="ChunkLayer5"
+3d_physics/layer_6="ChunkLayer6"
+3d_physics/layer_7="ChunkLayer7"
+3d_physics/layer_8="ChunkLayer8"

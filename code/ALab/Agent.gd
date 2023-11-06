@@ -112,9 +112,13 @@ func DoAnimation(slot : int, loop : bool):
 			animPlayer.play(animName, 0.25)
 		ActiveAnim = slot
 
-func DoSound(slot : int):
+func DoSound(slot : int, pitch : float):
+	if (slot >= Sounds.size()):
+		return;
 	if (Sounds[slot]):
+		AudioSource.process_mode = Node.PROCESS_MODE_ALWAYS
 		AudioSource.stream = Sounds[slot]
+		AudioSource.pitch_scale = pitch
 		AudioSource.play()
 
 func UpdateLayers(layer : int):
@@ -130,6 +134,8 @@ func UpdateLayersNested(parent : Node, layer : int):
 			if (i is Light3D):
 				i.light_cull_mask = i.light_cull_mask | (1 << (layer - 1)) 
 		elif (i is CollisionObject3D):
+			if (i.get_collision_layer_value(1) == false):
+				return;
 			i.set_collision_mask_value(1, false)
 			i.set_collision_layer_value(1, false)
 			i.set_collision_mask_value(layer, true)

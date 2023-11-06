@@ -24,6 +24,8 @@ func UpdateLayersNested(parent : Node):
 				if (!ActiveScene):
 					i.shadow_enabled = false
 		if (i is CollisionObject3D):
+			if (i.get_collision_layer_value(1) == false):
+				return;
 			i.set_collision_mask_value(1, false)
 			i.set_collision_layer_value(1, false)
 			i.set_collision_mask_value(ChunkLayer, true)
