@@ -79,3 +79,8 @@
 #FE_LevelName_014,Rockslide Rumble
 #FE_LevelName_015,Bandicoot Pursuit
 #FE_LevelName_016,Ant Agony
+#FE_Explorer_Title,Level Select
+#FE_Explorer_Footer,Project Rehab - Explorer Tech Demo
+#FE_Explorer_ChunkSelect,Individual Chunk
+#FE_Explorer_Disclaimer,This is a tech demo.
+#FE_Explorer_ImportNotFound,Imported assets not found!

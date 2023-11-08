@@ -1,13 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://v2rbsdmdkbbt"]
+[gd_scene load_steps=7 format=3 uid="uid://v2rbsdmdkbbt"]
 
 [ext_resource type="Shader" path="res://shaders/canvas/Circle.gdshader" id="1_hjxmv"]
 [ext_resource type="Shader" path="res://shaders/canvas/CircleFadeout.gdshader" id="2_5gd3h"]
+[ext_resource type="Texture2D" uid="uid://nkp3ebjlrr0k" path="res://assets/textures/shadow/clin.png" id="2_momxu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qertq"]
 shader = ExtResource("1_hjxmv")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_n76hi"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g1fo3"]
 shader = ExtResource("2_5gd3h")
+shader_parameter/grad_offset = Vector2(0.8, 0.7)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0r1uy"]
+shader = ExtResource("2_5gd3h")
+shader_parameter/grad_offset = Vector2(-0.8, -0.7)
 
 [node name="WindowRound" type="Control"]
 layout_mode = 3
@@ -54,10 +60,30 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.223529, 0.588235, 1, 1)
 
-[node name="InsidesGrad" type="ColorRect" parent="Insides"]
-material = SubResource("ShaderMaterial_n76hi")
+[node name="TextureRect" type="TextureRect" parent="Insides"]
+clip_children = 1
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_momxu")
+expand_mode = 1
+
+[node name="InsidesGrad" type="ColorRect" parent="Insides/TextureRect"]
+material = SubResource("ShaderMaterial_g1fo3")
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.4
-anchor_bottom = 0.4
-color = Color(0, 0.788235, 1, 1)
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.501961, 0.886275, 1, 1)
+
+[node name="InsidesGrad2" type="ColorRect" parent="Insides/TextureRect"]
+material = SubResource("ShaderMaterial_0r1uy")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0.407843, 0.776471, 1)

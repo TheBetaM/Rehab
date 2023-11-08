@@ -1,7 +1,7 @@
 uniform vec2 speed;
 uniform sampler2D albedo_texture : source_color;
 uniform int billboard_mode;
-uniform bool reflects = false;
+//uniform bool reflects = false;
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 uniform float reflectDist = 0.15;
 uniform bool envmap = false;

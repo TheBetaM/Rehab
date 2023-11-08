@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://deku1jgir0rrr"]
 
-[ext_resource type="Script" path="res://code/Frontend/HUDVisuals.gd" id="1_yrfyt"]
+[ext_resource type="Script" path="res://code/Frontend/FrontendHUD.gd" id="1_yrfyt"]
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="2_rt1ju"]
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="3_updjh"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="4_w5x18"]
@@ -139,6 +139,7 @@ anchor_bottom = 1.0
 offset_top = -52.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_font_sizes/font_size = 32
 text = "this is a long label for bottom text"
 
 [node name="LabelTimer" type="Label" parent="."]

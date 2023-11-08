@@ -10,6 +10,7 @@ void fragment() {
 	}
 	else
 	{
-		COLOR.a = 0.0;
+		//COLOR.a = 0.0;
+		discard;
 	}
 }

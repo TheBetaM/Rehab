@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://csc3ocq55uwbc"]
+[gd_scene load_steps=5 format=3 uid="uid://csc3ocq55uwbc"]
 
 [ext_resource type="PackedScene" uid="uid://bvnasa3s1tj38" path="res://assets/frontend/windows/WindowMainRound.tscn" id="1_cbs7t"]
+[ext_resource type="Script" path="res://code/Frontend/FrontendMenu.gd" id="1_w3elq"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="3_d138b"]
 [ext_resource type="PackedScene" uid="uid://v2rbsdmdkbbt" path="res://assets/frontend/windows/WindowRound.tscn" id="4_66hls"]
 
@@ -11,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_w3elq")
 
 [node name="WindowMainRound" parent="." instance=ExtResource("1_cbs7t")]
 layout_mode = 1
@@ -25,11 +27,12 @@ offset_bottom = 540.0
 grow_vertical = 1
 
 [node name="RehabLabel" parent="WindowMainRound" instance=ExtResource("3_d138b")]
+z_index = 2
 layout_mode = 1
-offset_left = -347.0
-offset_top = -182.0
-offset_right = 347.0
-offset_bottom = 182.0
+offset_left = -18.0
+offset_top = 63.0
+offset_right = 676.0
+offset_bottom = 427.0
 scale = Vector2(0.75, 0.75)
 pivot_offset = Vector2(350, 182)
 text = "checking memory card (ps2)
@@ -41,6 +44,7 @@ controller, reset, or
 switch-off the console."
 
 [node name="WindowRound" parent="." instance=ExtResource("4_66hls")]
+z_index = 3
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -52,7 +56,21 @@ offset_right = 124.0
 offset_bottom = -62.0
 grow_vertical = 0
 
+[node name="BottomLabel" parent="WindowRound" instance=ExtResource("3_d138b")]
+z_index = 2
+layout_mode = 1
+offset_left = -233.0
+offset_top = -69.0
+offset_right = 461.0
+offset_bottom = 295.0
+scale = Vector2(0.6, 0.6)
+pivot_offset = Vector2(350, 182)
+text = "option 1
+option 2
+option 3"
+
 [node name="WindowRoundHeader" parent="." instance=ExtResource("4_66hls")]
+z_index = 3
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -65,11 +83,12 @@ offset_bottom = 120.0
 grow_vertical = 1
 
 [node name="HeaderLabel" parent="WindowRoundHeader" instance=ExtResource("3_d138b")]
+z_index = 2
 layout_mode = 1
-offset_left = -347.0
-offset_top = -182.0
-offset_right = 347.0
-offset_bottom = 182.0
+offset_left = 42.0
+offset_top = -140.0
+offset_right = 736.0
+offset_bottom = 224.0
 scale = Vector2(0.6, 0.6)
 pivot_offset = Vector2(350, 182)
 text = "select file to save"

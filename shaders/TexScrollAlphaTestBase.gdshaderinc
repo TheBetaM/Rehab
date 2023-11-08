@@ -17,7 +17,9 @@ void vertex()
 	if (!OUTPUT_IS_SRGB) {
 		COLOR.rgb = mix(pow((COLOR.rgb + vec3(0.055)) * (1.0 / (1.0 + 0.055)), vec3(2.4)), COLOR.rgb * (1.0 / 12.92), lessThan(COLOR.rgb, vec3(0.04045)));
 	}
-	COLOR.rgb = ColorCheck(COLOR.rgb);
+	#ifdef DOUBLE_COLOR
+	    COLOR.rgb = COLOR.rgb * 2.0;
+	#endif
 }
 
 void fragment() 
@@ -27,12 +29,10 @@ void fragment()
 	ALBEDO = tex.xyz * COLOR.rgb;
 	ALPHA = tex.w * COLOR.a;
 	
-	if (reflects)
-	{
+	#ifdef IS_REFLECT
 		vec4 current_texture = texture(SCREEN_TEXTURE, vec2(SCREEN_UV.x + reflectDist, 1.0 - SCREEN_UV.y - (0.5 - 0.5) * 2.0 + reflectDist));
 		ALBEDO = mix(ALBEDO, current_texture.xyz, 0.5);
-		ALPHA *= 0.85;
-	}
+	#endif
 	
 	if (envmap)
 	{

@@ -19,11 +19,13 @@ func _init():
 	Root = self
 
 func _ready():
-	$LevelSelect.visible = true
-	$LevelSelect.process_mode = Node.PROCESS_MODE_INHERIT
 	PlayerCam = $PlayerCam
 	FreeLookCam = $FreeLookCam
 	GameHUD = $FE_HUD
+	if (Game.Dev):
+		StartLevelSelect()
+	else:
+		StartLevelSelect()
 
 func LoadScene(path : String):
 	UnloadAllChunks()
@@ -168,6 +170,9 @@ func UnloadAllChunks():
 func ExitLevel():
 	UnloadAllChunks()
 	GameHUD.Clear()
+	StartLevelSelect()
+	$LevelSelect.ResetMenu()
+
+func StartLevelSelect():
 	$LevelSelect.visible = true
 	$LevelSelect.process_mode = Node.PROCESS_MODE_INHERIT
-	$LevelSelect.ResetMenu()

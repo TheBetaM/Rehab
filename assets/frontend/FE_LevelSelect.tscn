@@ -41,7 +41,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 52.0
 grow_horizontal = 2
-text = "level select"
+text = "#FE_Explorer_Title"
 
 [node name="TitleLabel2" parent="." instance=ExtResource("2_5qxim")]
 custom_minimum_size = Vector2(0, 70)
@@ -53,7 +53,7 @@ anchor_bottom = 1.0
 offset_top = -52.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "project rehab - explorer tech demo"
+text = "#FE_Explorer_Footer"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 0
