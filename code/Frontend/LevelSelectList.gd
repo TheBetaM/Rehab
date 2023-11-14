@@ -1,6 +1,7 @@
 extends Control
 
 @export var LabelTheme : Theme
+@export var LabelMaterial : Material
 var Labels : Array
 var Paths: Array
 var SelectedItem = 0
@@ -12,7 +13,6 @@ var FE_BACK = RehabGame.AssetsPath + "Sounds/FE_BACK.tres"
 var FE_SELECT = RehabGame.AssetsPath + "Sounds/FE_SELECT.tres"
 var LogoTex = RehabGame.AssetsPath + "Textures/Language/Titles/English/Crash.tres"
 var VoiceTest = RehabGame.AssetsPath + "Sounds/GlobalVO/DRC244.tres"
-var MusicTest = RehabGame.AssetsPath + "Sounds/Music/1_1_Nsanity_Island.tres"
 var MovieTest = RehabGame.AssetsPath + "Movies/ttident.ogv"
 
 func _ready():
@@ -25,7 +25,7 @@ func _ready():
 	
 	#if (!DirAccess.dir_exists_absolute(RehabGame.AssetsPath + "Levels/")):
 		#printerr("No Levels directory found!")
-		#$TitleLabel.text = "#FE_Explorer_ImportNotFound"
+		#$TitleLabel.text = "#FE-Explorer-ImportNotFound"
 		#return
 		
 	var dir = DirAccess.open(RehabGame.AssetsPath + "Levels/");
@@ -39,7 +39,7 @@ func _ready():
 				#print("Found file: " + file_name)
 			file_name = dir.get_next()
 		if (ItemCount == 0):
-			$TitleLabel.text = "#FE_Explorer_ImportNotFound"
+			$TitleLabel.text = "#FE-Explorer-ImportNotFound"
 			return;
 		if (ResourceLoader.exists(MovieTest)):
 			$VideoPlayer.stream = load(MovieTest)
@@ -47,19 +47,22 @@ func _ready():
 			$VideoPlayer.play()
 		else:
 			VideoDone = true
+			await get_tree().process_frame
+			RehabSceneRoot.Root.PlayMusic(27)
 		if (ResourceLoader.exists(LogoTex)):
 			var iconTex = ImageTexture.new()
 			iconTex.image = load(LogoTex)
 			$TextureRect.texture = iconTex
 	else:
 		print("An error occurred when trying to access the path.")
-		$TitleLabel.text = "#FE_Explorer_ImportNotFound"
+		$TitleLabel.text = "#FE-Explorer-ImportNotFound"
 
 
 func CreateItem(itemname, id):
 	var NewNode = Button.new()
 	NewNode.text = itemname.replace("_","/").trim_suffix(".tscn")
 	NewNode.theme = LabelTheme
+	NewNode.material = LabelMaterial
 	NewNode.pressed.connect(func(): StartLevel(itemname))
 	NewNode.name = "LevelSelectItem" + str(id)
 	NewNode.flat = true
@@ -98,6 +101,5 @@ func _process(delta):
 func _on_VideoPlayer_finished():
 	VideoDone = true
 	$VideoPlayer.visible = false
-	if (ResourceLoader.exists(MusicTest)):
-		$MusicPlayer.stream = load(MusicTest)
-		$MusicPlayer.play()
+	await get_tree().process_frame
+	RehabSceneRoot.Root.PlayMusic(27)

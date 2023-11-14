@@ -116,6 +116,8 @@ func DoSound(slot : int, pitch : float):
 	if (slot >= Sounds.size()):
 		return;
 	if (Sounds[slot]):
+		AudioSource.reparent(SubModels[ActiveModel].get_child(0))
+		AudioSource.position = Vector3.ZERO
 		AudioSource.process_mode = Node.PROCESS_MODE_ALWAYS
 		AudioSource.stream = Sounds[slot]
 		AudioSource.pitch_scale = pitch
@@ -140,6 +142,9 @@ func UpdateLayersNested(parent : Node, layer : int):
 			i.set_collision_layer_value(1, false)
 			i.set_collision_mask_value(layer, true)
 			i.set_collision_layer_value(layer, true)
+
+func OnChunkEnter():
+	pass
 
 func ControlPackUpdate():
 	CTRLPACK.Update()

@@ -114,9 +114,9 @@ func SpawnChunk():
 			if ResourceLoader.load_threaded_get_status(FullChunkPath) == ResourceLoader.THREAD_LOAD_LOADED:
 				LoadedScene = ResourceLoader.load_threaded_get(FullChunkPath)
 			else:
-				printerr("FAILED TO LOAD SCENE AT " + FullChunkPath)
+				printerr("[ChunkLink] FAILED TO LOAD SCENE AT " + FullChunkPath)
 		else:
-			printerr("FAILED TO FIND SCENE AT " + FullChunkPath)
+			printerr("[ChunkLink] FAILED TO FIND SCENE AT " + FullChunkPath)
 			return
 	LoadedChunk = RehabSceneRoot.Root.LoadChunk(LoadedScene, ChunkName, $ChunkHolder)
 	if (LoadedChunk != null and SpawnInvisible):

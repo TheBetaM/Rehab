@@ -1,86 +1,87 @@
 ,en
-#FE_Off,Off
-#FE_On,On
-#FE_No,No
-#FE_Yes,Yes
-#FE_Back,Back
-#FE_Continue,Continue
-#FE_NewGame,New Game
-#FE_LoadGame,Load Game
-#FE_Options,Options
-#FE_Language,Language
-#FE_GFXOptions,Graphics Options
-#FE_SFXOptions,Sound Options
-#FE_GameOptions,Game Options
-#FE_EffectsVolume,Effects Volume
-#FE_MusicVolume,Music Volume
-#FE_Vibrations,Controller Vibrations
-#FE_DisableAutoSave,Disable Autosave
-#FE_Extras,Extras
-#FE_Paused,Game Paused
-#FE_SaveGame,Save Game
-#FE_QuitGame,Quit Game
-#FE_Resume,Resume
-#FE_AutoSaveOn,Autosave Enabled
-#FE_AutoSaveOnMSG,Please don't turn off the game\nwhen the autosave indicator\nbelow is present.
-#FE_AutoSaveOff,Autosave Disabled
-#FE_AutoSaveOffMSG,"To enable autosave,\nreturn to the pause menu\nand re-save the game."
-#FE_OverwriteOption,Overwrite
-#FE_OverwriteMSG,Are you sure you wish to\noverwrite this saved game?
-#FE_SaveHeader,Select slot to Save
-#FE_LoadHeader,Select slot to Load
-#FE_EmptySlot,Empty
-#FE_CancelSaveOption,Cancel
-#FE_NoSaveOption,Continue without saving
-#FE_NewSaveOption,Create New Save
-#FE_AutoSaveMSG,Autosave in progress.\n\nPlease don't turn off the game.
-#FE_GameOver,GAME OVER
-#FE_QuitMSG,You will lose all unsaved progress\nif you quit now.\nAre you sure you\nwant to quit?
-#FE_TitleStart,Press START to play
-#FE_Loading,LOADING
-#FE_SaveOK,Save Successful
-#FE_LoadOK,Load Successful
-#FE_CancelSaveHeader,Cancel Save?
-#FE_SaveCancelled,Save Cancelled
-#FE_AcceptChanges,Accept Changes
-#FE_SelectIcon,Select CROSS
-#FE_NextIcon,Next CROSS
-#FE_BackIcon,TRIANGLE Back
-#FE_LTIcon,< LT
-#FE_RTIcon,RT >
-#FE_CancelIcon,CIRCLE Cancel
-#FE_ExtrasLocked,??????????
-#FE_GemExtrasBlue,Blue Gem Extras
-#FE_GemExtrasClear,Clear Gem Extras
-#FE_GemExtrasGreen,Green Gem Extras
-#FE_GemExtrasPurple,Purple Gem Extras
-#FE_GemExtrasRed,Red Gem Extras
-#FE_GemExtrasYellow,Yellow Gem Extras
-#FE_DisableAutoSaveHeader,Disable Autosave?
-#FE_CompleteExtras,100% Extras
-#FE_BossExtras,Boss Extras
-#FE_CharacterExtras,Character Extras
-#FE_EnemyExtras,Enemy Extras
-#FE_MovieExtras,Movie Extras
-#FE_UnseenExtras,Unseen Extras
-#FE_LevelName_001,N.Sanity Island
-#FE_LevelName_002,Jungle Bungle
-#FE_LevelName_003,Cavern Catastrophe
-#FE_LevelName_004,Totem Hokum
-#FE_LevelName_005,Iceberg Lab
-#FE_LevelName_006,Ice Climb
-#FE_LevelName_007,Slip Slide Icecapades
-#FE_LevelName_008,High Seas Hi-Jinks
-#FE_LevelName_009,Academy Of Evil
-#FE_LevelName_010,Boiler Room Doom
-#FE_LevelName_011,Classroom Chaos
-#FE_LevelName_012,Rooftop Rampage
-#FE_LevelName_013,Twinsanity Island
-#FE_LevelName_014,Rockslide Rumble
-#FE_LevelName_015,Bandicoot Pursuit
-#FE_LevelName_016,Ant Agony
-#FE_Explorer_Title,Level Select
-#FE_Explorer_Footer,Project Rehab - Explorer Tech Demo
-#FE_Explorer_ChunkSelect,Individual Chunk
-#FE_Explorer_Disclaimer,This is a tech demo.
-#FE_Explorer_ImportNotFound,Imported assets not found!
+#FE-Off,Off
+#FE-On,On
+#FE-No,No
+#FE-Yes,Yes
+#FE-Back,Back
+#FE-Continue,Continue
+#FE-NewGame,New Game
+#FE-LoadGame,Load Game
+#FE-Options,Options
+#FE-Language,Language
+#FE-GFXOptions,Graphics Options
+#FE-SFXOptions,Sound Options
+#FE-GameOptions,Game Options
+#FE-EffectsVolume,Effects Volume
+#FE-MusicVolume,Music Volume
+#FE-Vibrations,Controller Vibrations
+#FE-DisableAutoSave,Disable Autosave
+#FE-Extras,Extras
+#FE-Paused,Game Paused
+#FE-SaveGame,Save Game
+#FE-QuitGame,Quit Game
+#FE-Resume,Resume
+#FE-AutoSaveOn,Autosave Enabled
+#FE-AutoSaveOnMSG,Please don't turn off the game\nwhen the autosave indicator\nbelow is present.
+#FE-AutoSaveOff,Autosave Disabled
+#FE-AutoSaveOffMSG,"To enable autosave,\nreturn to the pause menu\nand re-save the game."
+#FE-OverwriteOption,Overwrite
+#FE-OverwriteMSG,Are you sure you wish to\noverwrite this saved game?
+#FE-SaveHeader,Select slot to Save
+#FE-LoadHeader,Select slot to Load
+#FE-EmptySlot,Empty
+#FE-CancelSaveOption,Cancel
+#FE-NoSaveOption,Continue without saving
+#FE-NewSaveOption,Create New Save
+#FE-AutoSaveMSG,Autosave in progress.\n\nPlease don't turn off the game.
+#FE-GameOver,GAME OVER
+#FE-QuitMSG,You will lose all unsaved progress\nif you quit now.\nAre you sure you\nwant to quit?
+#FE-TitleStart,Press START to play
+#FE-Loading,LOADING
+#FE-SaveOK,Save Successful
+#FE-LoadOK,Load Successful
+#FE-CancelSaveHeader,Cancel Save?
+#FE-SaveCancelled,Save Cancelled
+#FE-AcceptChanges,Accept Changes
+#FE-SelectIcon,Select CROSS
+#FE-NextIcon,Next CROSS
+#FE-BackIcon,TRIANGLE Back
+#FE-LTIcon,< LT
+#FE-RTIcon,RT >
+#FE-CancelIcon,CIRCLE Cancel
+#FE-ExtrasLocked,??????????
+#FE-GemExtrasBlue,Blue Gem Extras
+#FE-GemExtrasClear,Clear Gem Extras
+#FE-GemExtrasGreen,Green Gem Extras
+#FE-GemExtrasPurple,Purple Gem Extras
+#FE-GemExtrasRed,Red Gem Extras
+#FE-GemExtrasYellow,Yellow Gem Extras
+#FE-DisableAutoSaveHeader,Disable Autosave?
+#FE-CompleteExtras,100% Extras
+#FE-BossExtras,Boss Extras
+#FE-CharacterExtras,Character Extras
+#FE-EnemyExtras,Enemy Extras
+#FE-MovieExtras,Movie Extras
+#FE-UnseenExtras,Unseen Extras
+#FE-LevelName-001,N.Sanity Island
+#FE-LevelName-002,Jungle Bungle
+#FE-LevelName-003,Cavern Catastrophe
+#FE-LevelName-004,Totem Hokum
+#FE-LevelName-005,Iceberg Lab
+#FE-LevelName-006,Ice Climb
+#FE-LevelName-007,Slip Slide Icecapades
+#FE-LevelName-008,High Seas Hi-Jinks
+#FE-LevelName-009,Academy Of Evil
+#FE-LevelName-010,Boiler Room Doom
+#FE-LevelName-011,Classroom Chaos
+#FE-LevelName-012,Rooftop Rampage
+#FE-LevelName-013,Twinsanity Island
+#FE-LevelName-014,Rockslide Rumble
+#FE-LevelName-015,Bandicoot Pursuit
+#FE-LevelName-016,Ant Agony
+#FE-Explorer-Title,Level Select
+#FE-Explorer-Footer,Project Rehab - Explorer Tech Demo
+#FE-Explorer-ChunkSelect,Individual Chunk
+#FE-Explorer-Disclaimer,This is a tech demo.
+#FE-Explorer-ImportNotFound,Imported assets not found!
+#FE-ToggleFullScreen,Toggle Full Screen

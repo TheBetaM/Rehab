@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dj63qinhimnyd"]
+[gd_scene load_steps=5 format=3 uid="uid://dj63qinhimnyd"]
 
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="1"]
 [ext_resource type="Script" path="res://code/Frontend/LevelSelectList.gd" id="1_axws6"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="2_5qxim"]
+[ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="3_sxwkc"]
 
 [node name="LevelSelect" type="Control"]
 layout_mode = 3
@@ -12,6 +13,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_axws6")
+LabelTheme = ExtResource("1")
+LabelMaterial = ExtResource("3_sxwkc")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
@@ -41,7 +44,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 52.0
 grow_horizontal = 2
-text = "#FE_Explorer_Title"
+text = "#FE-Explorer-Title"
 
 [node name="TitleLabel2" parent="." instance=ExtResource("2_5qxim")]
 custom_minimum_size = Vector2(0, 70)
@@ -53,7 +56,7 @@ anchor_bottom = 1.0
 offset_top = -52.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "#FE_Explorer_Footer"
+text = "#FE-Explorer-Footer"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 0
@@ -81,8 +84,5 @@ expand = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -13.983
-
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -19.677
 
 [connection signal="finished" from="VideoPlayer" to="." method="_on_VideoPlayer_finished"]

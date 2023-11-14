@@ -77,10 +77,6 @@ enum CharISlot {
 
 
 # Test Logic Below
-
-var speed = 14
-var fall_acceleration = 30
-
 var velocity = Vector3.ZERO
 var modeldirection = Vector3.ZERO
 var physBody : Node3D
@@ -141,41 +137,51 @@ func _physics_process(delta):
 		return
 	if (activeCharacter != self):
 		return
+	
+	if Input.is_action_pressed("pad1_start"):
+		RehabSceneRoot.Root.StartPauseMenu()
+		return
 
 	if Input.is_action_pressed("ui_up"):
-		direction.x -= Input.get_action_raw_strength("ui_up")
+		direction.x -= Input.get_action_strength("ui_up")
 		pressed = true
 	if Input.is_action_pressed("ui_down"):
-		direction.x += Input.get_action_raw_strength("ui_down")
+		direction.x += Input.get_action_strength("ui_down")
 		pressed = true
 	if Input.is_action_pressed("ui_right"):
-		direction.z += Input.get_action_raw_strength("ui_right")
+		direction.z += Input.get_action_strength("ui_right")
 		pressed = true
 	if Input.is_action_pressed("ui_left"):
-		direction.z -= Input.get_action_raw_strength("ui_left")
+		direction.z -= Input.get_action_strength("ui_left")
 		pressed = true
 	if Input.is_action_pressed("ui_accept"):
 		velocity.y += 100 * delta
-		DoAnimation(19, false)
+		if (ActiveAnim != 19):
+			DoAnimation(19, false)
+			DoSound(0, 1.0)
 		isJumping = true
 	
-	if direction != Vector3.ZERO:
+	direction = direction.clamp(-Vector3.ONE, Vector3.ONE)
+	direction = (direction.x * physCam.camvector) + (direction.z * physCam.camright)
+	var speed = RegFloat[CharFSlot.RunSpeed]
+	if (abs(direction.length()) < 0.25):
+		speed = RegFloat[CharFSlot.WalkSpeed]
+	elif (abs(direction.length()) < 0.5):
+		velocity *= 0.1
+	else:
 		direction = direction.normalized()
 	
-	direction = (direction.x * physCam.camvector) + (direction.z * physCam.camright)
-	#direction.x *= camvector.x
-	#direction.z *= camvector.z
-	
 	if (pressed):
-		#var dirVector = Vector2(direction.x, direction.z)
-		#var dirAngle = (dirVector.angle_to(Vector2(0, 1)) / PI) * 180
-		#modeldirection = modeldirection.lerp(Vector3(0, dirAngle, 0), 0.1 * delta)
-		#physBody.rotation = modeldirection
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 		physBody.global_rotation = Vector3(physBody.global_rotation.x, atan2(direction.x, direction.z), physBody.global_rotation.z)
 		if (!isJumping && physBody.is_on_floor()):
-			DoAnimation(11, true)
+			if (abs(direction.length()) < 0.25):
+				DoAnimation(9, true)
+			elif (abs(direction.length()) < 0.5):
+				DoAnimation(10, true)
+			else:
+				DoAnimation(11, true)
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
@@ -186,7 +192,7 @@ func _physics_process(delta):
 		DoAnimation(27, false)
 	
 	if not physBody.is_on_floor():
-		velocity.y -= fall_acceleration * delta
+		velocity.y -= 30.0 * delta
 	
 	physBody.velocity = velocity
 	physBody.move_and_slide()

@@ -30,3 +30,15 @@ func UpdateLayersNested(parent : Node):
 			i.set_collision_layer_value(1, false)
 			i.set_collision_mask_value(ChunkLayer, true)
 			i.set_collision_layer_value(ChunkLayer, true)
+
+func OnChunkEnter():
+	AgentOnChunkEnter(self)
+
+func OnChunkExit():
+	pass
+
+func AgentOnChunkEnter(parent : Node):
+	for i in parent.get_children():
+		AgentOnChunkEnter(i)
+		if (i is Agent):
+			i.OnChunkEnter()
