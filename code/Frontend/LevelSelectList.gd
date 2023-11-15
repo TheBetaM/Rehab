@@ -11,8 +11,6 @@ var VideoDone = false
 var FE_CLICK = RehabGame.AssetsPath + "Sounds/FE_CLICK.tres"
 var FE_BACK = RehabGame.AssetsPath + "Sounds/FE_BACK.tres"
 var FE_SELECT = RehabGame.AssetsPath + "Sounds/FE_SELECT.tres"
-var LogoTex = RehabGame.AssetsPath + "Textures/Language/Titles/English/Crash.tres"
-var VoiceTest = RehabGame.AssetsPath + "Sounds/GlobalVO/DRC244.tres"
 var MovieTest = RehabGame.AssetsPath + "Movies/ttident.ogv"
 
 func _ready():
@@ -49,10 +47,6 @@ func _ready():
 			VideoDone = true
 			await get_tree().process_frame
 			RehabSceneRoot.Root.PlayMusic(27)
-		if (ResourceLoader.exists(LogoTex)):
-			var iconTex = ImageTexture.new()
-			iconTex.image = load(LogoTex)
-			$TextureRect.texture = iconTex
 	else:
 		print("An error occurred when trying to access the path.")
 		$TitleLabel.text = "#FE-Explorer-ImportNotFound"
@@ -66,6 +60,7 @@ func CreateItem(itemname, id):
 	NewNode.pressed.connect(func(): StartLevel(itemname))
 	NewNode.name = "LevelSelectItem" + str(id)
 	NewNode.flat = true
+	NewNode.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	NewNode.mouse_filter = Control.MOUSE_FILTER_PASS
 	$ScrollContainer/VBoxContainer.add_child(NewNode)
 	if (id == 0):
@@ -86,11 +81,6 @@ func _process(delta):
 		Cooldown = Cooldown - delta
 		return
 		
-	if (Input.is_action_pressed("ui_cancel") and VideoDone):
-		if (ResourceLoader.exists(VoiceTest)):
-			$AudioStreamPlayer.stream = load(VoiceTest)
-			$AudioStreamPlayer.play()
-		Cooldown = 0.5
 	if (Input.is_action_pressed("ui_accept")):
 		if (!VideoDone):
 			VideoDone = true

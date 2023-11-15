@@ -347,11 +347,15 @@ text = "#FE-Options"
 
 [node name="Button2" parent="WindowRound/MenuPauseExplorer" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
-text = "#FE-ReturnToLevelSelect"
+text = "#FE-Explorer-ReturnToTitle"
 
 [node name="Button3" parent="WindowRound/MenuPauseExplorer" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-QuitGame"
+
+[node name="Button4" parent="WindowRound/MenuPauseExplorer" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-Resume"
 
 [node name="WindowRoundHeader" parent="." instance=ExtResource("4_66hls")]
 z_index = 3
@@ -377,4 +381,17 @@ scale = Vector2(0.6, 0.6)
 pivot_offset = Vector2(350, 182)
 text = "select file to save"
 
+[connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button1" to="." method="OptionsMain_ToGraphics"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button2" to="." method="OptionsMain_ToSound"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button3" to="." method="OptionsMain_ToGame"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button4" to="." method="OptionsMain_ToPause"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsSound/Button5" to="." method="OptionsSound_ToMain"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button1" to="." method="OptionsGraphics_ToggleFullscreen"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button5" to="." method="OptionsGraphics_ToMain"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button1" to="." method="OptionsGame_ToggleVibrations"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button2" to="." method="OptionsGame_ToMain"]
 [connection signal="pressed" from="WindowRound/MenuNotice/Button1" to="." method="Notice_Close"]
+[connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button1" to="." method="Pause_ToOptions"]
+[connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button2" to="." method="Pause_ReturnToLevelSelect"]
+[connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button3" to="." method="Pause_QuitGame"]
+[connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button4" to="." method="Pause_Resume"]

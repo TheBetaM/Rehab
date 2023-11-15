@@ -24,7 +24,7 @@ func _physics_process(delta):
 		SubModels[0].global_position = SubModels[0].global_position.move_toward(pickupTarget.global_position, 15.0 * delta)
 		if (SubModels[0].global_position.distance_to(pickupTarget.global_position) < 0.1):
 			RehabSceneRoot.Root.Game.AddWumpa(1)
-			DoSound(1, (randf() / 5.0) + 0.9)
+			DoSound(1, (randf() / 5.0) + 0.9, 0.0)
 			process_mode = Node.PROCESS_MODE_DISABLED
 			visible = false
 

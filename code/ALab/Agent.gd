@@ -16,6 +16,9 @@ var AudioSource : AudioStreamPlayer3D
 var ParentScene : ChunkScene
 var ActiveModel : int = 0
 var ActiveAnim : int = -1
+var ActiveSkeleton : Skeleton3D
+var JointsConst : Array[int] #Joint-ID ones
+var ExitPoints : Array[Node3D]
 
 # Instance data
 @export var InstanceScript : ALabScript
@@ -60,6 +63,12 @@ func _ready():
 	if (get_node_or_null("Models")):
 		for i in $Models.get_children():
 			SubModels.append(i)
+	for i in range(0, JointIDCount):
+		JointsConst.append(-1)
+	for i in range(0, ExitPointCount):
+		ExitPoints.append(null)
+	if (SubModels.size() > 0):
+		ActiveSkeleton = SubModels[ActiveModel].get_child(0).get_child(0)
 	
 	var parent = get_parent()
 	while ParentScene == null and parent != null:
@@ -70,6 +79,7 @@ func _ready():
 	
 	if (ParentScene != null):
 		UpdateLayers(ParentScene.ChunkLayer)
+	UpdateActiveModel()
 	#if (!Engine.is_editor_hint()):
 	#	Scripts[SSlot.Spawn].run(0)
 
@@ -100,6 +110,8 @@ func DoAnimation(slot : int, loop : bool):
 		SubModels[ogi].visible = true
 		SubModels[ogi].process_mode = Node.PROCESS_MODE_INHERIT
 		ActiveModel = ogi
+		ActiveSkeleton = SubModels[ogi].get_child(0).get_child(0)
+		UpdateActiveModel()
 	if (animName != null):
 		var animPlayer : AnimationPlayer = SubModels[ogi].get_node("AnimationPlayer")
 		if (loop):
@@ -112,16 +124,38 @@ func DoAnimation(slot : int, loop : bool):
 			animPlayer.play(animName, 0.25)
 		ActiveAnim = slot
 
-func DoSound(slot : int, pitch : float):
+func DoSound(slot : int, pitch : float, volume : float):
 	if (slot >= Sounds.size()):
 		return;
 	if (Sounds[slot]):
 		AudioSource.reparent(SubModels[ActiveModel].get_child(0))
+		AudioSource.volume_db = volume
 		AudioSource.position = Vector3.ZERO
 		AudioSource.process_mode = Node.PROCESS_MODE_ALWAYS
 		AudioSource.stream = Sounds[slot]
 		AudioSource.pitch_scale = pitch
 		AudioSource.play()
+
+func DoSoundPath(path : String, pitch : float, volume : float):
+	if (!ResourceLoader.exists(path)):
+		return
+	AudioSource.reparent(SubModels[ActiveModel].get_child(0))
+	AudioSource.volume_db = volume
+	AudioSource.position = Vector3.ZERO
+	AudioSource.process_mode = Node.PROCESS_MODE_ALWAYS
+	AudioSource.stream = ResourceLoader.load(path)
+	AudioSource.pitch_scale = pitch
+	AudioSource.play()
+
+func DoSoundStream(stream : AudioStream, pitch : float, volume : float):
+	AudioSource.reparent(SubModels[ActiveModel].get_child(0))
+	AudioSource.volume_db = volume
+	AudioSource.position = Vector3.ZERO
+	AudioSource.process_mode = Node.PROCESS_MODE_ALWAYS
+	AudioSource.stream = stream
+	AudioSource.pitch_scale = pitch
+	AudioSource.play()
+
 
 func UpdateLayers(layer : int):
 	#Updating collision and light layers in child nodes
@@ -142,6 +176,20 @@ func UpdateLayersNested(parent : Node, layer : int):
 			i.set_collision_layer_value(1, false)
 			i.set_collision_mask_value(layer, true)
 			i.set_collision_layer_value(layer, true)
+
+func UpdateActiveModel():
+	for i in range(0, JointIDCount):
+		JointsConst[i] = -1
+	for i in range(0, JointIDCount):
+		var JointID = SubModels[ActiveModel].find_child("JointID-" + str(i), true)
+		if (JointID != null):
+			var attach : BoneAttachment3D = JointID.get_parent()
+			JointsConst[i] = attach.bone_idx
+			var skeleton = attach.get_parent()
+			ActiveSkeleton = skeleton
+	for i in range(0, ExitPointCount):
+		ExitPoints[i] = SubModels[ActiveModel].find_child("ExitPoint" + str(i), true)
+
 
 func OnChunkEnter():
 	pass

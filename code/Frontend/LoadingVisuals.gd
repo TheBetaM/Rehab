@@ -4,7 +4,7 @@ func _ready():
 	$AnimationPlayer.play("TextAnim")
 
 func UpdateVisuals():
-	$LabelLevelName.text = RehabSceneRoot.Root.LoadingChunkName
+	$LabelLevelName.text = RehabSceneRoot.Root.LoadingChunkName.replace("_","/")
 
 func AnimIn():
 	UpdateVisuals()

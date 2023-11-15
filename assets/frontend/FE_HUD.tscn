@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://deku1jgir0rrr"]
+[gd_scene load_steps=9 format=3 uid="uid://deku1jgir0rrr"]
 
 [ext_resource type="Script" path="res://code/Frontend/FrontendHUD.gd" id="1_yrfyt"]
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="2_rt1ju"]
@@ -6,6 +6,22 @@
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="4_w5x18"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vbfre"]
+
+[sub_resource type="Animation" id="Animation_b4efc"]
+resource_name = "LifeIconANim"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Lives/IconLives:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.261799, -0.261799, 0.261799, -0.261799, 0.261799, -0.261799, 0.261799, -0.261799, 0.261799, 0.0]
+}
 
 [sub_resource type="Animation" id="Animation_tdvw6"]
 resource_name = "TextAnim"
@@ -25,6 +41,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ghwwr"]
 _data = {
+"LifeIconANim": SubResource("Animation_b4efc"),
 "TextAnim": SubResource("Animation_tdvw6")
 }
 
@@ -41,30 +58,31 @@ script = ExtResource("1_yrfyt")
 
 [node name="Wumpa" type="Control" parent="."]
 visible = false
-custom_minimum_size = Vector2(400, 110)
+custom_minimum_size = Vector2(400, 150)
 layout_mode = 1
 anchors_preset = 0
-offset_bottom = 110.0
+offset_right = 400.0
+offset_bottom = 150.0
 
 [node name="CountWumpa" type="Label" parent="Wumpa"]
 material = ExtResource("2_rt1ju")
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 150)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -79.0
-offset_top = -45.0
-offset_right = 79.0
-offset_bottom = 55.0
+offset_left = -10.0
+offset_top = -75.0
+offset_right = 148.0
+offset_bottom = 125.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.1, 1.1)
-pivot_offset = Vector2(79, 50)
+scale = Vector2(1.068, 1.068)
+pivot_offset = Vector2(79, 100)
 theme = ExtResource("3_updjh")
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 80
 text = "00"
 vertical_alignment = 1
 
@@ -73,11 +91,13 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 20.0
-offset_top = -35.0
-offset_right = 100.0
-offset_bottom = 45.0
+offset_left = 70.0
+offset_top = -40.0
+offset_right = 180.0
+offset_bottom = 70.0
 grow_vertical = 2
+scale = Vector2(0.75, 1)
+pivot_offset = Vector2(55, 55)
 texture = SubResource("PlaceholderTexture2D_vbfre")
 
 [node name="Lives" type="Control" parent="."]
@@ -87,28 +107,28 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_bottom = 110.0
+offset_left = -400.0
+offset_bottom = 150.0
 grow_horizontal = 0
 
 [node name="CountLives" type="Label" parent="Lives"]
 material = ExtResource("2_rt1ju")
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 150)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -79.0
-offset_top = -45.0
-offset_right = 79.0
-offset_bottom = 55.0
+offset_left = -170.0
+offset_top = -75.0
+offset_right = -12.0
+offset_bottom = 125.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.1, 1.1)
-pivot_offset = Vector2(79, 50)
+pivot_offset = Vector2(79, 100)
 theme = ExtResource("3_updjh")
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 80
 text = "99"
 horizontal_alignment = 2
 vertical_alignment = 1
@@ -120,12 +140,13 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -35.0
-offset_right = -20.0
-offset_bottom = 45.0
+offset_left = -185.0
+offset_top = -40.0
+offset_right = -75.0
+offset_bottom = 70.0
 grow_horizontal = 0
 grow_vertical = 2
+pivot_offset = Vector2(55, 55)
 texture = SubResource("PlaceholderTexture2D_vbfre")
 
 [node name="LabelBottom" parent="." instance=ExtResource("4_w5x18")]

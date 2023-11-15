@@ -14,8 +14,8 @@ dest_files=["res://.godot/imported/TWINSFONT V2.ttf-39ebbd176813c39cc755f1fb8063
 
 Rendering=null
 antialiasing=1
-generate_mipmaps=false
-multichannel_signed_distance_field=false
+generate_mipmaps=true
+multichannel_signed_distance_field=true
 msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true

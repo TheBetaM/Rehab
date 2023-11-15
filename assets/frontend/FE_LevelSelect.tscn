@@ -28,15 +28,6 @@ anchor_right = 1.0
 anchor_bottom = 0.9
 color = Color(0.223529, 0.588235, 1, 1)
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 128.0
-offset_right = 256.0
-offset_bottom = 256.0
-rotation = 1.5708
-scale = Vector2(0.5, 0.5)
-metadata/_edit_layout_mode = 1
-
 [node name="TitleLabel" parent="." instance=ExtResource("2_5qxim")]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 1

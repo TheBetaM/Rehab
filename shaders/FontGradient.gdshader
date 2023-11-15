@@ -6,8 +6,12 @@ void fragment()
 {
 	//COLOR.a = texture(TEXTURE, UV).a;
 	//COLOR.a = (1.0 - COLOR.r) * texture(TEXTURE, UV).a;
-	vec2 uv = vec2(UV.y * 15.0, 0.0);
+	//vec2 uv = vec2(UV.y * 3.0, 0.0);
+	//COLOR.rgb = (COLOR.r * (texture(gradient, uv).rgb)) + (COLOR.g * 1.0) + (COLOR.b * 0.0);
+	vec2 uv = UV.yx;
 	COLOR.rgb = (COLOR.r * (texture(gradient, uv).rgb)) + (COLOR.g * 1.0) + (COLOR.b * 0.0);
+	//COLOR.rgb = texture(gradient, uv).rgb;
+	//COLOR.a = 1.0;
 }
 
 

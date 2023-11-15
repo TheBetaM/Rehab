@@ -19,12 +19,12 @@ var _deceleration = -10
 var _vel_multiplier = 4
 
 # Keyboard state
-var _w = false
-var _s = false
-var _a = false
-var _d = false
-var _q = false
-var _e = false
+var _w = 0.0
+var _s = 0.0
+var _a = 0.0
+var _d = 0.0
+var _q = 0.0
+var _e = 0.0
 var _shift = false
 var _alt = false
 
@@ -52,17 +52,17 @@ func _input(event):
 	if event is InputEventKey:
 		match event.keycode:
 			KEY_W:
-				_w = event.pressed
+				_w = event.pressed as float
 			KEY_S:
-				_s = event.pressed
+				_s = event.pressed as float
 			KEY_A:
-				_a = event.pressed
+				_a = event.pressed as float
 			KEY_D:
-				_d = event.pressed
+				_d = event.pressed as float
 			KEY_Q:
-				_q = event.pressed
+				_q = event.pressed as float
 			KEY_E:
-				_e = event.pressed
+				_e = event.pressed as float
 			KEY_SHIFT:
 				_shift = event.pressed
 			KEY_ALT:
@@ -83,12 +83,12 @@ func UpdateCamControls(delta):
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		return
 	
-	_w = Input.is_action_pressed("ui_up")
-	_s = Input.is_action_pressed("ui_down")
-	_d = Input.is_action_pressed("ui_right")
-	_a = Input.is_action_pressed("ui_left")
-	_e = Input.is_action_pressed("ui_accept")
-	_q = Input.is_action_pressed("ui_select")
+	_w = Input.get_action_strength("ui_up")
+	_s = Input.get_action_strength("ui_down")
+	_d = Input.get_action_strength("ui_right")
+	_a = Input.get_action_strength("ui_left")
+	_e = Input.get_action_strength("ui_accept")
+	_q = Input.get_action_strength("ui_select")
 	if Input.is_action_just_pressed("ui_cancel"):
 		ExitCam()
 		return;
@@ -120,10 +120,11 @@ func _update_movement(delta):
 		(_e as float) - (_q as float),
 		(_s as float) - (_w as float)
 	)
+	_direction = _direction.clamp(-Vector3.ONE, Vector3.ONE)
 	
 	# Computes the change in velocity due to desired direction and "drag"
 	# The "drag" is a constant acceleration on the camera to bring it's velocity to 0
-	var offset = _direction.normalized() * _acceleration * _vel_multiplier * delta \
+	var offset = _direction * _acceleration * _vel_multiplier * delta \
 		+ _velocity.normalized() * _deceleration * _vel_multiplier * delta
 	
 	# Compute modifiers' speed multiplier

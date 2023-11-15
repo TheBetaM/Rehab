@@ -16,6 +16,8 @@ var WumpaIconPath = RehabGame.AssetsPath + "Textures/Icons/wumpa_icon.tres"
 var LivesIconPaths = [RehabGame.AssetsPath + "Textures/Icons/1up-crash.tres", RehabGame.AssetsPath + "Textures/Icons/1up-cortex.tres",
  RehabGame.AssetsPath + "Textures/Icons/1up-coco.tres", RehabGame.AssetsPath + "Textures/Icons/1up-nina.tres", 
 RehabGame.AssetsPath + "Textures/Icons/1up-evilcrash.tres", RehabGame.AssetsPath + "Textures/Icons/1up-mechabandicoot.tres"]
+var WumpaHolderAnim : Tween
+var LivesHolderAnim : Tween
 
 func _ready():
 	if (ResourceLoader.exists(WumpaIconPath)):
@@ -31,20 +33,48 @@ func _process(delta):
 	if (WumpaTimer > 0.0):
 		WumpaTimer -= delta
 		if (WumpaTimer <= 0.0):
-			WumpaHolder.visible = false
+			if (WumpaHolderAnim != null):
+				WumpaHolderAnim.kill()
+			WumpaHolderAnim = create_tween()
+			WumpaHolderAnim.tween_property(WumpaHolder,"position:x", -300.0, 0.25)
+			WumpaHolderAnim.tween_callback(func(): WumpaHolder.visible = false)
 	
 	if (LivesTimer > 0.0):
 		LivesTimer -= delta
 		if (LivesTimer <= 0.0):
-			LivesHolder.visible = false
+			if (LivesHolderAnim != null):
+				LivesHolderAnim.kill()
+			LivesHolderAnim = create_tween()
+			LivesHolderAnim.tween_property(LivesHolder,"position:x", size.x - 20.0, 0.25)
+			LivesHolderAnim.tween_callback(func(): LivesHolder.visible = false)
 
 func UpdateWumpa():
-	
+	WumpaLabel.text = str(RehabSceneRoot.Root.Game.Fruit)
+	if (WumpaHolder.visible):
+		WumpaTimer = 5.0
+		return
+	WumpaHolder.position.x = -300.0
 	WumpaHolder.visible = true
 	WumpaTimer = 5.0
-	WumpaLabel.text = str(RehabSceneRoot.Root.Game.Fruit)
+	if (WumpaHolderAnim != null):
+		WumpaHolderAnim.kill()
+	WumpaHolderAnim = create_tween()
+	WumpaHolderAnim.tween_property(WumpaHolder,"position:x", 0.0, 0.25)
+
+func ForceAnimOut():
+	WumpaTimer = 0.01
+	LivesTimer = 0.01
+
+func AnimateWumpa():
+	var iconAnim = create_tween()
+	iconAnim.tween_property(WumpaIcon, "scale", Vector2(0.9, 1.2), 0.1)
+	iconAnim.tween_property(WumpaIcon, "scale", Vector2(0.75, 1.0), 0.1).set_delay(0.1)
 
 func UpdateLives():
+	LivesLabel.text = str(RehabSceneRoot.Root.Game.Lives)
+	if (LivesHolder.visible):
+		LivesTimer = 5.0
+		return
 	if (!LivesHolder.visible):
 		var iconID = 0
 		if (AgentCharacter.activeCharacter != null):
@@ -53,9 +83,16 @@ func UpdateLives():
 			var iconTex = ImageTexture.new()
 			iconTex.image = load(LivesIconPaths[iconID])
 			LivesIcon.texture = iconTex
+	LivesHolder.position.x = size.x - 20.0
 	LivesHolder.visible = true
 	LivesTimer = 5.0
-	LivesLabel.text = str(RehabSceneRoot.Root.Game.Lives)
+	if (LivesHolderAnim != null):
+		LivesHolderAnim.kill()
+	LivesHolderAnim = create_tween()
+	LivesHolderAnim.tween_property(LivesHolder,"position:x", size.x - 400.0, 0.25)
+
+func AnimateLife():
+	$AnimationPlayer.play("LifeIconANim")
 
 func UpdateAll():
 	WumpaLabel.text = str(RehabSceneRoot.Root.Game.Fruit)

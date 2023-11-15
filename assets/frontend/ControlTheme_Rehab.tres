@@ -1,6 +1,8 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://b06yjyl4s3uf6"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://b06yjyl4s3uf6"]
 
 [ext_resource type="FontVariation" uid="uid://b0d28n0ldq4v0" path="res://assets/frontend/TwinsFont.tres" id="1_6fysd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dj7vc"]
 
 [sub_resource type="StyleBoxFlat" id="2"]
 bg_color = Color(1, 1, 1, 1)
@@ -14,13 +16,14 @@ default_font = ExtResource("1_6fysd")
 default_font_size = 32
 Button/colors/font_color = Color(1, 0, 0, 1)
 Button/colors/font_disabled_color = Color(1, 0, 0, 0.501961)
-Button/colors/font_focus_color = Color(1, 0.0980392, 0.0980392, 1)
+Button/colors/font_focus_color = Color(1, 0.501961, 0.501961, 1)
 Button/colors/font_hover_color = Color(1, 0.501961, 0.501961, 1)
 Button/colors/font_hover_pressed_color = Color(1, 0.196078, 0.196078, 1)
 Button/colors/font_outline_color = Color(0, 1, 0, 1)
 Button/colors/font_pressed_color = Color(0, 0.466667, 1, 1)
 Button/constants/outline_size = 16
 Button/font_sizes/font_size = 32
+Button/styles/focus = SubResource("StyleBoxEmpty_dj7vc")
 Label/colors/font_color = Color(1, 0, 0, 1)
 Label/colors/font_outline_color = Color(0, 1, 0, 1)
 Label/colors/font_shadow_color = Color(0, 0, 1, 1)

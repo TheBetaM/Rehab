@@ -30,6 +30,7 @@ func AddWumpa(amount : int):
 		AddLives(amount)
 	if (Fruit < 0):
 		Fruit = 0
+	RehabSceneRoot.Root.GameHUD.AnimateWumpa()
 	RehabSceneRoot.Root.GameHUD.UpdateWumpa()
 
 func AddLives(amount: int):
@@ -38,4 +39,9 @@ func AddLives(amount: int):
 		Lives = 99
 	if (Lives < 0):
 		Lives = 0
+	RehabSceneRoot.Root.GameHUD.AnimateLife()
+	RehabSceneRoot.Root.GameHUD.UpdateLives()
+
+func DisplayHUD():
+	RehabSceneRoot.Root.GameHUD.UpdateWumpa()
 	RehabSceneRoot.Root.GameHUD.UpdateLives()

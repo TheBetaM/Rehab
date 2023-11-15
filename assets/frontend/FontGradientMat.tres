@@ -3,7 +3,7 @@
 [ext_resource type="Shader" path="res://shaders/FontGradient.gdshader" id="1_asj53"]
 
 [sub_resource type="Gradient" id="Gradient_6e6ww"]
-colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0, 1)
+colors = PackedColorArray(0, 0.501961, 1, 1, 0, 0.501961, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_fmcm4"]
 gradient = SubResource("Gradient_6e6ww")

@@ -187,6 +187,9 @@ func ExitLevel():
 	GameHUD.Clear()
 	StartLevelSelect()
 	AudioAmbience.stop()
+	ActiveAmbience = ""
+	AudioMusic.stop()
+	ActiveMusic = ""
 	$LevelSelect.ResetMenu()
 
 func StartLevelSelect():
@@ -195,6 +198,7 @@ func StartLevelSelect():
 
 func StartPauseMenu():
 	process_mode = Node.PROCESS_MODE_DISABLED
+	GameHUD.ForceAnimOut()
 	GameMenu.Start_PauseMenu()
 
 var MusicPaths : Dictionary = {
