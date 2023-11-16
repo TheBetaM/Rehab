@@ -274,7 +274,7 @@ func PlayMusic(id : int):
 		return
 	var path = ""
 	if (MusicPaths.has(id)):
-		path = RehabGame.AssetsPath + "Sounds/Music/" + MusicPaths[id] + ".tres"
+		path = RehabGame.AssetsPath + "Sounds/Music/" + MusicPaths[id] + ".res"
 	if (path == "" or !ResourceLoader.exists(path)):
 		return
 	if (ActiveMusic == path):
@@ -287,6 +287,7 @@ func PlayMusic(id : int):
 	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 		await get_tree().process_frame
 	if ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_LOADED:
+		volumeTween.stop()
 		var loadedTrack = ResourceLoader.load_threaded_get(path)
 		AudioMusic.stream = loadedTrack
 		AudioMusic.volume_db = 0.0
@@ -298,7 +299,7 @@ func PlayAmbience(id: int):
 		return
 	var path = ""
 	if (MusicPaths.has(id)):
-		path = RehabGame.AssetsPath + "Sounds/Music/" + MusicPaths[id] + ".tres"
+		path = RehabGame.AssetsPath + "Sounds/Music/" + MusicPaths[id] + ".res"
 	if (path == "" or !ResourceLoader.exists(path)):
 		return
 	if (ActiveAmbience == path):
