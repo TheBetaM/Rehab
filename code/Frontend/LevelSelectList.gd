@@ -8,24 +8,16 @@ var SelectedItem = 0
 var ItemCount = 0
 var Cooldown = 0.0
 var VideoDone = false
-var FE_CLICK = RehabGame.AssetsPath + "Sounds/FE_CLICK.tres"
-var FE_BACK = RehabGame.AssetsPath + "Sounds/FE_BACK.tres"
-var FE_SELECT = RehabGame.AssetsPath + "Sounds/FE_SELECT.tres"
+var FE_CLICK = RehabGame.AssetsPath + "Sounds/FE_CLICK.res"
+var FE_BACK = RehabGame.AssetsPath + "Sounds/FE_BACK.res"
+var FE_SELECT = RehabGame.AssetsPath + "Sounds/FE_SELECT.res"
 var MovieTest = RehabGame.AssetsPath + "Movies/ttident.ogv"
 
 func _ready():
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
 	
-	#var success = ProjectSettings.load_resource_pack("res://test.zip")
-	#if (success):
-		#print("pack loaded")
-	#else:
-		#print("pack failed")
-	
-	#if (!DirAccess.dir_exists_absolute(RehabGame.AssetsPath + "Levels/")):
-		#printerr("No Levels directory found!")
-		#$TitleLabel.text = "#FE-Explorer-ImportNotFound"
-		#return
-		
 	var dir = DirAccess.open(RehabGame.AssetsPath + "Levels/");
 	if dir:
 		dir.list_dir_begin()
@@ -48,7 +40,7 @@ func _ready():
 			await get_tree().process_frame
 			RehabSceneRoot.Root.PlayMusic(27)
 	else:
-		print("An error occurred when trying to access the path.")
+		print("[LEVEL SELECT] Cannot open " + RehabGame.AssetsPath + "Levels/")
 		$TitleLabel.text = "#FE-Explorer-ImportNotFound"
 
 

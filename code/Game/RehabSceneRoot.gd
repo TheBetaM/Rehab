@@ -32,10 +32,37 @@ func _ready():
 	GameMenu = $FE_Menu
 	AudioMusic = $AudioMusic
 	AudioAmbience = $AudioAmb
+	LoadPacks()
 	if (Game.Dev):
 		StartLevelSelect()
 	else:
 		StartLevelSelect()
+
+func LoadPacks():
+	var PacksPathSplit = OS.get_executable_path().split("/")
+	var PacksPath = ""
+	var PathID = 0
+	for i in PacksPathSplit:
+		PathID += 1
+		if (PathID < PacksPathSplit.size()):
+			PacksPath += i
+			PacksPath += "/"
+	PacksPath += "Packs/"
+	#print(PacksPath)
+	if (!DirAccess.dir_exists_absolute(PacksPath)):
+		printerr("[ROOT] Packs directory not found at " + PacksPath)
+		return
+	
+	var pdir = DirAccess.open(PacksPath)
+	if (pdir):
+		for i in pdir.get_files():
+			var success = ProjectSettings.load_resource_pack(PacksPath + i)
+			if (success):
+				print("[ROOT] Pack loaded from " + i)
+			else:
+				printerr("[ROOT] Pack FAILED from " + i)
+	else:
+		print("[ROOT] Packs directory failed to open!")
 
 func LoadScene(path : String):
 	UnloadAllChunks()
@@ -77,7 +104,7 @@ func LoadScene(path : String):
 		$Loading.visible = false
 		$Loading.process_mode = Node.PROCESS_MODE_DISABLED
 		await get_tree().create_timer(3.5).timeout
-		if (AgentCharacter.activeCharacter == null):
+		if (AgentCharacter.activeCharacter == null and !$LevelSelect.visible and !$Loading.visible):
 			printerr("[ROOT] LEVEL LOADED WITH NO CHARACTER")
 			ExitLevel()
 	else:
