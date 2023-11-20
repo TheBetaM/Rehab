@@ -28,8 +28,8 @@ func _init():
 func _ready():
 	PlayerCam = $PlayerCam
 	FreeLookCam = $FreeLookCam
-	GameHUD = $FE_HUD
-	GameMenu = $FE_Menu
+	GameHUD = $FE/FE_HUD
+	GameMenu = $FE/FE_Menu
 	AudioMusic = $AudioMusic
 	AudioAmbience = $AudioAmb
 	LoadPacks()
@@ -70,8 +70,8 @@ func LoadScene(path : String):
 	PlayerCam.FullReset()
 	FreeLookCam.FullReset()
 	GameHUD.Clear()
-	$Loading.AnimIn()
-	$Loading.process_mode = Node.PROCESS_MODE_INHERIT
+	$FE/Loading.AnimIn()
+	$FE/Loading.process_mode = Node.PROCESS_MODE_INHERIT
 	ResourceLoader.load_threaded_request(path)
 	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 		await get_tree().process_frame
@@ -99,12 +99,12 @@ func LoadScene(path : String):
 		await get_tree().create_timer(1.0).timeout
 		loadedScene.process_mode = Node.PROCESS_MODE_INHERIT
 		loadedScene.OnChunkEnter()
-		$Loading.AnimOut()
+		$FE/Loading.AnimOut()
 		await get_tree().create_timer(0.5).timeout
-		$Loading.visible = false
-		$Loading.process_mode = Node.PROCESS_MODE_DISABLED
+		$FE/Loading.visible = false
+		$FE/Loading.process_mode = Node.PROCESS_MODE_DISABLED
 		await get_tree().create_timer(3.5).timeout
-		if (AgentCharacter.activeCharacter == null and !$LevelSelect.visible and !$Loading.visible):
+		if (AgentCharacter.activeCharacter == null and !$FE/LevelSelect.visible and !$FE/Loading.visible):
 			printerr("[ROOT] LEVEL LOADED WITH NO CHARACTER")
 			ExitLevel()
 	else:
@@ -217,11 +217,11 @@ func ExitLevel():
 	ActiveAmbience = ""
 	AudioMusic.stop()
 	ActiveMusic = ""
-	$LevelSelect.ResetMenu()
+	$FE/LevelSelect.ResetMenu()
 
 func StartLevelSelect():
-	$LevelSelect.visible = true
-	$LevelSelect.process_mode = Node.PROCESS_MODE_INHERIT
+	$FE/LevelSelect.visible = true
+	$FE/LevelSelect.process_mode = Node.PROCESS_MODE_INHERIT
 
 func StartPauseMenu():
 	process_mode = Node.PROCESS_MODE_DISABLED
@@ -237,7 +237,7 @@ var MusicPaths : Dictionary = {
 	27 : "1_1_Nsanity_Island",
 	28 : "1_2_Cavern_Catastrophe",
 	29 : "1_3_Totem_Hokem",
-	30 : "1_4_Mechabandicoo",
+	30 : "1_4_Mechabandicoot",
 	31 : "1_5_River_Boat_section",
 	32 : "1_6_Totem_God_Boss_Fight",
 	33 : "2_1_Ice_Lab_MT",
@@ -344,3 +344,8 @@ func PlayAmbience(id: int):
 		AudioAmbience.volume_db = 0.0
 		AudioAmbience.play()
 	AmbienceIsChanging = false
+
+func PlayCredits():
+	AudioMusic.process_mode = Node.PROCESS_MODE_ALWAYS
+	process_mode = Node.PROCESS_MODE_DISABLED
+	$FE/FE_Credits.StartCredits()

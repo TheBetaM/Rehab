@@ -24,12 +24,8 @@ func _ready():
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if (ResourceLoader.exists(WumpaIconPath)):
-		#var iconTex = ImageTexture.new()
-		#iconTex.image = load(WumpaIconPath)
 		WumpaIcon.texture = load(WumpaIconPath)
 	if (ResourceLoader.exists(LivesIconPaths[0])):
-		#var iconTex = ImageTexture.new()
-		#iconTex.image = load(LivesIconPaths[0])
 		LivesIcon.texture = load(LivesIconPaths[0])
 
 func _process(delta):
@@ -83,8 +79,6 @@ func UpdateLives():
 		if (AgentCharacter.activeCharacter != null):
 			iconID = AgentCharacter.activeCharacter.RegInt[0]
 		if (ResourceLoader.exists(LivesIconPaths[iconID])):
-			#var iconTex = ImageTexture.new()
-			#iconTex.image = load(LivesIconPaths[iconID])
 			LivesIcon.texture = load(LivesIconPaths[iconID])
 	LivesHolder.position.x = size.x - 20.0
 	LivesHolder.visible = true

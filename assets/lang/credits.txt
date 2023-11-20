@@ -1,4 +1,5 @@
-Project Rehab by Team Nitro
+Project Rehab
+Explorer Tech Demo
 
 Lead Developer, Programming, Design
 BetaM
