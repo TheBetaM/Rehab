@@ -1,6 +1,7 @@
 extends Node3D
 class_name RehabSceneRoot
 
+@export var DefaultEnv : Environment
 var ActiveChunk : ChunkScene
 var Skydome : Node3D
 var SkydomePath : String
@@ -12,6 +13,7 @@ static var GameHUD : Control
 static var GameMenu : Control
 static var AudioMusic : AudioStreamPlayer
 static var AudioAmbience : AudioStreamPlayer
+static var AudioMenu : AudioStreamPlayer
 var Chunks : Array[ChunkScene]
 var ChunkNames : Array[StringName]
 var ChunkLayers : Array[int]
@@ -21,6 +23,9 @@ var ActiveMusic : String
 var MusicIsChanging : bool
 var ActiveAmbience : String
 var AmbienceIsChanging : bool
+var SoundFE_Back : AudioStream
+var SoundFE_Click : AudioStream
+var SoundFE_Select : AudioStream
 
 func _init():
 	Root = self
@@ -30,13 +35,39 @@ func _ready():
 	FreeLookCam = $FreeLookCam
 	GameHUD = $FE/FE_HUD
 	GameMenu = $FE/FE_Menu
-	AudioMusic = $AudioMusic
-	AudioAmbience = $AudioAmb
+	AudioMusic = $Audio/AudioMusic
+	AudioAmbience = $Audio/AudioAmb
+	AudioMenu = $Audio/AudioMenu
+	$WorldEnv.environment = DefaultEnv
+	GameInit()
+
+func GameInit():
+	await get_tree().process_frame
 	LoadPacks()
-	if (Game.Dev):
-		StartLevelSelect()
+	await get_tree().process_frame
+	
+	if (ResourceLoader.exists(RehabGame.AssetsPath + "Sounds/Menu/FE_BACK.res")): SoundFE_Back = load(RehabGame.AssetsPath + "Sounds/Menu/FE_BACK.res")
+	if (ResourceLoader.exists(RehabGame.AssetsPath + "Sounds/Menu/FE_CLICK.res")): SoundFE_Click = load(RehabGame.AssetsPath + "Sounds/Menu/FE_CLICK.res")
+	if (ResourceLoader.exists(RehabGame.AssetsPath + "Sounds/Menu/FE_SELECT.res")): SoundFE_Select = load(RehabGame.AssetsPath + "Sounds/Menu/FE_SELECT.res")
+	
+	var dir = DirAccess.open(RehabGame.AssetsPath + "Levels/");
+	if dir:
+		$FE/LevelSelect.Generate()
+		if (Game.Dev):
+			StartLevelSelect()
+		else:
+			StartMessage("#FE-Explorer-Disclaimer-" + str(randi_range(0, 10)))
+			await get_tree().create_timer(0.5).timeout
+			while (GameMenu.visible):
+				await get_tree().process_frame
+			StartLevelSelect()
 	else:
-		StartLevelSelect()
+		print("[ROOT] Cannot open " + RehabGame.AssetsPath + "Levels/")
+		StartMessage("#FE-NoGameData")
+		await get_tree().create_timer(0.5).timeout
+		while (GameMenu.visible):
+			await get_tree().process_frame
+		get_tree().quit()
 
 func LoadPacks():
 	var PacksPathSplit = OS.get_executable_path().split("/")
@@ -48,10 +79,9 @@ func LoadPacks():
 			PacksPath += i
 			PacksPath += "/"
 	PacksPath += "Packs/"
-	#print(PacksPath)
+	
 	if (!DirAccess.dir_exists_absolute(PacksPath)):
-		printerr("[ROOT] Packs directory not found at " + PacksPath)
-		return
+		DirAccess.make_dir_absolute(PacksPath)
 	
 	var pdir = DirAccess.open(PacksPath)
 	if (pdir):
@@ -217,16 +247,21 @@ func ExitLevel():
 	ActiveAmbience = ""
 	AudioMusic.stop()
 	ActiveMusic = ""
+	$WorldEnv.environment = DefaultEnv
 	$FE/LevelSelect.ResetMenu()
 
 func StartLevelSelect():
-	$FE/LevelSelect.visible = true
-	$FE/LevelSelect.process_mode = Node.PROCESS_MODE_INHERIT
+	$FE/LevelSelect.Activate()
 
 func StartPauseMenu():
 	process_mode = Node.PROCESS_MODE_DISABLED
 	GameHUD.ForceAnimOut()
 	GameMenu.Start_PauseMenu()
+
+func StartMessage(text : String):
+	process_mode = Node.PROCESS_MODE_DISABLED
+	GameHUD.ForceAnimOut()
+	GameMenu.Start_Message(text)
 
 var MusicPaths : Dictionary = {
 	0 : "undefined",
@@ -349,3 +384,20 @@ func PlayCredits():
 	AudioMusic.process_mode = Node.PROCESS_MODE_ALWAYS
 	process_mode = Node.PROCESS_MODE_DISABLED
 	$FE/FE_Credits.StartCredits()
+
+func PlayMenuSound_Back():
+	if (SoundFE_Back):
+		AudioMenu.stream = SoundFE_Back
+		AudioMenu.play()
+
+func PlayMenuSound_Click():
+	if (SoundFE_Click):
+		AudioMenu.stream = SoundFE_Click
+		AudioMenu.play()
+
+func PlayMenuSound_Select():
+	if (SoundFE_Select):
+		if (AudioMenu.playing and AudioMenu.stream != SoundFE_Select):
+			return
+		AudioMenu.stream = SoundFE_Select
+		AudioMenu.play()

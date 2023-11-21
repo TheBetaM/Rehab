@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dj63qinhimnyd"]
+[gd_scene load_steps=6 format=3 uid="uid://dj63qinhimnyd"]
 
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="1"]
 [ext_resource type="Script" path="res://code/Frontend/LevelSelectList.gd" id="1_axws6"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="2_5qxim"]
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="3_sxwkc"]
+[ext_resource type="PackedScene" uid="uid://do0s11ctvcqp1" path="res://assets/frontend/windows/RehabMenuButton.tscn" id="5_qu4xw"]
 
 [node name="LevelSelect" type="Control"]
 layout_mode = 3
@@ -16,50 +17,84 @@ script = ExtResource("1_axws6")
 LabelTheme = ExtResource("1")
 LabelMaterial = ExtResource("3_sxwkc")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
+[node name="ColorRectBG" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-
-[node name="ColorRect2" type="ColorRect" parent="."]
-layout_mode = 0
-anchor_top = 0.1
-anchor_right = 1.0
-anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(640, 360)
 color = Color(0.223529, 0.588235, 1, 1)
+
+[node name="ColorRectUpper" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1280.0
+offset_right = 1280.0
+offset_bottom = 160.0
+grow_horizontal = 0
+rotation = 0.174533
+pivot_offset = Vector2(1280, 0)
+
+[node name="ColorRectLower" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -640.0
+offset_top = -40.0
+offset_right = 1920.0
+offset_bottom = 120.0
+grow_vertical = 0
+rotation = 0.174533
+pivot_offset = Vector2(1280, 0)
 
 [node name="TitleLabel" parent="." instance=ExtResource("2_5qxim")]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
-offset_bottom = 52.0
-grow_horizontal = 2
+offset_left = -436.0
+offset_bottom = 70.0
+grow_horizontal = 0
+rotation = 0.174533
 text = "#FE-Explorer-Title"
+horizontal_alignment = 2
 
 [node name="TitleLabel2" parent="." instance=ExtResource("2_5qxim")]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -52.0
-grow_horizontal = 2
+offset_left = 20.0
+offset_top = -145.0
+offset_right = 505.0
+offset_bottom = -75.0
 grow_vertical = 0
-text = "#FE-Explorer-Footer"
+rotation = 0.174533
+text = ""
+horizontal_alignment = 0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
-layout_mode = 0
+[node name="AdvList" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.15
 anchor_top = 0.1
 anchor_right = 0.85
 anchor_bottom = 0.87
+offset_top = 43.0
+offset_bottom = -11.4
 grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1")
 follow_focus = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="AdvList"]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
@@ -76,4 +111,292 @@ expand = true
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -13.983
 
+[node name="SimpleList" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -360.0
+offset_right = 100.0
+offset_bottom = 50.0
+grow_vertical = 2
+rotation = 0.174533
+follow_focus = true
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="Control" type="Control" parent="SimpleList"]
+custom_minimum_size = Vector2(2800, 500)
+layout_mode = 2
+
+[node name="Button1" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+layout_mode = 2
+offset_left = 125.0
+offset_top = 125.0
+offset_right = 280.0
+offset_bottom = 154.0
+rotation = -0.174533
+pivot_offset = Vector2(78, 15)
+text = "advanced"
+
+[node name="Button2" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 350.0
+offset_top = 20.0
+offset_right = 606.0
+offset_bottom = 276.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button3" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 200.0
+offset_top = 290.0
+offset_right = 456.0
+offset_bottom = 546.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button4" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 650.0
+offset_top = 20.0
+offset_right = 906.0
+offset_bottom = 276.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button5" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 500.0
+offset_top = 290.0
+offset_right = 756.0
+offset_bottom = 546.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button6" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 950.0
+offset_top = 20.0
+offset_right = 1206.0
+offset_bottom = 276.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button7" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 800.0
+offset_top = 290.0
+offset_right = 1056.0
+offset_bottom = 546.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button8" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 1250.0
+offset_top = 20.0
+offset_right = 1506.0
+offset_bottom = 276.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button9" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 1100.0
+offset_top = 290.0
+offset_right = 1356.0
+offset_bottom = 546.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button10" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 1550.0
+offset_top = 20.0
+offset_right = 1806.0
+offset_bottom = 276.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button11" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 1400.0
+offset_top = 290.0
+offset_right = 1656.0
+offset_bottom = 546.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button12" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 1850.0
+offset_top = 20.0
+offset_right = 2106.0
+offset_bottom = 276.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button13" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 1700.0
+offset_top = 290.0
+offset_right = 1956.0
+offset_bottom = 546.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button14" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 2150.0
+offset_top = 20.0
+offset_right = 2406.0
+offset_bottom = 276.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button15" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 2000.0
+offset_top = 290.0
+offset_right = 2256.0
+offset_bottom = 546.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button16" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 2450.0
+offset_top = 20.0
+offset_right = 2706.0
+offset_bottom = 276.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button17" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+material = null
+layout_mode = 2
+offset_left = 2300.0
+offset_top = 290.0
+offset_right = 2556.0
+offset_bottom = 546.0
+rotation = -0.174533
+pivot_offset = Vector2(128, 128)
+text = ""
+icon_alignment = 1
+expand_icon = true
+
 [connection signal="finished" from="VideoPlayer" to="." method="_on_VideoPlayer_finished"]
+[connection signal="focus_entered" from="SimpleList/Control/Button1" to="." method="Hover_Clear"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button1" to="." method="Hover_Clear"]
+[connection signal="pressed" from="SimpleList/Control/Button1" to="." method="Simple_ToAdvanced"]
+[connection signal="focus_entered" from="SimpleList/Control/Button2" to="." method="Hover_Hub01"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button2" to="." method="Hover_Hub01"]
+[connection signal="pressed" from="SimpleList/Control/Button2" to="." method="Simple_GoHub01"]
+[connection signal="focus_entered" from="SimpleList/Control/Button3" to="." method="Hover_Level01"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button3" to="." method="Hover_Level01"]
+[connection signal="pressed" from="SimpleList/Control/Button3" to="." method="Simple_GoLevel01"]
+[connection signal="focus_entered" from="SimpleList/Control/Button4" to="." method="Hover_Level02"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button4" to="." method="Hover_Level02"]
+[connection signal="pressed" from="SimpleList/Control/Button4" to="." method="Simple_GoLevel02"]
+[connection signal="focus_entered" from="SimpleList/Control/Button5" to="." method="Hover_Level03"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button5" to="." method="Hover_Level03"]
+[connection signal="pressed" from="SimpleList/Control/Button5" to="." method="Simple_GoLevel03"]
+[connection signal="focus_entered" from="SimpleList/Control/Button6" to="." method="Hover_Hub02"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button6" to="." method="Hover_Hub02"]
+[connection signal="pressed" from="SimpleList/Control/Button6" to="." method="Simple_GoHub02"]
+[connection signal="focus_entered" from="SimpleList/Control/Button7" to="." method="Hover_Level04"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button7" to="." method="Hover_Level04"]
+[connection signal="pressed" from="SimpleList/Control/Button7" to="." method="Simple_GoLevel04"]
+[connection signal="focus_entered" from="SimpleList/Control/Button8" to="." method="Hover_Level05"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button8" to="." method="Hover_Level05"]
+[connection signal="pressed" from="SimpleList/Control/Button8" to="." method="Simple_GoLevel05"]
+[connection signal="focus_entered" from="SimpleList/Control/Button9" to="." method="Hover_Level06"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button9" to="." method="Hover_Level06"]
+[connection signal="pressed" from="SimpleList/Control/Button9" to="." method="Simple_GoLevel06"]
+[connection signal="focus_entered" from="SimpleList/Control/Button10" to="." method="Hover_Hub03"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button10" to="." method="Hover_Hub03"]
+[connection signal="pressed" from="SimpleList/Control/Button10" to="." method="Simple_GoHub03"]
+[connection signal="focus_entered" from="SimpleList/Control/Button11" to="." method="Hover_Level07"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button11" to="." method="Hover_Level07"]
+[connection signal="pressed" from="SimpleList/Control/Button11" to="." method="Simple_GoLevel07"]
+[connection signal="focus_entered" from="SimpleList/Control/Button12" to="." method="Hover_Level08"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button12" to="." method="Hover_Level08"]
+[connection signal="pressed" from="SimpleList/Control/Button12" to="." method="Simple_GoLevel08"]
+[connection signal="focus_entered" from="SimpleList/Control/Button13" to="." method="Hover_Level09"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button13" to="." method="Hover_Level09"]
+[connection signal="pressed" from="SimpleList/Control/Button13" to="." method="Simple_GoLevel09"]
+[connection signal="focus_entered" from="SimpleList/Control/Button14" to="." method="Hover_Hub04"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button14" to="." method="Hover_Hub04"]
+[connection signal="pressed" from="SimpleList/Control/Button14" to="." method="Simple_GoHub04"]
+[connection signal="focus_entered" from="SimpleList/Control/Button15" to="." method="Hover_Level10"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button15" to="." method="Hover_Level10"]
+[connection signal="pressed" from="SimpleList/Control/Button15" to="." method="Simple_GoLevel10"]
+[connection signal="focus_entered" from="SimpleList/Control/Button16" to="." method="Hover_Level11"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button16" to="." method="Hover_Level11"]
+[connection signal="pressed" from="SimpleList/Control/Button16" to="." method="Simple_GoLevel11"]
+[connection signal="focus_entered" from="SimpleList/Control/Button17" to="." method="Hover_Level12"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button17" to="." method="Hover_Level12"]
+[connection signal="pressed" from="SimpleList/Control/Button17" to="." method="Simple_GoLevel12"]

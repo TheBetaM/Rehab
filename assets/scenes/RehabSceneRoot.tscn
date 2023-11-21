@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://by5ieljhkskx8"]
+[gd_scene load_steps=11 format=3 uid="uid://by5ieljhkskx8"]
 
 [ext_resource type="Script" path="res://code/Game/RehabSceneRoot.gd" id="1_nokr2"]
 [ext_resource type="PackedScene" uid="uid://dj63qinhimnyd" path="res://assets/frontend/FE_LevelSelect.tscn" id="2_hbkbo"]
@@ -9,10 +9,15 @@
 [ext_resource type="PackedScene" uid="uid://csc3ocq55uwbc" path="res://assets/frontend/FE_Menu.tscn" id="5_j6sms"]
 [ext_resource type="PackedScene" uid="uid://cuo4j5jc63e2f" path="res://assets/frontend/FE_Credits.tscn" id="6_b843s"]
 
+[sub_resource type="Environment" id="Environment_3bekd"]
+background_mode = 1
+
 [sub_resource type="Environment" id="Environment_e4v8o"]
+background_mode = 1
 
 [node name="Root" type="Node3D"]
 script = ExtResource("1_nokr2")
+DefaultEnv = SubResource("Environment_3bekd")
 
 [node name="FE" type="Control" parent="."]
 layout_mode = 3
@@ -48,9 +53,13 @@ layout_mode = 1
 [node name="WorldEnv" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_e4v8o")
 
-[node name="AudioMusic" type="AudioStreamPlayer" parent="."]
+[node name="Audio" type="Node" parent="."]
 
-[node name="AudioAmb" type="AudioStreamPlayer" parent="."]
+[node name="AudioMusic" type="AudioStreamPlayer" parent="Audio"]
+
+[node name="AudioAmb" type="AudioStreamPlayer" parent="Audio"]
+
+[node name="AudioMenu" type="AudioStreamPlayer" parent="Audio"]
 
 [node name="PlayerCam" type="Camera3D" parent="."]
 far = 90000.0

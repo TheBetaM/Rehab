@@ -23,6 +23,8 @@ func _ready():
 	await get_tree().process_frame
 	await get_tree().process_frame
 	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
 	if (ResourceLoader.exists(WumpaIconPath)):
 		WumpaIcon.texture = load(WumpaIconPath)
 	if (ResourceLoader.exists(LivesIconPaths[0])):

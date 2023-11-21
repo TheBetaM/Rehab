@@ -79,12 +79,24 @@
 #FE-LevelName-014,Rockslide Rumble
 #FE-LevelName-015,Bandicoot Pursuit
 #FE-LevelName-016,Ant Agony
-#FE-Explorer-Title,Level Select
+#FE-Explorer-Title,Select Level
 #FE-Explorer-Footer,Project Rehab - Explorer Tech Demo
 #FE-Explorer-ChunkSelect,Individual Chunk
-#FE-Explorer-Disclaimer,This is a tech demo.
 #FE-Explorer-ImportNotFound,Imported assets not found!
 #FE-Explorer-ReturnToTitle,Return To Level Select
+#FE-Explorer-Advanced,Advanced
+#FE-Explorer-Disclaimer-0,"This is a tech demo.\n\nIt benchmarks the visuals\nand install process\nto inform future\ndevelopments."
+#FE-Explorer-Disclaimer-1,"This is a tech demo.\n\nIf you see a bug,\nthat's not in the game.\n\nIt's now behind you."
+#FE-Explorer-Disclaimer-2,"This is a tech demo.\n\nIf you see this,\nthat means it's working.\n\nHopefully."
+#FE-Explorer-Disclaimer-3,"This is a\npeanut butter\nand jelly sandwich.\n\nIt has all the ingredients\nto make you happy."
+#FE-Explorer-Disclaimer-4,"This is a video game.\n\nYou press buttons on\nyour controller.\n\nWhich you should use."
+#FE-Explorer-Disclaimer-5,"This is a demo.\n\nA demo demonstrates\nwhat the demo can do.\n"
+#FE-Explorer-Disclaimer-6,"This is a tech demo.\n\nMuch like the duck test,\nthe best way\nto gauge accuracy."
+#FE-Explorer-Disclaimer-7,"This is a tech demo.\n\nNot a regular demo, no.\n\nWe're testing\ntechnology here!"
+#FE-Explorer-Disclaimer-8,"This is a tech demo.\n\nHas anyone seen\nthis mouse?\n\nPure white, pointy,\nclicks everywhere."
+#FE-Explorer-Disclaimer-9,"This is a game.\n\nOr at least,\nit will be one day.\n\nFor now, this demo\nshall suffice."
+#FE-Explorer-Disclaimer-10,"This is a tech demo.\n\nYou cannot complete it.\n\nJust enjoy it.\n\nLike coffee."
 #FE-ToggleFullScreen,Toggle Full Screen
 #FE-GlobalVolume,Global Volume
 #FE-VoiceVolume,Voice Volume
+#FE-NoGameData,No game data installed.\nMake sure the data pack\nis in the Packs folder.
