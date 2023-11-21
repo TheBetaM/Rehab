@@ -1,0 +1,57 @@
+extends Control
+
+@onready var Root3D : Node3D = $ViewHolder/SubViewportContainer/SubViewport/FE_ROOT
+var ActorPath = "res://assets/frontend/dynamic/FE_Actors.tscn"
+var ActorsExist : bool = false
+var ActorScene : PackedScene
+var ActorNode : Node3D
+var AudioPath = RehabGame.AssetsPath + "Sounds/VO/Cortex_Panic_08.res"
+
+func _ready():
+	if (ResourceLoader.exists(RehabGame.AssetsPath + "Rigs/Rig_Crash.tscn")):
+		ActorsExist = true
+		ActorScene = ResourceLoader.load(ActorPath)
+		ActorNode = ActorScene.instantiate()
+		Root3D.add_child(ActorNode)
+
+func StartAnim():
+	$AnimationPlayer.play("menu_start")
+	if (ActorsExist):
+		ActorNode.get_node("AnimationPlayer").play("scene/menu_start")
+		if (ResourceLoader.exists(AudioPath)):
+			$AudioStreamPlayer.stream = load(AudioPath)
+			$AudioStreamPlayer.play()
+
+func Activate():
+	$Button1.visible = false
+	$Button2.visible = false
+	$Button3.visible = false
+	$Button4.visible = false
+	$AnimationPlayer.play("RESET")
+	if (ActorsExist):
+		ActorNode.get_node("AnimationPlayer").play("RESET")
+	process_mode = Node.PROCESS_MODE_INHERIT
+	await get_tree().process_frame
+	visible = true
+	StartAnim()
+	RehabSceneRoot.Root.PlayMusic(54)
+	await get_tree().create_timer(1.8).timeout
+	$Button1.grab_focus()
+	$Button1.visible = true
+	$Button2.visible = true
+	$Button3.visible = true
+	$Button4.visible = true
+
+func Go_LevelSelect():
+	process_mode = Node.PROCESS_MODE_DISABLED
+	visible = false
+	RehabSceneRoot.Root.StartLevelSelect()
+
+func Go_Options():
+	RehabSceneRoot.Root.StartPauseMenu(true)
+
+func Go_Credits():
+	RehabSceneRoot.Root.PlayCredits()
+
+func Go_QuitGame():
+	get_tree().quit()

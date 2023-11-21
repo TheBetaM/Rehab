@@ -60,7 +60,7 @@ func GameInit():
 			await get_tree().create_timer(0.5).timeout
 			while (GameMenu.visible):
 				await get_tree().process_frame
-			StartLevelSelect()
+			StartMainMenu()
 	else:
 		print("[ROOT] Cannot open " + RehabGame.AssetsPath + "Levels/")
 		StartMessage("#FE-NoGameData")
@@ -134,9 +134,9 @@ func LoadScene(path : String):
 		$FE/Loading.visible = false
 		$FE/Loading.process_mode = Node.PROCESS_MODE_DISABLED
 		await get_tree().create_timer(3.5).timeout
-		if (AgentCharacter.activeCharacter == null and !$FE/LevelSelect.visible and !$FE/Loading.visible):
+		if (AgentCharacter.activeCharacter == null and !$FE/LevelSelect.visible and !$FE/Loading.visible and !$FE/FE_MainMenuDynamic.visible and !$FE/FE_Credits.visible):
 			printerr("[ROOT] LEVEL LOADED WITH NO CHARACTER")
-			ExitLevel()
+			ExitLevel(false)
 	else:
 		printerr("[ROOT] FAILED TO LOAD SCENE AT " + path)
 
@@ -239,24 +239,30 @@ func UnloadAllChunks():
 		Skydome.queue_free()
 	SkydomePath = ""
 
-func ExitLevel():
+func ExitLevel(toMain : bool):
 	UnloadAllChunks()
 	GameHUD.Clear()
-	StartLevelSelect()
 	AudioAmbience.stop()
 	ActiveAmbience = ""
 	AudioMusic.stop()
 	ActiveMusic = ""
 	$WorldEnv.environment = DefaultEnv
-	$FE/LevelSelect.ResetMenu()
+	if (!toMain):
+		StartLevelSelect()
+		$FE/LevelSelect.ResetMenu()
+	else:
+		StartMainMenu()
 
 func StartLevelSelect():
 	$FE/LevelSelect.Activate()
 
-func StartPauseMenu():
+func StartMainMenu():
+	$FE/FE_MainMenuDynamic.Activate()
+
+func StartPauseMenu(optionsOnly : bool):
 	process_mode = Node.PROCESS_MODE_DISABLED
 	GameHUD.ForceAnimOut()
-	GameMenu.Start_PauseMenu()
+	GameMenu.Start_PauseMenu(optionsOnly)
 
 func StartMessage(text : String):
 	process_mode = Node.PROCESS_MODE_DISABLED
@@ -344,12 +350,13 @@ func PlayMusic(id : int):
 	MusicIsChanging = true
 	ActiveMusic = path
 	ResourceLoader.load_threaded_request(path)
-	var volumeTween = create_tween()
-	volumeTween.tween_property(AudioMusic, "volume_db", -30.0, 2.0)
 	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 		await get_tree().process_frame
 	if ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_LOADED:
-		volumeTween.stop()
+		#if (AudioMusic.playing):
+		#	var volumeTween = create_tween()
+		#	volumeTween.tween_property(AudioMusic, "volume_db", -30.0, 2.0)
+		#	await get_tree().create_timer(2.0).timeout
 		var loadedTrack = ResourceLoader.load_threaded_get(path)
 		AudioMusic.stream = loadedTrack
 		AudioMusic.volume_db = 0.0

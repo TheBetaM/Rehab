@@ -89,20 +89,20 @@ func Activate():
 	$TitleLabel.position.y = -140.0
 	var rectUpperTextTween = create_tween()
 	rectUpperTextTween.tween_property($TitleLabel, "position:y", 0.0, 0.5).set_trans(Tween.TRANS_CIRC).set_delay(0.5)
-	$TitleLabel2.position.y = 725.0
+	var rootHeight = get_parent().size.y
+	$TitleLabel2.position.y = rootHeight + 5.0 #725.0 / 575.0
 	var rectLowerTextTween = create_tween()
-	rectLowerTextTween.tween_property($TitleLabel2, "position:y", 575.0, 0.5).set_trans(Tween.TRANS_CIRC).set_delay(0.5)
-	$ColorRectLower.position.y = 840.0
+	rectLowerTextTween.tween_property($TitleLabel2, "position:y", rootHeight - 145.0, 0.5).set_trans(Tween.TRANS_CIRC).set_delay(0.5)
+	$ColorRectLower.position.y = rootHeight + 120.0 #840.0 / 680.0
 	var rectLowerTween = create_tween()
-	rectLowerTween.tween_property($ColorRectLower, "position:y", 680.0, 0.5).set_trans(Tween.TRANS_CIRC).set_delay(0.5)
+	rectLowerTween.tween_property($ColorRectLower, "position:y", rootHeight - 40.0, 0.5).set_trans(Tween.TRANS_CIRC).set_delay(0.5)
 	RehabSceneRoot.Root.PlayMenuSound_Back()
 	visible = true
 	process_mode = Node.PROCESS_MODE_INHERIT
 	await get_tree().create_timer(1.0).timeout
 	$SimpleList.visible = true
 	$SimpleList/Control/Button2.grab_focus()
-	if (!RehabSceneRoot.Root.AudioMusic.playing):
-		RehabSceneRoot.Root.PlayMusic(60)
+	RehabSceneRoot.Root.PlayMusic(60)
 
 func SetTexture(button : Button, path : String, backup : String):
 	if (ResourceLoader.exists(path)):

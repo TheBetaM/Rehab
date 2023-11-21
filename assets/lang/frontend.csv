@@ -83,7 +83,8 @@
 #FE-Explorer-Footer,Project Rehab - Explorer Tech Demo
 #FE-Explorer-ChunkSelect,Individual Chunk
 #FE-Explorer-ImportNotFound,Imported assets not found!
-#FE-Explorer-ReturnToTitle,Return To Level Select
+#FE-Explorer-ReturnToLevelSelect,Return To Level Select
+#FE-Explorer-ReturnToMainMenu,Return To Main Menu
 #FE-Explorer-Advanced,Advanced
 #FE-Explorer-Disclaimer-0,"This is a tech demo.\n\nIt benchmarks the visuals\nand install process\nto inform future\ndevelopments."
 #FE-Explorer-Disclaimer-1,"This is a tech demo.\n\nIf you see a bug,\nthat's not in the game.\n\nIt's now behind you."

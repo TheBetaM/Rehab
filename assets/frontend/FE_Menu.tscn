@@ -347,7 +347,11 @@ text = "#FE-Options"
 
 [node name="Button2" parent="WindowRound/MenuPauseExplorer" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
-text = "#FE-Explorer-ReturnToTitle"
+text = "#FE-Explorer-ReturnToLevelSelect"
+
+[node name="Button5" parent="WindowRound/MenuPauseExplorer" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-Explorer-ReturnToMainMenu"
 
 [node name="Button3" parent="WindowRound/MenuPauseExplorer" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
@@ -393,5 +397,6 @@ text = "select file to save"
 [connection signal="pressed" from="WindowRound/MenuNotice/Button1" to="." method="Notice_Close"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button1" to="." method="Pause_ToOptions"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button2" to="." method="Pause_ReturnToLevelSelect"]
+[connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button5" to="." method="Pause_ReturnToMainMenu"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button3" to="." method="Pause_QuitGame"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button4" to="." method="Pause_Resume"]

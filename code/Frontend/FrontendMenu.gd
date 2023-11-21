@@ -8,6 +8,7 @@ extends Control
 @onready var FooterHolder : Control = $WindowRound
 var FadeTime = 0.25
 var MenuActive = false
+var OptionsOnly = false
 
 func Full_AnimIn():
 	visible = false
@@ -34,7 +35,8 @@ func Full_AnimOut():
 func AnimOutEnd():
 	visible = false
 
-func Start_PauseMenu():
+func Start_PauseMenu(optOnly : bool):
+	OptionsOnly = optOnly
 	Full_AnimIn()
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	HeaderHolder.visible = true
@@ -45,8 +47,11 @@ func Start_PauseMenu():
 		if (i is VBoxContainer):
 			i.visible = false
 	$WindowRound/MenuPauseExplorer.visible = true
-	$WindowRound/MenuPauseExplorer.get_child($WindowRound/MenuPauseExplorer.get_child_count() - 1).grab_focus()
 	MenuActive = true
+	if (optOnly):
+		Pause_ToOptions()
+	else:
+		$WindowRound/MenuPauseExplorer.get_child($WindowRound/MenuPauseExplorer.get_child_count() - 1).grab_focus()
 
 func Start_Message(text : String):
 	Full_AnimIn()
@@ -80,7 +85,14 @@ func Pause_ReturnToLevelSelect():
 	visible = false
 	RehabSceneRoot.Root.process_mode = Node.PROCESS_MODE_INHERIT
 	process_mode = Node.PROCESS_MODE_INHERIT
-	RehabSceneRoot.Root.ExitLevel()
+	RehabSceneRoot.Root.ExitLevel(false)
+
+func Pause_ReturnToMainMenu():
+	MenuActive = false
+	visible = false
+	RehabSceneRoot.Root.process_mode = Node.PROCESS_MODE_INHERIT
+	process_mode = Node.PROCESS_MODE_INHERIT
+	RehabSceneRoot.Root.ExitLevel(true)
 
 func Pause_ToOptions():
 	HeaderLabel.text = "#FE-Options"
@@ -108,8 +120,12 @@ func OptionsMain_ToSound():
 	$WindowMainRound/MenuOptionsSound.get_child(0).grab_focus()
 
 func OptionsMain_ToPause():
-	HeaderLabel.text = "#FE-Paused"
 	$WindowMainRound/MenuOptionsMain.visible = false
+	if (OptionsOnly):
+		Pause_Resume()
+		RehabSceneRoot.Root.get_node("FE/FE_MainMenuDynamic/Button2").grab_focus()
+		return;
+	HeaderLabel.text = "#FE-Paused"
 	$WindowRound.visible = true
 	$WindowRound/MenuPauseExplorer.visible = true
 	$WindowRound/MenuPauseExplorer.get_child(0).grab_focus()
@@ -134,7 +150,7 @@ func OptionsSound_ToMain():
 
 func OptionsGraphics_ToggleFullscreen():
 	if (DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED):
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 

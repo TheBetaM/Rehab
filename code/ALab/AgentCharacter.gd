@@ -170,7 +170,7 @@ func _physics_process(delta):
 	if (activeCharacter != self):
 		return
 	if Input.is_action_pressed("pad1_start"):
-		RehabSceneRoot.Root.StartPauseMenu()
+		RehabSceneRoot.Root.StartPauseMenu(false)
 		return
 	
 	UpdateMovement(delta)
