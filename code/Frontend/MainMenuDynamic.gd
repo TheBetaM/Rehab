@@ -6,10 +6,23 @@ var ActorsExist : bool = false
 var ActorScene : PackedScene
 var ActorNode : Node3D
 var AudioPath = RehabGame.AssetsPath + "Sounds/VO/Cortex_Panic_08.res"
+var RequiredAssets = [
+	RehabGame.AssetsPath + "Rigs/Rig_Crash.tscn",
+	RehabGame.AssetsPath + "Rigs/Rig_Cortex.tscn",
+	RehabGame.AssetsPath + "Rigs/RigRESET_Crash.tres",
+	RehabGame.AssetsPath + "Rigs/RigRESET_Cortex.tres",
+	RehabGame.AssetsPath + "Animations/Crash_SkateKickflip.res",
+	RehabGame.AssetsPath + "Animations/Cortex_SkateFall.res",
+]
 
 func _ready():
-	if (ResourceLoader.exists(RehabGame.AssetsPath + "Rigs/Rig_Crash.tscn")):
-		ActorsExist = true
+	ActorsExist = true
+	for i in RequiredAssets:
+		if (!ResourceLoader.exists(i)):
+			ActorsExist = false
+			break;
+	
+	if (ActorsExist):
 		ActorScene = ResourceLoader.load(ActorPath)
 		ActorNode = ActorScene.instantiate()
 		Root3D.add_child(ActorNode)
@@ -44,8 +57,9 @@ func Activate():
 
 func Go_LevelSelect():
 	process_mode = Node.PROCESS_MODE_DISABLED
-	visible = false
 	RehabSceneRoot.Root.StartLevelSelect()
+	await get_tree().create_timer(0.5).timeout
+	visible = false
 
 func Go_Options():
 	RehabSceneRoot.Root.StartPauseMenu(true)

@@ -103,6 +103,7 @@ var FS_Wood_1 : AudioStream
 var FS_Wood_2 : AudioStream
 var FS_Tile_1 : AudioStream
 var FS_Tile_2 : AudioStream
+var FS_Slippy : AudioStream
 
 static var activeCharacter : Agent
 static var ActiveActorTypes : Dictionary #int type : Agent character
@@ -152,6 +153,7 @@ func _ready():
 	FS_Wood_2 = load(RehabGame.AssetsPath + "Sounds/Surface/fs_wood_2.res")
 	FS_Tile_1 = load(RehabGame.AssetsPath + "Sounds/Surface/L09_Cortex_boots_tile_2.res")
 	FS_Tile_2 = load(RehabGame.AssetsPath + "Sounds/Surface/L09_Cortex_boots_tile_7.res")
+	FS_Slippy = load(RehabGame.AssetsPath + "Sounds/L03_TotemHokum/L03_Tribesmn_fs.res")
 
 func _exit_tree():
 	if (isReparenting):
@@ -165,7 +167,7 @@ func _exit_tree():
 
 func _physics_process(delta):
 	ActiveActorTypes[RegInt[CharISlot.AgentType]] = get_path()
-	if (physBody == null || physBody.process_mode == PROCESS_MODE_DISABLED):
+	if (physBody == null || physBody.process_mode == PROCESS_MODE_DISABLED || process_mode == PROCESS_MODE_DISABLED):
 		return
 	if (activeCharacter != self):
 		return
@@ -294,7 +296,7 @@ func UpdateFootStep(delta):
 		var result = space_state.intersect_ray(query)
 		if (result.has("collider") and result["collider"] is StaticBody3D):
 			match result["collider"].get_parent().name:
-				"Default", "Normal_Rock", "Slippy_Rock", "Ice", "Ice_LowSlippy":
+				"Normal_Rock":
 					clip1 = FS_Stone_1
 					clip2 = FS_Stone_2
 				"Normal_Grass":
@@ -306,10 +308,10 @@ func UpdateFootStep(delta):
 				"Normal_Wood":
 					clip1 = FS_Wood_1
 					clip2 = FS_Wood_2
-				"Normal_Sand", "Normal_Snow", "Sticky_Snow":
+				"Normal_Sand", "Normal_Snow":
 					clip1 = FS_Sand_1
 					clip2 = FS_Sand_2
-				"Normal_Mud":
+				"Default", "Normal_Mud", "Generic_MediumSlippy", "Lava", "Slippy_Rock", "Sticky_Snow", "Ice", "Ice_LowSlippy", "Generic_MediumSlippy_RigidOnly":
 					clip1 = FS_Dirt_1
 					clip2 = FS_Dirt_2
 				"Normal_Water":
@@ -318,6 +320,9 @@ func UpdateFootStep(delta):
 				"Normal_StoneTiles":
 					clip1 = FS_Tile_1
 					clip2 = FS_Tile_2
+				"Generic_SlightlySlippy", "HackRail":
+					clip1 = FS_Slippy
+					clip2 = FS_Slippy
 				_:
 					clip1 = FS_Stone_1
 					clip2 = FS_Stone_2

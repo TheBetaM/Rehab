@@ -1,6 +1,6 @@
 class_name RehabGame
 
-var Dev : bool = true # development mode flag
+var Dev : bool = false # development mode flag
 var ChunkData : Dictionary # string ChunkName : list of persistent flags of instances
 var Progress : int = 0
 var Lives : int = 4

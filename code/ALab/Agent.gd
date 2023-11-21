@@ -56,6 +56,7 @@ enum SSlot {
 
 func _ready():
 	AudioSource = $AudioStreamPlayer3D
+	AudioSource.bus = &"SFX"
 	if (get_node_or_null("Children")):
 		for i in $Children.get_children():
 			if (i is Agent):

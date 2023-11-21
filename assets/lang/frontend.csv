@@ -101,3 +101,13 @@
 #FE-GlobalVolume,Global Volume
 #FE-VoiceVolume,Voice Volume
 #FE-NoGameData,No game data installed.\nMake sure the data pack\nis in the Packs folder.
+#FE-MSAA-Off,MSAA: OFF
+#FE-MSAA-2x,MSAA: 2x
+#FE-MSAA-4x,MSAA: 4x
+#FE-MSAA-8x,MSAA: 8x
+#FE-FXAA-Off,FXAA: OFF
+#FE-FXAA-On,FXAA: ON
+#FE-VSync-Off,VSync: OFF
+#FE-VSync-On,VSync: ON
+#FE-VSync-Adaptive,VSync: Adaptive
+#FE-VSync-Fast,VSync: Fast

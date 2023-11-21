@@ -29,3 +29,4 @@ func EndFocus():
 
 func OnPress():
 	RehabSceneRoot.Root.PlayMenuSound_Click()
+

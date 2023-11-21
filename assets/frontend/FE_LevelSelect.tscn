@@ -53,20 +53,20 @@ rotation = 0.174533
 pivot_offset = Vector2(1280, 0)
 
 [node name="TitleLabel" parent="." instance=ExtResource("2_5qxim")]
-custom_minimum_size = Vector2(0, 70)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -436.0
-offset_bottom = 70.0
+offset_bottom = 40.0
 grow_horizontal = 0
 rotation = 0.174533
 text = "#FE-Explorer-Title"
 horizontal_alignment = 2
 
 [node name="TitleLabel2" parent="." instance=ExtResource("2_5qxim")]
-custom_minimum_size = Vector2(0, 70)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -74,7 +74,7 @@ anchor_bottom = 1.0
 offset_left = 20.0
 offset_top = -145.0
 offset_right = 505.0
-offset_bottom = -75.0
+offset_bottom = -105.0
 grow_vertical = 0
 rotation = 0.174533
 text = ""
@@ -117,9 +117,9 @@ anchors_preset = -1
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -360.0
+offset_top = -405.0
 offset_right = 100.0
-offset_bottom = 50.0
+offset_bottom = 185.0
 grow_vertical = 2
 rotation = 0.174533
 follow_focus = true

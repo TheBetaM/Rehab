@@ -14,6 +14,7 @@ static var GameMenu : Control
 static var AudioMusic : AudioStreamPlayer
 static var AudioAmbience : AudioStreamPlayer
 static var AudioMenu : AudioStreamPlayer
+static var AudioVoice : AudioStreamPlayer
 var Chunks : Array[ChunkScene]
 var ChunkNames : Array[StringName]
 var ChunkLayers : Array[int]

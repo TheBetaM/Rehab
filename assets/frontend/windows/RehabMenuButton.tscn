@@ -1,13 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://do0s11ctvcqp1"]
+[gd_scene load_steps=7 format=3 uid="uid://do0s11ctvcqp1"]
 
-[ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="1_xqm82"]
+[ext_resource type="Shader" path="res://shaders/FontGradient.gdshader" id="1_881wj"]
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="2_6vesv"]
 [ext_resource type="Script" path="res://code/Frontend/RehabMenuButton.gd" id="3_txwtx"]
 
+[sub_resource type="Gradient" id="Gradient_6e6ww"]
+colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fmcm4"]
+gradient = SubResource("Gradient_6e6ww")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pbrsb"]
+shader = ExtResource("1_881wj")
+shader_parameter/gradient_offset = 20.0
+shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
+
 [node name="Button1" type="Button"]
-material = ExtResource("1_xqm82")
+material = SubResource("ShaderMaterial_pbrsb")
 offset_right = 50.0
-offset_bottom = 41.0
+offset_bottom = 40.0
 pivot_offset = Vector2(25, 20)
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_6vesv")

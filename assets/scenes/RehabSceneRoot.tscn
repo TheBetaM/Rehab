@@ -62,10 +62,16 @@ environment = SubResource("Environment_e4v8o")
 [node name="Audio" type="Node" parent="."]
 
 [node name="AudioMusic" type="AudioStreamPlayer" parent="Audio"]
+bus = &"Music"
 
 [node name="AudioAmb" type="AudioStreamPlayer" parent="Audio"]
+bus = &"Ambience"
 
 [node name="AudioMenu" type="AudioStreamPlayer" parent="Audio"]
+bus = &"SFX"
+
+[node name="AudioVoice" type="AudioStreamPlayer" parent="Audio"]
+bus = &"Voice"
 
 [node name="PlayerCam" type="Camera3D" parent="."]
 far = 90000.0

@@ -72,6 +72,10 @@ func _process(delta):
 	if (Cooldown > 0.0):
 		Cooldown = Cooldown - delta
 		return
+	if Input.is_action_just_pressed("ui_cancel"):
+		visible = false
+		process_mode = Node.PROCESS_MODE_DISABLED
+		RehabSceneRoot.Root.StartMainMenu()
 
 func _on_VideoPlayer_finished():
 	$VideoPlayer.visible = false
@@ -80,6 +84,7 @@ func Activate():
 	$AdvList.visible = false
 	$SimpleList.visible = false
 	Hover_Clear()
+	Cooldown = 2.1
 	$ColorRectBG.scale = Vector2(1.0, 0.0)
 	var bgTween = create_tween()
 	bgTween.tween_property($ColorRectBG,"scale:y", 1.0, 0.5).set_trans(Tween.TRANS_CIRC)
@@ -96,10 +101,21 @@ func Activate():
 	$ColorRectLower.position.y = rootHeight + 120.0 #840.0 / 680.0
 	var rectLowerTween = create_tween()
 	rectLowerTween.tween_property($ColorRectLower, "position:y", rootHeight - 40.0, 0.5).set_trans(Tween.TRANS_CIRC).set_delay(0.5)
+	var parentHeight = get_parent().size.y
+	$SimpleList.position.x = $SimpleList.size.x
+	var origPos = $SimpleList.position.y 
+	$SimpleList.position.y = origPos + 200.0 #-45.0
 	RehabSceneRoot.Root.PlayMenuSound_Back()
 	visible = true
 	process_mode = Node.PROCESS_MODE_INHERIT
-	await get_tree().create_timer(1.0).timeout
+	
+	await get_tree().create_timer(0.5).timeout
+	var SimpleListTween = create_tween()
+	SimpleListTween.tween_property($SimpleList, "position", Vector2(0.0, origPos), 1.5).set_trans(Tween.TRANS_BOUNCE)
+	#$SimpleList.scroll_horizontal_custom_step = 0.0
+	$SimpleList.scroll_horizontal = 0.0
+	
+	await get_tree().create_timer(0.5).timeout
 	$SimpleList.visible = true
 	$SimpleList/Control/Button2.grab_focus()
 	RehabSceneRoot.Root.PlayMusic(60)

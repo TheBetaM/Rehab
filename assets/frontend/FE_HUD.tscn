@@ -1,11 +1,28 @@
-[gd_scene load_steps=9 format=3 uid="uid://deku1jgir0rrr"]
+[gd_scene load_steps=14 format=3 uid="uid://deku1jgir0rrr"]
 
 [ext_resource type="Script" path="res://code/Frontend/FrontendHUD.gd" id="1_yrfyt"]
+[ext_resource type="Shader" path="res://shaders/FontGradient.gdshader" id="2_n118i"]
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="2_rt1ju"]
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="3_updjh"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="4_w5x18"]
 
+[sub_resource type="Gradient" id="Gradient_6e6ww"]
+colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fmcm4"]
+gradient = SubResource("Gradient_6e6ww")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n5075"]
+shader = ExtResource("2_n118i")
+shader_parameter/gradient_offset = 100.0
+shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
+
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vbfre"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f861j"]
+shader = ExtResource("2_n118i")
+shader_parameter/gradient_offset = 100.0
+shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [sub_resource type="Animation" id="Animation_b4efc"]
 resource_name = "LifeIconANim"
@@ -65,7 +82,7 @@ offset_right = 400.0
 offset_bottom = 150.0
 
 [node name="CountWumpa" type="Label" parent="Wumpa"]
-material = ExtResource("2_rt1ju")
+material = SubResource("ShaderMaterial_n5075")
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 1
 anchors_preset = 8
@@ -112,7 +129,7 @@ offset_bottom = 150.0
 grow_horizontal = 0
 
 [node name="CountLives" type="Label" parent="Lives"]
-material = ExtResource("2_rt1ju")
+material = SubResource("ShaderMaterial_f861j")
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 1
 anchors_preset = 8
@@ -151,16 +168,16 @@ texture = SubResource("PlaceholderTexture2D_vbfre")
 
 [node name="LabelBottom" parent="." instance=ExtResource("4_w5x18")]
 visible = false
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -52.0
+offset_top = -100.0
+offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 32
 text = "this is a long label for bottom text"
 
 [node name="LabelTimer" type="Label" parent="."]
