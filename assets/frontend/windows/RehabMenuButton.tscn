@@ -16,6 +16,7 @@ shader_parameter/gradient_offset = 20.0
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [node name="Button1" type="Button"]
+modulate = Color(0.8, 0.8, 0.8, 1)
 material = SubResource("ShaderMaterial_pbrsb")
 offset_right = 50.0
 offset_bottom = 40.0

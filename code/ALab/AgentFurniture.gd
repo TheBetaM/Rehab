@@ -9,11 +9,15 @@ func _ready():
 func OnChunkEnter():
 	if (name == "DJ"):
 		RehabSceneRoot.Root.PlayMusic(RegInt[0])
+		RehabSceneRoot.Game.SetLevelID(RegInt[2])
 	elif (name == "Global_Ambient_Sound"):
 		RehabSceneRoot.Root.PlayAmbience(RegInt[2])
 	elif (name == "Util_JungleHousekeeping"):
 		RehabSceneRoot.Root.PlayMusic(27)
+		RehabSceneRoot.Game.SetLevelID(0)
 	elif (name == "Util_CavernHousekeeping"):
 		RehabSceneRoot.Root.PlayMusic(28)
+		RehabSceneRoot.Game.SetLevelID(3)
 	elif (name == "Util_IceHousekeeping"):
 		RehabSceneRoot.Root.PlayMusic(27)
+		RehabSceneRoot.Game.SetLevelID(6)

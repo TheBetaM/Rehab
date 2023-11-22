@@ -97,7 +97,7 @@ func LoadTrigExit(body):
 		return
 	if (!ParentScene.ActiveScene):
 		return
-	if (body is CharacterBody3D):
+	if (body is CharacterBody3D and RehabSceneRoot.Root.PlayerCam.current and !RehabSceneRoot.Root.GameMenu.visible):
 		var agent = body.get_parent().get_parent().get_parent()
 		if (agent is AgentCharacter and AgentCharacter.activeCharacter == agent):
 			DespawnChunk()

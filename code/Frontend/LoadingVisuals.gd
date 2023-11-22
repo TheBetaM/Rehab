@@ -16,7 +16,7 @@ func UpdateVisuals():
 			path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level01.res"
 		"levels/earth/cavern/cavent":
 			path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level02.res"
-		"levels/earth/docamok_docamok1":
+		"levels/earth/docamok/docamok1":
 			path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level03.res"
 		"levels/ice/hub/labext":
 			path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub02.res"

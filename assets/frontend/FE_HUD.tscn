@@ -15,6 +15,7 @@ gradient = SubResource("Gradient_6e6ww")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n5075"]
 shader = ExtResource("2_n118i")
 shader_parameter/gradient_offset = 100.0
+shader_parameter/gradient_lines = 1
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vbfre"]
@@ -22,6 +23,7 @@ shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f861j"]
 shader = ExtResource("2_n118i")
 shader_parameter/gradient_offset = 100.0
+shader_parameter/gradient_lines = 1
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [sub_resource type="Animation" id="Animation_b4efc"]
@@ -165,6 +167,60 @@ grow_horizontal = 0
 grow_vertical = 2
 pivot_offset = Vector2(55, 55)
 texture = SubResource("PlaceholderTexture2D_vbfre")
+
+[node name="Gem" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 256.0
+grow_horizontal = 2
+pivot_offset = Vector2(128, 128)
+
+[node name="IconGem" type="TextureRect" parent="Gem"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64, 64)
+
+[node name="Crystal" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 256.0
+grow_horizontal = 2
+pivot_offset = Vector2(128, 128)
+
+[node name="IconCrystal" type="TextureRect" parent="Crystal"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64, 64)
 
 [node name="LabelBottom" parent="." instance=ExtResource("4_w5x18")]
 visible = false

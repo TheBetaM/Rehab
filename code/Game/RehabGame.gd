@@ -6,6 +6,7 @@ var Progress : int = 0
 var Lives : int = 4
 var Fruit : int = 0
 var Crystals : int = 0
+var LevelID : int = -1
 var Gems : Dictionary #int levelID : list of gems?
 var PlayerMode
 var PlayerCharacterType
@@ -22,6 +23,7 @@ func ResetGame():
 	Lives = 4
 	Progress = 0
 	Crystals = 0
+	LevelID = -1
 
 func AddWumpa(amount : int):
 	Fruit += amount;
@@ -42,6 +44,22 @@ func AddLives(amount: int):
 	RehabSceneRoot.Root.GameHUD.AnimateLife()
 	RehabSceneRoot.Root.GameHUD.UpdateLives()
 
+func AddGem(gem : int):
+	RehabSceneRoot.Root.GameHUD.AnimateGem(gem)
+	if (Gems.has(LevelID)):
+		if (!Gems[LevelID].has(gem)):
+			Gems[LevelID].append(gem)
+	else:
+		Gems[LevelID] = [gem]
+
+func AddCrystal():
+	Crystals += 1;
+	RehabSceneRoot.Root.GameHUD.AnimateCrystal()
+
+
 func DisplayHUD():
 	RehabSceneRoot.Root.GameHUD.UpdateWumpa()
 	RehabSceneRoot.Root.GameHUD.UpdateLives()
+
+func SetLevelID(id : int):
+	LevelID = id

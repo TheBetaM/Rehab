@@ -9,6 +9,8 @@ extends Control
 @onready var LivesHolder : Control = $Lives
 @onready var WumpaIcon : TextureRect = $Wumpa/IconWumpa
 @onready var LivesIcon : TextureRect = $Lives/IconLives
+@onready var GemIcon : TextureRect = $Gem/IconGem
+@onready var CrystalIcon : TextureRect = $Crystal/IconCrystal
 
 var WumpaTimer = 0.0
 var LivesTimer = 0.0
@@ -18,6 +20,15 @@ var LivesIconPaths = [RehabGame.AssetsPath + "Textures/Icons/1up-crash.res", Reh
 RehabGame.AssetsPath + "Textures/Icons/1up-evilcrash.res", RehabGame.AssetsPath + "Textures/Icons/1up-mechabandicoot.res"]
 var WumpaHolderAnim : Tween
 var LivesHolderAnim : Tween
+var CrystalIconPath = RehabGame.AssetsPath + "Textures/Icons/Crystal_Single.res"
+var GemIconPaths = [
+	RehabGame.AssetsPath + "Textures/Icons/gem-blue.res",
+	RehabGame.AssetsPath + "Textures/Icons/gem-clear.res",
+	RehabGame.AssetsPath + "Textures/Icons/gem-green.res",
+	RehabGame.AssetsPath + "Textures/Icons/gem-purple.res",
+	RehabGame.AssetsPath + "Textures/Icons/gem-red.res",
+	RehabGame.AssetsPath + "Textures/Icons/gem-yellow.res",
+]
 
 func _ready():
 	await get_tree().process_frame
@@ -29,6 +40,10 @@ func _ready():
 		WumpaIcon.texture = load(WumpaIconPath)
 	if (ResourceLoader.exists(LivesIconPaths[0])):
 		LivesIcon.texture = load(LivesIconPaths[0])
+	if (ResourceLoader.exists(CrystalIconPath)):
+		CrystalIcon.texture = load(CrystalIconPath)
+	if (ResourceLoader.exists(GemIconPaths[0])):
+		GemIcon.texture = load(GemIconPaths[0])
 
 func _process(delta):
 	if (WumpaTimer > 0.0):
@@ -68,8 +83,8 @@ func ForceAnimOut():
 
 func AnimateWumpa():
 	var iconAnim = create_tween()
-	iconAnim.tween_property(WumpaIcon, "scale", Vector2(0.9, 1.2), 0.1)
-	iconAnim.tween_property(WumpaIcon, "scale", Vector2(0.75, 1.0), 0.1).set_delay(0.1)
+	iconAnim.tween_property(WumpaIcon, "scale", Vector2(0.9, 1.2), 0.05)
+	iconAnim.tween_property(WumpaIcon, "scale", Vector2(0.75, 1.0), 0.05).set_delay(0.05)
 
 func UpdateLives():
 	LivesLabel.text = str(RehabSceneRoot.Root.Game.Lives)
@@ -92,6 +107,41 @@ func UpdateLives():
 
 func AnimateLife():
 	$AnimationPlayer.play("LifeIconANim")
+
+func AnimateGem(gem : int):
+	if (ResourceLoader.exists(GemIconPaths[gem])):
+		GemIcon.texture = load(GemIconPaths[gem])
+	
+	GemIcon.scale = Vector2(0.0, 0.0)
+	GemIcon.modulate.a = 0.0
+	GemIcon.get_parent().visible = true
+	var gemTween1 = create_tween()
+	var gemTween2 = create_tween()
+	gemTween1.tween_property(GemIcon, "scale", Vector2(1.0, 1.0), 0.5)
+	gemTween2.tween_property(GemIcon, "modulate:a", 1.0, 0.5)
+	await get_tree().create_timer(3.0).timeout
+	gemTween1 = create_tween()
+	gemTween2 = create_tween()
+	gemTween1.tween_property(GemIcon, "scale", Vector2(0.0, 0.0), 0.5)
+	gemTween2.tween_property(GemIcon, "modulate:a", 0.0, 0.5)
+	await get_tree().create_timer(0.5).timeout
+	GemIcon.get_parent().visible = false
+
+func AnimateCrystal():
+	CrystalIcon.scale = Vector2(0.0, 0.0)
+	CrystalIcon.modulate.a = 0.0
+	CrystalIcon.get_parent().visible = true
+	var gemTween1 = create_tween()
+	var gemTween2 = create_tween()
+	gemTween1.tween_property(CrystalIcon, "scale", Vector2(1.0, 1.0), 0.5)
+	gemTween2.tween_property(CrystalIcon, "modulate:a", 1.0, 0.5)
+	await get_tree().create_timer(3.0).timeout
+	gemTween1 = create_tween()
+	gemTween2 = create_tween()
+	gemTween1.tween_property(CrystalIcon, "scale", Vector2(0.0, 0.0), 0.5)
+	gemTween2.tween_property(CrystalIcon, "modulate:a", 0.0, 0.5)
+	await get_tree().create_timer(0.5).timeout
+	CrystalIcon.get_parent().visible = false
 
 func UpdateAll():
 	WumpaLabel.text = str(RehabSceneRoot.Root.Game.Fruit)

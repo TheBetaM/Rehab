@@ -1,6 +1,7 @@
 extends Control
 
 @onready var Root3D : Node3D = $ViewHolder/SubViewportContainer/SubViewport/FE_ROOT
+@onready var CamRoot3D : Camera3D = $ViewHolder/SubViewportContainer/SubViewport/Camera3D
 var ActorPath = "res://assets/frontend/dynamic/FE_Actors.tscn"
 var ActorsExist : bool = false
 var ActorScene : PackedScene
@@ -40,6 +41,10 @@ func Activate():
 	$Button2.visible = false
 	$Button3.visible = false
 	$Button4.visible = false
+	CamRoot3D.visible = true
+	CamRoot3D.process_mode = Node.PROCESS_MODE_INHERIT
+	Root3D.visible = true
+	Root3D.process_mode = Node.PROCESS_MODE_INHERIT
 	$AnimationPlayer.play("RESET")
 	if (ActorsExist):
 		ActorNode.get_node("AnimationPlayer").play("RESET")
@@ -49,7 +54,9 @@ func Activate():
 	StartAnim()
 	RehabSceneRoot.Root.PlayMusic(54)
 	await get_tree().create_timer(1.8).timeout
+	$Button1.quiet = true
 	$Button1.grab_focus()
+	$Button1.quiet = false
 	$Button1.visible = true
 	$Button2.visible = true
 	$Button3.visible = true
@@ -60,6 +67,10 @@ func Go_LevelSelect():
 	RehabSceneRoot.Root.StartLevelSelect()
 	await get_tree().create_timer(0.5).timeout
 	visible = false
+	CamRoot3D.visible = false
+	CamRoot3D.process_mode = Node.PROCESS_MODE_DISABLED
+	Root3D.visible = false
+	Root3D.process_mode = Node.PROCESS_MODE_DISABLED
 
 func Go_Options():
 	RehabSceneRoot.Root.StartPauseMenu(true)

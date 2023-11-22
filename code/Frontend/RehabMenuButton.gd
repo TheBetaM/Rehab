@@ -2,6 +2,7 @@ extends Button
 
 var mode : bool = false;
 var isAnim : bool = false;
+var quiet : bool = false;
 
 func _process(delta):
 	if (!isAnim): return;
@@ -17,16 +18,20 @@ func _process(delta):
 			mode = !mode
 
 func StartFocus():
-	RehabSceneRoot.Root.PlayMenuSound_Select()
+	if (!quiet):
+		RehabSceneRoot.Root.PlayMenuSound_Select()
 	pivot_offset = Vector2(size.x / 2, size.y / 2)
 	scale = Vector2(1.1, 1.1)
+	modulate = Color(1.0, 1.0, 1.0, 1.0)
 	mode = false
 	isAnim = true
 
 func EndFocus():
 	scale = Vector2(1, 1)
+	modulate = Color(0.8, 0.8, 0.8, 1.0)
 	isAnim = false
 
 func OnPress():
-	RehabSceneRoot.Root.PlayMenuSound_Click()
+	if (!quiet):
+		RehabSceneRoot.Root.PlayMenuSound_Click()
 

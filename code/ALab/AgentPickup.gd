@@ -3,6 +3,7 @@ class_name AgentPickup
 
 var isPickedUp : bool = false
 var pickupTarget : Node3D = null
+var IsWumpa : bool = true
 
 func _ready():
 	super()
@@ -13,6 +14,8 @@ func _ready():
 	SubModels[0].get_node("RigidBody").collision_layer = 0
 	SubModels[0].get_node("RigidBody").freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
 	SubModels[0].get_node("RigidBody").body_entered.connect(OnPickup)
+	if (name != "Pickup_Wumpa"):
+		IsWumpa = false
 
 func _physics_process(delta):
 	SubModels[0].rotate_y(3.0 * delta)
@@ -23,7 +26,7 @@ func _physics_process(delta):
 			return;
 		SubModels[0].global_position = SubModels[0].global_position.move_toward(pickupTarget.global_position, 15.0 * delta)
 		if (SubModels[0].global_position.distance_to(pickupTarget.global_position) < 0.1):
-			RehabSceneRoot.Root.Game.AddWumpa(1)
+			RehabSceneRoot.Game.AddWumpa(1)
 			DoSound(1, (randf() / 5.0) + 0.9, 0.0)
 			process_mode = Node.PROCESS_MODE_DISABLED
 			visible = false
@@ -38,4 +41,19 @@ func OnPickup(body):
 	SubModels[0].get_node("RigidBody").collision_mask = 0
 	pickupTarget = body
 	isPickedUp = true
+	if (IsWumpa): return;
+	DoSound(1, 1.0, 0.0)
+	process_mode = Node.PROCESS_MODE_DISABLED
+	visible = false
+	match name:
+		"Pickup_Crystal": RehabSceneRoot.Game.AddCrystal()
+		"Pickup_Gem_Blue": RehabSceneRoot.Game.AddGem(0)
+		"Pickup_Gem_Clear": RehabSceneRoot.Game.AddGem(1)
+		"Pickup_Gem_Green": RehabSceneRoot.Game.AddGem(2)
+		"Pickup_Gem_Purple": RehabSceneRoot.Game.AddGem(3)
+		"Pickup_Gem_Red": RehabSceneRoot.Game.AddGem(4)
+		"Pickup_Gem_Yellow": RehabSceneRoot.Game.AddGem(5)
+		"Pickup_ExtraLife", "Pickup_ExtraLifeCortex", "Pickup_ExtraLifeNina": RehabSceneRoot.Game.AddLives(1)
+		_: pass
+	
 
