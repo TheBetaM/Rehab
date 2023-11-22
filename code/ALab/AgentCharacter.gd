@@ -220,7 +220,11 @@ func UpdateMovement(delta):
 	if (pressed):
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
-		physBody.global_rotation = Vector3(physBody.global_rotation.x, atan2(direction.x, direction.z), physBody.global_rotation.z)
+		var targetRot = Vector3(physBody.global_rotation.x, atan2(direction.x, direction.z), physBody.global_rotation.z)
+		if (speed != 0):
+			physBody.global_rotation = targetRot
+		else:
+			physBody.global_rotation = physBody.global_rotation.slerp(targetRot, 5.0 * delta)
 		if (!isJumping && physBody.is_on_floor()):
 			if (speed == 0):
 				DoAnimation(9, true)
@@ -259,13 +263,25 @@ func UpdateHeadAnim(delta):
 		headdirY = clampf(headdirY, -1.5, 0)
 	
 	if Input.is_action_pressed("pad1_rstick_left"):
-		headdirX += Input.get_action_strength("pad1_rstick_left") * delta * 4.0
+		if !RehabGame.InvertCameraX:
+			headdirX -= Input.get_action_strength("pad1_rstick_left") * delta * 4.0
+		else:
+			headdirX += Input.get_action_strength("pad1_rstick_left") * delta * 4.0
 	if Input.is_action_pressed("pad1_rstick_right"):
-		headdirX -= Input.get_action_strength("pad1_rstick_right") * delta * 4.0
+		if !RehabGame.InvertCameraX:
+			headdirX += Input.get_action_strength("pad1_rstick_right") * delta * 4.0
+		else:
+			headdirX -= Input.get_action_strength("pad1_rstick_right") * delta * 4.0
 	if Input.is_action_pressed("pad1_rstick_up"):
-		headdirY += Input.get_action_strength("pad1_rstick_up") * delta * 4.0
+		if !RehabGame.InvertCameraY:
+			headdirY += Input.get_action_strength("pad1_rstick_up") * delta * 4.0
+		else:
+			headdirY -= Input.get_action_strength("pad1_rstick_up") * delta * 4.0
 	if Input.is_action_pressed("pad1_rstick_down"):
-		headdirY -= Input.get_action_strength("pad1_rstick_down") * delta * 4.0
+		if !RehabGame.InvertCameraY:
+			headdirY -= Input.get_action_strength("pad1_rstick_down") * delta * 4.0
+		else:
+			headdirY += Input.get_action_strength("pad1_rstick_down") * delta * 4.0
 	
 	headdirX = clampf(headdirX, -0.8, 0.8)
 	headdirY = clampf(headdirY, -1.5, 1.0)

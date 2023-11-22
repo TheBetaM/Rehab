@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dbctcygs8r8uu"]
+[gd_scene load_steps=9 format=3 uid="uid://dbctcygs8r8uu"]
 
 [ext_resource type="Script" path="res://code/Frontend/LoadingVisuals.gd" id="1_3aivc"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="2_51th8"]
@@ -6,6 +6,86 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ou5l"]
 shader = ExtResource("2_85e8d")
+
+[sub_resource type="Animation" id="Animation_sh7ly"]
+resource_name = "LoadingStart"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRectBlack2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -108), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LevelIcon:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LabelLevelName:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LoadingBG:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1, 1.1)]
+}
+
+[sub_resource type="Animation" id="Animation_q7sly"]
+resource_name = "RESET"
+length = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/Label:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.1, 1.1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRectBlack2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -108)]
+}
 
 [sub_resource type="Animation" id="Animation_tdvw6"]
 resource_name = "TextAnim"
@@ -25,101 +105,107 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ghwwr"]
 _data = {
+"LoadingStart": SubResource("Animation_sh7ly"),
+"RESET": SubResource("Animation_q7sly"),
 "TextAnim": SubResource("Animation_tdvw6")
 }
 
 [node name="FE_Loading" type="Control"]
+clip_contents = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(640, 360)
 script = ExtResource("1_3aivc")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
 [node name="LoadingBG" type="Control" parent="."]
-clip_contents = true
-layout_mode = 1
-anchor_top = 0.15
-anchor_right = 1.0
-anchor_bottom = 0.85
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ColorRectCenter" type="ColorRect" parent="LoadingBG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1, 1.1)
+pivot_offset = Vector2(640, 360)
 
-[node name="Circle3" type="ColorRect" parent="LoadingBG/ColorRectCenter"]
-clip_children = 2
-material = SubResource("ShaderMaterial_7ou5l")
+[node name="ColorRectCenter" type="Control" parent="LoadingBG"]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.2
-anchor_right = 0.8
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -269.0
-offset_top = -167.0
-offset_right = -240.0
-offset_bottom = -103.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -0.0349066
-scale = Vector2(1.6, 1.6)
-color = Color(0.223529, 0.588235, 1, 1)
-
-[node name="Circle2" type="ColorRect" parent="LoadingBG/ColorRectCenter"]
-clip_children = 2
-material = SubResource("ShaderMaterial_7ou5l")
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.2
-anchor_right = 0.8
-anchor_bottom = 1.0
-offset_left = -151.0
-offset_top = -118.0
-offset_right = -187.0
-offset_bottom = -103.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = -0.0349066
-scale = Vector2(1.5, 1.5)
+pivot_offset = Vector2(640, 360)
 
 [node name="Circle1" type="ColorRect" parent="LoadingBG/ColorRectCenter"]
 clip_children = 2
 material = SubResource("ShaderMaterial_7ou5l")
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.2
-anchor_right = 0.8
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -67.0
-offset_top = -27.0
-offset_right = -67.0
-offset_bottom = -27.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -0.0349066
-scale = Vector2(1.2, 1.2)
+scale = Vector2(1.6, 1.6)
+pivot_offset = Vector2(640, 360)
+
+[node name="Circle2" type="ColorRect" parent="LoadingBG/ColorRectCenter"]
+clip_children = 2
+material = SubResource("ShaderMaterial_7ou5l")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.1, 1.1)
+pivot_offset = Vector2(640, 360)
 color = Color(0.223529, 0.588235, 1, 1)
+
+[node name="Circle3" type="ColorRect" parent="LoadingBG/ColorRectCenter"]
+clip_children = 2
+material = SubResource("ShaderMaterial_7ou5l")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9, 0.9)
+pivot_offset = Vector2(640, 360)
+
+[node name="Circle4" type="ColorRect" parent="LoadingBG/ColorRectCenter"]
+clip_children = 2
+material = SubResource("ShaderMaterial_7ou5l")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
+pivot_offset = Vector2(640, 360)
+color = Color(0.223529, 0.588235, 1, 1)
+
+[node name="ColorRectBlack2" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(0, 108)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.15
+offset_top = -108.0
+offset_bottom = -108.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(640, 54)
+color = Color(0, 0, 0, 1)
 
 [node name="Control" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 110)
 layout_mode = 1
-anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -127,6 +213,22 @@ anchor_bottom = 1.0
 offset_top = -110.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="ColorRectBlack1" type="ColorRect" parent="Control"]
+custom_minimum_size = Vector2(0, 108)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.85
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -640.0
+offset_top = -91.5
+offset_right = 640.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 1)
+pivot_offset = Vector2(640, 55)
+color = Color(0, 0, 0, 1)
 
 [node name="Label" parent="Control" instance=ExtResource("2_51th8")]
 layout_mode = 1
@@ -141,6 +243,7 @@ offset_right = 127.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.1, 1.1)
 pivot_offset = Vector2(127, 20)
 text = "#FE-Loading"
 
@@ -157,7 +260,7 @@ offset_right = 640.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(640, 0)
+pivot_offset = Vector2(640, 20)
 text = ""
 
 [node name="LevelIcon" type="TextureRect" parent="."]
@@ -168,6 +271,7 @@ anchor_right = 1.0
 anchor_bottom = 0.75
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(640, 180)
 stretch_mode = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

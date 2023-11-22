@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://by5ieljhkskx8"]
+[gd_scene load_steps=14 format=3 uid="uid://by5ieljhkskx8"]
 
 [ext_resource type="Script" path="res://code/Game/RehabSceneRoot.gd" id="1_nokr2"]
 [ext_resource type="PackedScene" uid="uid://dj63qinhimnyd" path="res://assets/frontend/FE_LevelSelect.tscn" id="2_hbkbo"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://csc3ocq55uwbc" path="res://assets/frontend/FE_Menu.tscn" id="5_j6sms"]
 [ext_resource type="PackedScene" uid="uid://cuo4j5jc63e2f" path="res://assets/frontend/FE_Credits.tscn" id="6_b843s"]
 [ext_resource type="PackedScene" uid="uid://remb1fd1nang" path="res://assets/frontend/dynamic/FE_MainMenuDynamic.tscn" id="7_clxc5"]
+[ext_resource type="Script" path="res://code/Frontend/MusicFader.gd" id="8_ld425"]
+[ext_resource type="PackedScene" uid="uid://dnro8427myeml" path="res://assets/frontend/FE_GameOver.tscn" id="8_yxkhr"]
 
 [sub_resource type="Environment" id="Environment_3bekd"]
 background_mode = 1
@@ -38,11 +40,6 @@ process_mode = 4
 visible = false
 layout_mode = 1
 
-[node name="Loading" parent="FE" instance=ExtResource("3_w1df3")]
-process_mode = 4
-visible = false
-layout_mode = 1
-
 [node name="FE_HUD" parent="FE" instance=ExtResource("4_ckn0n")]
 process_mode = 3
 layout_mode = 1
@@ -56,13 +53,28 @@ layout_mode = 1
 [node name="FE_Credits" parent="FE" instance=ExtResource("6_b843s")]
 layout_mode = 1
 
+[node name="FE_GameOver" parent="FE" instance=ExtResource("8_yxkhr")]
+process_mode = 4
+visible = false
+layout_mode = 1
+
+[node name="Loading" parent="FE" instance=ExtResource("3_w1df3")]
+process_mode = 4
+visible = false
+layout_mode = 1
+
 [node name="WorldEnv" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_e4v8o")
 
 [node name="Audio" type="Node" parent="."]
 
-[node name="AudioMusic" type="AudioStreamPlayer" parent="Audio"]
+[node name="AudioMusic1" type="AudioStreamPlayer" parent="Audio"]
 bus = &"Music"
+script = ExtResource("8_ld425")
+
+[node name="AudioMusic2" type="AudioStreamPlayer" parent="Audio"]
+bus = &"Music"
+script = ExtResource("8_ld425")
 
 [node name="AudioAmb" type="AudioStreamPlayer" parent="Audio"]
 bus = &"Ambience"

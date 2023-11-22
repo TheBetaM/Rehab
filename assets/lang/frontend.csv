@@ -111,3 +111,7 @@
 #FE-VSync-On,VSync: ON
 #FE-VSync-Adaptive,VSync: Adaptive
 #FE-VSync-Fast,VSync: Fast
+#FE-CamInvertH-On,Invert horizontal camera: ON
+#FE-CamInvertH-Off,Invert horizontal camera: OFF
+#FE-CamInvertV-On,Invert vertical camera: ON
+#FE-CamInvertV-Off,Invert vertical camera: OFF

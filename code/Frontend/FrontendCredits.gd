@@ -1,19 +1,17 @@
 extends Control
 
 @onready var ImageRect : TextureRect = $ImageRect
-@onready var CreditsLabel : Label = $CreditsLabel
+@onready var LabelScene : PackedScene = load("res://assets/frontend/RehabLabel.tscn")
 var ImagePath = RehabGame.AssetsPath + "Textures/Language/Credits/CreditNew.res"
 var CreditsText : String
 var CreditsActive : bool = false
-var CreditsLoaded : bool = false
+var LineCount : int = 445
 
 func _ready():
 	if (ResourceLoader.exists(ImagePath)):
 		ImageRect.texture = load(ImagePath)
-	var file = FileAccess.open("res://assets/lang/credits.txt", FileAccess.READ)
 	CreditsActive = false
-	CreditsText = file.get_as_text()
-	CreditsLabel.position = Vector2(0, 720.0)
+	$VBox.position = Vector2(0, 720.0)
 
 func _process(delta):
 	if !CreditsActive:
@@ -22,37 +20,44 @@ func _process(delta):
 		CreditsActive = false;
 		EndCredits()
 		return
-	CreditsLabel.position += Vector2.UP * delta * 64.0
-	if (CreditsLabel.position.y < -CreditsLabel.size.y):
+	$VBox.position += Vector2.UP * delta * 64.0
+	if ($VBox.position.y < -$VBox.size.y):
 		CreditsActive = false;
 		EndCredits()
 
 func StartCredits():
+	var file = FileAccess.open("res://assets/lang/credits.txt", FileAccess.READ)
+	#file.get_line()
 	CreditsActive = false;
 	#modulate.a = 1.0
-	CreditsLabel.position = Vector2(0, 720.0)
-	CreditsLabel.visible = true
+	$VBox.position = Vector2(0, 720.0)
+	$VBox.visible = true
 	ImageRect.modulate.a = 0.0
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	var mTween = create_tween();
 	mTween.tween_property(ImageRect, "modulate:a", 1.0, 0.5)
-	CreditsLabel.position = Vector2(0, 720.0)
+	$VBox.position = Vector2(0, 720.0)
 	visible = true
-	if (CreditsLoaded):
-		CreditsActive = true;
-		StartMusic()
-		return
+	for i in $VBox.get_children():
+		i.queue_free()
+	$VBox.size.y = 40 * LineCount
 	await get_tree().process_frame
-	CreditsLabel.text = CreditsText
+	
+	for i in range(0, LineCount - 1):
+		var label = LabelScene.instantiate()
+		label.text = file.get_line()
+		$VBox.add_child(label)
+	
 	await get_tree().process_frame
-	CreditsLabel.position = Vector2(0, 720.0)
+	$VBox.position = Vector2(0, 720.0)
 	await get_tree().create_timer(0.5).timeout
-	CreditsLabel.visible = true
+	$VBox.visible = true
 	CreditsActive = true;
-	CreditsLoaded = true;
 	StartMusic()
 
 func StartMusic():
+	RehabSceneRoot.Root.AudioMusic.get_parent().get_node("AudioMusic1").process_mode = Node.PROCESS_MODE_ALWAYS
+	RehabSceneRoot.Root.AudioMusic.get_parent().get_node("AudioMusic2").process_mode = Node.PROCESS_MODE_ALWAYS
 	RehabSceneRoot.Root.PlayMusic(58)
 	await get_tree().create_timer(20.0).timeout
 	if (!CreditsActive): return
@@ -92,8 +97,12 @@ func EndCredits():
 	#await get_tree().create_timer(0.5).timeout
 	
 	CreditsActive = false;
-	CreditsLabel.visible = false
+	$VBox.visible = false
+	for i in $VBox.get_children():
+		i.queue_free()
 	process_mode = Node.PROCESS_MODE_DISABLED
 	visible = false
+	RehabSceneRoot.Root.AudioMusic.get_parent().get_node("AudioMusic1").process_mode = Node.PROCESS_MODE_INHERIT
+	RehabSceneRoot.Root.AudioMusic.get_parent().get_node("AudioMusic2").process_mode = Node.PROCESS_MODE_INHERIT
 	RehabSceneRoot.Root.process_mode = Node.PROCESS_MODE_INHERIT
 	RehabSceneRoot.Root.AudioMusic.process_mode = Node.PROCESS_MODE_INHERIT

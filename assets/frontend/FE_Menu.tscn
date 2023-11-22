@@ -158,7 +158,11 @@ alignment = 1
 
 [node name="Button1" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
-text = "#FE-Vibrations"
+text = "#FE-CamInvertH-Off"
+
+[node name="Button3" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-CamInvertV-Off"
 
 [node name="Button2" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
@@ -701,7 +705,8 @@ pivot_offset = Vector2(128, 128)
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button4" to="." method="OptionsGraphics_ToggleTXAA"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button3" to="." method="OptionsGraphics_ToggleVSync"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button5" to="." method="OptionsGraphics_ToMain"]
-[connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button1" to="." method="OptionsGame_ToggleVibrations"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button1" to="." method="OptionsGame_ToggleCameraH"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button3" to="." method="OptionsGame_ToggleCameraV"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button2" to="." method="OptionsGame_ToMain"]
 [connection signal="pressed" from="WindowRound/MenuNotice/Button1" to="." method="Notice_Close"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button1" to="." method="Pause_ToOptions"]

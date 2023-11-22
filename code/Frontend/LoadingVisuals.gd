@@ -2,9 +2,6 @@ extends Control
 
 @onready var LevelIcon : TextureRect = $LevelIcon
 
-func _ready():
-	$AnimationPlayer.play("TextAnim")
-
 func UpdateVisuals():
 	LevelIcon.texture = null
 	$LabelLevelName.text = RehabSceneRoot.Root.LoadingChunkName.replace("_","/")
@@ -50,11 +47,20 @@ func UpdateVisuals():
 
 func AnimIn():
 	UpdateVisuals()
+	$AnimationPlayer.play("LoadingStart")
 	modulate.a = 1.0
-	#modulate.a = 0.0
-	#var mTween = create_tween();
-	#mTween.tween_property(self, "modulate:a", 1.0, 0.5)
+	$LabelLevelName.pivot_offset = Vector2(get_window().size.x / 2, $LabelLevelName.size.y / 2)
+	$LevelIcon.pivot_offset = Vector2(get_window().size.x / 2, $LevelIcon.size.y / 2)
+	$LoadingBG.pivot_offset = get_window().size / 2
+	$LoadingBG/ColorRectCenter.pivot_offset = get_window().size / 2
+	for i in $LoadingBG/ColorRectCenter.get_children():
+		i.pivot_offset = get_window().size / 2
+	$Control.position.y = get_window().size.y
+	var aTween = create_tween();
+	aTween.tween_property($Control, "position:y", get_window().size.y - $Control.size.y, 0.5)
 	visible = true
+	await get_tree().create_timer(0.5).timeout
+	$AnimationPlayer.play("TextAnim")
 
 func AnimOut():
 	modulate.a = 1.0

@@ -170,6 +170,14 @@ func OptionsMain_ToGraphics():
 
 func OptionsMain_ToGame():
 	HeaderLabel.text = "#FE-GameOptions"
+	if (RehabGame.InvertCameraX):
+		$WindowMainRound/MenuOptionsGame/Button1.text = "#FE-CamInvertH-On"
+	else:
+		$WindowMainRound/MenuOptionsGame/Button1.text = "#FE-CamInvertH-Off"
+	if (RehabGame.InvertCameraY):
+		$WindowMainRound/MenuOptionsGame/Button3.text = "#FE-CamInvertV-On"
+	else:
+		$WindowMainRound/MenuOptionsGame/Button3.text = "#FE-CamInvertV-Off"
 	$WindowMainRound/MenuOptionsMain.visible = false
 	$WindowMainRound/MenuOptionsGame.visible = true
 	$WindowMainRound/MenuOptionsGame.get_child(0).grab_focus()
@@ -281,6 +289,20 @@ func OptionsSound_ToggleVolume_SFX():
 
 func OptionsSound_ToggleVolume_Voice():
 	OptionsSound_ToggleVolume(4, false)
+
+func OptionsGame_ToggleCameraH():
+	RehabGame.InvertCameraX = !RehabGame.InvertCameraX
+	if (RehabGame.InvertCameraX):
+		$WindowMainRound/MenuOptionsGame/Button1.text = "#FE-CamInvertH-On"
+	else:
+		$WindowMainRound/MenuOptionsGame/Button1.text = "#FE-CamInvertH-Off"
+
+func OptionsGame_ToggleCameraV():
+	RehabGame.InvertCameraY = !RehabGame.InvertCameraY
+	if (RehabGame.InvertCameraY):
+		$WindowMainRound/MenuOptionsGame/Button3.text = "#FE-CamInvertV-On"
+	else:
+		$WindowMainRound/MenuOptionsGame/Button3.text = "#FE-CamInvertV-Off"
 
 func OptionsSound_ToggleVolume(busID : int, textOnly : bool):
 	var vol = AudioServer.get_bus_volume_db(busID)
@@ -411,3 +433,4 @@ func UpdateLives():
 				GemIcon5.texture = load(GemIconPaths[4])
 			if (RehabSceneRoot.Game.Gems[RehabSceneRoot.Game.LevelID].has(5) and ResourceLoader.exists(GemIconPaths[5])):
 				GemIcon6.texture = load(GemIconPaths[5])
+

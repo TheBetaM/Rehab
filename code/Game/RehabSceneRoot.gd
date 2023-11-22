@@ -21,12 +21,12 @@ var ChunkLayers : Array[int]
 var LoadingChunkName : String
 const MaxChunksLoaded : int = 8 # at the same time
 var ActiveMusic : String
-var MusicIsChanging : bool
 var ActiveAmbience : String
-var AmbienceIsChanging : bool
 var SoundFE_Back : AudioStream
 var SoundFE_Click : AudioStream
 var SoundFE_Select : AudioStream
+var MusicSwitching : bool
+var AmbSwitching : bool
 
 func _init():
 	Root = self
@@ -36,7 +36,7 @@ func _ready():
 	FreeLookCam = $FreeLookCam
 	GameHUD = $FE/FE_HUD
 	GameMenu = $FE/FE_Menu
-	AudioMusic = $Audio/AudioMusic
+	AudioMusic = $Audio/AudioMusic1
 	AudioAmbience = $Audio/AudioAmb
 	AudioMenu = $Audio/AudioMenu
 	$WorldEnv.environment = DefaultEnv
@@ -339,8 +339,8 @@ var MusicPaths : Dictionary = {
 }
 
 func PlayMusic(id : int):
-	if (MusicIsChanging):
-		return
+	if (MusicSwitching):
+		return;
 	var path = ""
 	if (MusicPaths.has(id)):
 		path = RehabGame.AssetsPath + "Sounds/Music/" + MusicPaths[id] + ".res"
@@ -348,25 +348,28 @@ func PlayMusic(id : int):
 		return
 	if (ActiveMusic == path):
 		return
-	MusicIsChanging = true
 	ActiveMusic = path
+	MusicSwitching = true
+	if (AudioMusic.playing):
+		AudioMusic.IsFadingOut = true
+		if (AudioMusic == $Audio/AudioMusic1):
+			AudioMusic = $Audio/AudioMusic2
+		else:
+			AudioMusic = $Audio/AudioMusic1
+		AudioMusic.IsFadingOut = false
 	ResourceLoader.load_threaded_request(path)
 	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 		await get_tree().process_frame
 	if ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_LOADED:
-		#if (AudioMusic.playing):
-		#	var volumeTween = create_tween()
-		#	volumeTween.tween_property(AudioMusic, "volume_db", -30.0, 2.0)
-		#	await get_tree().create_timer(2.0).timeout
 		var loadedTrack = ResourceLoader.load_threaded_get(path)
 		AudioMusic.stream = loadedTrack
 		AudioMusic.volume_db = 0.0
 		AudioMusic.play()
-	MusicIsChanging = false
+	MusicSwitching = false
 
 func PlayAmbience(id: int):
-	if (AmbienceIsChanging):
-		return
+	if (AmbSwitching):
+		return;
 	var path = ""
 	if (MusicPaths.has(id)):
 		path = RehabGame.AssetsPath + "Sounds/Music/" + MusicPaths[id] + ".res"
@@ -374,11 +377,9 @@ func PlayAmbience(id: int):
 		return
 	if (ActiveAmbience == path):
 		return
-	AmbienceIsChanging = true
 	ActiveAmbience = path
+	AmbSwitching = true
 	ResourceLoader.load_threaded_request(path)
-	var volumeTween = create_tween()
-	volumeTween.tween_property(AudioAmbience, "volume_db", -30.0, 2.0)
 	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 		await get_tree().process_frame
 	if ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_LOADED:
@@ -386,7 +387,7 @@ func PlayAmbience(id: int):
 		AudioAmbience.stream = loadedTrack
 		AudioAmbience.volume_db = 0.0
 		AudioAmbience.play()
-	AmbienceIsChanging = false
+	AmbSwitching = false
 
 func PlayCredits():
 	AudioMusic.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -409,3 +410,6 @@ func PlayMenuSound_Select():
 			return
 		AudioMenu.stream = SoundFE_Select
 		AudioMenu.play()
+
+func ForceGameOver():
+	$FE/FE_GameOver.Activate()

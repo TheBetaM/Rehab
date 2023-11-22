@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnro8427myeml"]
+
+[ext_resource type="Script" path="res://code/Frontend/FrontendGameOver.gd" id="1_vwxlb"]
+[ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="3_o5sws"]
+[ext_resource type="PackedScene" uid="uid://do0s11ctvcqp1" path="res://assets/frontend/windows/RehabMenuButton.tscn" id="4_rg0al"]
+
+[node name="FE_GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vwxlb")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+
+[node name="RehabLabel" parent="." instance=ExtResource("3_o5sws")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -133.5
+offset_top = 50.0
+offset_right = 133.5
+offset_bottom = 90.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(134, 0)
+text = "#FE-GameOver"
+
+[node name="Button1" parent="." instance=ExtResource("4_rg0al")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -109.0
+offset_top = 175.0
+offset_right = 109.0
+offset_bottom = 215.0
+grow_horizontal = 2
+text = "#FE-Continue"
+
+[node name="Button2" parent="." instance=ExtResource("4_rg0al")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -271.5
+offset_top = 220.0
+offset_right = 271.5
+offset_bottom = 260.0
+grow_horizontal = 2
+text = "#FE-Explorer-ReturnToMainMenu"
+
+[connection signal="pressed" from="Button1" to="." method="Go_Continue"]
+[connection signal="pressed" from="Button2" to="." method="Go_MainMenu"]

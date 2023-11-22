@@ -16,6 +16,8 @@ var SavePointRot
 var CheckPointChunk
 var CheckPointPos
 var CheckPointRot
+static var InvertCameraX : bool = false
+static var InvertCameraY : bool = false
 static var AssetsPath : String = "res://import/"
 
 func ResetGame():
@@ -41,6 +43,7 @@ func AddLives(amount: int):
 		Lives = 99
 	if (Lives < 0):
 		Lives = 0
+		RehabSceneRoot.Root.ForceGameOver()
 	RehabSceneRoot.Root.GameHUD.AnimateLife()
 	RehabSceneRoot.Root.GameHUD.UpdateLives()
 

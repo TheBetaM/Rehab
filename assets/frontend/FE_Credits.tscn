@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cuo4j5jc63e2f"]
+[gd_scene load_steps=2 format=3 uid="uid://cuo4j5jc63e2f"]
 
 [ext_resource type="Script" path="res://code/Frontend/FrontendCredits.gd" id="1_hrn25"]
-[ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="1_p80t7"]
 
 [node name="FE_Credits" type="Control"]
 process_mode = 4
@@ -32,7 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch_mode = 5
 
-[node name="CreditsLabel" parent="." instance=ExtResource("1_p80t7")]
+[node name="VBox" type="VBoxContainer" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 7
@@ -45,12 +44,4 @@ offset_right = 640.0
 offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "credits
-aaa
-bbb
-
-
-etc
-aaa
-bbb
-ccc"
+alignment = 1

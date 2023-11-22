@@ -18,13 +18,25 @@ func _process(delta):
 	var camz = 0.0
 	
 	if Input.is_action_pressed("pad1_rstick_left"):
-		camdirX += Input.get_action_strength("pad1_rstick_left")
+		if !RehabGame.InvertCameraX:
+			camdirX -= Input.get_action_strength("pad1_rstick_left")
+		else:
+			camdirX += Input.get_action_strength("pad1_rstick_left")
 	if Input.is_action_pressed("pad1_rstick_right"):
-		camdirX -= Input.get_action_strength("pad1_rstick_right")
+		if !RehabGame.InvertCameraX:
+			camdirX += Input.get_action_strength("pad1_rstick_right")
+		else:
+			camdirX -= Input.get_action_strength("pad1_rstick_right")
 	if Input.is_action_pressed("pad1_rstick_up"):
-		camdirY += Input.get_action_strength("pad1_rstick_up")
+		if !RehabGame.InvertCameraY:
+			camdirY += Input.get_action_strength("pad1_rstick_up")
+		else:
+			camdirY -= Input.get_action_strength("pad1_rstick_up")
 	if Input.is_action_pressed("pad1_rstick_down"):
-		camdirY -= Input.get_action_strength("pad1_rstick_down")
+		if !RehabGame.InvertCameraY:
+			camdirY -= Input.get_action_strength("pad1_rstick_down")
+		else:
+			camdirY += Input.get_action_strength("pad1_rstick_down")
 	if Input.is_action_just_pressed("ui_cancel"):
 		var freeCam = RehabSceneRoot.Root.FreeLookCam
 		freeCam.global_position = global_position

@@ -109,7 +109,6 @@ func Activate():
 	visible = true
 	process_mode = Node.PROCESS_MODE_INHERIT
 	
-	await get_tree().create_timer(0.5).timeout
 	var SimpleListTween = create_tween()
 	SimpleListTween.tween_property($SimpleList, "position", Vector2(0.0, origPos), 1.5).set_trans(Tween.TRANS_BOUNCE)
 	#$SimpleList.scroll_horizontal_custom_step = 0.0
@@ -138,9 +137,10 @@ func Adv_ToSimple():
 
 func StartLevelPath(path):
 	if (ResourceLoader.exists(path)):
+		RehabSceneRoot.Root.LoadScene(path)
+		await get_tree().create_timer(0.5).timeout
 		visible = false
 		process_mode = Node.PROCESS_MODE_DISABLED
-		RehabSceneRoot.Root.LoadScene(path)
 
 func Simple_GoHub01(): StartLevelPath(RehabGame.AssetsPath + "Levels/levels_earth_hub_beach.tscn")
 func Simple_GoLevel01(): StartLevelPath(RehabGame.AssetsPath + "Levels/levels_earth_hub_huba.tscn")
