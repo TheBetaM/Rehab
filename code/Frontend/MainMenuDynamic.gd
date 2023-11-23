@@ -78,6 +78,10 @@ func Go_LevelSelect():
 	Root3D.process_mode = Node.PROCESS_MODE_DISABLED
 
 func Go_Options():
+	$Button1.focus_mode = Control.FOCUS_NONE
+	$Button2.focus_mode = Control.FOCUS_NONE
+	$Button3.focus_mode = Control.FOCUS_NONE
+	$Button4.focus_mode = Control.FOCUS_NONE
 	RehabSceneRoot.Root.StartPauseMenu(true)
 
 func Go_Credits():
@@ -85,3 +89,10 @@ func Go_Credits():
 
 func Go_QuitGame():
 	get_tree().quit()
+
+func ReturnOptions():
+	$Button1.focus_mode = Control.FOCUS_ALL
+	$Button2.focus_mode = Control.FOCUS_ALL
+	$Button3.focus_mode = Control.FOCUS_ALL
+	$Button4.focus_mode = Control.FOCUS_ALL
+	$Button2.grab_focus()

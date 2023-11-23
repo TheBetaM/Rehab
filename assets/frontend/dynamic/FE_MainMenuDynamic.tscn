@@ -290,7 +290,7 @@ offset_bottom = 20.5
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
-text = "select level"
+text = "#FE-Explorer-Title"
 
 [node name="Button2" parent="." instance=ExtResource("4_hr576")]
 layout_mode = 1
@@ -306,7 +306,7 @@ offset_bottom = 20.5
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
-text = "options"
+text = "#FE-Options"
 
 [node name="Button3" parent="." instance=ExtResource("4_hr576")]
 layout_mode = 1
@@ -322,7 +322,7 @@ offset_bottom = 20.5
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
-text = "credits"
+text = "#FE-Credits"
 
 [node name="Button4" parent="." instance=ExtResource("4_hr576")]
 layout_mode = 1
@@ -338,7 +338,7 @@ offset_bottom = 20.5
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
-text = "quit game"
+text = "#FE-QuitGame"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

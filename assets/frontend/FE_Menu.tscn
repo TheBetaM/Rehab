@@ -156,6 +156,10 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
+[node name="Button4" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-Language"
+
 [node name="Button1" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-CamInvertH-Off"
@@ -705,6 +709,7 @@ pivot_offset = Vector2(128, 128)
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button4" to="." method="OptionsGraphics_ToggleTXAA"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button3" to="." method="OptionsGraphics_ToggleVSync"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button5" to="." method="OptionsGraphics_ToMain"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button4" to="." method="OptionsGame_ToggleLanguage"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button1" to="." method="OptionsGame_ToggleCameraH"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button3" to="." method="OptionsGame_ToggleCameraV"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button2" to="." method="OptionsGame_ToMain"]

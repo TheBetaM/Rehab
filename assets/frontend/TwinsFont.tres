@@ -1,8 +1,11 @@
-[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://b0d28n0ldq4v0"]
+[gd_resource type="FontVariation" load_steps=3 format=3 uid="uid://b0d28n0ldq4v0"]
 
-[ext_resource type="FontFile" uid="uid://cp8ao2aynd5e1" path="res://assets/frontend/TWINSFONT V2.ttf" id="1_fktq5"]
+[ext_resource type="FontFile" uid="uid://s8wh5i1b5grp" path="res://assets/frontend/Atma-SemiBold.ttf" id="1_13hl8"]
+
+[sub_resource type="SystemFont" id="SystemFont_slq26"]
 
 [resource]
-base_font = ExtResource("1_fktq5")
+base_font = ExtResource("1_13hl8")
+fallbacks = Array[Font]([SubResource("SystemFont_slq26")])
 spacing_glyph = 4
-spacing_bottom = -12
+spacing_bottom = -16

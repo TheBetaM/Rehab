@@ -6,10 +6,10 @@ uid="uid://ctbnulvjhxi56"
 
 [deps]
 
-files=["res://assets/lang/frontend.en.translation"]
+files=["res://assets/lang/frontend.en_US.translation", "res://assets/lang/frontend.de_DE.translation"]
 
 source_file="res://assets/lang/frontend.csv"
-dest_files=["res://assets/lang/frontend.en.translation"]
+dest_files=["res://assets/lang/frontend.en_US.translation", "res://assets/lang/frontend.de_DE.translation"]
 
 [params]
 

@@ -1,117 +1,118 @@
-,en
-#FE-Off,Off
-#FE-On,On
-#FE-No,No
-#FE-Yes,Yes
-#FE-Back,Back
-#FE-Continue,Continue
-#FE-NewGame,New Game
-#FE-LoadGame,Load Game
-#FE-Options,Options
-#FE-Language,Language
-#FE-GFXOptions,Graphics Options
-#FE-SFXOptions,Sound Options
-#FE-GameOptions,Game Options
-#FE-EffectsVolume,Effects Volume
-#FE-MusicVolume,Music Volume
-#FE-Vibrations,Controller Vibrations
-#FE-DisableAutoSave,Disable Autosave
-#FE-Extras,Extras
-#FE-Paused,Game Paused
-#FE-SaveGame,Save Game
-#FE-QuitGame,Quit Game
-#FE-Resume,Resume
-#FE-AutoSaveOn,Autosave Enabled
-#FE-AutoSaveOnMSG,Please don't turn off the game\nwhen the autosave indicator\nbelow is present.
-#FE-AutoSaveOff,Autosave Disabled
-#FE-AutoSaveOffMSG,"To enable autosave,\nreturn to the pause menu\nand re-save the game."
-#FE-OverwriteOption,Overwrite
-#FE-OverwriteMSG,Are you sure you wish to\noverwrite this saved game?
-#FE-SaveHeader,Select slot to Save
-#FE-LoadHeader,Select slot to Load
-#FE-EmptySlot,Empty
-#FE-CancelSaveOption,Cancel
-#FE-NoSaveOption,Continue without saving
-#FE-NewSaveOption,Create New Save
-#FE-AutoSaveMSG,Autosave in progress.\n\nPlease don't turn off the game.
-#FE-GameOver,GAME OVER
-#FE-QuitMSG,You will lose all unsaved progress\nif you quit now.\nAre you sure you\nwant to quit?
-#FE-TitleStart,Press START to play
-#FE-Loading,LOADING
-#FE-SaveOK,Save Successful
-#FE-LoadOK,Load Successful
-#FE-CancelSaveHeader,Cancel Save?
-#FE-SaveCancelled,Save Cancelled
-#FE-AcceptChanges,Accept Changes
-#FE-SelectIcon,Select CROSS
-#FE-NextIcon,Next CROSS
-#FE-BackIcon,TRIANGLE Back
-#FE-LTIcon,< LT
-#FE-RTIcon,RT >
-#FE-CancelIcon,CIRCLE Cancel
-#FE-ExtrasLocked,??????????
-#FE-GemExtrasBlue,Blue Gem Extras
-#FE-GemExtrasClear,Clear Gem Extras
-#FE-GemExtrasGreen,Green Gem Extras
-#FE-GemExtrasPurple,Purple Gem Extras
-#FE-GemExtrasRed,Red Gem Extras
-#FE-GemExtrasYellow,Yellow Gem Extras
-#FE-DisableAutoSaveHeader,Disable Autosave?
-#FE-CompleteExtras,100% Extras
-#FE-BossExtras,Boss Extras
-#FE-CharacterExtras,Character Extras
-#FE-EnemyExtras,Enemy Extras
-#FE-MovieExtras,Movie Extras
-#FE-UnseenExtras,Unseen Extras
-#FE-LevelName-001,N.Sanity Island
-#FE-LevelName-002,Jungle Bungle
-#FE-LevelName-003,Cavern Catastrophe
-#FE-LevelName-004,Totem Hokum
-#FE-LevelName-005,Iceberg Lab
-#FE-LevelName-006,Ice Climb
-#FE-LevelName-007,Slip Slide Icecapades
-#FE-LevelName-008,High Seas Hi-Jinks
-#FE-LevelName-009,Academy Of Evil
-#FE-LevelName-010,Boiler Room Doom
-#FE-LevelName-011,Classroom Chaos
-#FE-LevelName-012,Rooftop Rampage
-#FE-LevelName-013,Twinsanity Island
-#FE-LevelName-014,Rockslide Rumble
-#FE-LevelName-015,Bandicoot Pursuit
-#FE-LevelName-016,Ant Agony
-#FE-Explorer-Title,Select Level
-#FE-Explorer-Footer,Project Rehab - Explorer Tech Demo
-#FE-Explorer-ChunkSelect,Individual Chunk
-#FE-Explorer-ImportNotFound,Imported assets not found!
-#FE-Explorer-ReturnToLevelSelect,Return To Level Select
-#FE-Explorer-ReturnToMainMenu,Return To Main Menu
-#FE-Explorer-Advanced,Advanced
-#FE-Explorer-Disclaimer-0,"This is a tech demo.\n\nIt benchmarks the visuals\nand install process\nto inform future\ndevelopments."
-#FE-Explorer-Disclaimer-1,"This is a tech demo.\n\nIf you see a bug,\nthat's not in the game.\n\nIt's now behind you."
-#FE-Explorer-Disclaimer-2,"This is a tech demo.\n\nIf you see this,\nthat means it's working.\n\nHopefully."
-#FE-Explorer-Disclaimer-3,"This is a\npeanut butter\nand jelly sandwich.\n\nIt has all the ingredients\nto make you happy."
-#FE-Explorer-Disclaimer-4,"This is a video game.\n\nYou press buttons on\nyour controller.\n\nWhich you should use."
-#FE-Explorer-Disclaimer-5,"This is a demo.\n\nA demo demonstrates\nwhat the demo can do.\n"
-#FE-Explorer-Disclaimer-6,"This is a tech demo.\n\nMuch like the duck test,\nthe best way\nto gauge accuracy."
-#FE-Explorer-Disclaimer-7,"This is a tech demo.\n\nNot a regular demo, no.\n\nWe're testing\ntechnology here!"
-#FE-Explorer-Disclaimer-8,"This is a tech demo.\n\nHas anyone seen\nthis mouse?\n\nPure white, pointy,\nclicks everywhere."
-#FE-Explorer-Disclaimer-9,"This is a game.\n\nOr at least,\nit will be one day.\n\nFor now, this demo\nshall suffice."
-#FE-Explorer-Disclaimer-10,"This is a tech demo.\n\nYou cannot complete it.\n\nJust enjoy it.\n\nLike coffee."
-#FE-ToggleFullScreen,Toggle Full Screen
-#FE-GlobalVolume,Global Volume
-#FE-VoiceVolume,Voice Volume
-#FE-NoGameData,No game data installed.\nMake sure the data pack\nis in the Packs folder.
-#FE-MSAA-Off,MSAA: OFF
-#FE-MSAA-2x,MSAA: 2x
-#FE-MSAA-4x,MSAA: 4x
-#FE-MSAA-8x,MSAA: 8x
-#FE-FXAA-Off,FXAA: OFF
-#FE-FXAA-On,FXAA: ON
-#FE-VSync-Off,VSync: OFF
-#FE-VSync-On,VSync: ON
-#FE-VSync-Adaptive,VSync: Adaptive
-#FE-VSync-Fast,VSync: Fast
-#FE-CamInvertH-On,Invert horizontal camera: ON
-#FE-CamInvertH-Off,Invert horizontal camera: OFF
-#FE-CamInvertV-On,Invert vertical camera: ON
-#FE-CamInvertV-Off,Invert vertical camera: OFF
+,en-US,de-DE
+#FE-Off,Off,Aus
+#FE-On,On,Ein
+#FE-No,No,Nein
+#FE-Yes,Yes,Ja
+#FE-Back,Back,Zurück
+#FE-Continue,Continue,Weiter
+#FE-NewGame,New Game,Neues Spiel
+#FE-LoadGame,Load Game,Spiel Laden
+#FE-Options,Options,Optionen
+#FE-Language,Language,Sprache
+#FE-GFXOptions,Graphics Options,Grafik-Optionen
+#FE-SFXOptions,Sound Options,Sound-Optionen
+#FE-GameOptions,Game Options,Spiel-Optionen
+#FE-EffectsVolume,Effects Volume,Effekt-Lautstärke
+#FE-MusicVolume,Music Volume,Musik-Lautstärke
+#FE-Vibrations,Controller Vibrations,Kontroller Vibration
+#FE-DisableAutoSave,Disable Autosave,Autom-Sp. Deaktiv.
+#FE-Extras,Extras,Extras
+#FE-Paused,Game Paused,Pause
+#FE-SaveGame,Save Game,Spiel Speichern
+#FE-QuitGame,Quit Game,Spiel Beenden
+#FE-Resume,Resume,Weiter
+#FE-AutoSaveOn,Autosave Enabled,Autom. speichern aktiviert
+#FE-AutoSaveOnMSG,Please don't turn off the game\nwhen the autosave indicator\nbelow is present.,Bitte das Spiel nicht ausschalten\nwenn die autom. speichern Anzeige\nunten angezeigt wird.
+#FE-AutoSaveOff,Autosave Disabled,Autom. speichern deaktiv.
+#FE-AutoSaveOffMSG,"To enable autosave,\nreturn to the pause menu\nand re-save the game.","Um autom. speichern zu aktivieren,\nkehr zum Pause-Menü zurück und\nspeichere das Spiel erneut ab."
+#FE-OverwriteOption,Overwrite,Überschreiben
+#FE-OverwriteMSG,Are you sure you wish to\noverwrite this saved game?,Bist du sicher\ndass du diese datei\nüberschreiben möchtest?
+#FE-SaveHeader,Select slot to Save,Datei zum speichern wählen
+#FE-LoadHeader,Select slot to Load,Datei zum laden wählen
+#FE-EmptySlot,Empty,Leer
+#FE-CancelSaveOption,Cancel,Abbrechen
+#FE-NoSaveOption,Continue without saving,Weiter ohne zu speichern
+#FE-NewSaveOption,Create New Save,Überschreiben
+#FE-AutoSaveMSG,Autosave in progress.\n\nPlease don't turn off the game.,Automatiche Datenspeicherung.
+#FE-GameOver,GAME OVER,ENDE
+#FE-QuitMSG,You will lose all unsaved progress\nif you quit now.\nAre you sure you\nwant to quit?,Spiel beenden?
+#FE-TitleStart,Press START to play,Start-Taste drücken
+#FE-Loading,LOADING,LADEN
+#FE-SaveOK,Save Successful,Speichern erfolgreich
+#FE-LoadOK,Load Successful,Laden erfolgreich
+#FE-CancelSaveHeader,Cancel Save?,Speichern abbrechen?
+#FE-SaveCancelled,Save Cancelled,Speichern abgebrochen
+#FE-AcceptChanges,Accept Changes,Änderungen annehmen
+#FE-SelectIcon,Select CROSS,Auswahl
+#FE-NextIcon,Next CROSS,Weiter
+#FE-BackIcon,TRIANGLE Back,Zurück
+#FE-LTIcon,< LT,< LT
+#FE-RTIcon,RT >,RT >
+#FE-CancelIcon,CIRCLE Cancel,Abbrechen
+#FE-ExtrasLocked,??????????,??????????
+#FE-GemExtrasBlue,Blue Gem Extras,Blaue Edelstein-Extras
+#FE-GemExtrasClear,Clear Gem Extras,Weisse Edelstein-Extras
+#FE-GemExtrasGreen,Green Gem Extras,Grüne Edelstein-Extras
+#FE-GemExtrasPurple,Purple Gem Extras,Lila Edelstein-Extras
+#FE-GemExtrasRed,Red Gem Extras,Rote Edelstein-Extras
+#FE-GemExtrasYellow,Yellow Gem Extras,Gelbe Edelstein-Extras
+#FE-DisableAutoSaveHeader,Disable Autosave?,Autom. speichern\ndeaktivieren?
+#FE-CompleteExtras,100% Extras,100% Extras
+#FE-BossExtras,Boss Extras,Boss Extras
+#FE-ConceptExtras,Concept Extras,Konzept Extras
+#FE-EnemyExtras,Enemy Extras,Feind Extras
+#FE-MovieExtras,Movie Extras,Film Extras
+#FE-UnseenExtras,Unseen Extras,Ungesehene Extras
+#FE-LevelName-001,N.Sanity Island,N.Sanity-Insel
+#FE-LevelName-002,Jungle Bungle,Dschungel-Fieber
+#FE-LevelName-003,Cavern Catastrophe,Höhlen-Hölle
+#FE-LevelName-004,Totem Hokum,Totem-Tohuwabohu
+#FE-LevelName-005,Iceberg Lab,Eisberg-Labor
+#FE-LevelName-006,Ice Climb,Heisses Eis
+#FE-LevelName-007,Slip Slide Icecapades,Eis-Eskapaden
+#FE-LevelName-008,High Seas Hi-Jinks,Hochsee-Hokuspokus
+#FE-LevelName-009,Academy Of Evil,Akademie des Bösen
+#FE-LevelName-010,Boiler Room Doom,Heizkeller-Hickhack
+#FE-LevelName-011,Classroom Chaos,Klassenzimmer-Chaos
+#FE-LevelName-012,Rooftop Rampage,Dach-Drama
+#FE-LevelName-013,Twinsanity Island,Irrsins-Insel
+#FE-LevelName-014,Rockslide Rumble,Steinschlag-Stress
+#FE-LevelName-015,Bandicoot Pursuit,Bandicoot-Jagd
+#FE-LevelName-016,Ant Agony,Ameisen-Aufstand
+#FE-Explorer-Title,Select Level,Levelauswahl
+#FE-Explorer-Footer,Project Rehab - Explorer Tech Demo,Projekt Rehab - Explorer-Tech-Demo
+#FE-Explorer-ImportNotFound,Imported assets not found!,Importierte Datei nicht gefunden!
+#FE-Explorer-ReturnToLevelSelect,Return To Level Select,Zurück zur Levelauswahl
+#FE-Explorer-ReturnToMainMenu,Return To Main Menu,Zurück zur Hauptmenü
+#FE-Explorer-Advanced,Advanced,Profi
+#FE-Explorer-Disclaimer-0,"This is a tech demo.\n\nIt benchmarks the visuals\nand install process\nto inform future\ndevelopments.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
+#FE-Explorer-Disclaimer-1,"This is a tech demo.\n\nIf you see a bug,\nthat's not in the game.\n\nIt's now behind you.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
+#FE-Explorer-Disclaimer-2,"This is a tech demo.\n\nIf you see this,\nthat means it's working.\n\nHopefully.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
+#FE-Explorer-Disclaimer-3,"This is a\npeanut butter\nand jelly sandwich.\n\nIt has all the ingredients\nto make you happy.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
+#FE-Explorer-Disclaimer-4,"This is a video game.\n\nYou press buttons on\nyour controller.\n\nWhich you should use.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
+#FE-Explorer-Disclaimer-5,"This is a demo.\n\nA demo demonstrates\nwhat the demo can do.\n","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
+#FE-Explorer-Disclaimer-6,"This is a tech demo.\n\nMuch like the duck test,\nthe best way\nto gauge accuracy.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
+#FE-Explorer-Disclaimer-7,"This is a tech demo.\n\nNot a regular demo, no.\n\nWe're testing\ntechnology here!","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
+#FE-Explorer-Disclaimer-8,"This is a tech demo.\n\nHas anyone seen\nthis mouse?\n\nPure white, pointy,\nclicks everywhere.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
+#FE-Explorer-Disclaimer-9,"This is a game.\n\nOr at least,\nit will be one day.\n\nFor now, this demo\nshall suffice.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
+#FE-Explorer-Disclaimer-10,"This is a tech demo.\n\nYou cannot complete it.\n\nJust enjoy it.\n\nLike coffee.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
+#FE-ToggleFullScreen,Toggle Full Screen,Vollbild umschalten
+#FE-GlobalVolume,Global Volume,Globales-Lautstärke
+#FE-VoiceVolume,Voice Volume,Stimmen-Lautstärke
+#FE-NoGameData,No game data installed.\nMake sure the data pack\nis in the Packs folder.,Keine Spiel-Datei installiert.\nStellen sicher dass\nder Datenpaket im\nPacks Ordner befindet.
+#FE-MSAA-Off,MSAA: OFF,MSAA: AUS
+#FE-MSAA-2x,MSAA: 2x,MSAA: 2x
+#FE-MSAA-4x,MSAA: 4x,MSAA: 4x
+#FE-MSAA-8x,MSAA: 8x,MSAA: 8x
+#FE-FXAA-Off,FXAA: OFF,FXAA: AUS
+#FE-FXAA-On,FXAA: ON,FXAA: EIN
+#FE-VSync-Off,VSync: OFF,VSync: AUS
+#FE-VSync-On,VSync: ON,VSync: EIN
+#FE-VSync-Adaptive,VSync: Adaptive,VSync: Adaptiv
+#FE-VSync-Fast,VSync: Fast,VSync: Schnell
+#FE-CamInvertH-On,Invert horizontal camera: ON,Horizontale Kamerasteuerung umkehren: EIN
+#FE-CamInvertH-Off,Invert horizontal camera: OFF,Horizontale Kamerasteuerung umkehren: AUS
+#FE-CamInvertV-On,Invert vertical camera: ON,Vertikale Kamerasteuerung umkehren: EIN
+#FE-CamInvertV-Off,Invert vertical camera: OFF,Vertikale Kamerasteuerung umkehren: AUS
+#FE-LanguageName,English,Deutsch
+#FE-Credits,Credits,Credits

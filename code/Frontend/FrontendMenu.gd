@@ -178,6 +178,7 @@ func OptionsMain_ToGame():
 		$WindowMainRound/MenuOptionsGame/Button3.text = "#FE-CamInvertV-On"
 	else:
 		$WindowMainRound/MenuOptionsGame/Button3.text = "#FE-CamInvertV-Off"
+	$WindowMainRound/MenuOptionsGame/Button4.text = tr("#FE-Language") + ": " + tr("#FE-LanguageName")
 	$WindowMainRound/MenuOptionsMain.visible = false
 	$WindowMainRound/MenuOptionsGame.visible = true
 	$WindowMainRound/MenuOptionsGame.get_child(0).grab_focus()
@@ -196,7 +197,7 @@ func OptionsMain_ToPause():
 	$WindowMainRound/MenuOptionsMain.visible = false
 	if (OptionsOnly):
 		Pause_Resume()
-		RehabSceneRoot.Root.get_node("FE/FE_MainMenuDynamic/Button2").grab_focus()
+		RehabSceneRoot.Root.get_node("FE/FE_MainMenuDynamic").ReturnOptions()
 		return;
 	HeaderLabel.text = "#FE-Paused"
 	HeaderHolder.visible = false
@@ -303,6 +304,21 @@ func OptionsGame_ToggleCameraV():
 		$WindowMainRound/MenuOptionsGame/Button3.text = "#FE-CamInvertV-On"
 	else:
 		$WindowMainRound/MenuOptionsGame/Button3.text = "#FE-CamInvertV-Off"
+
+func OptionsGame_ToggleLanguage():
+	var myloc = TranslationServer.get_locale()
+	var loc = TranslationServer.get_loaded_locales()
+	var dict = []
+	for i in loc:
+		if !dict.has(i):
+			dict.append(i)
+	var iter = dict.find(myloc)
+	if (iter >= dict.size() - 1):
+		iter = 0
+	else:
+		iter = iter + 1
+	TranslationServer.set_locale(dict[iter])
+	$WindowMainRound/MenuOptionsGame/Button4.text = tr("#FE-Language") + ": " + tr("#FE-LanguageName")
 
 func OptionsSound_ToggleVolume(busID : int, textOnly : bool):
 	var vol = AudioServer.get_bus_volume_db(busID)

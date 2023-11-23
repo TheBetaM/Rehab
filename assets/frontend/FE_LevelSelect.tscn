@@ -138,7 +138,7 @@ offset_right = 280.0
 offset_bottom = 154.0
 rotation = -0.174533
 pivot_offset = Vector2(78, 15)
-text = "advanced"
+text = "#FE-Explorer-Advanced"
 
 [node name="Button2" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
 material = null

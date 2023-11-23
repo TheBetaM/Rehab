@@ -124,7 +124,7 @@ pad1_R3={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://assets/lang/frontend.en.translation", "res://assets/lang/ingame.en.translation")
+locale/translations=PackedStringArray("res://assets/lang/frontend.en_US.translation", "res://assets/lang/ingame.en_US.translation", "res://assets/lang/frontend.de_DE.translation")
 
 [layer_names]
 

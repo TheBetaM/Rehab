@@ -10,6 +10,6 @@ gradient = SubResource("Gradient_6e6ww")
 
 [resource]
 shader = ExtResource("1_asj53")
-shader_parameter/gradient_offset = 0.0
+shader_parameter/gradient_offset = 20.0
 shader_parameter/gradient_lines = 1
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
