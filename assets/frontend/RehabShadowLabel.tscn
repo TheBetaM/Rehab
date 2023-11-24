@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://djiau18vfikps"]
+
+[ext_resource type="Material" uid="uid://detb5nlc2r6io" path="res://assets/frontend/FontShadowMat.tres" id="1_slp14"]
+[ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="2_2ppfr"]
+[ext_resource type="Script" path="res://code/Frontend/LabelShadow.gd" id="3_0xhio"]
+
+[node name="Shadow" type="Label"]
+material = ExtResource("1_slp14")
+offset_right = 50.0
+offset_bottom = 44.0
+theme = ExtResource("2_2ppfr")
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_0xhio")

@@ -1,0 +1,140 @@
+[gd_scene load_steps=5 format=3 uid="uid://crkj3084akhns"]
+
+[ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="1_sbn4t"]
+[ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="2_md01y"]
+[ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="3_80ive"]
+[ext_resource type="PackedScene" uid="uid://do0s11ctvcqp1" path="res://assets/frontend/windows/RehabMenuButton.tscn" id="4_mkfs4"]
+
+[node name="FE_Installer" type="Control"]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.223529, 0.588235, 1, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 1
+offset_right = 1280.0
+offset_bottom = 80.0
+pivot_offset = Vector2(640, 0)
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1280.0
+offset_top = -80.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset = Vector2(640, 80)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -25.0
+offset_right = 320.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(320, 25)
+
+[node name="ProgressBar" type="ProgressBar" parent="Control"]
+material = ExtResource("1_sbn4t")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_md01y")
+
+[node name="FileDialog" type="FileDialog" parent="."]
+title = "#FE-Installer-OpenFileTitle"
+initial_position = 1
+size = Vector2i(960, 480)
+ok_button_text = "#FE-Continue"
+dialog_hide_on_ok = true
+cancel_button_text = "#FE-CancelSaveOption"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.iso", "*.xbe", "*.cnf")
+
+[node name="RehabLabel" parent="." instance=ExtResource("3_80ive")]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 10.0
+offset_right = 259.0
+offset_bottom = 75.0
+text = "Installer"
+
+[node name="RehabLabel2" parent="." instance=ExtResource("3_80ive")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -362.5
+offset_top = -80.0
+offset_right = 362.5
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "This will take a few minutes..."
+
+[node name="RehabLabel3" parent="." instance=ExtResource("3_80ive")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -362.5
+offset_top = 200.0
+offset_right = 362.5
+offset_bottom = 265.0
+grow_horizontal = 2
+text = "The game data will now be installed."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -266.5
+offset_top = -270.0
+offset_right = 266.5
+offset_bottom = -226.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Button1" parent="HBoxContainer" instance=ExtResource("4_mkfs4")]
+layout_mode = 2
+text = "CONTINUE"
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Button2" parent="HBoxContainer" instance=ExtResource("4_mkfs4")]
+layout_mode = 2
+text = "CANCEL"

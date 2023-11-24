@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://detb5nlc2r6io"]
+
+[ext_resource type="Shader" path="res://shaders/FontShadow.gdshader" id="1_58twa"]
+
+[resource]
+shader = ExtResource("1_58twa")

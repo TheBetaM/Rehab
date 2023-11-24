@@ -266,6 +266,7 @@ pivot_offset = Vector2(640, 20)
 text = ""
 
 [node name="LevelIcon" type="TextureRect" parent="."]
+z_index = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.25
@@ -277,8 +278,23 @@ pivot_offset = Vector2(640, 180)
 stretch_mode = 5
 script = ExtResource("4_632mi")
 isAnim = false
-scaleMagnitude = 0.05
 speed = 0.1
+
+[node name="LevelIcon2" type="TextureRect" parent="LevelIcon"]
+modulate = Color(0, 0, 0, 0.501961)
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(640, 180)
+stretch_mode = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

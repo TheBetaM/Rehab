@@ -83,13 +83,13 @@ func UpdateCamControls(delta):
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		return
 	
-	_w = Input.get_action_strength("ui_up")
-	_s = Input.get_action_strength("ui_down")
-	_d = Input.get_action_strength("ui_right")
-	_a = Input.get_action_strength("ui_left")
-	_e = Input.get_action_strength("ui_accept")
-	_q = Input.get_action_strength("ui_select")
-	if Input.is_action_just_pressed("ui_cancel"):
+	_w = Input.get_action_strength("pad1_lstick_up")
+	_s = Input.get_action_strength("pad1_lstick_down")
+	_d = Input.get_action_strength("pad1_lstick_right")
+	_a = Input.get_action_strength("pad1_lstick_left")
+	_e = Input.get_action_strength("pad1_cross")
+	_q = Input.get_action_strength("pad1_triangle")
+	if Input.is_action_just_pressed("pad1_circle"):
 		ExitCam()
 		return;
 		
@@ -104,7 +104,10 @@ func UpdateCamControls(delta):
 
 
 func ExitCam():
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	if (RehabGame.UseMouseCamera):
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	var mainCam = RehabSceneRoot.Root.PlayerCam
 	current = false
 	mainCam.current = true

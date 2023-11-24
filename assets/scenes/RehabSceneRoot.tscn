@@ -38,29 +38,35 @@ layout_mode = 1
 [node name="LevelSelect" parent="FE" instance=ExtResource("2_hbkbo")]
 process_mode = 4
 visible = false
+z_index = 1
 layout_mode = 1
 
 [node name="FE_HUD" parent="FE" instance=ExtResource("4_ckn0n")]
 process_mode = 3
+z_index = 4
 layout_mode = 1
 pivot_offset = Vector2(640, 360)
 
 [node name="FE_Menu" parent="FE" instance=ExtResource("5_j6sms")]
 process_mode = 4
 visible = false
+z_index = 2
 layout_mode = 1
 
 [node name="FE_Credits" parent="FE" instance=ExtResource("6_b843s")]
+z_index = 1
 layout_mode = 1
 
 [node name="FE_GameOver" parent="FE" instance=ExtResource("8_yxkhr")]
 process_mode = 4
 visible = false
+z_index = 6
 layout_mode = 1
 
 [node name="Loading" parent="FE" instance=ExtResource("3_w1df3")]
 process_mode = 4
 visible = false
+z_index = 5
 layout_mode = 1
 
 [node name="WorldEnv" type="WorldEnvironment" parent="."]

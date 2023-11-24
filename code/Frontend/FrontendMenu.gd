@@ -7,6 +7,7 @@ extends Control
 @onready var MainLabel : Label = $WindowMainRound/RehabLabel
 @onready var FooterHolder : Control = $WindowRound
 @onready var LevelIcon : TextureRect = $WindowMainRound/LevelIcon
+@onready var LevelIcon2 : TextureRect = $WindowMainRound/LevelIcon/LevelIcon2
 @onready var WumpaIcon : TextureRect = $WindowRoundWumpa/WumpaIcon
 @onready var LivesIcon : TextureRect = $WindowRoundLives/LivesIcon
 @onready var CrystalsIcon : TextureRect = $WindowRoundCrystals/CrystalsIcon
@@ -54,6 +55,7 @@ func Full_AnimIn():
 	anim.tween_property(self, "scale", TargetScale, FadeTime)
 	var anim1 = create_tween() # tweening both with one somehow bugged
 	anim1.tween_property(self, "modulate:a", 1.0, FadeTime)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func Full_AnimOut():
 	MenuActive = false
@@ -132,6 +134,8 @@ func Notice_Close():
 	await get_tree().create_timer(FadeTime).timeout
 	RehabSceneRoot.Root.process_mode = Node.PROCESS_MODE_INHERIT
 	process_mode = Node.PROCESS_MODE_INHERIT
+	if (RehabGame.UseMouseCamera and AgentCharacter.activeCharacter != null):
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func Pause_Resume():
 	Notice_Close()
@@ -432,8 +436,10 @@ func SetLevelIcon():
 	
 	if (IconPath != "" and ResourceLoader.exists(IconPath)):
 		LevelIcon.texture = load(IconPath)
+		LevelIcon2.texture = LevelIcon.texture
 	else:
 		LevelIcon.texture = null
+		LevelIcon2.texture = null
 
 func UpdateLives():
 	var iconID = 0
@@ -482,7 +488,6 @@ func ExtrasListStart(type : int):
 		else:
 			i.queue_free()
 	var headerName : String = "#FE-Extras"
-	#var inst : Button = prefab.duplicate()
 	
 	match type:
 		0: 

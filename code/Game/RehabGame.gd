@@ -18,6 +18,7 @@ var CheckPointPos
 var CheckPointRot
 static var InvertCameraX : bool = false
 static var InvertCameraY : bool = false
+static var UseMouseCamera : bool = true
 static var AssetsPath : String = "res://import/"
 
 func ResetGame():

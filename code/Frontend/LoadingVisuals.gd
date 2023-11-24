@@ -1,6 +1,7 @@
 extends Control
 
 @onready var LevelIcon : TextureRect = $LevelIcon
+@onready var LevelIcon2 : TextureRect = $LevelIcon/LevelIcon2
 
 func UpdateVisuals():
 	LevelIcon.texture = null
@@ -43,6 +44,7 @@ func UpdateVisuals():
 			return;
 	if (path != "" and ResourceLoader.exists(path)):
 		LevelIcon.texture = load(path)
+		LevelIcon2.texture = LevelIcon.texture
 		$LabelLevelName.text = ""
 
 func AnimIn():

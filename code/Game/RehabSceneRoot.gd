@@ -131,6 +131,8 @@ func LoadScene(path : String):
 		loadedScene.process_mode = Node.PROCESS_MODE_INHERIT
 		loadedScene.OnChunkEnter()
 		$FE/Loading.AnimOut()
+		if (RehabGame.UseMouseCamera):
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		await get_tree().create_timer(0.5).timeout
 		$FE/Loading.visible = false
 		$FE/Loading.process_mode = Node.PROCESS_MODE_DISABLED
@@ -255,18 +257,22 @@ func ExitLevel(toMain : bool):
 		StartMainMenu()
 
 func StartLevelSelect():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	$FE/LevelSelect.Activate()
 
 func StartMainMenu():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	$FE/FE_MainMenuDynamic.Activate()
 
 func StartPauseMenu(optionsOnly : bool):
 	process_mode = Node.PROCESS_MODE_DISABLED
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	GameHUD.ForceAnimOut()
 	GameMenu.Start_PauseMenu(optionsOnly)
 
 func StartMessage(text : String):
 	process_mode = Node.PROCESS_MODE_DISABLED
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	GameHUD.ForceAnimOut()
 	GameMenu.Start_Message(text)
 

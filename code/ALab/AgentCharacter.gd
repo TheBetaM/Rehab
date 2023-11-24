@@ -76,7 +76,6 @@ enum CharISlot {
 }
 
 
-# Test Logic Below
 var velocity = Vector3.ZERO
 var modeldirection = Vector3.ZERO
 var physBody : Node3D
@@ -86,6 +85,7 @@ var headdirX = 0.0
 var headdirY = 0.0
 var footsteptimer = 0.0
 var footsteplast = false
+var gravityOn = true
 
 var FS_Dirt_1 : AudioStream
 var FS_Dirt_2 : AudioStream
@@ -183,34 +183,35 @@ func _physics_process(delta):
 func UpdateMovement(delta):
 	var direction = Vector3.ZERO
 	var camdir = 0.0
-	var pressed = false
 	var isJumping = false
 	
-	if Input.is_action_pressed("ui_up"):
-		direction.x -= Input.get_action_strength("ui_up")
-		pressed = true
-	if Input.is_action_pressed("ui_down"):
-		direction.x += Input.get_action_strength("ui_down")
-		pressed = true
-	if Input.is_action_pressed("ui_right"):
-		direction.z += Input.get_action_strength("ui_right")
-		pressed = true
-	if Input.is_action_pressed("ui_left"):
-		direction.z -= Input.get_action_strength("ui_left")
-		pressed = true
-	if Input.is_action_pressed("ui_accept"):
+	direction.x -= Input.get_action_strength("pad1_dpad_up")
+	direction.x += Input.get_action_strength("pad1_dpad_down")
+	if (direction.x == 0):
+		direction.x -= Input.get_action_strength("pad1_lstick_up")
+		direction.x += Input.get_action_strength("pad1_lstick_down")
+	direction.z += Input.get_action_strength("pad1_dpad_right")
+	direction.z -= Input.get_action_strength("pad1_dpad_left")
+	if (direction.z == 0):
+		direction.z += Input.get_action_strength("pad1_lstick_right")
+		direction.z -= Input.get_action_strength("pad1_lstick_left")
+	if Input.is_action_pressed("pad1_cross"):
 		velocity.y += 80 * delta
 		if (ActiveAnim != 19):
 			DoAnimation(19, false)
 			DoSound(0, 1.0, 0.0)
 		isJumping = true
-	if Input.is_action_just_pressed("ui_select"):
+	if Input.is_action_just_pressed("pad1_triangle"):
 		RehabSceneRoot.Root.Game.DisplayHUD()
+	if Input.is_action_just_pressed("pad1_square"):
+		velocity.y = 0.0
+		gravityOn = !gravityOn
 	
 	direction = direction.clamp(-Vector3.ONE, Vector3.ONE)
 	direction = (direction.x * physCam.camvector) + (direction.z * physCam.camright)
 	direction.y = 0.0
 	var speed = RegFloat[CharFSlot.RunSpeed]
+	var pressed = abs(direction.length()) > 0.05
 	if (abs(direction.length()) < 0.3):
 		speed = 0
 	elif (abs(direction.length()) < 0.8):
@@ -218,6 +219,8 @@ func UpdateMovement(delta):
 	direction = direction.normalized()
 	
 	if (pressed):
+		#if not physBody.is_on_floor():
+		#	speed *= 3.0
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 		var targetRot = Vector3(physBody.global_rotation.x, atan2(direction.x, direction.z), physBody.global_rotation.z)
@@ -241,8 +244,11 @@ func UpdateMovement(delta):
 	if (!isJumping && !physBody.is_on_floor()):
 		DoAnimation(27, false)
 	
-	if not physBody.is_on_floor():
-		velocity.y -= 30.0 * delta
+	if (not physBody.is_on_floor()):
+		if (gravityOn):
+			velocity.y -= 30.0 * delta
+		else:
+			velocity.y = 0.0
 	
 	physBody.velocity = velocity
 	physBody.move_and_slide()
