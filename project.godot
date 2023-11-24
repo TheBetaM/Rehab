@@ -25,6 +25,8 @@ buses/default_bus_layout="res://assets/frontend/RehabAudioBus.tres"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [importer_defaults]
 
@@ -124,7 +126,7 @@ pad1_R3={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://assets/lang/frontend.en_US.translation", "res://assets/lang/ingame.en_US.translation", "res://assets/lang/frontend.de_DE.translation")
+locale/translations=PackedStringArray("res://assets/lang/frontend.en_US.translation", "res://assets/lang/ingame.en_US.translation", "res://assets/lang/frontend.de_DE.translation", "res://assets/lang/frontend.es_ES.translation", "res://assets/lang/frontend.fr_FR.translation", "res://assets/lang/frontend.it_IT.translation", "res://assets/lang/frontend.pl_PL.translation")
 
 [layer_names]
 

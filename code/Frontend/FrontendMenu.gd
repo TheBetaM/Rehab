@@ -19,6 +19,9 @@ extends Control
 @onready var GemIcon4 : TextureRect = $WindowGems/GemIcon4
 @onready var GemIcon5 : TextureRect = $WindowGems/GemIcon5
 @onready var GemIcon6 : TextureRect = $WindowGems/GemIcon6
+@onready var ExtrasList : VBoxContainer = $WindowMainRound/MenuExtrasList/VBoxContainer
+@onready var ExtrasItem : TextureRect = $WindowExtrasItem/TextureRect
+@onready var ExtrasItemVideo : VideoStreamPlayer = $WindowExtrasItem/ControlAspect/VideoStreamPlayer
 var FadeTime = 0.25
 var MenuActive = false
 var OptionsOnly = false
@@ -38,14 +41,15 @@ var GemIconPaths = [
 ]
 var EmptyGemIconPath = RehabGame.AssetsPath + "Textures/Icons/gem_greyed.res"
 var BaseScale = 0.9
+var LastExtrasItem = 0
 
 func Full_AnimIn():
 	visible = false
-	pivot_offset = get_window().size / 2
 	scale = Vector2.ZERO
+	pivot_offset.x = size.x / 2
 	modulate.a = 0.0
 	visible = true
-	var TargetScale = (get_window().size.y / 720.0) * Vector2.ONE * BaseScale
+	var TargetScale = Vector2.ONE * BaseScale
 	var anim = create_tween()
 	anim.tween_property(self, "scale", TargetScale, FadeTime)
 	var anim1 = create_tween() # tweening both with one somehow bugged
@@ -53,8 +57,8 @@ func Full_AnimIn():
 
 func Full_AnimOut():
 	MenuActive = false
-	pivot_offset = get_window().size / 2
-	scale = (get_window().size.y / 720.0) * Vector2.ONE * BaseScale
+	scale = Vector2.ONE * BaseScale
+	pivot_offset.x = size.x / 2
 	modulate.a = 1.0
 	var anim = create_tween()
 	anim.tween_property(self, "scale", Vector2.ZERO, FadeTime)
@@ -233,8 +237,6 @@ func OptionsGraphics_ToggleFullscreen():
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	pivot_offset = get_window().size / 2
-	scale = (get_window().size.y / 720.0) * Vector2.ONE * BaseScale
 
 func OptionsGame_ToggleVibrations():
 	pass
@@ -319,6 +321,18 @@ func OptionsGame_ToggleLanguage():
 		iter = iter + 1
 	TranslationServer.set_locale(dict[iter])
 	$WindowMainRound/MenuOptionsGame/Button4.text = tr("#FE-Language") + ": " + tr("#FE-LanguageName")
+
+func OptionsGame_ToExtras():
+	HeaderLabel.text = "#FE-Extras"
+	$WindowMainRound/MenuOptionsMain.visible = false
+	$WindowMainRound/MenuExtras.visible = true
+	$WindowMainRound/MenuExtras.get_child(0).grab_focus()
+
+func OptionsExtras_ToGame():
+	HeaderLabel.text = "#FE-Options"
+	$WindowMainRound/MenuExtras.visible = false
+	$WindowMainRound/MenuOptionsMain.visible = true
+	$WindowMainRound/MenuOptionsMain.get_child(0).grab_focus()
 
 func OptionsSound_ToggleVolume(busID : int, textOnly : bool):
 	var vol = AudioServer.get_bus_volume_db(busID)
@@ -450,3 +464,181 @@ func UpdateLives():
 			if (RehabSceneRoot.Game.Gems[RehabSceneRoot.Game.LevelID].has(5) and ResourceLoader.exists(GemIconPaths[5])):
 				GemIcon6.texture = load(GemIconPaths[5])
 
+func Extras_ToBlue(): ExtrasListStart(0)
+func Extras_ToClear(): ExtrasListStart(1)
+func Extras_ToGreen(): ExtrasListStart(2)
+func Extras_ToPurple(): ExtrasListStart(3)
+func Extras_ToRed(): ExtrasListStart(4)
+func Extras_ToYellow(): ExtrasListStart(5)
+func Extras_ToComplete(): ExtrasListStart(6)
+
+func ExtrasListStart(type : int):
+	var first = false
+	var prefab : Button
+	for i in ExtrasList.get_children():
+		if (!first):
+			first = true
+			prefab = i
+		else:
+			i.queue_free()
+	var headerName : String = "#FE-Extras"
+	#var inst : Button = prefab.duplicate()
+	
+	match type:
+		0: 
+			headerName = "#FE-GemExtrasBlue"
+			var dirPath = RehabGame.AssetsPath + "Textures/Extras/Bosses/"
+			var dir = DirAccess.open(dirPath);
+			if dir:
+				var iter = 0
+				for i in dir.get_files():
+					iter += 1;
+					var inst : Button = prefab.duplicate()
+					inst.text = tr("#FE-BossExtras") + " " + str(iter)
+					inst.disconnect("pressed", Callable(self, "ExtrasList_ToExtras"))
+					inst.connect("pressed", func(): ExtrasItemStart(dirPath + i))
+					ExtrasList.add_child(inst)
+			else: print("[EXTRAS] Cannot open folder.")
+		1: 
+			headerName = "#FE-GemExtrasClear"
+			var dirPath = RehabGame.AssetsPath + "Movies/"
+			var dir = DirAccess.open(dirPath);
+			if dir:
+				var iter = 0
+				for i in dir.get_files():
+					iter += 1;
+					var inst : Button = prefab.duplicate()
+					inst.text = tr("#FE-MovieExtras") + " " + str(iter)
+					inst.disconnect("pressed", Callable(self, "ExtrasList_ToExtras"))
+					inst.connect("pressed", func(): ExtrasItemStartMovie(dirPath + i))
+					ExtrasList.add_child(inst)
+			else: print("[EXTRAS] Cannot open folder.")
+		2: 
+			headerName = "#FE-GemExtrasGreen"
+			var dirPath = RehabGame.AssetsPath + "Textures/Extras/Concept/"
+			var dir = DirAccess.open(dirPath);
+			if dir:
+				var iter = 0
+				for i in dir.get_files():
+					iter += 1;
+					var inst : Button = prefab.duplicate()
+					inst.text = tr("#FE-ConceptExtras") + " " + str(iter)
+					inst.disconnect("pressed", Callable(self, "ExtrasList_ToExtras"))
+					inst.connect("pressed", func(): ExtrasItemStart(dirPath + i))
+					ExtrasList.add_child(inst)
+			else: print("[EXTRAS] Cannot open folder.")
+		3: 
+			headerName = "#FE-GemExtrasPurple"
+			var dirPath = RehabGame.AssetsPath + "Textures/Extras/Storyboards/01-NSanity/"
+			var dir = DirAccess.open(dirPath);
+			if dir:
+				var iter = 0
+				for i in dir.get_files():
+					iter += 1;
+					var inst : Button = prefab.duplicate()
+					inst.text = tr("#FE-ConceptExtras") + " " + str(iter)
+					inst.disconnect("pressed", Callable(self, "ExtrasList_ToExtras"))
+					inst.connect("pressed", func(): ExtrasItemStart(dirPath + i))
+					ExtrasList.add_child(inst)
+			else: print("[EXTRAS] Cannot open folder.")
+		4: 
+			headerName = "#FE-GemExtrasRed"
+			var dirPath = RehabGame.AssetsPath + "Textures/Extras/Enemies/"
+			var dir = DirAccess.open(dirPath);
+			if dir:
+				var iter = 0
+				for i in dir.get_files():
+					iter += 1;
+					var inst : Button = prefab.duplicate()
+					inst.text = tr("#FE-EnemyExtras") + " " + str(iter)
+					inst.disconnect("pressed", Callable(self, "ExtrasList_ToExtras"))
+					inst.connect("pressed", func(): ExtrasItemStart(dirPath + i))
+					ExtrasList.add_child(inst)
+			else: print("[EXTRAS] Cannot open folder.")
+		5: 
+			headerName = "#FE-GemExtrasYellow"
+			var dirPath = RehabGame.AssetsPath + "Textures/Extras/Unseen/"
+			var dir = DirAccess.open(dirPath);
+			if dir:
+				var iter = 0
+				for i in dir.get_files():
+					iter += 1;
+					var inst : Button = prefab.duplicate()
+					inst.text = tr("#FE-UnseenExtras") + " " + str(iter)
+					inst.disconnect("pressed", Callable(self, "ExtrasList_ToExtras"))
+					inst.connect("pressed", func(): ExtrasItemStart(dirPath + i))
+					ExtrasList.add_child(inst)
+			else: print("[EXTRAS] Cannot open folder.")
+		6: 
+			headerName = "#FE-CompleteExtras"
+			var dirPath = RehabGame.AssetsPath + "Textures/Language/Loading/"
+			var dir = DirAccess.open(dirPath);
+			if dir:
+				var iter = 0
+				for i in dir.get_files():
+					iter += 1;
+					var inst : Button = prefab.duplicate()
+					inst.text = tr("#FE-CompleteExtras") + " " + str(iter)
+					inst.disconnect("pressed", Callable(self, "ExtrasList_ToExtras"))
+					inst.connect("pressed", func(): ExtrasItemStart(dirPath + i))
+					ExtrasList.add_child(inst)
+			else: print("[EXTRAS] Cannot open folder.")
+		_: pass
+	
+	
+	HeaderLabel.text = headerName
+	$WindowMainRound/MenuExtras.visible = false
+	$WindowMainRound/MenuExtrasList.visible = true
+	ExtrasList.get_child(0).grab_focus()
+
+func ExtrasList_ToExtras():
+	HeaderLabel.text = "#FE-Extras"
+	$WindowMainRound/MenuExtrasList.visible = false
+	$WindowMainRound/MenuExtras.visible = true
+	$WindowMainRound/MenuExtras.get_child(0).grab_focus()
+	var first = false
+	for i in ExtrasList.get_children():
+		if (!first):
+			first = true
+		else:
+			i.queue_free()
+
+func ExtrasItemStart(path : String):
+	if (!ResourceLoader.exists(path)): return;
+	ExtrasItem.texture = load(path)
+	var iter = 0
+	for i in ExtrasList.get_children():
+		if i.has_focus():
+			LastExtrasItem = iter
+			break;
+		iter += 1
+	ExtrasList.visible = false
+	$WindowExtrasItem.modulate.a = 0.0
+	$WindowExtrasItem.visible = true
+	var aTween= create_tween()
+	aTween.tween_property($WindowExtrasItem,"modulate:a", 1.0, 0.5)
+	$WindowExtrasItem/Button.grab_focus()
+
+func ExtrasItemStartMovie(path : String):
+	if (!ResourceLoader.exists(path)): return;
+	ExtrasItemVideo.stream = load(path)
+	var iter = 0
+	for i in ExtrasList.get_children():
+		if i.has_focus():
+			LastExtrasItem = iter
+			break;
+		iter += 1
+	ExtrasList.visible = false
+	$WindowExtrasItem.modulate.a = 1.0
+	$WindowExtrasItem.visible = true
+	ExtrasItemVideo.play()
+	$WindowExtrasItem/Button.grab_focus()
+
+func ExitExtrasItem():
+	if ($WindowExtrasItem.modulate.a < 0.95): return;
+	$WindowExtrasItem.visible = false
+	if (ExtrasItemVideo.is_playing()):
+		ExtrasItemVideo.stop()
+		ExtrasItemVideo.stream = null
+	ExtrasList.visible = true
+	ExtrasList.get_child(LastExtrasItem).grab_focus()

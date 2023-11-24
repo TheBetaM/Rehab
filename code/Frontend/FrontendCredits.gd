@@ -50,10 +50,11 @@ func StartCredits():
 	
 	await get_tree().process_frame
 	$VBox.position = Vector2(0, 720.0)
+	StartMusic()
 	await get_tree().create_timer(0.5).timeout
 	$VBox.visible = true
+	$VBox.position = Vector2(0, 720.0)
 	CreditsActive = true;
-	StartMusic()
 
 func StartMusic():
 	RehabSceneRoot.Root.AudioMusic.get_parent().get_node("AudioMusic1").process_mode = Node.PROCESS_MODE_ALWAYS

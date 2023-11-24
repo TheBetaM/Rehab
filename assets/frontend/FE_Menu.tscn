@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://csc3ocq55uwbc"]
+[gd_scene load_steps=11 format=3 uid="uid://csc3ocq55uwbc"]
 
 [ext_resource type="PackedScene" uid="uid://bvnasa3s1tj38" path="res://assets/frontend/windows/WindowMainRound.tscn" id="1_cbs7t"]
 [ext_resource type="Script" path="res://code/Frontend/FrontendMenu.gd" id="1_w3elq"]
@@ -7,6 +7,14 @@
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="5_c5h6c"]
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="6_1cstp"]
 [ext_resource type="PackedScene" uid="uid://do0s11ctvcqp1" path="res://assets/frontend/windows/RehabMenuButton.tscn" id="6_2mxrl"]
+[ext_resource type="Script" path="res://code/Frontend/TextureRectWobble.gd" id="7_te4ee"]
+
+[sub_resource type="Gradient" id="Gradient_yoo12"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cq5k7"]
+gradient = SubResource("Gradient_yoo12")
+width = 1
 
 [node name="FE_Menu" type="Control"]
 layout_mode = 3
@@ -78,6 +86,10 @@ text = "#FE-SFXOptions"
 [node name="Button3" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-GameOptions"
+
+[node name="Button5" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-Extras"
 
 [node name="Button4" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
@@ -213,7 +225,33 @@ text = "#FE-CompleteExtras"
 
 [node name="Button8" parent="WindowMainRound/MenuExtras" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
-text = "#FE-Resume"
+text = "#FE-Back"
+
+[node name="MenuExtrasList" type="ScrollContainer" parent="WindowMainRound"]
+visible = false
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -330.0
+offset_top = -200.0
+offset_right = 310.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(320, 0)
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WindowMainRound/MenuExtrasList"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button1" parent="WindowMainRound/MenuExtrasList/VBoxContainer" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-Back"
 
 [node name="LevelIcon" type="TextureRect" parent="WindowMainRound"]
 visible = false
@@ -230,6 +268,7 @@ offset_bottom = -3.05176e-05
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
+script = ExtResource("7_te4ee")
 
 [node name="WindowRound" parent="." instance=ExtResource("4_66hls")]
 z_index = 3
@@ -426,9 +465,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -358.0
-offset_top = -85.0
+offset_top = -95.0
 offset_right = 336.0
-offset_bottom = -45.0
+offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.6, 0.6)
@@ -473,10 +512,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -893.0
-offset_top = 61.0
-offset_right = -199.0
-offset_bottom = 101.0
+offset_left = -890.0
+offset_top = 35.0
+offset_right = -196.0
+offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1.5, 1.5)
@@ -524,9 +563,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -892.0
-offset_top = 62.0
+offset_top = 36.0
 offset_right = -198.0
-offset_bottom = 102.0
+offset_bottom = 101.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1.5, 1.5)
@@ -573,10 +612,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -891.0
-offset_top = 59.0
-offset_right = -197.0
-offset_bottom = 99.0
+offset_left = -890.0
+offset_top = 31.0
+offset_right = -196.0
+offset_bottom = 96.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1.5, 1.5)
@@ -695,9 +734,68 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 
+[node name="WindowExtrasItem" type="Control" parent="."]
+visible = false
+z_index = 5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.12, 1.12)
+pivot_offset = Vector2(640, 360)
+
+[node name="ColorRect" type="ColorRect" parent="WindowExtrasItem"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ControlAspect" type="AspectRatioContainer" parent="WindowExtrasItem"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+ratio = 1.7778
+stretch_mode = 1
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="WindowExtrasItem/ControlAspect"]
+layout_mode = 2
+expand = true
+
+[node name="TextureRect" type="TextureRect" parent="WindowExtrasItem"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+
+[node name="Button" type="Button" parent="WindowExtrasItem"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("6_1cstp")
+icon = SubResource("GradientTexture1D_cq5k7")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
 [connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button1" to="." method="OptionsMain_ToGraphics"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button2" to="." method="OptionsMain_ToSound"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button3" to="." method="OptionsMain_ToGame"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button5" to="." method="OptionsGame_ToExtras"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button4" to="." method="OptionsMain_ToPause"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsSound/Button1" to="." method="OptionsSound_ToggleVolume_Global"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsSound/Button2" to="." method="OptionsSound_ToggleVolume_SFX"]
@@ -713,9 +811,20 @@ pivot_offset = Vector2(128, 128)
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button1" to="." method="OptionsGame_ToggleCameraH"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button3" to="." method="OptionsGame_ToggleCameraV"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button2" to="." method="OptionsGame_ToMain"]
+[connection signal="pressed" from="WindowMainRound/MenuExtras/Button1" to="." method="Extras_ToBlue"]
+[connection signal="pressed" from="WindowMainRound/MenuExtras/Button2" to="." method="Extras_ToClear"]
+[connection signal="pressed" from="WindowMainRound/MenuExtras/Button3" to="." method="Extras_ToGreen"]
+[connection signal="pressed" from="WindowMainRound/MenuExtras/Button4" to="." method="Extras_ToPurple"]
+[connection signal="pressed" from="WindowMainRound/MenuExtras/Button5" to="." method="Extras_ToRed"]
+[connection signal="pressed" from="WindowMainRound/MenuExtras/Button6" to="." method="Extras_ToYellow"]
+[connection signal="pressed" from="WindowMainRound/MenuExtras/Button7" to="." method="Extras_ToComplete"]
+[connection signal="pressed" from="WindowMainRound/MenuExtras/Button8" to="." method="OptionsExtras_ToGame"]
+[connection signal="pressed" from="WindowMainRound/MenuExtrasList/VBoxContainer/Button1" to="." method="ExtrasList_ToExtras"]
 [connection signal="pressed" from="WindowRound/MenuNotice/Button1" to="." method="Notice_Close"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button1" to="." method="Pause_ToOptions"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button2" to="." method="Pause_ReturnToLevelSelect"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button5" to="." method="Pause_ReturnToMainMenu"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button3" to="." method="Pause_QuitGame"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button4" to="." method="Pause_Resume"]
+[connection signal="finished" from="WindowExtrasItem/ControlAspect/VideoStreamPlayer" to="." method="ExitExtrasItem"]
+[connection signal="pressed" from="WindowExtrasItem/Button" to="." method="ExitExtrasItem"]

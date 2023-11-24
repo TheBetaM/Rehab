@@ -6,10 +6,10 @@ uid="uid://ctbnulvjhxi56"
 
 [deps]
 
-files=["res://assets/lang/frontend.en_US.translation", "res://assets/lang/frontend.de_DE.translation"]
+files=["res://assets/lang/frontend.en_US.translation", "res://assets/lang/frontend.de_DE.translation", "res://assets/lang/frontend.fr_FR.translation", "res://assets/lang/frontend.it_IT.translation", "res://assets/lang/frontend.es_ES.translation", "res://assets/lang/frontend.pl_PL.translation"]
 
 source_file="res://assets/lang/frontend.csv"
-dest_files=["res://assets/lang/frontend.en_US.translation", "res://assets/lang/frontend.de_DE.translation"]
+dest_files=["res://assets/lang/frontend.en_US.translation", "res://assets/lang/frontend.de_DE.translation", "res://assets/lang/frontend.fr_FR.translation", "res://assets/lang/frontend.it_IT.translation", "res://assets/lang/frontend.es_ES.translation", "res://assets/lang/frontend.pl_PL.translation"]
 
 [params]
 

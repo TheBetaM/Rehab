@@ -77,6 +77,7 @@ offset_right = 505.0
 offset_bottom = -105.0
 grow_vertical = 0
 rotation = 0.174533
+scale = Vector2(0.9, 0.9)
 text = ""
 horizontal_alignment = 0
 
@@ -132,13 +133,14 @@ layout_mode = 2
 
 [node name="Button1" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
 layout_mode = 2
-offset_left = 125.0
-offset_top = 125.0
-offset_right = 280.0
-offset_bottom = 154.0
+offset_left = 150.0
+offset_top = 150.0
+offset_right = 350.0
+offset_bottom = 194.0
 rotation = -0.174533
-pivot_offset = Vector2(78, 15)
+pivot_offset = Vector2(100, 22)
 text = "#FE-Explorer-Advanced"
+text_overrun_behavior = 3
 
 [node name="Button2" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
 material = null

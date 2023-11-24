@@ -41,11 +41,6 @@ func Activate():
 	$Button2.visible = false
 	$Button3.visible = false
 	$Button4.visible = false
-	$ColorRectCircle.pivot_offset = $ColorRectCircle.size / 2
-	$ColorRectCircle2.pivot_offset = $ColorRectCircle2.size / 2
-	$ColorRectCircle3.pivot_offset = $ColorRectCircle3.size / 2
-	$ColorRectCircle4.pivot_offset = $ColorRectCircle4.size / 2
-	$ColorRectCircle5.pivot_offset = $ColorRectCircle5.size / 2
 	CamRoot3D.visible = true
 	CamRoot3D.process_mode = Node.PROCESS_MODE_INHERIT
 	Root3D.visible = true

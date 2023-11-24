@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dbctcygs8r8uu"]
+[gd_scene load_steps=10 format=3 uid="uid://dbctcygs8r8uu"]
 
 [ext_resource type="Script" path="res://code/Frontend/LoadingVisuals.gd" id="1_3aivc"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="2_51th8"]
 [ext_resource type="Shader" path="res://shaders/canvas/Circle.gdshader" id="2_85e8d"]
+[ext_resource type="Script" path="res://code/Frontend/TextureRectWobble.gd" id="4_632mi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ou5l"]
 shader = ExtResource("2_85e8d")
@@ -206,6 +207,7 @@ color = Color(0, 0, 0, 1)
 [node name="Control" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 110)
 layout_mode = 1
+anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -273,6 +275,10 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(640, 180)
 stretch_mode = 5
+script = ExtResource("4_632mi")
+isAnim = false
+scaleMagnitude = 0.05
+speed = 0.1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

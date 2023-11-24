@@ -1,118 +1,125 @@
-,en-US,de-DE
-#FE-Off,Off,Aus
-#FE-On,On,Ein
-#FE-No,No,Nein
-#FE-Yes,Yes,Ja
-#FE-Back,Back,Zurück
-#FE-Continue,Continue,Weiter
-#FE-NewGame,New Game,Neues Spiel
-#FE-LoadGame,Load Game,Spiel Laden
-#FE-Options,Options,Optionen
-#FE-Language,Language,Sprache
-#FE-GFXOptions,Graphics Options,Grafik-Optionen
-#FE-SFXOptions,Sound Options,Sound-Optionen
-#FE-GameOptions,Game Options,Spiel-Optionen
-#FE-EffectsVolume,Effects Volume,Effekt-Lautstärke
-#FE-MusicVolume,Music Volume,Musik-Lautstärke
-#FE-Vibrations,Controller Vibrations,Kontroller Vibration
-#FE-DisableAutoSave,Disable Autosave,Autom-Sp. Deaktiv.
-#FE-Extras,Extras,Extras
-#FE-Paused,Game Paused,Pause
-#FE-SaveGame,Save Game,Spiel Speichern
-#FE-QuitGame,Quit Game,Spiel Beenden
-#FE-Resume,Resume,Weiter
-#FE-AutoSaveOn,Autosave Enabled,Autom. speichern aktiviert
-#FE-AutoSaveOnMSG,Please don't turn off the game\nwhen the autosave indicator\nbelow is present.,Bitte das Spiel nicht ausschalten\nwenn die autom. speichern Anzeige\nunten angezeigt wird.
-#FE-AutoSaveOff,Autosave Disabled,Autom. speichern deaktiv.
-#FE-AutoSaveOffMSG,"To enable autosave,\nreturn to the pause menu\nand re-save the game.","Um autom. speichern zu aktivieren,\nkehr zum Pause-Menü zurück und\nspeichere das Spiel erneut ab."
-#FE-OverwriteOption,Overwrite,Überschreiben
-#FE-OverwriteMSG,Are you sure you wish to\noverwrite this saved game?,Bist du sicher\ndass du diese datei\nüberschreiben möchtest?
-#FE-SaveHeader,Select slot to Save,Datei zum speichern wählen
-#FE-LoadHeader,Select slot to Load,Datei zum laden wählen
-#FE-EmptySlot,Empty,Leer
-#FE-CancelSaveOption,Cancel,Abbrechen
-#FE-NoSaveOption,Continue without saving,Weiter ohne zu speichern
-#FE-NewSaveOption,Create New Save,Überschreiben
-#FE-AutoSaveMSG,Autosave in progress.\n\nPlease don't turn off the game.,Automatiche Datenspeicherung.
-#FE-GameOver,GAME OVER,ENDE
-#FE-QuitMSG,You will lose all unsaved progress\nif you quit now.\nAre you sure you\nwant to quit?,Spiel beenden?
-#FE-TitleStart,Press START to play,Start-Taste drücken
-#FE-Loading,LOADING,LADEN
-#FE-SaveOK,Save Successful,Speichern erfolgreich
-#FE-LoadOK,Load Successful,Laden erfolgreich
-#FE-CancelSaveHeader,Cancel Save?,Speichern abbrechen?
-#FE-SaveCancelled,Save Cancelled,Speichern abgebrochen
-#FE-AcceptChanges,Accept Changes,Änderungen annehmen
-#FE-SelectIcon,Select CROSS,Auswahl
-#FE-NextIcon,Next CROSS,Weiter
-#FE-BackIcon,TRIANGLE Back,Zurück
-#FE-LTIcon,< LT,< LT
-#FE-RTIcon,RT >,RT >
-#FE-CancelIcon,CIRCLE Cancel,Abbrechen
-#FE-ExtrasLocked,??????????,??????????
-#FE-GemExtrasBlue,Blue Gem Extras,Blaue Edelstein-Extras
-#FE-GemExtrasClear,Clear Gem Extras,Weisse Edelstein-Extras
-#FE-GemExtrasGreen,Green Gem Extras,Grüne Edelstein-Extras
-#FE-GemExtrasPurple,Purple Gem Extras,Lila Edelstein-Extras
-#FE-GemExtrasRed,Red Gem Extras,Rote Edelstein-Extras
-#FE-GemExtrasYellow,Yellow Gem Extras,Gelbe Edelstein-Extras
-#FE-DisableAutoSaveHeader,Disable Autosave?,Autom. speichern\ndeaktivieren?
-#FE-CompleteExtras,100% Extras,100% Extras
-#FE-BossExtras,Boss Extras,Boss Extras
-#FE-ConceptExtras,Concept Extras,Konzept Extras
-#FE-EnemyExtras,Enemy Extras,Feind Extras
-#FE-MovieExtras,Movie Extras,Film Extras
-#FE-UnseenExtras,Unseen Extras,Ungesehene Extras
-#FE-LevelName-001,N.Sanity Island,N.Sanity-Insel
-#FE-LevelName-002,Jungle Bungle,Dschungel-Fieber
-#FE-LevelName-003,Cavern Catastrophe,Höhlen-Hölle
-#FE-LevelName-004,Totem Hokum,Totem-Tohuwabohu
-#FE-LevelName-005,Iceberg Lab,Eisberg-Labor
-#FE-LevelName-006,Ice Climb,Heisses Eis
-#FE-LevelName-007,Slip Slide Icecapades,Eis-Eskapaden
-#FE-LevelName-008,High Seas Hi-Jinks,Hochsee-Hokuspokus
-#FE-LevelName-009,Academy Of Evil,Akademie des Bösen
-#FE-LevelName-010,Boiler Room Doom,Heizkeller-Hickhack
-#FE-LevelName-011,Classroom Chaos,Klassenzimmer-Chaos
-#FE-LevelName-012,Rooftop Rampage,Dach-Drama
-#FE-LevelName-013,Twinsanity Island,Irrsins-Insel
-#FE-LevelName-014,Rockslide Rumble,Steinschlag-Stress
-#FE-LevelName-015,Bandicoot Pursuit,Bandicoot-Jagd
-#FE-LevelName-016,Ant Agony,Ameisen-Aufstand
-#FE-Explorer-Title,Select Level,Levelauswahl
-#FE-Explorer-Footer,Project Rehab - Explorer Tech Demo,Projekt Rehab - Explorer-Tech-Demo
-#FE-Explorer-ImportNotFound,Imported assets not found!,Importierte Datei nicht gefunden!
-#FE-Explorer-ReturnToLevelSelect,Return To Level Select,Zurück zur Levelauswahl
-#FE-Explorer-ReturnToMainMenu,Return To Main Menu,Zurück zur Hauptmenü
-#FE-Explorer-Advanced,Advanced,Profi
-#FE-Explorer-Disclaimer-0,"This is a tech demo.\n\nIt benchmarks the visuals\nand install process\nto inform future\ndevelopments.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
-#FE-Explorer-Disclaimer-1,"This is a tech demo.\n\nIf you see a bug,\nthat's not in the game.\n\nIt's now behind you.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
-#FE-Explorer-Disclaimer-2,"This is a tech demo.\n\nIf you see this,\nthat means it's working.\n\nHopefully.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
-#FE-Explorer-Disclaimer-3,"This is a\npeanut butter\nand jelly sandwich.\n\nIt has all the ingredients\nto make you happy.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
-#FE-Explorer-Disclaimer-4,"This is a video game.\n\nYou press buttons on\nyour controller.\n\nWhich you should use.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
-#FE-Explorer-Disclaimer-5,"This is a demo.\n\nA demo demonstrates\nwhat the demo can do.\n","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
-#FE-Explorer-Disclaimer-6,"This is a tech demo.\n\nMuch like the duck test,\nthe best way\nto gauge accuracy.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
-#FE-Explorer-Disclaimer-7,"This is a tech demo.\n\nNot a regular demo, no.\n\nWe're testing\ntechnology here!","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
-#FE-Explorer-Disclaimer-8,"This is a tech demo.\n\nHas anyone seen\nthis mouse?\n\nPure white, pointy,\nclicks everywhere.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
-#FE-Explorer-Disclaimer-9,"This is a game.\n\nOr at least,\nit will be one day.\n\nFor now, this demo\nshall suffice.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
-#FE-Explorer-Disclaimer-10,"This is a tech demo.\n\nYou cannot complete it.\n\nJust enjoy it.\n\nLike coffee.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich."
-#FE-ToggleFullScreen,Toggle Full Screen,Vollbild umschalten
-#FE-GlobalVolume,Global Volume,Globales-Lautstärke
-#FE-VoiceVolume,Voice Volume,Stimmen-Lautstärke
-#FE-NoGameData,No game data installed.\nMake sure the data pack\nis in the Packs folder.,Keine Spiel-Datei installiert.\nStellen sicher dass\nder Datenpaket im\nPacks Ordner befindet.
-#FE-MSAA-Off,MSAA: OFF,MSAA: AUS
-#FE-MSAA-2x,MSAA: 2x,MSAA: 2x
-#FE-MSAA-4x,MSAA: 4x,MSAA: 4x
-#FE-MSAA-8x,MSAA: 8x,MSAA: 8x
-#FE-FXAA-Off,FXAA: OFF,FXAA: AUS
-#FE-FXAA-On,FXAA: ON,FXAA: EIN
-#FE-VSync-Off,VSync: OFF,VSync: AUS
-#FE-VSync-On,VSync: ON,VSync: EIN
-#FE-VSync-Adaptive,VSync: Adaptive,VSync: Adaptiv
-#FE-VSync-Fast,VSync: Fast,VSync: Schnell
-#FE-CamInvertH-On,Invert horizontal camera: ON,Horizontale Kamerasteuerung umkehren: EIN
-#FE-CamInvertH-Off,Invert horizontal camera: OFF,Horizontale Kamerasteuerung umkehren: AUS
-#FE-CamInvertV-On,Invert vertical camera: ON,Vertikale Kamerasteuerung umkehren: EIN
-#FE-CamInvertV-Off,Invert vertical camera: OFF,Vertikale Kamerasteuerung umkehren: AUS
-#FE-LanguageName,English,Deutsch
-#FE-Credits,Credits,Credits
+,en-US,de-DE,fr-FR,it-IT,es-ES,pl-PL
+#FE-Off,Off,Aus,Off,Off,Desactivar,Wyłączone
+#FE-On,On,Ein,On,On,Activar,Włączone
+#FE-No,No,Nein,Non,No,No,Nie
+#FE-Yes,Yes,Ja,Oui,Sě,Sí,Tak
+#FE-Back,Back,Zurück,Retour,Indietro,Volver,Powrót
+#FE-Continue,Continue,Weiter,Continuer,Continua,Continuar,Dalej
+#FE-NewGame,New Game,Neues Spiel,Nouvelle partie,Nuova partita,Nueva partida,Nowa gra
+#FE-LoadGame,Load Game,Spiel Laden,Charger,Carica partita,Cargar partida,Ładuj grę
+#FE-Options,Options,Optionen,Options,Opzioni,Opciones,Opcje
+#FE-Language,Language,Sprache,Langue,Lingua,Idioma,Język
+#FE-GFXOptions,Graphics Options,Grafik-Optionen,Options Graphiques,Opzioni grafiche,Opciones gráficas,Opcje grafiki
+#FE-SFXOptions,Sound Options,Sound-Optionen,Options Sonores,Opzioni audio,Opciones de sonido,Opcje dzwięku
+#FE-GameOptions,Game Options,Spiel-Optionen,Options de jeu,Opzioni di gioco,Opciones de juego,Opcje gry
+#FE-EffectsVolume,Effects Volume,Effekt-Lautstärke,Volume des sons,Volume effetti,Volumen de los efectos,Głośność dźwięków
+#FE-MusicVolume,Music Volume,Musik-Lautstärke,Volume de la musique,Volume musica,Volumen de la música,Głośność muzyki
+#FE-Vibrations,Controller Vibrations,Kontroller Vibration,Vibration,Vibrazione,Vibración,Wibracje kontrolera
+#FE-DisableAutoSave,Disable Autosave,Autom-Sp. Deaktiv.,Dés. l'auto-sauvegarde,Disabilita salv. autom.,Desact. autoguardado,Wyłącz autom. zapis
+#FE-Extras,Extras,Extras,Bonus,Extra,Extras,Bonusy
+#FE-Paused,Game Paused,Pause,Jeu en pause,Pausa,Partida en pausa,Pauza
+#FE-SaveGame,Save Game,Spiel Speichern,Sauvegarder,Salva partita,Guardar partida,Zapisz grę
+#FE-QuitGame,Quit Game,Spiel Beenden,Quitter,Esci,Salir,Wyjdź z gry
+#FE-Resume,Resume,Weiter,Continuer,Riprendi,Reanudar,Kontynuuj
+#FE-AutoSaveOn,Autosave Enabled,Autom. speichern aktiviert,Auto-sauvegarde activée,Salvataggio automatico abilitato,Autoguardado activado,Autom. zapis włączony
+#FE-AutoSaveOnMSG,Please don't turn off the game\nwhen the autosave indicator\nbelow is present.,Bitte das Spiel nicht ausschalten\nwenn die autom. speichern Anzeige\nunten angezeigt wird.,Veuillez ne pas éteindre\nle jeu lorsque l'indicateur\nde sauvegarde automatique\nci-dessous est présent.,Si prega di non spegnere\nil gioco quando è presente\nl'indicatore di salvataggio automatico\nriportato di seguito.,No apagues el juego cuando\nel indicador de guardado automático\na continuación esté presente.,Proszę nie wyłączać gry\nkiedy symbol poniżej\njest widoczny.
+#FE-AutoSaveOff,Autosave Disabled,Autom. speichern deaktiv.,Auto-sauvegarde désactivée,Salvataggio automatico disattivato,Autoguardado desactivado,Autom. zapis wyłączony
+#FE-AutoSaveOffMSG,"To enable autosave,\nreturn to the pause menu\nand re-save the game.","Um autom. speichern zu aktivieren,\nkehr zum Pause-Menü zurück und\nspeichere das Spiel erneut ab.","Pour activer la sauvegarde\nautomatique, revenez au menu pause\net sauvegardez\nà nouveau le jeu.","Per abilitare il salvataggio automatico,\ntorna al menu di pausa\ne salva nuovamente il gioco.","Para habilitar el guardado automático,\nregresa al menú de pausa\ny vuelve a guardar el juego.",Aby włączyć autom. zapis\nzpauzuj grę i zapisz\nponownie.
+#FE-OverwriteOption,Overwrite,Überschreiben,écraser,Sovrascrivere,Sobrescribir,Przepisanie zapisu
+#FE-OverwriteMSG,Are you sure you wish to\noverwrite this saved game?,Bist du sicher\ndass du diese datei\nüberschreiben möchtest?,Ecraser la sauvegarde ?,Sei sicuro di voler\nsovrascrivere questo file salvato?,żseguro de que quieres\nsobrescribir este archivo?,Jesteś pewny aby\nprzepisać ten zapis gry?
+#FE-SaveHeader,Select slot to Save,Datei zum speichern wählen,Sélectionner le fichier ŕ sauvegarder,Seleziona il file da salvare,Selecciona archivo para guardar,Wybierz miejsce na zapis
+#FE-LoadHeader,Select slot to Load,Datei zum laden wählen,Sélectionner le fichier ŕ charger,Seleziona il file da caricare,Selecciona archivo para cargar,Wybierz skąd ładować
+#FE-EmptySlot,Empty,Leer,Vide,Vuoto,Vacío,Puste
+#FE-CancelSaveOption,Cancel,Abbrechen,Annuler,Annulla,Cancelar,Anuluj
+#FE-NoSaveOption,Continue without saving,Weiter ohne zu speichern,Continuer sans sauvegarder,Continua senza salvare,Continuar sin guardar,Kontunuuj bez zapisu
+#FE-NewSaveOption,Create New Save,Neues Datei,Nouvelle sauvegarde,Nuovo salvataggio,Nuevo guardado,Nowy zapis
+#FE-AutoSaveMSG,Autosave in progress.\n\nPlease don't turn off the game.,Automatiche Datenspeicherung.,Sauvegarde du jeu,Salvataggio del gioco,Guardar juego,Zapisuję.\n\nProszę nie wyłączać gry.
+#FE-GameOver,GAME OVER,ENDE,PARTIE TERMINÉE,FINE PARTITA,FIN DE LA PARTIDA,KONIEC GRY
+#FE-QuitMSG,You will lose all unsaved progress\nif you quit now.\nAre you sure you\nwant to quit?,Spiel beenden?,Quitter le jeu ?,Vuoi uscire dalla partita?,żsalir de la partida?,Jesteś pewny by\nwyjść?
+#FE-TitleStart,Press START to play,START-Taste drücken,Appuie sur la touche START,Premi il tasto START (avvio),Pulsa el botón START,Naciśnij START by zacząć
+#FE-Loading,LOADING,LADEN,CHARGEMENT,CARICAMENTO IN CORSO,CARGANDO,ŁADUJE
+#FE-SaveOK,Save Successful,Speichern erfolgreich,Sauvegarde réussie,Salvataggio completato,éxito al guardar,Zapis poprawny
+#FE-LoadOK,Load Successful,Laden erfolgreich,Chargement réussi,Caricamento completato,éxito al cargar,Ładowanie poprawne
+#FE-CancelSaveHeader,Cancel Save?,Speichern abbrechen?,Annuler la sauvegarde?,Annulare il salvataggio?,żcancelar guardar?,Anuluj zapisanie?
+#FE-SaveCancelled,Save Cancelled,Speichern abgebrochen,Sauvegarde annulée,Salvataggio annullato,Guardado cancelado,Zapisanie anulowane
+#FE-AcceptChanges,Accept Changes,Änderungen annehmen,Accepter les changements,Accetta modifiche,Aceptar cambios,Potwierdź zmiany
+#FE-SelectIcon,Select CROSS,Auswahl,Sélectionner,Seleziona,Seleccionar,Wybierz
+#FE-NextIcon,Next CROSS,Weiter,Continuer,Riprendi,Reanudar,Dalej
+#FE-BackIcon,TRIANGLE Back,Zurück,Retour,Indietro,Volver,Powrót
+#FE-LTIcon,< LT,< LT,< LT,< LT,< LT,< LT
+#FE-RTIcon,RT >,RT >,RT >,RT >,RT >,RT >
+#FE-CancelIcon,CIRCLE Cancel,Abbrechen,Annuler,Annulla,Cancelar,Anuluj
+#FE-ExtrasLocked,??????????,??????????,??????????,??????????,??????????,??????????
+#FE-GemExtrasBlue,Blue Gem Extras,Blaue Edelstein-Extras,Bonus gemmes bleues,Extra gemme blu,Extras de gema azul,Bonusy niebieskich klejnotów
+#FE-GemExtrasClear,Clear Gem Extras,Weisse Edelstein-Extras,Bonus gemmes transparentes,Extra gemme trasparenti,Extras de gema clara,Bonusy białych klejnotów
+#FE-GemExtrasGreen,Green Gem Extras,Grüne Edelstein-Extras,Bonus gemmes vertes,Extra gemme verdi,Extras de gema verde,Bonusy zielonych klejnotów
+#FE-GemExtrasPurple,Purple Gem Extras,Lila Edelstein-Extras,Bonus gemmes violettes,Extra gemme viola,Extras de gema morada,Bonusy purpurowych klejnotów
+#FE-GemExtrasRed,Red Gem Extras,Rote Edelstein-Extras,Bonus gemmes rouges,Extra gemme rosse,Extras de gema roja,Bonusy czerwonych klejnotów
+#FE-GemExtrasYellow,Yellow Gem Extras,Gelbe Edelstein-Extras,Bonus gemmes jaunes,Extra gemme gialle,Extras de gema amarilla,Bonusy żółtych klejnotów
+#FE-DisableAutoSaveHeader,Disable Autosave?,Autom. speichern\ndeaktivieren?,Désactiver~l'auto-sauvegarde?,Disabilita salvataggio automatico?,żdesactivar autoguardado?,Wyłączyć autom. zapis?
+#FE-CompleteExtras,100% Extras,100% Extras,100% Bonus,100% Extra,100% Extras,Bonusy 100%
+#FE-BossExtras,Boss Extras,Boss Extras,Bonus des bosses,Extra boss,Extras de jefes,Bonusy bossów
+#FE-ConceptExtras,Concept Extras,Konzept Extras,Bonus des concept,Extra concept,Extras de diseńos,Bonusy konceptowe
+#FE-EnemyExtras,Enemy Extras,Feind Extras,Bonus des ennemis,Extra nemici,Extras de enemigos,Bonusy wrogów
+#FE-MovieExtras,Movie Extras,Film Extras,Bonus film,Extra filmato,Extras película,Bonusy filmów
+#FE-UnseenExtras,Unseen Extras,Ungesehene Extras,Bonus des choses cachées,Extra inediti,Extras nueva,Bonusy nieznane
+#FE-LevelName-001,N.Sanity Island,N.Sanity-Insel,Ile de N.Sanity,L'isola Della Follia,Isla Locura,Wyspa N.Sanity
+#FE-LevelName-002,Jungle Bungle,Dschungel-Fieber,Dingue de Jungle,Pasticcio Nella Giungla,Jungla Unga,Groźny Gąszcz
+#FE-LevelName-003,Cavern Catastrophe,Höhlen-Hölle,Caverne Catastrophe,Catastrofe Nella Caverna,Cueva Catástrofe,Pieczara Piekła
+#FE-LevelName-004,Totem Hokum,Totem-Tohuwabohu,Totem Hokum,Villaggio Indiano,Tótem Tonto,Totemowe Tragedie
+#FE-LevelName-005,Iceberg Lab,Eisberg-Labor,Labo Iceberg,Il Laboratorio di Ghiaccio,Laboratorio Iceberg,Lodowcowe Laboratorium
+#FE-LevelName-006,Ice Climb,Heisses Eis,Glace Glissante,Scalata sui Ghiacci,Trepa Hielo,Odmrożone Odpłaty
+#FE-LevelName-007,Slip Slide Icecapades,Eis-Eskapaden,Toboggan Glagla,Scivolate sui Ghiacci,Hieloescapa y Deslízate,Ślizgo-slajdowypad
+#FE-LevelName-008,High Seas Hi-Jinks,Hochsee-Hokuspokus,Bon Grain Marin,Baldoria in Alto Mare,Lío en Alta Mar,Pełnomorskie Porwania
+#FE-LevelName-009,Academy Of Evil,Akademie des Bösen,Académie Maléfique,L'accademia del Male,Academia del Mal,Akademia Zła
+#FE-LevelName-010,Boiler Room Doom,Heizkeller-Hickhack,Chaude Chaudičre,La Caldaia Maledetta,Sala de Calderas,Kłótliwa Kotłownia
+#FE-LevelName-011,Classroom Chaos,Klassenzimmer-Chaos,Chaos en Casse,Caos in Casse,Clase Caótica,Kakofoniczne Klasy
+#FE-LevelName-012,Rooftop Rampage,Dach-Drama,Combat sur le Toit,Furore sui Tetti,Jaleo Aéreo,Dachowe Działanie
+#FE-LevelName-013,Twinsanity Island,Irrsins-Insel,Ile de Twinsanity,L'isola Dei Gemelli Folli,Isla Locados,Wyspa Twinsanity
+#FE-LevelName-014,Rockslide Rumble,Steinschlag-Stress,Raffut Rocailleux,Che Frana!,Descenso Rocoso,Oszołomowe Osuwisko
+#FE-LevelName-015,Bandicoot Pursuit,Bandicoot-Jagd,Poursuite Bandicoot,La Caccia di Bandicoot,Sigue a Bandicoot,Pogoń Bandicoota
+#FE-LevelName-016,Ant Agony,Ameisen-Aufstand,Fourmi Furieuse,Il Formicaio,Hormiga Manía,Mrówkowa Mania
+#FE-Explorer-Title,Select Level,Levelauswahl,Choisir le niveau,Seleziona livello,Selecciona el nivel,Wybór poziomu
+#FE-Explorer-Footer,Project Rehab - Explorer Tech Demo,Projekt Rehab - Explorer-Tech-Demo,Projet Rehab Démo,Progetto Rehab Demo,Proyecto Rehab Demo,Projekt Rehab - Tech. Demo Poszukiwacza
+#FE-Explorer-ImportNotFound,Imported assets not found!,Importierte Datei nicht gefunden!,Données importées introuvables!,Dati importati non trovati!,¡No se encontraron datos importados!,Nie znaleziono plików oryginalnej gry!
+#FE-Explorer-ReturnToLevelSelect,Return To Level Select,Zurück zur Levelauswahl,Revenir à la sélection du niveau,Torna al livello selezionato,Volver a seleccionar nivel,Powrót do wyboru poziomów
+#FE-Explorer-ReturnToMainMenu,Return To Main Menu,Zurück zur Hauptmenü,Retour au menu principal,Ritorna al menu principale,Volver al menú principal,Powrót do głównego menu
+#FE-Explorer-Advanced,Advanced,Profi,Professionnel,Avanzati,Avanzado,Zaawansowane
+#FE-Explorer-Disclaimer-0,This is a tech demo.\n\nIt benchmarks the visuals\nand install process\nto inform future\ndevelopments.,"Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-Explorer-Disclaimer-1,"This is a tech demo.\n\nIf you see a bug,\nthat's not in the game.\n\nIt's now behind you.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-Explorer-Disclaimer-2,"This is a tech demo.\n\nIf you see this,\nthat means it's working.\n\nHopefully.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-Explorer-Disclaimer-3,This is a\npeanut butter\nand jelly sandwich.\n\nIt has all the ingredients\nto make you happy.,"Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-Explorer-Disclaimer-4,This is a video game.\n\nYou press buttons on\nyour controller.\n\nWhich you should use.,"Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-Explorer-Disclaimer-5,This is a demo.\n\nA demo demonstrates\nwhat the demo can do.\n,"Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-Explorer-Disclaimer-6,"This is a tech demo.\n\nMuch like the duck test,\nthe best way\nto gauge accuracy.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-Explorer-Disclaimer-7,"This is a tech demo.\n\nNot a regular demo, no.\n\nWe're testing\ntechnology here!","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-Explorer-Disclaimer-8,"This is a tech demo.\n\nHas anyone seen\nthis mouse?\n\nPure white, pointy,\nclicks everywhere.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-Explorer-Disclaimer-9,"This is a game.\n\nOr at least,\nit will be one day.\n\nFor now, this demo\nshall suffice.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-Explorer-Disclaimer-10,This is a tech demo.\n\nYou cannot complete it.\n\nJust enjoy it.\n\nLike coffee.,"Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-ToggleFullScreen,Toggle Full Screen,Vollbild umschalten,Basculer en plein écran,Passare a schermo intero,Alternar pantalla completa,Przełącz pełny ekran
+#FE-GlobalVolume,Global Volume,Globales-Lautstärke,Volume global,Volume globale,Volumen global,Głośność globalna
+#FE-VoiceVolume,Voice Volume,Stimmen-Lautstärke,Volume de la voix,Volume della voce,Volumen de voz,Głośność głosów
+#FE-NoGameData,No game data installed.\nMake sure the data pack\nis in the Packs folder.,Keine Spiel-Datei installiert.\nStellen sicher dass\nder Datenpaket im\nPacks Ordner befindet.,Aucune donnée de jeu installée.\nAssurez-vous que le pack\nde données se trouve\ndans le dossier Packs.,Nessun dato di gioco installato.\nAssicurati che il pacchetto\ndati sia nella\ncartella Packs.,No hay datos\ndel juego instalados.\nAsegúrese de que el paquete\nde datos esté\nen la carpeta Packs.,"Nic nie zainstalowano.\nUpewnij się, że paczka\njest w folderze Packs."
+#FE-MSAA-Off,MSAA: OFF,MSAA: AUS,MSAA: OFF,MSAA: OFF,MSAA: DESACTIVAR,MSAA: WYŁĄCZONE
+#FE-MSAA-2x,MSAA: 2x,MSAA: 2x,MSAA: 2x,MSAA: 2x,MSAA: 2x,MSAA: 2x
+#FE-MSAA-4x,MSAA: 4x,MSAA: 4x,MSAA: 4x,MSAA: 4x,MSAA: 4x,MSAA: 4x
+#FE-MSAA-8x,MSAA: 8x,MSAA: 8x,MSAA: 8x,MSAA: 8x,MSAA: 8x,MSAA: 8x
+#FE-FXAA-Off,FXAA: OFF,FXAA: AUS,FXAA: OFF,FXAA: OFF,FXAA: DESACTIVAR,FXAA: WYŁĄCZONE
+#FE-FXAA-On,FXAA: ON,FXAA: EIN,FXAA: ON,FXAA: ON,FXAA: ACTIVAR,FXAA: WŁĄCZONE
+#FE-VSync-Off,VSync: OFF,VSync: AUS,VSync: OFF,VSync: OFF,VSync: DESACTIVAR,VSync: WYŁĄCZONE
+#FE-VSync-On,VSync: ON,VSync: EIN,VSync: ON,VSync: ON,VSync: ACTIVAR,VSync: WŁĄCZONE
+#FE-VSync-Adaptive,VSync: Adaptive,VSync: Adaptiv,VSync: Adaptatif,VSync: Adattivo,VSync: Adaptado,VSync: Adaptywny
+#FE-VSync-Fast,VSync: Fast,VSync: Schnell,VSync: Rapide,VSync: Veloce,VSync: Rápido,VSync: Szybki
+#FE-CamInvertH-On,Invert horizontal camera: ON,Horizontale Kamerasteuerung umkehren: EIN,Inverser le contrôle horizontal de la caméra: ON,Inverte il controllo della telecamera orizzontale: ON,Invertir control de cámara horizontal: SÍ,Odwróć poziome sterowanie kamerą: TAK
+#FE-CamInvertH-Off,Invert horizontal camera: OFF,Horizontale Kamerasteuerung umkehren: AUS,Inverser le contrôle horizontal de la caméra: OFF,Inverte il controllo della telecamera orizzontale: OFF,Invertir control de cámara horizontal: NO,Odwróć poziome sterowanie kamerą: NIE
+#FE-CamInvertV-On,Invert vertical camera: ON,Vertikale Kamerasteuerung umkehren: EIN,Inverser le contrôle vertical de la caméra: ON,Inverte il controllo verticale della telecamera: ON,Invertir control de cámara vertical: SÍ,Odwróć pionowe sterowanie kamerą: TAK
+#FE-CamInvertV-Off,Invert vertical camera: OFF,Vertikale Kamerasteuerung umkehren: AUS,Inverser le contrôle vertical de la caméra: OFF,Inverte il controllo verticale della telecamera: OFF,Invertir control de cámara vertical: NO,Odwróć pionowe sterowanie kamerą: NIE
+#FE-LanguageName,English,Deutsch,Français,Italiano,Español,Polski
+#FE-Credits,Credits,Credits,Crédits,Crediti,Créditos,Napisy końcowe
+#FE-Dub-English,English,Englisch,Anglais,Inglese,Inglés,Angielski
+#FE-Dub-French,French,Französisch,Français,Francese,Francés,Francuski
+#FE-Dub-German,German,Deutsch,Allemand,Tedesco,Alemán,Niemiecki
+#FE-Dub-Italian,Italian,Italienisch,Italien,Italiano,Italiano,Włoski
+#FE-Dub-Spanish,Spanish,Spanisch,Espagnol,Spagnolo,Español,Hiszpański
+#FE-DubSelection,Voice Language,Stimmen-Sprache,Langue vocal,Lingua vocale,Idioma de voz,Język Głosów
+#FE-Dub-Japanese,Japanese,Japanisch,Japonais,Giapponese,Japonés,Japoński

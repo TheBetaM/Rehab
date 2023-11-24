@@ -47,20 +47,22 @@ func UpdateVisuals():
 
 func AnimIn():
 	UpdateVisuals()
+	$LevelIcon.isAnim = false
+	$LevelIcon.scale = Vector2.ONE
 	$AnimationPlayer.play("LoadingStart")
 	modulate.a = 1.0
-	$LabelLevelName.pivot_offset = Vector2(get_window().size.x / 2, $LabelLevelName.size.y / 2)
-	$LevelIcon.pivot_offset = Vector2(get_window().size.x / 2, $LevelIcon.size.y / 2)
-	$LoadingBG.pivot_offset = get_window().size / 2
-	$LoadingBG/ColorRectCenter.pivot_offset = get_window().size / 2
+	$LabelLevelName.pivot_offset.x = $LabelLevelName.size.x / 2
+	$LevelIcon.pivot_offset.x = $LevelIcon.size.x / 2;
+	$LoadingBG.pivot_offset.x = $LoadingBG.size.x / 2
+	$LoadingBG/ColorRectCenter.pivot_offset.x = $LoadingBG/ColorRectCenter.size.x / 2
 	for i in $LoadingBG/ColorRectCenter.get_children():
-		i.pivot_offset = get_window().size / 2
-	$Control.position.y = get_window().size.y
+		i.pivot_offset.x = i.size.x / 2
 	var aTween = create_tween();
-	aTween.tween_property($Control, "position:y", get_window().size.y - $Control.size.y, 0.5)
+	aTween.tween_property($Control, "position:y", 720.0 - $Control.size.y, 0.5)
 	visible = true
 	await get_tree().create_timer(0.5).timeout
 	$AnimationPlayer.play("TextAnim")
+	$LevelIcon.isAnim = true
 
 func AnimOut():
 	modulate.a = 1.0
