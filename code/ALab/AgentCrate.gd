@@ -7,3 +7,9 @@ enum CrateFSlot {
 	UnkFloat2 = 1,
 	UnkFloat3 = 2,
 }
+
+
+func _ready():
+	super()
+	
+	CreateShadow(1, Vector2.ONE, 0)

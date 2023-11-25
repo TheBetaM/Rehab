@@ -22,3 +22,4 @@ func _ready():
 	super()
 	
 	DoAnimation(1, true)
+	CreateShadow(0, Vector2.ONE, 0)

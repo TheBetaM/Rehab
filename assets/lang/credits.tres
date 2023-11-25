@@ -1,3 +1,10 @@
+[gd_resource type="Resource" script_class="TextResource" load_steps=2 format=3 uid="uid://db2wlecbc5gg8"]
+
+[ext_resource type="Script" path="res://code/Containers/TextResource.gd" id="1_u1ol5"]
+
+[resource]
+script = ExtResource("1_u1ol5")
+text = "
 Project Rehab
 Explorer Tech Demo
 
@@ -442,3 +449,5 @@ possible without
 
 Jon Burton 
 
+
+"

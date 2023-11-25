@@ -16,7 +16,7 @@ var RequiredAssets = [
 	RehabGame.AssetsPath + "Animations/Cortex_SkateFall.res",
 ]
 
-func _ready():
+func LoadActors():
 	ActorsExist = true
 	for i in RequiredAssets:
 		if (!ResourceLoader.exists(i)):
@@ -29,7 +29,13 @@ func _ready():
 		Root3D.add_child(ActorNode)
 
 func StartAnim():
+	visible = false
+	if (!ActorsExist):
+		LoadActors()
+		await get_tree().process_frame
+		await get_tree().process_frame
 	$AnimationPlayer.play("menu_start")
+	visible = true
 	if (ActorsExist):
 		ActorNode.get_node("AnimationPlayer").play("scene/menu_start")
 		if (ResourceLoader.exists(AudioPath)):
@@ -53,7 +59,7 @@ func Activate():
 	visible = true
 	StartAnim()
 	RehabSceneRoot.Root.PlayMusic(54)
-	await get_tree().create_timer(1.8).timeout
+	await get_tree().create_timer(1.9).timeout
 	$Button1.quiet = true
 	$Button1.grab_focus()
 	$Button1.quiet = false

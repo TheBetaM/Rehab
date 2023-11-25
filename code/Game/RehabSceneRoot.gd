@@ -191,6 +191,7 @@ func SwitchToChunk(chunk : ChunkScene):
 	var ChunkOffset = chunk.global_position;
 	for c in Chunks:
 		c.global_position += -ChunkOffset
+	PlayerCam.pivot += -ChunkOffset
 	PlayerCam.global_position += -ChunkOffset
 	
 	# Disabling links of chunk that we're exiting
@@ -391,7 +392,7 @@ func PlayAmbience(id: int):
 	if ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_LOADED:
 		var loadedTrack = ResourceLoader.load_threaded_get(path)
 		AudioAmbience.stream = loadedTrack
-		AudioAmbience.volume_db = 0.0
+		AudioAmbience.volume_db = -10.0
 		AudioAmbience.play()
 	AmbSwitching = false
 

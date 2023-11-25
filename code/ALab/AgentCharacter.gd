@@ -136,6 +136,7 @@ func _ready():
 	var animPlayer : AnimationPlayer = SubModels[0].get_node("AnimationPlayer")
 	var armature = charBody.get_node("Armature")
 	animPlayer.root_node = NodePath("../" + charBody.name + "/Armature")
+	CreateShadow(0, Vector2.ONE, 0)
 	DoAnimation(8, true)
 	FS_Dirt_1 = load(RehabGame.AssetsPath + "Sounds/Surface/fs_dirt_3.res")
 	FS_Dirt_2 = load(RehabGame.AssetsPath + "Sounds/Surface/fs_dirt_5.res")

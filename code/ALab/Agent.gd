@@ -195,6 +195,28 @@ func UpdateActiveModel():
 func OnChunkEnter():
 	pass
 
+var ShadowPaths = [
+	"res://assets/textures/shadow/clin.png",
+	"res://assets/textures/shadow/cube.png",
+	"res://assets/textures/shadow/rcub.png",
+	"res://assets/textures/shadow/octo.png",
+]
+
+func CreateShadow(type : int, dsize : Vector2, boneAttach : int):
+	if (SubModels.size() == 0): return
+	var shad = Decal.new()
+	#shad.script = load("res://code/Containers/DecalShadow.gd")
+	shad.size = Vector3(dsize.x, 10, dsize.y)
+	shad.texture_albedo = load(ShadowPaths[type])
+	shad.upper_fade = 0
+	shad.lower_fade = 0.5
+	shad.distance_fade_enabled = true
+	shad.distance_fade_begin = 40
+	shad.layers = 1
+	shad.modulate = Color(1.0, 1.0, 1.0, 0.5)
+	SubModels[ActiveModel].get_child(0).add_child(shad)
+	shad.position.y = -4.99
+
 func ControlPackUpdate():
 	CTRLPACK.Update()
 

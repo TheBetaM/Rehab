@@ -16,6 +16,8 @@ func _ready():
 	SubModels[0].get_node("RigidBody").body_entered.connect(OnPickup)
 	if (name != "Pickup_Wumpa"):
 		IsWumpa = false
+	else:
+		CreateShadow(0, Vector2.ONE * 0.5, 0)
 
 func _physics_process(delta):
 	SubModels[0].rotate_y(3.0 * delta)

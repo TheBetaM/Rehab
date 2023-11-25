@@ -6,8 +6,10 @@ var ImagePath = RehabGame.AssetsPath + "Textures/Language/Credits/CreditNew.res"
 var CreditsText : String
 var CreditsActive : bool = false
 var LineCount : int = 445
+var FirstLoad : bool = false
 
-func _ready():
+func LoadFirst():
+	FirstLoad = true
 	if (ResourceLoader.exists(ImagePath)):
 		ImageRect.texture = load(ImagePath)
 	CreditsActive = false
@@ -26,7 +28,14 @@ func _process(delta):
 		EndCredits()
 
 func StartCredits():
-	var file = FileAccess.open("res://assets/lang/credits.txt", FileAccess.READ)
+	if (!FirstLoad):
+		LoadFirst()
+		await get_tree().process_frame
+		await get_tree().process_frame
+		await get_tree().process_frame
+	#var file = FileAccess.open("res://assets/lang/credits.txt", FileAccess.READ)
+	var file : TextResource = ResourceLoader.load("res://assets/lang/credits.tres")
+	var fileLines = file.text.split("\n")
 	#file.get_line()
 	CreditsActive = false;
 	#modulate.a = 1.0
@@ -45,7 +54,8 @@ func StartCredits():
 	
 	for i in range(0, LineCount - 1):
 		var label = LabelScene.instantiate()
-		label.text = file.get_line()
+		#label.text = file.get_line()
+		label.text = fileLines[i]
 		$VBox.add_child(label)
 	
 	await get_tree().process_frame
