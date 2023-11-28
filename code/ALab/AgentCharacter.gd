@@ -76,9 +76,9 @@ enum CharISlot {
 }
 
 
-var velocity = Vector3.ZERO
+var char_velocity = Vector3.ZERO
 var modeldirection = Vector3.ZERO
-var physBody : Node3D
+#var physBody : Node3D
 var physCam : Camera3D
 var isReparenting : bool = false
 var headdirX = 0.0
@@ -86,6 +86,7 @@ var headdirY = 0.0
 var footsteptimer = 0.0
 var footsteplast = false
 var gravityOn = true
+var spinTimer = 0.0
 
 var FS_Dirt_1 : AudioStream
 var FS_Dirt_2 : AudioStream
@@ -105,7 +106,7 @@ var FS_Tile_1 : AudioStream
 var FS_Tile_2 : AudioStream
 var FS_Slippy : AudioStream
 
-static var activeCharacter : Agent
+static var activeCharacter : AgentCharacter
 static var ActiveActorTypes : Dictionary #int type : Agent character
 
 func _ready():
@@ -123,19 +124,20 @@ func _ready():
 		return
 		
 	activeCharacter = self
-	physBody = SubModels[0].get_node("RigidBody")
-	var oldBody = SubModels[0].get_node("RigidBody")
-	var charBody = CharacterBody3D.new()
-	physBody.replace_by(charBody)
-	charBody.global_position.y += 3.0
-	#charBody.get_child(0).disabled = false
-	oldBody.queue_free()
-	physBody = charBody
+	#physBody = SubModels[0].get_node("RigidBody")
+	#var oldBody = SubModels[0].get_node("RigidBody")
+	#var charBody = CharacterBody3D.new()
+	#physBody.replace_by(charBody)
+	#charBody.global_position.y += 3.0
+	##charBody.get_child(0).disabled = false
+	#oldBody.queue_free()
+	#physBody = charBody
 	physCam = RehabSceneRoot.Root.PlayerCam
-	physCam.SetupCam(physBody)
-	var animPlayer : AnimationPlayer = SubModels[0].get_node("AnimationPlayer")
-	var armature = charBody.get_node("Armature")
-	animPlayer.root_node = NodePath("../" + charBody.name + "/Armature")
+	physCam.SetupCam(self)
+	#physCam.SetupCam(physBody)
+	#var animPlayer : AnimationPlayer = SubModels[0].get_node("AnimationPlayer")
+	#var armature = charBody.get_node("Armature")
+	#animPlayer.root_node = NodePath("../" + charBody.name + "/Armature")
 	CreateShadow(0, Vector2.ONE, 0)
 	DoAnimation(8, true)
 	FS_Dirt_1 = load(RehabGame.AssetsPath + "Sounds/Surface/fs_dirt_3.res")
@@ -168,10 +170,8 @@ func _exit_tree():
 
 func _physics_process(delta):
 	ActiveActorTypes[RegInt[CharISlot.AgentType]] = get_path()
-	if (physBody == null || physBody.process_mode == PROCESS_MODE_DISABLED || process_mode == PROCESS_MODE_DISABLED):
-		return
-	if (activeCharacter != self):
-		return
+	if (process_mode == Node3D.PROCESS_MODE_DISABLED): return
+	if (activeCharacter != self): return
 	if Input.is_action_pressed("pad1_start"):
 		RehabSceneRoot.Root.StartPauseMenu(false)
 		return
@@ -179,12 +179,12 @@ func _physics_process(delta):
 	UpdateMovement(delta)
 	UpdateHeadAnim(delta)
 	UpdateFootStep(delta)
-	
 
 func UpdateMovement(delta):
 	var direction = Vector3.ZERO
 	var camdir = 0.0
 	var isJumping = false
+	var onFloor : bool = call("is_on_floor")
 	
 	direction.x -= Input.get_action_strength("pad1_dpad_up")
 	direction.x += Input.get_action_strength("pad1_dpad_down")
@@ -197,16 +197,22 @@ func UpdateMovement(delta):
 		direction.z += Input.get_action_strength("pad1_lstick_right")
 		direction.z -= Input.get_action_strength("pad1_lstick_left")
 	if Input.is_action_pressed("pad1_cross"):
-		velocity.y += 80 * delta
-		if (ActiveAnim != 19):
+		char_velocity.y += 80 * delta
+		if (ActiveAnim != 19 and spinTimer <= 0.0):
 			DoAnimation(19, false)
 			DoSound(0, 1.0, 0.0)
 		isJumping = true
 	if Input.is_action_just_pressed("pad1_triangle"):
 		RehabSceneRoot.Root.Game.DisplayHUD()
-	if Input.is_action_just_pressed("pad1_square"):
-		velocity.y = 0.0
-		gravityOn = !gravityOn
+	if Input.is_action_just_pressed("pad1_square") and spinTimer <= 0.0:
+		#char_velocity.y = 0.0
+		#gravityOn = !gravityOn
+		spinTimer = RegFloat[CharFSlot.SpinLength]
+		DoAnimation(14, true)
+		DoSound(2, 1.0, 0.0)
+	
+	if (spinTimer > 0.0): 
+		spinTimer -= delta
 	
 	direction = direction.clamp(-Vector3.ONE, Vector3.ONE)
 	direction = (direction.x * physCam.camvector) + (direction.z * physCam.camright)
@@ -222,14 +228,14 @@ func UpdateMovement(delta):
 	if (pressed):
 		#if not physBody.is_on_floor():
 		#	speed *= 3.0
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
-		var targetRot = Vector3(physBody.global_rotation.x, atan2(direction.x, direction.z), physBody.global_rotation.z)
+		char_velocity.x = direction.x * speed
+		char_velocity.z = direction.z * speed
+		var targetRot = Vector3(global_rotation.x, atan2(direction.x, direction.z), global_rotation.z)
 		if (speed != 0):
-			physBody.global_rotation = targetRot
+			global_rotation = targetRot
 		else:
-			physBody.global_rotation = physBody.global_rotation.slerp(targetRot, 5.0 * delta)
-		if (!isJumping && physBody.is_on_floor()):
+			global_rotation = global_rotation.slerp(targetRot, 5.0 * delta)
+		if (!isJumping && onFloor && spinTimer <= 0.0):
 			if (speed == 0):
 				DoAnimation(9, true)
 			elif (speed == RegFloat[CharFSlot.WalkSpeed]):
@@ -237,22 +243,23 @@ func UpdateMovement(delta):
 			else:
 				DoAnimation(11, true)
 	else:
-		velocity.x = 0.0
-		velocity.z = 0.0
-		if (!isJumping && physBody.is_on_floor()):
+		char_velocity.x = 0.0
+		char_velocity.z = 0.0
+		if (!isJumping && onFloor && spinTimer <= 0.0):
 			DoAnimation(8, true)
 		
-	if (!isJumping && !physBody.is_on_floor()):
+	if (!isJumping && !onFloor && spinTimer <= 0.0):
 		DoAnimation(27, false)
 	
-	if (not physBody.is_on_floor()):
+	if (!onFloor):
 		if (gravityOn):
-			velocity.y -= 30.0 * delta
+			char_velocity.y -= 30.0 * delta
 		else:
-			velocity.y = 0.0
+			char_velocity.y = 0.0
 	
-	physBody.velocity = velocity
-	physBody.move_and_slide()
+	#physBody.velocity = velocity
+	set("velocity", char_velocity)
+	call("move_and_slide")
 
 func UpdateHeadAnim(delta):
 	if (headdirX > 0):
@@ -295,7 +302,7 @@ func UpdateHeadAnim(delta):
 	
 	SubModels[ActiveModel].get_node("AnimationPlayer").playback_process_mode = AnimationPlayer.ANIMATION_PROCESS_MANUAL
 	SubModels[ActiveModel].get_node("AnimationPlayer").advance(delta)
-	if (ActiveSkeleton != null and JointsConst[2] != -1):
+	if (ActiveSkeleton != null and JointsConst[2] != -1 and ActiveSkeleton.get_bone_count() > JointsConst[2]):
 		var headBoneRot = ActiveSkeleton.get_bone_pose_rotation(JointsConst[2])
 		var headBoneEuler = headBoneRot.get_euler()
 		headBoneEuler.x += headdirY
@@ -314,8 +321,8 @@ func UpdateFootStep(delta):
 		var clip1 = FS_Dirt_1
 		var clip2 = FS_Dirt_2
 		var space_state = get_world_3d().direct_space_state
-		var query = PhysicsRayQueryParameters3D.create(physBody.global_position + (Vector3.UP * 1.0), physBody.global_position + (Vector3.UP * -3.0))
-		query.exclude = [physBody]
+		var query = PhysicsRayQueryParameters3D.create(global_position + (Vector3.UP * 1.0), global_position + (Vector3.UP * -3.0))
+		query.exclude = [self]
 		var result = space_state.intersect_ray(query)
 		if (result.has("collider") and result["collider"] is StaticBody3D):
 			match result["collider"].get_parent().name:

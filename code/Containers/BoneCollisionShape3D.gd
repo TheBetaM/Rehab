@@ -2,7 +2,7 @@
 extends CollisionShape3D
 class_name BoneCollisionShape3D
 
-# This is needed because physics objects can only have collision shapes as children
+# This is needed because physics objects can only have collision shapes as direct children
 @export var bone : int = 0
 var skeleton : Skeleton3D
 var noParent : bool = false

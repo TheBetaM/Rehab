@@ -63,7 +63,7 @@ func TrigEnter(body):
 	if (IsBufferred):
 		return
 	if (body is CharacterBody3D):
-		var agent = body.get_parent().get_parent().get_parent()
+		var agent = body#.get_parent().get_parent().get_parent()
 		if (agent is AgentCharacter):
 			DisableLink() #todo remove this
 			agent.isReparenting = true
@@ -86,7 +86,7 @@ func LoadTrigEnter(body):
 	if (!ParentScene.ActiveScene):
 		return
 	if (body is CharacterBody3D):
-		var agent = body.get_parent().get_parent().get_parent()
+		var agent = body#.get_parent().get_parent().get_parent()
 		if (agent is AgentCharacter and AgentCharacter.activeCharacter == agent):
 			SpawnChunk()
 

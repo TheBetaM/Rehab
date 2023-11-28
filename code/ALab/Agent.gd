@@ -1,4 +1,4 @@
-extends Node3D
+extends PhysicsBody3D
 class_name Agent
 
 # GameObject data
@@ -19,6 +19,7 @@ var ActiveAnim : int = -1
 var ActiveSkeleton : Skeleton3D
 var JointsConst : Array[int] #Joint-ID ones
 var ExitPoints : Array[Node3D]
+var ColShapes : Dictionary #int submodel index, Array[CollisionShape3D] shapes
 
 # Instance data
 @export var InstanceScript : ALabScript
@@ -63,6 +64,16 @@ func _ready():
 				SubActors.append(i)
 	if (get_node_or_null("Models")):
 		for i in $Models.get_children():
+			for a in i.get_child(0).get_children():
+				if (a is CollisionShape3D):
+					if (SubModels.size() != 0):
+						a.disabled = true
+						a.process_mode = Node.PROCESS_MODE_DISABLED
+					if (!ColShapes.has(SubModels.size())):
+						ColShapes[SubModels.size()] = [ a ]
+					else:
+						ColShapes[SubModels.size()].append(a)
+					a.reparent(self)
 			SubModels.append(i)
 	for i in range(0, JointIDCount):
 		JointsConst.append(-1)
@@ -105,11 +116,19 @@ func DoAnimation(slot : int, loop : bool):
 		for i in SubModels:
 			i.visible = false
 			i.process_mode = Node.PROCESS_MODE_DISABLED
-		SubModels[ogi].get_child(0).global_position = SubModels[ActiveModel].get_child(0).global_position
-		SubModels[ogi].get_child(0).global_rotation_degrees = SubModels[ActiveModel].get_child(0).global_rotation_degrees
-		SubModels[ogi].get_child(0).global_scale = SubModels[ActiveModel].get_child(0).global_scale
+		#SubModels[ogi].get_child(0).global_position = SubModels[ActiveModel].get_child(0).global_position
+		#SubModels[ogi].get_child(0).global_rotation_degrees = SubModels[ActiveModel].get_child(0).global_rotation_degrees
+		#SubModels[ogi].get_child(0).global_scale = SubModels[ActiveModel].get_child(0).global_scale
 		SubModels[ogi].visible = true
 		SubModels[ogi].process_mode = Node.PROCESS_MODE_INHERIT
+		if (ColShapes.has(ActiveModel)):
+			for i in ColShapes[ActiveModel]:
+				i.disabled = true
+				i.process_mode = Node.PROCESS_MODE_DISABLED
+		if (ColShapes.has(ogi)):
+			for i in ColShapes[ogi]:
+				i.process_mode = Node.PROCESS_MODE_INHERIT
+				i.disabled = false
 		ActiveModel = ogi
 		ActiveSkeleton = SubModels[ogi].get_child(0).get_child(0)
 		UpdateActiveModel()
@@ -129,7 +148,7 @@ func DoSound(slot : int, pitch : float, volume : float):
 	if (slot >= Sounds.size()):
 		return;
 	if (Sounds[slot]):
-		AudioSource.reparent(SubModels[ActiveModel].get_child(0))
+		#AudioSource.reparent(SubModels[ActiveModel].get_child(0))
 		AudioSource.volume_db = volume
 		AudioSource.position = Vector3.ZERO
 		AudioSource.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -140,7 +159,7 @@ func DoSound(slot : int, pitch : float, volume : float):
 func DoSoundPath(path : String, pitch : float, volume : float):
 	if (!ResourceLoader.exists(path)):
 		return
-	AudioSource.reparent(SubModels[ActiveModel].get_child(0))
+	#AudioSource.reparent(SubModels[ActiveModel].get_child(0))
 	AudioSource.volume_db = volume
 	AudioSource.position = Vector3.ZERO
 	AudioSource.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -149,7 +168,7 @@ func DoSoundPath(path : String, pitch : float, volume : float):
 	AudioSource.play()
 
 func DoSoundStream(stream : AudioStream, pitch : float, volume : float):
-	AudioSource.reparent(SubModels[ActiveModel].get_child(0))
+	#AudioSource.reparent(SubModels[ActiveModel].get_child(0))
 	AudioSource.volume_db = volume
 	AudioSource.position = Vector3.ZERO
 	AudioSource.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -214,7 +233,8 @@ func CreateShadow(type : int, dsize : Vector2, boneAttach : int):
 	shad.distance_fade_begin = 40
 	shad.layers = 1
 	shad.modulate = Color(1.0, 1.0, 1.0, 0.5)
-	SubModels[ActiveModel].get_child(0).add_child(shad)
+	#SubModels[ActiveModel].get_child(0).add_child(shad)
+	get_node("Shadows").add_child(shad)
 	shad.position.y = -4.99
 
 func ControlPackUpdate():
