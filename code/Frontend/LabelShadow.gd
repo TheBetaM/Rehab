@@ -5,7 +5,7 @@ extends Label
 func _ready():
 	UpdateText()
 
-func _process(delta):
+func _process(_delta):
 	if (button.text != text):
 		UpdateText()
 

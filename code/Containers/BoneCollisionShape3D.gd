@@ -14,6 +14,6 @@ func _ready():
 	if (bone == 255):
 		bone = 0
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	transform = skeleton.get_bone_pose(bone)
 	#translate(offset)

@@ -221,7 +221,7 @@ var ShadowPaths = [
 	"res://assets/textures/shadow/octo.png",
 ]
 
-func CreateShadow(type : int, dsize : Vector2, boneAttach : int):
+func CreateShadow(type : int, dsize : Vector2, _boneAttach : int):
 	if (SubModels.size() == 0): return
 	var shad = Decal.new()
 	#shad.script = load("res://code/Containers/DecalShadow.gd")

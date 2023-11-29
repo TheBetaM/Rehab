@@ -101,7 +101,7 @@ func Activate():
 	$ColorRectLower.position.y = rootHeight + 120.0 #840.0 / 680.0
 	var rectLowerTween = create_tween()
 	rectLowerTween.tween_property($ColorRectLower, "position:y", rootHeight - 40.0, 0.5).set_trans(Tween.TRANS_CIRC).set_delay(0.5)
-	var parentHeight = get_parent().size.y
+	#var parentHeight = get_parent().size.y
 	$SimpleList.position.x = $SimpleList.size.x
 	var origPos = $SimpleList.position.y 
 	$SimpleList.position.y = origPos + 200.0 #-45.0

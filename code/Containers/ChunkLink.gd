@@ -73,7 +73,7 @@ func TrigEnter(body):
 			if (AgentCharacter.activeCharacter == agent):
 				SwitchToChunk(LoadedChunk)
 
-func TrigExit(body):
+func TrigExit(_body):
 	if (process_mode == Node.PROCESS_MODE_DISABLED):
 		return
 	IsBufferred = false

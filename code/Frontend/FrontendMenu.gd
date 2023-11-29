@@ -246,14 +246,14 @@ func OptionsGame_ToggleVibrations():
 	pass
 
 func OptionsGraphics_ToggleMSAA():
-	var set = get_viewport().msaa_3d
-	if (set == Viewport.MSAA_DISABLED):
+	var mset = get_viewport().msaa_3d
+	if (mset == Viewport.MSAA_DISABLED):
 		get_viewport().msaa_3d = Viewport.MSAA_2X
 		$WindowMainRound/MenuOptionsGraphics/Button2.text = "#FE-MSAA-2x"
-	elif (set == Viewport.MSAA_2X):
+	elif (mset == Viewport.MSAA_2X):
 		get_viewport().msaa_3d = Viewport.MSAA_4X
 		$WindowMainRound/MenuOptionsGraphics/Button2.text = "#FE-MSAA-4x"
-	elif (set == Viewport.MSAA_4X):
+	elif (mset == Viewport.MSAA_4X):
 		get_viewport().msaa_3d = Viewport.MSAA_8X
 		$WindowMainRound/MenuOptionsGraphics/Button2.text = "#FE-MSAA-8x"
 	else:
@@ -261,8 +261,8 @@ func OptionsGraphics_ToggleMSAA():
 		$WindowMainRound/MenuOptionsGraphics/Button2.text = "#FE-MSAA-Off"
 
 func OptionsGraphics_ToggleTXAA():
-	var set = get_viewport().screen_space_aa
-	if (set == Viewport.SCREEN_SPACE_AA_DISABLED):
+	var mset = get_viewport().screen_space_aa
+	if (mset == Viewport.SCREEN_SPACE_AA_DISABLED):
 		get_viewport().screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA
 		$WindowMainRound/MenuOptionsGraphics/Button4.text = "#FE-FXAA-On"
 	else:
@@ -270,14 +270,14 @@ func OptionsGraphics_ToggleTXAA():
 		$WindowMainRound/MenuOptionsGraphics/Button4.text = "#FE-FXAA-Off"
 
 func OptionsGraphics_ToggleVSync():
-	var set = DisplayServer.window_get_vsync_mode()
-	if (set == DisplayServer.VSYNC_DISABLED):
+	var mset = DisplayServer.window_get_vsync_mode()
+	if (mset == DisplayServer.VSYNC_DISABLED):
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 		$WindowMainRound/MenuOptionsGraphics/Button3.text = "#FE-VSync-On"
-	elif (set == DisplayServer.VSYNC_ENABLED):
+	elif (mset == DisplayServer.VSYNC_ENABLED):
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
 		$WindowMainRound/MenuOptionsGraphics/Button3.text = "#FE-VSync-Adaptive"
-	elif (set == DisplayServer.VSYNC_ADAPTIVE):
+	elif (mset == DisplayServer.VSYNC_ADAPTIVE):
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_MAILBOX)
 		$WindowMainRound/MenuOptionsGraphics/Button3.text = "#FE-VSync-Fast"
 	else:

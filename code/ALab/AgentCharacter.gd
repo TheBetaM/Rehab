@@ -182,7 +182,6 @@ func _physics_process(delta):
 
 func UpdateMovement(delta):
 	var direction = Vector3.ZERO
-	var camdir = 0.0
 	var isJumping = false
 	var onFloor : bool = call("is_on_floor")
 	
@@ -204,7 +203,7 @@ func UpdateMovement(delta):
 		isJumping = true
 	if Input.is_action_just_pressed("pad1_triangle"):
 		RehabSceneRoot.Root.Game.DisplayHUD()
-	if Input.is_action_just_pressed("pad1_square") and spinTimer <= 0.0:
+	if Input.is_action_just_pressed("pad1_square") and spinTimer <= 0.0 and RegFloat[CharFSlot.SpinLength] > 0.0:
 		#char_velocity.y = 0.0
 		#gravityOn = !gravityOn
 		spinTimer = RegFloat[CharFSlot.SpinLength]
