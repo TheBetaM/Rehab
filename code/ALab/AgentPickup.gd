@@ -22,6 +22,7 @@ func _ready():
 
 func _physics_process(delta):
 	rotate_y(3.0 * delta)
+	if (!visible): process_mode = Node.PROCESS_MODE_DISABLED
 	if (isPickedUp):
 		if (pickupTarget == null):
 			process_mode = Node.PROCESS_MODE_DISABLED
@@ -46,7 +47,6 @@ func OnPickup(body):
 	isPickedUp = true
 	if (IsWumpa): return;
 	DoSound(1, 1.0, 0.0)
-	process_mode = Node.PROCESS_MODE_DISABLED
 	visible = false
 	match name:
 		"Pickup_Crystal": RehabSceneRoot.Game.AddCrystal()

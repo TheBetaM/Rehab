@@ -181,21 +181,21 @@ func UpdateLayers(layer : int):
 	#Updating collision and light layers in child nodes
 	UpdateLayersNested(self, layer)
 
-func UpdateLayersNested(parent : Node, layer : int):
-	for i in parent.get_children():
-		UpdateLayersNested(i, layer)
-		if (i is VisualInstance3D):
-			i.set_layer_mask_value(1, false)
-			i.set_layer_mask_value(layer, true)
-			if (i is Light3D):
-				i.light_cull_mask = i.light_cull_mask | (1 << (layer - 1)) 
-		elif (i is CollisionObject3D):
-			if (i.get_collision_layer_value(1) == false):
-				return;
-			i.set_collision_mask_value(1, false)
-			i.set_collision_layer_value(1, false)
-			i.set_collision_mask_value(layer, true)
-			i.set_collision_layer_value(layer, true)
+func UpdateLayersNested(i : Node, layer : int):
+	if (i is VisualInstance3D):
+		i.set_layer_mask_value(1, false)
+		i.set_layer_mask_value(layer, true)
+		if (i is Light3D):
+			i.light_cull_mask = i.light_cull_mask | (1 << (layer - 1)) 
+	elif (i is CollisionObject3D):
+		if (i.get_collision_layer_value(1) == false):
+			return;
+		i.set_collision_mask_value(1, false)
+		i.set_collision_layer_value(1, false)
+		i.set_collision_mask_value(layer, true)
+		i.set_collision_layer_value(layer, true)
+	for id in i.get_children():
+		UpdateLayersNested(id, layer)
 
 func UpdateActiveModel():
 	for i in range(0, JointIDCount):
