@@ -116,9 +116,15 @@ func DoAnimation(slot : int, loop : bool):
 		for i in SubModels:
 			i.visible = false
 			i.process_mode = Node.PROCESS_MODE_DISABLED
-		#SubModels[ogi].get_child(0).global_position = SubModels[ActiveModel].get_child(0).global_position
-		#SubModels[ogi].get_child(0).global_rotation_degrees = SubModels[ActiveModel].get_child(0).global_rotation_degrees
-		#SubModels[ogi].get_child(0).global_scale = SubModels[ActiveModel].get_child(0).global_scale
+		var animPlayer : AnimationPlayer = SubModels[ogi].get_node("AnimationPlayer")
+		animPlayer.play("RESET")
+		var oMode = animPlayer.playback_process_mode
+		animPlayer.playback_process_mode = AnimationPlayer.ANIMATION_PROCESS_MANUAL
+		animPlayer.advance(0.1)
+		animPlayer.stop()
+		animPlayer.playback_process_mode = oMode
+		animPlayer.stop()
+		ActiveAnim = -1
 		SubModels[ogi].visible = true
 		SubModels[ogi].process_mode = Node.PROCESS_MODE_INHERIT
 		if (ColShapes.has(ActiveModel)):
@@ -134,6 +140,7 @@ func DoAnimation(slot : int, loop : bool):
 		UpdateActiveModel()
 	if (animName != null):
 		var animPlayer : AnimationPlayer = SubModels[ogi].get_node("AnimationPlayer")
+		#animPlayer.playback_default_blend_time = 0.25
 		if (loop):
 			animPlayer.get_animation(animName).loop_mode = Animation.LOOP_LINEAR
 		else:

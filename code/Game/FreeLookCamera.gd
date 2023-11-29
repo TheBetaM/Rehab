@@ -89,7 +89,7 @@ func UpdateCamControls(delta):
 	_a = Input.get_action_strength("pad1_lstick_left")
 	_e = Input.get_action_strength("pad1_cross")
 	_q = Input.get_action_strength("pad1_triangle")
-	if Input.is_action_just_pressed("pad1_circle"):
+	if Input.is_action_just_pressed("pad1_L1"):
 		ExitCam()
 		return;
 		

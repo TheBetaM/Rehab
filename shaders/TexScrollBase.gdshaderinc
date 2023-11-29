@@ -27,11 +27,17 @@ void fragment()
 	vec2 uvs = speed * vec2(TIME) + UV;
 	vec4 tex = texture(albedo_texture, uvs);
 	ALBEDO = tex.xyz * COLOR.rgb;
-	//ALPHA = tex.w * COLOR.a;
+	#ifdef IS_ALPHA_TEST
+	ALPHA = tex.w * COLOR.a;
+	#endif
+	#ifdef IS_ALPHA_BLEND
+	ALPHA = tex.w * COLOR.a;
+	#endif
+	
 	
 	#ifdef IS_REFLECT
-		vec4 current_texture = texture(SCREEN_TEXTURE, vec2(SCREEN_UV.x + reflectDist, 1.0 - SCREEN_UV.y - (0.5 - 0.5) * 2.0 + reflectDist));
-		ALBEDO = mix(ALBEDO, current_texture.xyz, 0.5);
+		vec4 current_texture = texture(SCREEN_TEXTURE, vec2(SCREEN_UV.x + reflectDist, SCREEN_UV.y - (0.5 - 0.5) * 2.0 + reflectDist));
+		ALBEDO = current_texture.xyz * COLOR.rgb * tex.xyz;
 	#endif
 	
 	if (envmap)
@@ -39,16 +45,20 @@ void fragment()
 		//vec4 albedo_tex = textureProj(albedo_texture,INV_PROJECTION_MATRIX * VIEW_MATRIX * vec4(VIEW,0));
 		//ALBEDO = albedo_tex.rgb * COLOR.rgb;
 		//ALPHA = albedo_tex.w * COLOR.a;
-		vec3 normal = (VIEW_MATRIX * vec4(VIEW,0)).xyz * vec3(-1, -1, 1);
-    	ALBEDO = texturePanorama(normal, albedo_texture).xyz;
-	}
-	
-	if (swapcolors)
-	{
-		ALBEDO.rgb = vec3(-ALBEDO.r, -ALBEDO.g, -ALBEDO.b);
+		vec3 normal = (MODEL_MATRIX * vec4(VIEW, 0)).xyz * vec3(-1, -1, 1);
+    	vec4 tex = texturePanorama(normal, albedo_texture);
+		ALBEDO = tex.xyz * COLOR.rgb;
+		#ifdef IS_ALPHA_TEST
+		ALPHA = tex.w * COLOR.a;
+		#endif
+		#ifdef IS_ALPHA_BLEND
+		ALPHA = tex.w * COLOR.a;
+		#endif
 	}
 
     METALLIC = metallic_specular;
     BACKLIGHT = vec3(1, 1, 1);
-	
+	#ifdef IS_ALPHA_TEST
+	ALPHA_SCISSOR_THRESHOLD = 0.5;
+	#endif	
 }

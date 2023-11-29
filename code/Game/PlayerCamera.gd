@@ -50,7 +50,7 @@ func _process(delta):
 			camdirY -= Input.get_action_strength("pad1_rstick_down")
 		else:
 			camdirY += Input.get_action_strength("pad1_rstick_down")
-	if Input.is_action_just_pressed("pad1_circle"):
+	if Input.is_action_just_pressed("pad1_L1"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		var freeCam = RehabSceneRoot.Root.FreeLookCam
 		freeCam.global_position = global_position

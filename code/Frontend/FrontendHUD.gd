@@ -38,8 +38,12 @@ func _ready():
 	await get_tree().process_frame
 	if (ResourceLoader.exists(WumpaIconPath)):
 		WumpaIcon.texture = load(WumpaIconPath)
+	else:
+		WumpaIcon.visible = false
 	if (ResourceLoader.exists(LivesIconPaths[0])):
 		LivesIcon.texture = load(LivesIconPaths[0])
+	else:
+		LivesIcon.visible = false
 	if (ResourceLoader.exists(CrystalIconPath)):
 		CrystalIcon.texture = load(CrystalIconPath)
 	if (ResourceLoader.exists(GemIconPaths[0])):

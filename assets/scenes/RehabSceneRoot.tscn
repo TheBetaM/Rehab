@@ -14,6 +14,7 @@
 
 [sub_resource type="Environment" id="Environment_3bekd"]
 background_mode = 1
+tonemap_mode = 1
 
 [sub_resource type="Environment" id="Environment_e4v8o"]
 background_mode = 1

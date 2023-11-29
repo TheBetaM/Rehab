@@ -2,6 +2,9 @@ extends Agent
 class_name AgentPickup
 
 var isPickedUp : bool = false
+var isSpunAway : bool = false
+var SpinDirection : Vector3 = Vector3.ONE
+var SpunTimer : float = 0.0
 var pickupTarget : Node3D = null
 var IsWumpa : bool = true
 
@@ -24,6 +27,13 @@ func _physics_process(delta):
 	rotate_y(3.0 * delta)
 	if (!visible): process_mode = Node.PROCESS_MODE_DISABLED
 	if (isPickedUp):
+		if (isSpunAway):
+			global_position += SpinDirection * delta * 30.0
+			SpunTimer -= delta
+			if (SpunTimer <= 0.0):
+				process_mode = Node.PROCESS_MODE_DISABLED
+				visible = false
+			return;
 		if (pickupTarget == null):
 			process_mode = Node.PROCESS_MODE_DISABLED
 			visible = false
@@ -45,7 +55,14 @@ func OnPickup(body):
 	collision_mask = 0
 	pickupTarget = body
 	isPickedUp = true
-	if (IsWumpa): return;
+	if (IsWumpa): 
+		if (body is AgentCharacter and body.spinTimer > 0.0):
+			SpinDirection = global_position - body.global_position
+			SpinDirection = SpinDirection.normalized()
+			SpunTimer = 1.0
+			isSpunAway = true
+			DoSound(2, (randf() / 5.0) + 0.9, 0.0)
+		return;
 	DoSound(1, 1.0, 0.0)
 	visible = false
 	match name:

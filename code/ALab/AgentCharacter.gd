@@ -3,14 +3,14 @@ class_name AgentCharacter
 
 enum CharASlot {
 	UnkAngle1 = 0,
-	UnkAngle2 = 0,
-	UnkAngle3 = 0,
-	UnkAngle4 = 0,
-	UnkAngle5 = 0,
-	UnkAngle6 = 0,
-	UnkAngle7 = 0,
-	UnkAngle8 = 0,
-	UnkAngle9 = 0,
+	UnkAngle2 = 1,
+	UnkAngle3 = 2,
+	UnkAngle4 = 3,
+	UnkAngle5 = 4,
+	UnkAngle6 = 5,
+	UnkAngle7 = 6,
+	UnkAngle8 = 7,
+	UnkAngle9 = 8,
 }
 enum CharFSlot {
 	UnkFloat01 = 0,
@@ -23,10 +23,11 @@ enum CharFSlot {
 	RunSpeed = 7,
 	StrafingSpeed = 8,
 	SpinThrowForwardForce = 9,
-	SpinLength = 11,
-	SpinDelay = 12,
-	UnkFloat13 = 13,
-	UnkFloat14 = 14,
+	SpinLength = 10,
+	SpinDelay = 11,
+	UnkFloat13 = 12,
+	UnkFloat14 = 13,
+	Static15 = 14,
 	JumpAirSpeed = 15,
 	JumpHeight = 16,
 	UnkFloat17Jump = 17,
@@ -87,6 +88,8 @@ var footsteptimer = 0.0
 var footsteplast = false
 var gravityOn = true
 var spinTimer = 0.0
+var isCrouched = false
+var slideTimer = 0.0
 
 var FS_Dirt_1 : AudioStream
 var FS_Dirt_2 : AudioStream
@@ -195,6 +198,18 @@ func UpdateMovement(delta):
 	if (direction.z == 0):
 		direction.z += Input.get_action_strength("pad1_lstick_right")
 		direction.z -= Input.get_action_strength("pad1_lstick_left")
+	
+	direction = direction.clamp(-Vector3.ONE, Vector3.ONE)
+	direction = (direction.x * physCam.camvector) + (direction.z * physCam.camright)
+	direction.y = 0.0
+	var dirLength = abs(direction.length())
+	var pressed = dirLength > 0.05
+	
+	if (spinTimer > 0.0): 
+		spinTimer -= delta
+	if (slideTimer > 0.0):
+		slideTimer -= delta
+	
 	if Input.is_action_pressed("pad1_cross"):
 		char_velocity.y += 80 * delta
 		if (ActiveAnim != 19 and spinTimer <= 0.0):
@@ -203,30 +218,41 @@ func UpdateMovement(delta):
 		isJumping = true
 	if Input.is_action_just_pressed("pad1_triangle"):
 		RehabSceneRoot.Root.Game.DisplayHUD()
-	if Input.is_action_just_pressed("pad1_square") and spinTimer <= 0.0 and RegFloat[CharFSlot.SpinLength] > 0.0:
-		#char_velocity.y = 0.0
-		#gravityOn = !gravityOn
+	if Input.is_action_just_pressed("pad1_R1"):
+		char_velocity.y = 0.0
+		gravityOn = !gravityOn
+	if Input.is_action_just_pressed("pad1_square") and spinTimer <= 0.0 and RegFloat[CharFSlot.SpinLength] > 0.0 and !isCrouched:
 		spinTimer = RegFloat[CharFSlot.SpinLength]
 		DoAnimation(14, true)
-		DoSound(2, 1.0, 0.0)
+		if (randi_range(0, 1)) == 0:
+			DoSound(2, 1.0, 0.0)
+		else:
+			DoSound(3, 1.0, 0.0)
+	if Input.is_action_just_pressed("pad1_circle"):
+		if pressed and slideTimer <= 0.0 and onFloor and RegFloat[CharFSlot.SlideSpeed] > 0.0:
+			slideTimer = 0.4
+			DoAnimation(36, true)
+			DoSound(6, 1.0, 0.0)
+	if Input.is_action_pressed("pad1_circle"):
+		if !isCrouched and RegFloat[CharFSlot.CrawlSpeed] > 0.0 and onFloor and slideTimer <= 0.0:
+			isCrouched = true
+			DoAnimation(32, true)
+	if Input.is_action_just_released("pad1_circle"):
+		if isCrouched:
+			isCrouched = false
 	
-	if (spinTimer > 0.0): 
-		spinTimer -= delta
-	
-	direction = direction.clamp(-Vector3.ONE, Vector3.ONE)
-	direction = (direction.x * physCam.camvector) + (direction.z * physCam.camright)
-	direction.y = 0.0
 	var speed = RegFloat[CharFSlot.RunSpeed]
-	var pressed = abs(direction.length()) > 0.05
-	if (abs(direction.length()) < 0.3):
+	if (dirLength < 0.3):
 		speed = 0
-	elif (abs(direction.length()) < 0.8):
+	elif (dirLength < 0.8):
 		speed = RegFloat[CharFSlot.WalkSpeed]
+	if (isCrouched and pressed):
+		speed = RegFloat[CharFSlot.CrawlSpeed]
+	if (slideTimer > 0.0):
+		speed = RegFloat[CharFSlot.SlideSpeed]
 	direction = direction.normalized()
 	
 	if (pressed):
-		#if not physBody.is_on_floor():
-		#	speed *= 3.0
 		char_velocity.x = direction.x * speed
 		char_velocity.z = direction.z * speed
 		var targetRot = Vector3(global_rotation.x, atan2(direction.x, direction.z), global_rotation.z)
@@ -234,29 +260,37 @@ func UpdateMovement(delta):
 			global_rotation = targetRot
 		else:
 			global_rotation = global_rotation.slerp(targetRot, 5.0 * delta)
-		if (!isJumping && onFloor && spinTimer <= 0.0):
-			if (speed == 0):
+		if (!isJumping && onFloor && spinTimer <= 0.0 && slideTimer <= 0.0):
+			if (isCrouched):
+				if (speed == 0):
+					DoAnimation(32, true)
+				else:
+					DoAnimation(34, true)
+			elif (speed == 0):
 				DoAnimation(9, true)
 			elif (speed == RegFloat[CharFSlot.WalkSpeed]):
 				DoAnimation(10, true)
 			else:
 				DoAnimation(11, true)
 	else:
-		char_velocity.x = 0.0
-		char_velocity.z = 0.0
+		if (slideTimer <= 0.0):
+			char_velocity.x = 0.0
+			char_velocity.z = 0.0
 		if (!isJumping && onFloor && spinTimer <= 0.0):
-			DoAnimation(8, true)
+			if (!isCrouched):
+				DoAnimation(8, true)
+			else:
+				DoAnimation(32, true)
 		
-	if (!isJumping && !onFloor && spinTimer <= 0.0):
+	if (!isJumping && !onFloor && spinTimer <= 0.0 && slideTimer <= 0.0):
 		DoAnimation(27, false)
 	
 	if (!onFloor):
 		if (gravityOn):
-			char_velocity.y -= 30.0 * delta
+			char_velocity.y -= RegFloat[CharFSlot.AirGravity] * delta
 		else:
 			char_velocity.y = 0.0
 	
-	#physBody.velocity = velocity
 	set("velocity", char_velocity)
 	call("move_and_slide")
 
@@ -275,6 +309,8 @@ func UpdateHeadAnim(delta):
 		headdirY += delta * 0.75
 		headdirY = clampf(headdirY, -1.5, 0)
 	
+	var oldX = headdirX
+	var oldY = headdirY
 	if Input.is_action_pressed("pad1_rstick_left"):
 		if !RehabGame.InvertCameraX:
 			headdirX -= Input.get_action_strength("pad1_rstick_left") * delta * 4.0
@@ -296,6 +332,9 @@ func UpdateHeadAnim(delta):
 		else:
 			headdirY += Input.get_action_strength("pad1_rstick_down") * delta * 4.0
 	
+	if (isCrouched or slideTimer > 0.0):
+		headdirX = oldX
+		headdirY = oldY
 	headdirX = clampf(headdirX, -0.8, 0.8)
 	headdirY = clampf(headdirY, -1.5, 1.0)
 	

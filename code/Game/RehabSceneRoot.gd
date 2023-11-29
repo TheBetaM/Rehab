@@ -120,6 +120,7 @@ func LoadScene(path : String):
 				loadedScene.UpdateLayers(i)
 				break
 		$WorldEnv.environment = loadedScene.WorldEnv
+		$WorldEnv.environment.tonemap_mode = 1
 		add_child(loadedScene)
 		var skypath : String = RehabGame.AssetsPath + loadedScene.SkydomePath
 		if (!loadedScene.SkydomePath.is_empty()):
@@ -172,6 +173,7 @@ func SwitchToChunk(chunk : ChunkScene):
 	
 	# Updating World Environment and Lights
 	$WorldEnv.environment = chunk.WorldEnv
+	$WorldEnv.environment.tonemap_mode = 1
 	
 	# Updating Skydome
 	var skypath : String = RehabGame.AssetsPath + chunk.SkydomePath
