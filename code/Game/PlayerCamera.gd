@@ -61,6 +61,7 @@ func _process(delta):
 		process_mode = Node.PROCESS_MODE_DISABLED
 		freeCam.process_mode = Node.PROCESS_MODE_ALWAYS
 		camTarget.process_mode = Node.PROCESS_MODE_DISABLED
+		RehabSceneRoot.Game.DisplayMessage("FREECAM " + tr("#FE-On"))
 		return;
 	if Input.is_action_pressed("pad1_R3"):
 		camangleX = camTarget.global_rotation_degrees.y / 180.0

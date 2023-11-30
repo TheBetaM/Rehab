@@ -13,7 +13,6 @@ var EnterTrigger : Area3D
 var LoadTriggers : Area3D #todo array
 var IsBufferred : bool
 var IsLoading : bool = false
-#var BufferAgent : Agent
 
 func _ready():
 	
@@ -57,7 +56,7 @@ func ActivateLink():
 	if (ParentScene.ActiveScene and LoadTriggers == null):
 		SpawnChunk()
 
-func TrigEnter(body):
+func TrigEnter(_body):
 	if (process_mode == Node.PROCESS_MODE_DISABLED):
 		return
 	if (LoadedChunk == null):
@@ -66,22 +65,24 @@ func TrigEnter(body):
 		return
 	if (IsBufferred):
 		return
-	if (body is CharacterBody3D):
-		var agent = body#.get_parent().get_parent().get_parent()
-		if (agent is AgentCharacter):
-			DisableLinkNow() #todo remove this
-			agent.isReparenting = true
-			agent.reparent(LoadedChunk)
-			agent.ParentScene = LoadedChunk
-			agent.UpdateLayers(LoadedChunk.ChunkLayer)
-			if (AgentCharacter.activeCharacter == agent):
-				SwitchToChunk(LoadedChunk)
 
-func TrigExit(_body):
-	if (process_mode == Node.PROCESS_MODE_DISABLED):
-		return
-	IsBufferred = false
-	
+func TrigExit(body):
+	if (process_mode == Node.PROCESS_MODE_DISABLED): return
+	if (LoadedChunk == null): return
+	if (!ParentScene.ActiveScene): return
+	if (body is AgentCharacter):
+		if (get_parent() is Agent): return; # attached co-op character
+		#if (Vector2(body.char_velocity.x, body.char_velocity.z).length() <= 0.1): return
+		DisableLinkNow() #todo remove this?
+		body.isReparenting = true
+		body.reparent(LoadedChunk)
+		body.ParentScene = LoadedChunk
+		body.UpdateLayers(LoadedChunk.ChunkLayer)
+		if (AgentCharacter.activeCharacter == body):
+			print("---")
+			print("[LINK] Entered from " + ParentScene.name)
+			SwitchToChunk(LoadedChunk)
+
 func LoadTrigEnter(body):
 	if (process_mode == Node.PROCESS_MODE_DISABLED):
 		return
@@ -90,7 +91,7 @@ func LoadTrigEnter(body):
 	if (!ParentScene.ActiveScene):
 		return
 	if (body is CharacterBody3D):
-		var agent = body#.get_parent().get_parent().get_parent()
+		var agent = body
 		if (agent is AgentCharacter and AgentCharacter.activeCharacter == agent):
 			SpawnChunk()
 

@@ -114,6 +114,7 @@ func ExitCam():
 	process_mode = Node.PROCESS_MODE_DISABLED
 	mainCam.process_mode = Node.PROCESS_MODE_INHERIT
 	mainCam.camTarget.process_mode = Node.PROCESS_MODE_INHERIT
+	RehabSceneRoot.Game.DisplayMessage("FREECAM " + tr("#FE-Off"))
 
 # Updates camera movement
 func _update_movement(delta):

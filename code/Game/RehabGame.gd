@@ -65,5 +65,8 @@ func DisplayHUD():
 	RehabSceneRoot.Root.GameHUD.UpdateWumpa()
 	RehabSceneRoot.Root.GameHUD.UpdateLives()
 
+func DisplayMessage(text : String):
+	RehabSceneRoot.Root.GameHUD.FlashMessage(text)
+
 func SetLevelID(id : int):
 	LevelID = id

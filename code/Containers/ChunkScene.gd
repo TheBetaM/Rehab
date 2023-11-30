@@ -31,6 +31,15 @@ func UpdateLayersNested(parent : Node):
 			i.set_collision_mask_value(ChunkLayer, true)
 			i.set_collision_layer_value(ChunkLayer, true)
 
+func ShadowToggle(val):
+	ShadowToggleNested(self, val)
+
+func ShadowToggleNested(parent : Node, val : bool):
+	for i in parent.get_children():
+		ShadowToggleNested(i, val)
+		if (i is Light3D):
+			i.shadow_enabled = val
+
 func OnChunkEnter():
 	AgentOnChunkEnter(self)
 

@@ -37,7 +37,7 @@ func _ready():
 	GameHUD = $FE/FE_HUD
 	GameMenu = $FE/FE_Menu
 	AudioMusic = $Audio/AudioMusic1
-	AudioAmbience = $Audio/AudioAmb
+	AudioAmbience = $Audio/AudioAmb1
 	AudioMenu = $Audio/AudioMenu
 	$WorldEnv.environment = DefaultEnv
 	GameInit()
@@ -170,11 +170,13 @@ func SwitchToChunk(chunk : ChunkScene):
 	var OldChunk = ActiveChunk
 	OldChunk.ActiveScene = false
 	OldChunk.OnChunkExit()
+	OldChunk.ShadowToggle(false)
 	chunk.ActiveScene = true
 	print("[ROOT] Entering " + chunk.name)
 	
 	# Updating World Environment and Lights
 	chunk.WorldEnv.tonemap_mode = Environment.TONE_MAPPER_REINHARDT
+	chunk.ShadowToggle(true)
 	$WorldEnv.environment = chunk.WorldEnv
 	
 	# Updating Skydome
@@ -396,6 +398,13 @@ func PlayAmbience(id: int):
 		return
 	ActiveAmbience = path
 	AmbSwitching = true
+	if (AudioAmbience.playing):
+		AudioAmbience.IsFadingOut = true
+		if (AudioAmbience == $Audio/AudioAmb1):
+			AudioAmbience = $Audio/AudioAmb2
+		else:
+			AudioAmbience = $Audio/AudioAmb1
+		AudioAmbience.IsFadingOut = false
 	ResourceLoader.load_threaded_request(path)
 	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 		await get_tree().process_frame

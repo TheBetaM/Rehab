@@ -128,14 +128,14 @@ func DoAnimation(slot : int, loop : bool):
 		ActiveAnim = -1
 		SubModels[ogi].visible = true
 		SubModels[ogi].process_mode = Node.PROCESS_MODE_INHERIT
-		if (ColShapes.has(ActiveModel)):
-			for i in ColShapes[ActiveModel]:
-				i.disabled = true
-				i.process_mode = Node.PROCESS_MODE_DISABLED
 		if (ColShapes.has(ogi)):
 			for i in ColShapes[ogi]:
 				i.process_mode = Node.PROCESS_MODE_INHERIT
 				i.disabled = false
+		if (ColShapes.has(ActiveModel)):
+			for i in ColShapes[ActiveModel]:
+				i.disabled = true
+				i.process_mode = Node.PROCESS_MODE_DISABLED
 		ActiveModel = ogi
 		ActiveSkeleton = SubModels[ogi].get_child(0).get_child(0)
 		UpdateActiveModel()

@@ -78,8 +78,6 @@ enum CharISlot {
 
 
 var char_velocity = Vector3.ZERO
-var modeldirection = Vector3.ZERO
-#var physBody : Node3D
 var physCam : Camera3D
 var isReparenting : bool = false
 var headdirX = 0.0
@@ -120,29 +118,17 @@ func _ready():
 	else:
 		visible = false
 		process_mode = Node.PROCESS_MODE_DISABLED
-		
+	
+	CreateShadow(0, Vector2.ONE, 0)
+	
 	if (RegInt[CharISlot.AgentType] > 3):
 		return
 	if (activeCharacter != null):
 		return
-		
+	
 	activeCharacter = self
-	#physBody = SubModels[0].get_node("RigidBody")
-	#var oldBody = SubModels[0].get_node("RigidBody")
-	#var charBody = CharacterBody3D.new()
-	#physBody.replace_by(charBody)
-	#charBody.global_position.y += 3.0
-	##charBody.get_child(0).disabled = false
-	#oldBody.queue_free()
-	#physBody = charBody
 	physCam = RehabSceneRoot.Root.PlayerCam
 	physCam.SetupCam(self)
-	#physCam.SetupCam(physBody)
-	#var animPlayer : AnimationPlayer = SubModels[0].get_node("AnimationPlayer")
-	#var armature = charBody.get_node("Armature")
-	#animPlayer.root_node = NodePath("../" + charBody.name + "/Armature")
-	CreateShadow(0, Vector2.ONE, 0)
-	DoAnimation(8, true)
 	FS_Dirt_1 = load(RehabGame.AssetsPath + "Sounds/Surface/fs_dirt_3.res")
 	FS_Dirt_2 = load(RehabGame.AssetsPath + "Sounds/Surface/fs_dirt_5.res")
 	FS_Grass_1 = load(RehabGame.AssetsPath + "Sounds/Surface/fs_grass_2.res")
@@ -221,6 +207,10 @@ func UpdateMovement(delta):
 	if Input.is_action_just_pressed("pad1_R1"):
 		char_velocity.y = 0.0
 		gravityOn = !gravityOn
+		if (gravityOn):
+			RehabSceneRoot.Game.DisplayMessage("GRAVITY " + tr("#FE-On"))
+		else:
+			RehabSceneRoot.Game.DisplayMessage("GRAVITY " + tr("#FE-Off"))
 	if Input.is_action_just_pressed("pad1_square") and spinTimer <= 0.0 and RegFloat[CharFSlot.SpinLength] > 0.0 and !isCrouched:
 		spinTimer = RegFloat[CharFSlot.SpinLength]
 		DoAnimation(14, true)
@@ -255,11 +245,13 @@ func UpdateMovement(delta):
 	if (pressed):
 		char_velocity.x = direction.x * speed
 		char_velocity.z = direction.z * speed
-		var targetRot = Vector3(global_rotation.x, atan2(direction.x, direction.z), global_rotation.z)
+		var targetRot = Vector3(0, atan2(direction.x, direction.z), 0)
 		if (speed != 0):
 			global_rotation = targetRot
 		else:
 			global_rotation = global_rotation.slerp(targetRot, 5.0 * delta)
+			global_rotation.x = 0.0
+			global_rotation.z = 0.0
 		if (!isJumping && onFloor && spinTimer <= 0.0 && slideTimer <= 0.0):
 			if (isCrouched):
 				if (speed == 0):

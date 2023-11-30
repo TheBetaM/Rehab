@@ -83,8 +83,13 @@ script = ExtResource("8_ld425")
 bus = &"Music"
 script = ExtResource("8_ld425")
 
-[node name="AudioAmb" type="AudioStreamPlayer" parent="Audio"]
+[node name="AudioAmb1" type="AudioStreamPlayer" parent="Audio"]
 bus = &"Ambience"
+script = ExtResource("8_ld425")
+
+[node name="AudioAmb2" type="AudioStreamPlayer" parent="Audio"]
+bus = &"Ambience"
+script = ExtResource("8_ld425")
 
 [node name="AudioMenu" type="AudioStreamPlayer" parent="Audio"]
 bus = &"SFX"

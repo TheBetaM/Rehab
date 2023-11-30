@@ -151,6 +151,19 @@ func UpdateAll():
 	WumpaLabel.text = str(RehabSceneRoot.Root.Game.Fruit)
 	LivesLabel.text = str(RehabSceneRoot.Root.Game.Lives)
 
+func FlashMessage(text : String):
+	BottomTextLabel.visible = false
+	BottomTextLabel.text = text
+	BottomTextLabel.modulate.a = 0.0
+	var tTween1 = create_tween()
+	tTween1.tween_property(BottomTextLabel, "modulate:a", 1.0, 0.5)
+	BottomTextLabel.visible = true
+	await get_tree().create_timer(1.0).timeout
+	var tTween2 = create_tween()
+	tTween2.tween_property(BottomTextLabel, "modulate:a", 0.0, 0.5)
+	await get_tree().create_timer(0.5).timeout
+	BottomTextLabel.visible = false
+
 func Clear():
 	TimerLabel.visible = false
 	CounterLabel.visible = false
