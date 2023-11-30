@@ -20,6 +20,7 @@ var ActiveSkeleton : Skeleton3D
 var JointsConst : Array[int] #Joint-ID ones
 var ExitPoints : Array[Node3D]
 var ColShapes : Dictionary #int submodel index, Array[CollisionShape3D] shapes
+var FirstSetup : bool = true
 
 # Instance data
 @export var InstanceScript : ALabScript
@@ -187,20 +188,41 @@ func DoSoundStream(stream : AudioStream, pitch : float, volume : float):
 func UpdateLayers(layer : int):
 	#Updating collision and light layers in child nodes
 	UpdateLayersNested(self, layer)
+	FirstSetup = false
 
 func UpdateLayersNested(i : Node, layer : int):
 	if (i is VisualInstance3D):
 		i.set_layer_mask_value(1, false)
+		i.set_layer_mask_value(2, false)
+		i.set_layer_mask_value(3, false)
+		i.set_layer_mask_value(4, false)
+		i.set_layer_mask_value(5, false)
+		i.set_layer_mask_value(6, false)
+		i.set_layer_mask_value(7, false)
+		i.set_layer_mask_value(8, false)
 		i.set_layer_mask_value(layer, true)
 		if (i is Light3D):
 			i.light_cull_mask = i.light_cull_mask | (1 << (layer - 1)) 
 	elif (i is CollisionObject3D):
-		if (i.get_collision_layer_value(1) == false):
-			return;
-		i.set_collision_mask_value(1, false)
-		i.set_collision_layer_value(1, false)
-		i.set_collision_mask_value(layer, true)
-		i.set_collision_layer_value(layer, true)
+		if (!FirstSetup or i.get_collision_layer_value(1) != false):
+			i.set_collision_mask_value(1, false)
+			i.set_collision_layer_value(1, false)
+			i.set_collision_mask_value(2, false)
+			i.set_collision_layer_value(2, false)
+			i.set_collision_mask_value(3, false)
+			i.set_collision_layer_value(3, false)
+			i.set_collision_mask_value(4, false)
+			i.set_collision_layer_value(4, false)
+			i.set_collision_mask_value(5, false)
+			i.set_collision_layer_value(5, false)
+			i.set_collision_mask_value(6, false)
+			i.set_collision_layer_value(6, false)
+			i.set_collision_mask_value(7, false)
+			i.set_collision_layer_value(7, false)
+			i.set_collision_mask_value(8, false)
+			i.set_collision_layer_value(8, false)
+			i.set_collision_mask_value(layer, true)
+			i.set_collision_layer_value(layer, true)
 	for id in i.get_children():
 		UpdateLayersNested(id, layer)
 

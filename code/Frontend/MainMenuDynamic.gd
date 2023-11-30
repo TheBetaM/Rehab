@@ -59,7 +59,7 @@ func Activate():
 	visible = true
 	StartAnim()
 	RehabSceneRoot.Root.PlayMusic(54)
-	await get_tree().create_timer(1.9).timeout
+	await get_tree().create_timer(1.85).timeout
 	$Button1.quiet = true
 	$Button1.grab_focus()
 	$Button1.quiet = false

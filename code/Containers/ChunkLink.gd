@@ -12,6 +12,7 @@ var LoadedChunk : Node3D
 var EnterTrigger : Area3D
 var LoadTriggers : Area3D #todo array
 var IsBufferred : bool
+var IsLoading : bool = false
 #var BufferAgent : Agent
 
 func _ready():
@@ -35,9 +36,12 @@ func _ready():
 		SpawnChunk()
 	
 	if (!ParentScene.ActiveScene):
-		DisableLink()
+		DisableLinkNow()
 
 func DisableLink():
+	call_deferred("DisableLinkNow")
+
+func DisableLinkNow():
 	process_mode = Node.PROCESS_MODE_DISABLED
 
 func ActivateLink():
@@ -65,7 +69,7 @@ func TrigEnter(body):
 	if (body is CharacterBody3D):
 		var agent = body#.get_parent().get_parent().get_parent()
 		if (agent is AgentCharacter):
-			DisableLink() #todo remove this
+			DisableLinkNow() #todo remove this
 			agent.isReparenting = true
 			agent.reparent(LoadedChunk)
 			agent.ParentScene = LoadedChunk
@@ -103,8 +107,8 @@ func LoadTrigExit(body):
 			DespawnChunk()
 
 func SpawnChunk():
-	if (LoadedChunk != null):
-		return
+	if (LoadedChunk != null or IsLoading): return
+	IsLoading = true
 	if (LoadedScene == null):
 		var FullChunkPath = RehabGame.AssetsPath + ChunkPath
 		if (FileAccess.file_exists(FullChunkPath)):
@@ -122,6 +126,7 @@ func SpawnChunk():
 	if (LoadedChunk != null and SpawnInvisible):
 		LoadedChunk.visible = false
 		LoadedChunk.process_mode = Node.PROCESS_MODE_DISABLED
+	IsLoading = false
 
 func DespawnChunk():
 	if (LoadedChunk == null):

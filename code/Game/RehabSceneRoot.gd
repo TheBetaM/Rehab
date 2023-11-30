@@ -54,6 +54,7 @@ func GameInit():
 	var dir = DirAccess.open(RehabGame.AssetsPath + "Levels/");
 	if dir:
 		$FE/LevelSelect.Generate()
+		await get_tree().process_frame
 		if (Game.Dev):
 			StartLevelSelect()
 		else:
@@ -119,8 +120,8 @@ func LoadScene(path : String):
 				ChunkLayers.append(i)
 				loadedScene.UpdateLayers(i)
 				break
+		loadedScene.WorldEnv.tonemap_mode = Environment.TONE_MAPPER_REINHARDT
 		$WorldEnv.environment = loadedScene.WorldEnv
-		$WorldEnv.environment.tonemap_mode = 1
 		add_child(loadedScene)
 		var skypath : String = RehabGame.AssetsPath + loadedScene.SkydomePath
 		if (!loadedScene.SkydomePath.is_empty()):
@@ -169,23 +170,24 @@ func SwitchToChunk(chunk : ChunkScene):
 	var OldChunk = ActiveChunk
 	OldChunk.ActiveScene = false
 	OldChunk.OnChunkExit()
+	chunk.ActiveScene = true
 	print("[ROOT] Entering " + chunk.name)
 	
 	# Updating World Environment and Lights
+	chunk.WorldEnv.tonemap_mode = Environment.TONE_MAPPER_REINHARDT
 	$WorldEnv.environment = chunk.WorldEnv
-	$WorldEnv.environment.tonemap_mode = 1
 	
 	# Updating Skydome
 	var skypath : String = RehabGame.AssetsPath + chunk.SkydomePath
 	if (SkydomePath != skypath and !chunk.SkydomePath.is_empty()):
-		if (Skydome):
+		if (Skydome and SkydomePath != ""):
 			Skydome.queue_free()
 		var sky = ResourceLoader.load(skypath)
 		SkydomePath = skypath
 		Skydome = sky.instantiate()
 		add_child(Skydome)
 	elif chunk.SkydomePath.is_empty():
-		if (Skydome):
+		if (Skydome and SkydomePath != ""):
 			Skydome.queue_free()
 		SkydomePath = ""
 	
@@ -200,6 +202,20 @@ func SwitchToChunk(chunk : ChunkScene):
 	for i in OldChunk.Links:
 		i.DisableLink()
 	
+	# Activating and starting links of entered chunk
+	for i in chunk.Links:
+		if (i.ChunkName == OldChunk.name):
+			i.IsBufferred = true
+			i.LoadedChunk = OldChunk
+			i.LoadedChunk.position = i.get_node("ChunkHolder").global_position
+			i.LoadedChunk.rotation = i.get_node("ChunkHolder").global_rotation
+		for a in OldChunk.Links:
+			if (a.ChunkName == i.ChunkName and a.LoadedChunk != null):
+				i.LoadedChunk = a.LoadedChunk
+				i.LoadedChunk.position = i.get_node("ChunkHolder").global_position
+				i.LoadedChunk.rotation = i.get_node("ChunkHolder").global_rotation
+		i.ActivateLink()
+	
 	# Disposing of unlinked chunks
 	for cn in ChunkNames:
 		var found = false
@@ -211,17 +227,9 @@ func SwitchToChunk(chunk : ChunkScene):
 			UnloadChunk(cn)
 	
 	ActiveChunk = chunk
-	chunk.ActiveScene = true
 	chunk.visible = true
 	chunk.process_mode = Node.PROCESS_MODE_INHERIT
 	chunk.OnChunkEnter()
-	
-	# Activating and starting links of entered chunk
-	for i  in chunk.Links:
-		if (i.ChunkName == OldChunk.name):
-			i.IsBufferred = true
-		i.ActivateLink()
-	
 
 func UnloadChunk(chunk : String):
 	var pos = ChunkNames.find(chunk)
