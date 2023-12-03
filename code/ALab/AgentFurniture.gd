@@ -15,6 +15,7 @@ var Doors = [
 	"School_OneWayActiveDoor",
 	"School_OneWayDoor",
 	"Village_Stockade_Gate",
+	"Boiler_Glass_Panel",
 ]
 
 

@@ -34,13 +34,14 @@ func StartAnim():
 		LoadActors()
 		await get_tree().process_frame
 		await get_tree().process_frame
-	$AnimationPlayer.play("menu_start")
-	visible = true
 	if (ActorsExist):
 		ActorNode.get_node("AnimationPlayer").play("scene/menu_start")
 		if (ResourceLoader.exists(AudioPath)):
 			$AudioStreamPlayer.stream = load(AudioPath)
 			$AudioStreamPlayer.play()
+			await get_tree().process_frame
+	$AnimationPlayer.play("menu_start")
+	visible = true
 
 func Activate():
 	$Button1.visible = false
@@ -59,7 +60,7 @@ func Activate():
 	visible = true
 	StartAnim()
 	RehabSceneRoot.Root.PlayMusic(54)
-	await get_tree().create_timer(1.85).timeout
+	await get_tree().create_timer(1.86).timeout
 	$Button1.quiet = true
 	$Button1.grab_focus()
 	$Button1.quiet = false

@@ -88,7 +88,7 @@ func Activate():
 	$ColorRectBG.scale = Vector2(1.0, 0.0)
 	var bgTween = create_tween()
 	bgTween.tween_property($ColorRectBG,"scale:y", 1.0, 0.5).set_trans(Tween.TRANS_CIRC)
-	$ColorRectUpper.position.y = -160.0
+	$ColorRectUpper.position.y = -170.0
 	var rectUpperTween = create_tween()
 	rectUpperTween.tween_property($ColorRectUpper, "position:y", 0.0, 0.5).set_trans(Tween.TRANS_CIRC).set_delay(0.5)
 	$TitleLabel.position.y = -140.0
@@ -98,7 +98,7 @@ func Activate():
 	$TitleLabel2.position.y = rootHeight + 5.0 #725.0 / 575.0
 	var rectLowerTextTween = create_tween()
 	rectLowerTextTween.tween_property($TitleLabel2, "position:y", rootHeight - 145.0, 0.5).set_trans(Tween.TRANS_CIRC).set_delay(0.5)
-	$ColorRectLower.position.y = rootHeight + 120.0 #840.0 / 680.0
+	$ColorRectLower.position.y = rootHeight + 130.0 #840.0 / 680.0
 	var rectLowerTween = create_tween()
 	rectLowerTween.tween_property($ColorRectLower, "position:y", rootHeight - 40.0, 0.5).set_trans(Tween.TRANS_CIRC).set_delay(0.5)
 	#var parentHeight = get_parent().size.y

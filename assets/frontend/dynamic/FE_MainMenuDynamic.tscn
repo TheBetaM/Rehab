@@ -73,7 +73,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1.2, 1.2)]
+"values": [Vector2(1.5, 1.5)]
 }
 
 [sub_resource type="Animation" id="Animation_o8dck"]
@@ -134,10 +134,10 @@ tracks/4/path = NodePath("ColorRectCircle5:scale")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(1.2, 1.2)]
+"values": [Vector2(0, 0), Vector2(1.5, 1.5)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mvt30"]
@@ -177,7 +177,7 @@ offset_right = -80.0
 offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.2, 1.2)
+scale = Vector2(1.5, 1.5)
 pivot_offset = Vector2(960, 720)
 color = Color(0.223529, 0.588235, 1, 1)
 

@@ -5,6 +5,7 @@ extends Control
 
 func UpdateVisuals():
 	LevelIcon.texture = null
+	LevelIcon2.texture = null
 	$LabelLevelName.text = RehabSceneRoot.Root.LoadingChunkName.replace("_","/")
 	var path : String = ""
 	match $LabelLevelName.text:
@@ -59,8 +60,9 @@ func AnimIn():
 	$LoadingBG/ColorRectCenter.pivot_offset.x = $LoadingBG/ColorRectCenter.size.x / 2
 	for i in $LoadingBG/ColorRectCenter.get_children():
 		i.pivot_offset.x = i.size.x / 2
+	$Control.position.y = get_window().size.y
 	var aTween = create_tween();
-	aTween.tween_property($Control, "position:y", 720.0 - $Control.size.y, 0.5)
+	aTween.tween_property($Control, "position:y", get_window().size.y - $Control.size.y, 0.5)
 	visible = true
 	await get_tree().create_timer(0.5).timeout
 	$AnimationPlayer.play("TextAnim")
