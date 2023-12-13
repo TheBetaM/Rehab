@@ -40,6 +40,8 @@ func _ready():
 	AudioAmbience = $Audio/AudioAmb1
 	AudioMenu = $Audio/AudioMenu
 	$WorldEnv.environment = DefaultEnv
+	$ConfigHandler.Load()
+	$ConfigHandler.Setup()
 	GameInit()
 
 func GameInit():
@@ -54,6 +56,7 @@ func GameInit():
 	var dir = DirAccess.open(RehabGame.AssetsPath + "Levels/");
 	if dir:
 		$FE/LevelSelect.Generate()
+		await get_tree().process_frame
 		await get_tree().process_frame
 		if (Game.Dev):
 			StartLevelSelect()
@@ -439,3 +442,10 @@ func PlayMenuSound_Select():
 
 func ForceGameOver():
 	$FE/FE_GameOver.Activate()
+
+func MainMenu_UpdateViewport():
+	$FE/FE_MainMenuDynamic.UpdateViewport()
+
+func ConfigSave():
+	$ConfigHandler.UpdateAll()
+	$ConfigHandler.Save()

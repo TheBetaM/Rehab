@@ -8,18 +8,19 @@ var Fruit : int = 0
 var Crystals : int = 0
 var LevelID : int = -1
 var Gems : Dictionary #int levelID : list of gems?
-var PlayerMode
-var PlayerCharacterType
-var SavePointChunk
-var SavePointPos
-var SavePointRot
-var CheckPointChunk
-var CheckPointPos
-var CheckPointRot
+var PlayerMode : int = 0
+var PlayerCharacterType : int = 0
+var SavePointChunk : String
+var SavePointPos : Vector3
+var SavePointRot : Vector3
+var CheckPointChunk : String
+var CheckPointPos : Vector3
+var CheckPointRot : Vector3
 static var InvertCameraX : bool = false
 static var InvertCameraY : bool = false
 static var UseMouseCamera : bool = true
 static var AssetsPath : String = "res://import/"
+static var ConfigPath : String = "user://rehab.cfg"
 
 func ResetGame():
 	Fruit = 0

@@ -174,6 +174,37 @@ func OptionsMain_ToGraphics():
 	HeaderLabel.text = "#FE-GFXOptions"
 	var scaling = get_viewport().scaling_3d_scale
 	$WindowMainRound/MenuOptionsGraphics/Button7.text = tr("#FE-RenderScale") + ": " + str(roundi(scaling * 100)) + "%"
+	var mset1 = get_viewport().scaling_3d_mode
+	if (mset1 == Viewport.SCALING_3D_MODE_BILINEAR):
+		$WindowMainRound/MenuOptionsGraphics/Button6.text = "#FE-FSR-Off"
+	elif (mset1 == Viewport.SCALING_3D_MODE_FSR):
+		$WindowMainRound/MenuOptionsGraphics/Button6.text = "#FE-FSR-On1"
+	else:
+		$WindowMainRound/MenuOptionsGraphics/Button6.text = "#FE-FSR-On2"
+	var mset2 = get_viewport().msaa_3d
+	if (mset2 == Viewport.MSAA_DISABLED):
+		$WindowMainRound/MenuOptionsGraphics/Button2.text = "#FE-MSAA-Off"
+	elif (mset2 == Viewport.MSAA_2X):
+		$WindowMainRound/MenuOptionsGraphics/Button2.text = "#FE-MSAA-2x"
+	elif (mset2 == Viewport.MSAA_4X):
+		$WindowMainRound/MenuOptionsGraphics/Button2.text = "#FE-MSAA-4x"
+	else:
+		$WindowMainRound/MenuOptionsGraphics/Button2.text = "#FE-MSAA-8x"
+	var mset3 = get_viewport().screen_space_aa
+	if (mset3 == Viewport.SCREEN_SPACE_AA_DISABLED):
+		$WindowMainRound/MenuOptionsGraphics/Button4.text = "#FE-FXAA-Off"
+	else:
+		$WindowMainRound/MenuOptionsGraphics/Button4.text = "#FE-FXAA-On"
+	var mset4 = DisplayServer.window_get_vsync_mode()
+	if (mset4 == DisplayServer.VSYNC_DISABLED):
+		$WindowMainRound/MenuOptionsGraphics/Button3.text = "#FE-VSync-Off"
+	elif (mset4 == DisplayServer.VSYNC_ENABLED):
+		$WindowMainRound/MenuOptionsGraphics/Button3.text = "#FE-VSync-On"
+	elif (mset4 == DisplayServer.VSYNC_ADAPTIVE):
+		$WindowMainRound/MenuOptionsGraphics/Button3.text = "#FE-VSync-Adaptive"
+	else:
+		$WindowMainRound/MenuOptionsGraphics/Button3.text = "#FE-VSync-Fast"
+	
 	
 	$WindowMainRound/MenuOptionsMain.visible = false
 	$WindowMainRound/MenuOptionsGraphics.visible = true
@@ -205,6 +236,7 @@ func OptionsMain_ToSound():
 	$WindowMainRound/MenuOptionsSound.get_child(0).grab_focus()
 
 func OptionsMain_ToPause():
+	RehabSceneRoot.Root.ConfigSave()
 	$WindowMainRound/MenuOptionsMain.visible = false
 	if (OptionsOnly):
 		Pause_Resume()
@@ -244,6 +276,8 @@ func OptionsGraphics_ToggleFullscreen():
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		get_window().size = Vector2(1280, 720)
+		get_window().move_to_center()
 
 func OptionsGame_ToggleVibrations():
 	pass
@@ -262,6 +296,7 @@ func OptionsGraphics_ToggleMSAA():
 	else:
 		get_viewport().msaa_3d = Viewport.MSAA_DISABLED
 		$WindowMainRound/MenuOptionsGraphics/Button2.text = "#FE-MSAA-Off"
+	RehabSceneRoot.Root.MainMenu_UpdateViewport()
 
 func OptionsGraphics_ToggleTXAA():
 	var mset = get_viewport().screen_space_aa
@@ -271,6 +306,7 @@ func OptionsGraphics_ToggleTXAA():
 	else:
 		get_viewport().screen_space_aa = Viewport.SCREEN_SPACE_AA_DISABLED
 		$WindowMainRound/MenuOptionsGraphics/Button4.text = "#FE-FXAA-Off"
+	RehabSceneRoot.Root.MainMenu_UpdateViewport()
 
 func OptionsGraphics_ToggleVSync():
 	var mset = DisplayServer.window_get_vsync_mode()
@@ -303,6 +339,7 @@ func OptionsGraphics_ToggleFSR():
 	
 	var scaling = get_viewport().scaling_3d_scale
 	$WindowMainRound/MenuOptionsGraphics/Button7.text = tr("#FE-RenderScale") + ": " + str(roundi(scaling * 100)) + "%"
+	RehabSceneRoot.Root.MainMenu_UpdateViewport()
 
 func OptionsGraphics_ToggleRenderScale():
 	var mset = get_viewport().scaling_3d_mode
@@ -316,6 +353,7 @@ func OptionsGraphics_ToggleRenderScale():
 			scaling = 1.0
 	get_viewport().scaling_3d_scale = scaling
 	$WindowMainRound/MenuOptionsGraphics/Button7.text = tr("#FE-RenderScale") + ": " + str(roundi(scaling * 100)) + "%"
+	RehabSceneRoot.Root.MainMenu_UpdateViewport()
 
 func OptionsSound_ToggleVolume_Global():
 	OptionsSound_ToggleVolume(0, false)
@@ -431,6 +469,7 @@ func OptionsSound_ToggleVolume(busID : int, textOnly : bool):
 		targetVol = -22.5
 		targetText += "10%"
 	else:
+		targetVol = -30.0
 		if (!textOnly):
 			AudioServer.set_bus_mute(busID, true)
 		targetText += "0%"

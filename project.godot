@@ -25,6 +25,7 @@ buses/default_bus_layout="res://assets/frontend/RehabAudioBus.tres"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/size/mode=4
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
@@ -242,3 +243,8 @@ locale/translations=PackedStringArray("res://assets/lang/frontend.en_US.translat
 3d_physics/layer_6="ChunkLayer6"
 3d_physics/layer_7="ChunkLayer7"
 3d_physics/layer_8="ChunkLayer8"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+anti_aliasing/quality/msaa_3d=2

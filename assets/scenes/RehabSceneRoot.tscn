@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://by5ieljhkskx8"]
+[gd_scene load_steps=15 format=3 uid="uid://by5ieljhkskx8"]
 
 [ext_resource type="Script" path="res://code/Game/RehabSceneRoot.gd" id="1_nokr2"]
 [ext_resource type="PackedScene" uid="uid://dj63qinhimnyd" path="res://assets/frontend/FE_LevelSelect.tscn" id="2_hbkbo"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://remb1fd1nang" path="res://assets/frontend/dynamic/FE_MainMenuDynamic.tscn" id="7_clxc5"]
 [ext_resource type="Script" path="res://code/Frontend/MusicFader.gd" id="8_ld425"]
 [ext_resource type="PackedScene" uid="uid://dnro8427myeml" path="res://assets/frontend/FE_GameOver.tscn" id="8_yxkhr"]
+[ext_resource type="Script" path="res://code/Frontend/ConfigHandler.gd" id="12_x2vfy"]
 
 [sub_resource type="Environment" id="Environment_3bekd"]
 background_mode = 1
@@ -96,6 +97,9 @@ bus = &"SFX"
 
 [node name="AudioVoice" type="AudioStreamPlayer" parent="Audio"]
 bus = &"Voice"
+
+[node name="ConfigHandler" type="Node" parent="."]
+script = ExtResource("12_x2vfy")
 
 [node name="PlayerCam" type="Camera3D" parent="."]
 far = 90000.0

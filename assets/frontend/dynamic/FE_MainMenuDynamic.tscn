@@ -261,8 +261,6 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="ViewHolder/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
-msaa_3d = 2
-screen_space_aa = 1
 size = Vector2i(640, 720)
 render_target_update_mode = 4
 

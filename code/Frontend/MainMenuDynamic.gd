@@ -2,6 +2,7 @@ extends Control
 
 @onready var Root3D : Node3D = $ViewHolder/SubViewportContainer/SubViewport/FE_ROOT
 @onready var CamRoot3D : Camera3D = $ViewHolder/SubViewportContainer/SubViewport/Camera3D
+@onready var Viewport3D : Viewport = $ViewHolder/SubViewportContainer/SubViewport
 var ActorPath = "res://assets/frontend/dynamic/FE_Actors.tscn"
 var ActorsExist : bool = false
 var ActorScene : PackedScene
@@ -35,15 +36,16 @@ func StartAnim():
 		await get_tree().process_frame
 		await get_tree().process_frame
 	if (ActorsExist):
-		ActorNode.get_node("AnimationPlayer").play("scene/menu_start")
 		if (ResourceLoader.exists(AudioPath)):
 			$AudioStreamPlayer.stream = load(AudioPath)
 			$AudioStreamPlayer.play()
 			await get_tree().process_frame
+		ActorNode.get_node("AnimationPlayer").play("scene/menu_start")
 	$AnimationPlayer.play("menu_start")
 	visible = true
 
 func Activate():
+	UpdateViewport()
 	$Button1.visible = false
 	$Button2.visible = false
 	$Button3.visible = false
@@ -98,3 +100,10 @@ func ReturnOptions():
 	$Button3.focus_mode = Control.FOCUS_ALL
 	$Button4.focus_mode = Control.FOCUS_ALL
 	$Button2.grab_focus()
+
+func UpdateViewport():
+	var view = get_viewport()
+	#Viewport3D.scaling_3d_mode = view.scaling_3d_mode
+	Viewport3D.scaling_3d_scale = view.scaling_3d_scale
+	Viewport3D.msaa_3d = view.msaa_3d
+	Viewport3D.screen_space_aa = view.screen_space_aa
