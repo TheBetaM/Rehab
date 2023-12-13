@@ -149,6 +149,14 @@ text = "#FE-MSAA-Off"
 layout_mode = 2
 text = "#FE-FXAA-Off"
 
+[node name="Button6" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-FSR-Off"
+
+[node name="Button7" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-RenderScale"
+
 [node name="Button3" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-VSync-On"
@@ -821,6 +829,8 @@ expand_icon = true
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button1" to="." method="OptionsGraphics_ToggleFullscreen"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button2" to="." method="OptionsGraphics_ToggleMSAA"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button4" to="." method="OptionsGraphics_ToggleTXAA"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button6" to="." method="OptionsGraphics_ToggleFSR"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button7" to="." method="OptionsGraphics_ToggleRenderScale"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button3" to="." method="OptionsGraphics_ToggleVSync"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button5" to="." method="OptionsGraphics_ToMain"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button4" to="." method="OptionsGame_ToggleLanguage"]

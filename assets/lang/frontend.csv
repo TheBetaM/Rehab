@@ -110,6 +110,10 @@
 #FE-VSync-On,VSync: ON,VSync: EIN,VSync: ON,VSync: ON,VSync: ACTIVAR,VSync: WŁĄCZONE
 #FE-VSync-Adaptive,VSync: Adaptive,VSync: Adaptiv,VSync: Adaptatif,VSync: Adattivo,VSync: Adaptado,VSync: Adaptywny
 #FE-VSync-Fast,VSync: Fast,VSync: Schnell,VSync: Rapide,VSync: Veloce,VSync: Rápido,VSync: Szybki
+#FE-FSR-Off,FSR: OFF,FSR: AUS,FSR: OFF,FSR: OFF,FSR: DESACTIVAR,FSR: WYŁĄCZONE
+#FE-FSR-On1,FSR: ON (1.0),FSR: EIN (1.0),FSR: ON (1.0),FSR: ON (1.0),FSR: ACTIVAR (1.0),FSR: WŁĄCZONE (1.0)
+#FE-FSR-On2,FSR: ON (2.2),FSR: EIN (2.2),FSR: ON (2.2),FSR: ON (2.2),FSR: ACTIVAR (2.2),FSR: WŁĄCZONE (2.2)
+#FE-RenderScale,Rendering scale,Rendermaßstab,Échelle de rendu,Scala di rendering,Escala de renderizado,Skala renderowania
 #FE-CamInvertH-On,Invert horizontal camera: ON,Horizontale Kamerasteuerung umkehren: EIN,Inverser le contrôle horizontal de la caméra: ON,Inverte il controllo della telecamera orizzontale: ON,Invertir control de cámara horizontal: SÍ,Odwróć poziome sterowanie kamerą: TAK
 #FE-CamInvertH-Off,Invert horizontal camera: OFF,Horizontale Kamerasteuerung umkehren: AUS,Inverser le contrôle horizontal de la caméra: OFF,Inverte il controllo della telecamera orizzontale: OFF,Invertir control de cámara horizontal: NO,Odwróć poziome sterowanie kamerą: NIE
 #FE-CamInvertV-On,Invert vertical camera: ON,Vertikale Kamerasteuerung umkehren: EIN,Inverser le contrôle vertical de la caméra: ON,Inverte il controllo verticale della telecamera: ON,Invertir control de cámara vertical: SÍ,Odwróć pionowe sterowanie kamerą: TAK

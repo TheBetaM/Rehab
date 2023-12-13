@@ -172,6 +172,9 @@ func Pause_ToOptions():
 
 func OptionsMain_ToGraphics():
 	HeaderLabel.text = "#FE-GFXOptions"
+	var scaling = get_viewport().scaling_3d_scale
+	$WindowMainRound/MenuOptionsGraphics/Button7.text = tr("#FE-RenderScale") + ": " + str(roundi(scaling * 100)) + "%"
+	
 	$WindowMainRound/MenuOptionsMain.visible = false
 	$WindowMainRound/MenuOptionsGraphics.visible = true
 	$WindowMainRound/MenuOptionsGraphics.get_child(0).grab_focus()
@@ -283,6 +286,36 @@ func OptionsGraphics_ToggleVSync():
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 		$WindowMainRound/MenuOptionsGraphics/Button3.text = "#FE-VSync-Off"
+
+func OptionsGraphics_ToggleFSR():
+	var mset = get_viewport().scaling_3d_mode
+	if (mset == Viewport.SCALING_3D_MODE_BILINEAR):
+		get_viewport().scaling_3d_scale = 0.75
+		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
+		$WindowMainRound/MenuOptionsGraphics/Button6.text = "#FE-FSR-On1"
+	elif (mset == Viewport.SCALING_3D_MODE_FSR):
+		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR2
+		$WindowMainRound/MenuOptionsGraphics/Button6.text = "#FE-FSR-On2"
+	else:
+		get_viewport().scaling_3d_scale = 1.0
+		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
+		$WindowMainRound/MenuOptionsGraphics/Button6.text = "#FE-FSR-Off"
+	
+	var scaling = get_viewport().scaling_3d_scale
+	$WindowMainRound/MenuOptionsGraphics/Button7.text = tr("#FE-RenderScale") + ": " + str(roundi(scaling * 100)) + "%"
+
+func OptionsGraphics_ToggleRenderScale():
+	var mset = get_viewport().scaling_3d_mode
+	var scaling = get_viewport().scaling_3d_scale
+	if (scaling > 0.51):
+		scaling = scaling - 0.05
+	else:
+		if (mset == Viewport.SCALING_3D_MODE_BILINEAR):
+			scaling = 2.0
+		else:
+			scaling = 1.0
+	get_viewport().scaling_3d_scale = scaling
+	$WindowMainRound/MenuOptionsGraphics/Button7.text = tr("#FE-RenderScale") + ": " + str(roundi(scaling * 100)) + "%"
 
 func OptionsSound_ToggleVolume_Global():
 	OptionsSound_ToggleVolume(0, false)
@@ -647,3 +680,4 @@ func ExitExtrasItem():
 		ExtrasItemVideo.stream = null
 	ExtrasList.visible = true
 	ExtrasList.get_child(LastExtrasItem).grab_focus()
+

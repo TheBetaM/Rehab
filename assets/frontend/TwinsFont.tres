@@ -5,7 +5,7 @@
 [sub_resource type="SystemFont" id="SystemFont_slq26"]
 
 [resource]
-base_font = ExtResource("1_13hl8")
 fallbacks = Array[Font]([SubResource("SystemFont_slq26")])
+base_font = ExtResource("1_13hl8")
 spacing_glyph = 4
 spacing_bottom = -16
