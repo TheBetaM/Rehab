@@ -173,3 +173,10 @@ func Clear():
 	LivesTimer = 0.0
 	WumpaTimer = 0.0
 	UpdateAll()
+
+func OnPause():
+	ForceAnimOut()
+	$TouchControls.visible = false
+
+func OnUnPause():
+	$TouchControls.visible = true

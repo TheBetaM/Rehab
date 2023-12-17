@@ -3,6 +3,7 @@ extends Node
 var Dict : Dictionary
 
 func Load():
+	if (!FileAccess.file_exists(RehabGame.ConfigPath)): return;
 	var file = FileAccess.open(RehabGame.ConfigPath, FileAccess.READ)
 	var text = file.get_as_text().to_lower()
 	if (text.contains("object") or text.contains("refcounted") or text.contains("script")):

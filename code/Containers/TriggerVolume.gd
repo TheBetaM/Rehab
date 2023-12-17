@@ -6,3 +6,10 @@ class_name TriggerVolume
 @export var SomeFloat: float
 @export var SectionHead: int
 @export var Mask : Array[bool]
+
+func _ready():
+	body_entered.connect(OnTrigger)
+
+func OnTrigger(body):
+	if !(body is AgentCharacter): return;
+	#if !(Mask[body.RegInt[AgentCharacter.CharISlot.AgentType]]): return;

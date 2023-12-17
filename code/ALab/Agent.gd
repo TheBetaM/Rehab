@@ -9,6 +9,7 @@ class_name Agent
 @export var Scripts : Array[ALabScript]
 @export var ModelActions : Array[Dictionary] #int OGI index, string Animation name
 @export var Sounds : Array[Resource]
+@export var SubActorsScenes : Array[PackedScene]
 var CTRLPACK : ControlPacket
 var SubActors : Array[Agent]
 var SubModels : Array[Node3D]
@@ -23,9 +24,9 @@ var ColShapes : Dictionary #int submodel index, Array[CollisionShape3D] shapes
 var FirstSetup : bool = true
 
 # Instance data
-@export var InstanceScript : ALabScript
+@export var OutlineCrate : bool
 @export var RefList : int
-@export var LinkInstance : Array[Agent]
+@export var LinkInstance : Array[Marker3D]
 @export var LinkPath : Array[Path3D]
 @export var LinkPoint : Array[Marker3D]
 @export var RegAngle : Array[int]
@@ -57,8 +58,13 @@ enum SSlot {
 }
 
 func _ready():
-	AudioSource = $AudioStreamPlayer3D
+	AudioSource = AudioStreamPlayer3D.new()
+	add_child(AudioSource)
 	AudioSource.bus = &"SFX"
+	var ShadowHolderNode = Node3D.new()
+	ShadowHolderNode.name = "Shadows"
+	add_child(ShadowHolderNode)
+	
 	if (get_node_or_null("Children")):
 		for i in $Children.get_children():
 			if (i is Agent):

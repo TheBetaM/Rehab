@@ -40,6 +40,7 @@ func _ready():
 	AudioAmbience = $Audio/AudioAmb1
 	AudioMenu = $Audio/AudioMenu
 	$WorldEnv.environment = DefaultEnv
+	Game.Init()
 	$ConfigHandler.Load()
 	$ConfigHandler.Setup()
 	GameInit()
@@ -75,19 +76,7 @@ func GameInit():
 		get_tree().quit()
 
 func LoadPacks():
-	var PacksPathSplit = OS.get_executable_path().split("/")
-	var PacksPath = ""
-	var PathID = 0
-	for i in PacksPathSplit:
-		PathID += 1
-		if (PathID < PacksPathSplit.size()):
-			PacksPath += i
-			PacksPath += "/"
-	PacksPath += "Packs/"
-	
-	if (!DirAccess.dir_exists_absolute(PacksPath)):
-		DirAccess.make_dir_absolute(PacksPath)
-	
+	var PacksPath = RehabGame.DataPath;
 	var pdir = DirAccess.open(PacksPath)
 	if (pdir):
 		for i in pdir.get_files():
@@ -97,7 +86,7 @@ func LoadPacks():
 			else:
 				printerr("[ROOT] Pack FAILED from " + i)
 	else:
-		print("[ROOT] Packs directory failed to open!")
+		print("[ROOT] Packs directory failed to open! " + PacksPath)
 
 func LoadScene(path : String):
 	UnloadAllChunks()
@@ -141,9 +130,14 @@ func LoadScene(path : String):
 		await get_tree().create_timer(0.5).timeout
 		$FE/Loading.visible = false
 		$FE/Loading.process_mode = Node.PROCESS_MODE_DISABLED
+		GameHUD.OnUnPause()
 		await get_tree().create_timer(3.5).timeout
 		if (AgentCharacter.activeCharacter == null and !$FE/LevelSelect.visible and !$FE/Loading.visible and !$FE/FE_MainMenuDynamic.visible and !$FE/FE_Credits.visible):
 			printerr("[ROOT] LEVEL LOADED WITH NO CHARACTER")
+			StartMessage("#FE-NoActorError")
+			await get_tree().create_timer(0.5).timeout
+			while (GameMenu.visible):
+				await get_tree().process_frame
 			ExitLevel(false)
 	else:
 		printerr("[ROOT] FAILED TO LOAD SCENE AT " + path)
@@ -283,13 +277,13 @@ func StartMainMenu():
 func StartPauseMenu(optionsOnly : bool):
 	process_mode = Node.PROCESS_MODE_DISABLED
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	GameHUD.ForceAnimOut()
+	GameHUD.OnPause()
 	GameMenu.Start_PauseMenu(optionsOnly)
 
 func StartMessage(text : String):
 	process_mode = Node.PROCESS_MODE_DISABLED
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	GameHUD.ForceAnimOut()
+	GameHUD.OnPause()
 	GameMenu.Start_Message(text)
 
 var MusicPaths : Dictionary = {

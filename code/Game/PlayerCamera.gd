@@ -133,3 +133,9 @@ func SetupCam(target : Node3D):
 	camvector = camvector.normalized()
 	camright = Vector3(camvector.z, 0, -camvector.x)
 	camright = camright.normalized()
+
+func CameraTriggerEntered(_trig : CameraTriggerVolume):
+	pass
+
+func CameraTriggerExited(_trig : CameraTriggerVolume):
+	pass

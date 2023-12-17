@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://nkp3ebjlrr0k"
 path.s3tc="res://.godot/imported/clin.png-23d43890fd0c9908355d91de826d719e.s3tc.ctex"
+path.etc2="res://.godot/imported/clin.png-23d43890fd0c9908355d91de826d719e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/shadow/clin.png"
-dest_files=["res://.godot/imported/clin.png-23d43890fd0c9908355d91de826d719e.s3tc.ctex"]
+dest_files=["res://.godot/imported/clin.png-23d43890fd0c9908355d91de826d719e.s3tc.ctex", "res://.godot/imported/clin.png-23d43890fd0c9908355d91de826d719e.etc2.ctex"]
 
 [params]
 

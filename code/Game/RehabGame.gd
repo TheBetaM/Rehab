@@ -1,6 +1,7 @@
 class_name RehabGame
 
-var Dev : bool = false # development mode flag
+static var Dev : bool = false # development mode flag
+static var DemoMode : bool = true
 var ChunkData : Dictionary # string ChunkName : list of persistent flags of instances
 var Progress : int = 0
 var Lives : int = 4
@@ -21,6 +22,25 @@ static var InvertCameraY : bool = false
 static var UseMouseCamera : bool = true
 static var AssetsPath : String = "res://import/"
 static var ConfigPath : String = "user://rehab.cfg"
+static var DataPath : String = OS.get_executable_path()
+
+func Init():
+	if (OS.get_name() == "Android"):
+		#DataPath = OS.get_user_data_dir() + "/"
+		DataPath = "/storage/emulated/0/Rehab/Packs/"
+	else:
+		var PathSplit = RehabGame.DataPath.split("/")
+		var PacksPath = ""
+		var PathID = 0
+		for i in PathSplit:
+			PathID += 1
+			if (PathID < PathSplit.size()):
+				PacksPath += i
+				PacksPath += "/"
+		PacksPath += "Packs/"
+		DataPath = PacksPath
+		if (!DirAccess.dir_exists_absolute(PacksPath)):
+			DirAccess.make_dir_absolute(PacksPath)
 
 func ResetGame():
 	Fruit = 0

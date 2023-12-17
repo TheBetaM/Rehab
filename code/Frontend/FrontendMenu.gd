@@ -88,7 +88,7 @@ func Start_PauseMenu(optOnly : bool):
 	HeaderLabel.text = "#FE-Paused"
 	MainLabel.text = ""
 	WumpaText.text = str(RehabSceneRoot.Game.Fruit)
-	LivesText.text = str(RehabSceneRoot.Game.Crystals)
+	LivesText.text = str(RehabSceneRoot.Game.Lives)
 	CrystalsText.text = str(RehabSceneRoot.Game.Crystals)
 	$WindowRoundWumpa.visible = true
 	$WindowRoundLives.visible = true
@@ -136,6 +136,7 @@ func Notice_Close():
 	process_mode = Node.PROCESS_MODE_INHERIT
 	if (RehabGame.UseMouseCamera and AgentCharacter.activeCharacter != null):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		RehabSceneRoot.Root.GameHUD.OnUnPause()
 
 func Pause_Resume():
 	Notice_Close()

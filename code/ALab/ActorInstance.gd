@@ -3,7 +3,7 @@
 extends Marker3D
 class_name ActorInstance
 @export var Prefab : PackedScene
-@export var InstanceScript : ALabScript
+@export var OutlineCrate : bool
 @export var RefList: int = -1
 @export var LinkInstance : Array[NodePath]
 @export var LinkPath : Array[NodePath]
@@ -24,17 +24,17 @@ func _ready():
 	else:
 		add_child(act)
 		return
-	Actor.InstanceScript = InstanceScript
+	Actor.OutlineCrate = OutlineCrate
 	Actor.RefList = RefList
 	Actor.RegAngle = RegAngle
 	Actor.RegFloat = RegFloat
 	Actor.RegInt = RegInt
-	#for i in LinkInstance:
-	#	Actor.LinkInstance.append(get_node_or_null(i))
-	#for i in LinkPath:
-	#	Actor.LinkPath.append(get_node_or_null(i))
-	#for i in LinkPoint:
-	#	Actor.LinkPoint.append(get_node_or_null(i))
+	for i in LinkInstance:
+		Actor.LinkInstance.append(get_node_or_null(i))
+	for i in LinkPath:
+		Actor.LinkPath.append(get_node_or_null(i))
+	for i in LinkPoint:
+		Actor.LinkPoint.append(get_node_or_null(i))
 	add_child(Actor)
 	if (Engine.is_editor_hint()):
 		Actor.set("metadata/_edit_lock_", true)

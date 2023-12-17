@@ -127,4 +127,5 @@
 #FE-Dub-Spanish,Spanish,Spanisch,Espagnol,Spagnolo,Español,Hiszpański
 #FE-DubSelection,Voice Language,Stimmen-Sprache,Langue vocal,Lingua vocale,Idioma de voz,Język Głosów
 #FE-Dub-Japanese,Japanese,Japanisch,Japonais,Giapponese,Japonés,Japoński
+#FE-NoActorError,"No character found\nin this level!\nReturning to menu.","Keinen Spielcharakter\ngefunden!\nZurück nach Menu.","Aucun personnage de jeu\ntrouvé dans ce niveau!\nRetour au menu.","Nessun personaggio del gioco\ntrovato in questo livello!\nTornando al menù.","¡No se encontró ningún personaje\ndel juego en este nivel!\nVolviendo al menú.","Nie znaleziono\npostaci do gry!\nWracamy do menu."
 #FE-Installer-OpenFileTitle,"Locate game ISO or game files (default.xbe/system.cnf)",,,,,

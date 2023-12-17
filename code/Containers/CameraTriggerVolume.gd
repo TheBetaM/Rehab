@@ -28,3 +28,17 @@ class_name CameraTriggerVolume
 @export var UnkUInt9 : int
 @export var UnkFloat8 : float
 @export var UnkByte : int
+
+func _ready():
+	body_entered.connect(OnEnter)
+	body_exited.connect(OnExit)
+
+func OnEnter(body):
+	if (body != AgentCharacter.activeCharacter): return;
+	#if !(Mask[body.RegInt[AgentCharacter.CharISlot.AgentType]]): return;
+	RehabSceneRoot.Root.PlayerCam.CameraTriggerEntered(self)
+
+func OnExit(body):
+	if (body != AgentCharacter.activeCharacter): return;
+	#if !(Mask[body.RegInt[AgentCharacter.CharISlot.AgentType]]): return;
+	RehabSceneRoot.Root.PlayerCam.CameraTriggerExited(self)

@@ -13,8 +13,6 @@ var RequiredAssets = [
 	RehabGame.AssetsPath + "Rigs/Rig_Cortex.tscn",
 	RehabGame.AssetsPath + "Rigs/RigRESET_Crash.tres",
 	RehabGame.AssetsPath + "Rigs/RigRESET_Cortex.tres",
-	RehabGame.AssetsPath + "Animations/Crash_SkateKickflip.res",
-	RehabGame.AssetsPath + "Animations/Cortex_SkateFall.res",
 ]
 
 func LoadActors():

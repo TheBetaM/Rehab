@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://remb1fd1nang"]
+[gd_scene load_steps=10 format=3 uid="uid://remb1fd1nang"]
 
 [ext_resource type="Script" path="res://code/Frontend/MainMenuDynamic.gd" id="1_kani7"]
 [ext_resource type="Shader" path="res://shaders/canvas/Circle.gdshader" id="2_5jhga"]
@@ -7,7 +7,10 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7bsh4"]
 shader = ExtResource("2_5jhga")
 
+[sub_resource type="World3D" id="World3D_jhg1e"]
+
 [sub_resource type="Environment" id="Environment_ui3py"]
+background_color = Color(0, 0, 0, 0)
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 3.0
@@ -259,6 +262,8 @@ grow_vertical = 2
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="ViewHolder/SubViewportContainer"]
+own_world_3d = true
+world_3d = SubResource("World3D_jhg1e")
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(640, 720)
@@ -272,7 +277,7 @@ environment = SubResource("Environment_ui3py")
 light_energy = 0.0
 
 [node name="FE_ROOT" type="Node3D" parent="ViewHolder/SubViewportContainer/SubViewport"]
-transform = Transform3D(0.915873, 0, 0.401468, -0.0248378, 0.998084, 0.0566626, -0.400699, -0.0618673, 0.914118, -0.440514, 0.466801, 0)
+transform = Transform3D(0.915873, 0, 0.401468, -0.0248378, 0.998084, 0.0566626, -0.400699, -0.0618673, 0.914118, -0.441, 0.29, 0)
 
 [node name="Button1" parent="." instance=ExtResource("4_hr576")]
 layout_mode = 1

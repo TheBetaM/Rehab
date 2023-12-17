@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dbctcygs8r8uu"]
+[gd_scene load_steps=12 format=3 uid="uid://dbctcygs8r8uu"]
 
 [ext_resource type="Script" path="res://code/Frontend/LoadingVisuals.gd" id="1_3aivc"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="2_51th8"]
@@ -7,6 +7,14 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ou5l"]
 shader = ExtResource("2_85e8d")
+
+[sub_resource type="World3D" id="World3D_rhlvl"]
+
+[sub_resource type="Environment" id="Environment_po8fg"]
+background_color = Color(0, 0, 0, 0)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 3.0
 
 [sub_resource type="Animation" id="Animation_sh7ly"]
 resource_name = "LoadingStart"
@@ -18,7 +26,7 @@ tracks/0/path = NodePath("ColorRectBlack2:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25),
+"times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(0, -108), Vector2(0, 0)]
@@ -59,6 +67,18 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(0, 0), Vector2(1, 1.1)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ViewHolder:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_q7sly"]
 resource_name = "RESET"
@@ -86,6 +106,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -108)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ViewHolder:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_tdvw6"]
@@ -129,7 +161,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1, 1.1)
+scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(640, 360)
 
 [node name="ColorRectCenter" type="Control" parent="LoadingBG"]
@@ -190,6 +222,47 @@ grow_vertical = 2
 scale = Vector2(0.7, 0.7)
 pivot_offset = Vector2(640, 360)
 color = Color(0.223529, 0.588235, 1, 1)
+
+[node name="ViewHolder" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
+pivot_offset = Vector2(640, 360)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="ViewHolder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(640, 360)
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="ViewHolder/SubViewportContainer"]
+own_world_3d = true
+world_3d = SubResource("World3D_rhlvl")
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="ViewHolder/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
+cull_mask = 1024
+environment = SubResource("Environment_po8fg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="ViewHolder/SubViewportContainer/SubViewport/Camera3D"]
+layers = 1024
+light_energy = 0.0
+light_cull_mask = 4293919744
+
+[node name="FE_ROOT" type="Node3D" parent="ViewHolder/SubViewportContainer/SubViewport"]
+transform = Transform3D(-4.37114e-08, 0, 0.999999, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.29, -0.75)
 
 [node name="ColorRectBlack2" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(0, 108)
@@ -262,6 +335,7 @@ offset_right = 640.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(640, 20)
 text = ""
 
@@ -274,6 +348,7 @@ anchor_right = 1.0
 anchor_bottom = 0.75
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(640, 180)
 stretch_mode = 5
 script = ExtResource("4_632mi")

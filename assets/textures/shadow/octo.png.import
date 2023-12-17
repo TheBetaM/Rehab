@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://db3ib53peuwa2"
 path.s3tc="res://.godot/imported/octo.png-ba0b20c41cb5ff5433d7823cec928c32.s3tc.ctex"
+path.etc2="res://.godot/imported/octo.png-ba0b20c41cb5ff5433d7823cec928c32.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/shadow/octo.png"
-dest_files=["res://.godot/imported/octo.png-ba0b20c41cb5ff5433d7823cec928c32.s3tc.ctex"]
+dest_files=["res://.godot/imported/octo.png-ba0b20c41cb5ff5433d7823cec928c32.s3tc.ctex", "res://.godot/imported/octo.png-ba0b20c41cb5ff5433d7823cec928c32.etc2.ctex"]
 
 [params]
 

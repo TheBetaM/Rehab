@@ -3,4 +3,5 @@
 
 # Rehab - imported assets must not be checked in!
 import/
+android/build/
 *.translation

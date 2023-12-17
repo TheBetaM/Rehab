@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bquoaoh035v5b"]
+
+[ext_resource type="Shader" path="res://shaders/SolidColor.gdshader" id="1_ufg10"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ufg10")
+shader_parameter/color = Color(1, 1, 1, 1)
