@@ -124,6 +124,7 @@ func LoadScene(path : String):
 		await get_tree().create_timer(1.0).timeout
 		loadedScene.process_mode = Node.PROCESS_MODE_INHERIT
 		loadedScene.OnChunkEnter()
+		loadedScene.ShadowToggle(true)
 		$FE/Loading.AnimOut()
 		if (RehabGame.UseMouseCamera):
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

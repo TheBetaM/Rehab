@@ -6,7 +6,7 @@ class_name ChunkScene
 @export var ActiveScene : bool
 @export var Links : Array[ChunkLink]
 var ChunkLayer : int = 1
-
+var DirShadowCount : int = 0
 
 func UpdateLayers(layer : int):
 	ChunkLayer = layer
@@ -32,12 +32,20 @@ func UpdateLayersNested(parent : Node):
 			i.set_collision_layer_value(ChunkLayer, true)
 
 func ShadowToggle(val):
+	DirShadowCount = 0
 	ShadowToggleNested(self, val)
 
 func ShadowToggleNested(parent : Node, val : bool):
 	for i in parent.get_children():
 		ShadowToggleNested(i, val)
-		if (i is Light3D):
+		if (i is DirectionalLight3D):
+			if (!val or DirShadowCount < 4):
+				i.shadow_enabled = val
+				if (val):
+					DirShadowCount = DirShadowCount + 1
+		if (i is SpotLight3D):
+			i.shadow_enabled = val
+		if (i is OmniLight3D):
 			i.shadow_enabled = val
 
 func OnChunkEnter():
