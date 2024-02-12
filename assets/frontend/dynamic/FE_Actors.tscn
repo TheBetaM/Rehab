@@ -1,11 +1,11 @@
 [gd_scene load_steps=26 format=3 uid="uid://bbemu2a4ujpuy"]
 
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_Crash.tscn" id="1_g5qhi"]
-[ext_resource type="Animation" path="res://import/Rigs/RigRESET_Crash.tres" id="2_65yfv"]
+[ext_resource type="Animation" path="res://import/Rigs/RigRESET_Crash.res" id="2_65yfv"]
 [ext_resource type="Animation" path="res://import/Animations/Crash_SkateKickflip.res" id="3_tns36"]
 [ext_resource type="Animation" path="res://import/Animations/Crash_SkateIdleFront.res" id="4_av2ax"]
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_Cortex.tscn" id="4_v1kc4"]
-[ext_resource type="Animation" path="res://import/Rigs/RigRESET_Cortex.tres" id="5_inlr2"]
+[ext_resource type="Animation" path="res://import/Rigs/RigRESET_Cortex.res" id="5_inlr2"]
 [ext_resource type="Animation" path="res://import/Animations/Crash_SkateIdleBack.res" id="5_oxdyu"]
 [ext_resource type="Animation" path="res://import/Animations/Crash_Brawl1.res" id="6_mr6wf"]
 [ext_resource type="Animation" path="res://import/Animations/Cortex_SkateFall.res" id="6_uortp"]

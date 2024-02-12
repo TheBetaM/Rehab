@@ -1,17 +1,17 @@
 [gd_scene load_steps=15 format=3 uid="uid://by5ieljhkskx8"]
 
-[ext_resource type="Script" path="res://code/Game/RehabSceneRoot.gd" id="1_nokr2"]
+[ext_resource type="Script" path="res://code/Game/RehabScene.cs" id="1_nokr2"]
 [ext_resource type="PackedScene" uid="uid://dj63qinhimnyd" path="res://assets/frontend/FE_LevelSelect.tscn" id="2_hbkbo"]
 [ext_resource type="PackedScene" uid="uid://dbctcygs8r8uu" path="res://assets/frontend/FE_Loading.tscn" id="3_w1df3"]
 [ext_resource type="PackedScene" uid="uid://deku1jgir0rrr" path="res://assets/frontend/FE_HUD.tscn" id="4_ckn0n"]
-[ext_resource type="Script" path="res://code/Game/PlayerCamera.gd" id="4_dyya7"]
-[ext_resource type="Script" path="res://code/Game/FreeLookCamera.gd" id="5_7wkgt"]
+[ext_resource type="Script" path="res://code/Game/PlayerCamera.cs" id="4_dyya7"]
+[ext_resource type="Script" path="res://code/Game/FreeLookCamera.cs" id="5_7wkgt"]
 [ext_resource type="PackedScene" uid="uid://csc3ocq55uwbc" path="res://assets/frontend/FE_Menu.tscn" id="5_j6sms"]
 [ext_resource type="PackedScene" uid="uid://cuo4j5jc63e2f" path="res://assets/frontend/FE_Credits.tscn" id="6_b843s"]
 [ext_resource type="PackedScene" uid="uid://remb1fd1nang" path="res://assets/frontend/dynamic/FE_MainMenuDynamic.tscn" id="7_clxc5"]
-[ext_resource type="Script" path="res://code/Frontend/MusicFader.gd" id="8_ld425"]
+[ext_resource type="Script" path="res://code/Frontend/MusicFader.cs" id="8_ld425"]
 [ext_resource type="PackedScene" uid="uid://dnro8427myeml" path="res://assets/frontend/FE_GameOver.tscn" id="8_yxkhr"]
-[ext_resource type="Script" path="res://code/Frontend/ConfigHandler.gd" id="12_x2vfy"]
+[ext_resource type="Script" path="res://code/Frontend/ConfigHandler.cs" id="12_x2vfy"]
 
 [sub_resource type="Environment" id="Environment_3bekd"]
 background_mode = 1

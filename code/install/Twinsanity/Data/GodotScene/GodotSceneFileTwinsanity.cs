@@ -169,7 +169,7 @@ namespace RehabSetup
             bool HasLinks = Links.Links.Count > 0;
             if (!HasLinks) return;
 
-            ExternalResource LinkCodeRes = new ExternalResource($"res://code/Containers/ChunkLink.gd");
+            ExternalResource LinkCodeRes = new ExternalResource($"res://code/Containers/ChunkLink{ExportGodot.ScriptExt}");
             LinkCodeRes.SetAsScript();
             ExternalResourceList.Add(LinkCodeRes);
             int LinkCode = ExternalResourceList.Count;
@@ -612,7 +612,7 @@ namespace RehabSetup
             ChunkLinks Links = targetFile.GetItem<ChunkLinks>(5);
 
             //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Code\\Containers\\");
-            //ExportGodot.ContainerWriter.ExportContainer_ChunkLink($"{System.IO.Path.GetDirectoryName(path)}\\Code\\Containers\\ChunkLink.gd");
+            //ExportGodot.ContainerWriter.ExportContainer_ChunkLink($"{System.IO.Path.GetDirectoryName(path)}\\Code\\Containers\\ChunkLink{ExportGodot.ScriptExt}");
 
             string SceneryFilePath = $"{Scene.ChunkName.Replace('\\', '_')}-Scenery";
             if (!SceneOnly)
@@ -661,8 +661,8 @@ namespace RehabSetup
             if (SurfaceLayers.Count == 0) return;
 
             //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Code\\Containers\\");
-            //ExportGodot.ContainerWriter.ExportContainer_CollisionData($"{System.IO.Path.GetDirectoryName(path)}\\Code\\Containers\\CollisionSurface.gd");
-            //ExternalResource Code_Container_Resource_Collision = new ExternalResource($"../Code/Containers/CollisionSurface.gd");
+            //ExportGodot.ContainerWriter.ExportContainer_CollisionData($"{System.IO.Path.GetDirectoryName(path)}\\Code\\Containers\\CollisionSurface{ExportGodot.ScriptExt}");
+            //ExternalResource Code_Container_Resource_Collision = new ExternalResource($"../Code/Containers/CollisionSurface{ExportGodot.ScriptExt}");
             //Code_Container_Resource_Collision.SetAsScript();
             //ExternalResourceList.Add(Code_Container_Resource_Collision);
             //int ColDataCode = ExternalResourceList.Count;
@@ -933,7 +933,7 @@ namespace RehabSetup
             if (GI.CollisionData.Length != 0)
             {
                 
-                ExternalResource Code_Bone = new ExternalResource($"res://code/Containers/BoneCollisionShape3D.gd");
+                ExternalResource Code_Bone = new ExternalResource($"res://code/Containers/BoneCollisionShape3D{ExportGodot.ScriptExt}");
                 Code_Bone.SetAsScript();
                 ExternalResourceList.Add(Code_Bone);
                 int Code_BoneID = ExternalResourceList.Count;
@@ -1093,7 +1093,7 @@ namespace RehabSetup
             byte AgentJointIDs = (byte)(Agent.UnkBitfield >> 0x6 & 0x3F);
             byte AgentExitPoints = (byte)(Agent.UnkBitfield & 0x3F);
 
-            ExternalResource AgentObjectCode = new ExternalResource($"res://code/ALab/Agent{GameObjectTypeScripts[AgentType]}.gd");
+            ExternalResource AgentObjectCode = new ExternalResource($"res://code/ALab/Agent{GameObjectTypeScripts[AgentType]}{ExportGodot.ScriptExt}");
             AgentObjectCode.SetAsScript();
             ExternalResourceList.Add(AgentObjectCode);
             int AgentObjectCodeID = ExternalResourceList.Count;
@@ -1589,7 +1589,7 @@ namespace RehabSetup
             {
                 hashName = $"{DefaultHashes.ToName(SectionType.Object, Agent.ID)}_{hashName}";
             }
-            ExternalResource ScriptCode = new ExternalResource($"../Scripts/{hashName}.gd");
+            ExternalResource ScriptCode = new ExternalResource($"../Scripts/{hashName}{ExportGodot.ScriptExt}");
             ScriptCode.SetAsScript();
             ExternalResourceList.Add(ScriptCode);
             InternalResource ScriptRes = new InternalResource();
@@ -2236,32 +2236,32 @@ namespace RehabSetup
             Dictionary<int, int> ImportedObjects = new Dictionary<int, int>();
 
             #region Export Code
-            ExternalResource Code_Container_Scene = new ExternalResource($"res://code/Containers/ChunkScene.gd");
+            ExternalResource Code_Container_Scene = new ExternalResource($"res://code/Containers/ChunkScene{ExportGodot.ScriptExt}");
             Code_Container_Scene .SetAsScript();
             ExternalResourceList.Add(Code_Container_Scene);
             CodeResourceID_Scene = ExternalResourceList.Count;
-            ExternalResource Code_Container_Resource_Instance = new ExternalResource($"res://code/ALab/ActorInstance.gd");
+            ExternalResource Code_Container_Resource_Instance = new ExternalResource($"res://code/Containers/ActorInstance{ExportGodot.ScriptExt}");
             Code_Container_Resource_Instance.SetAsScript();
             ExternalResourceList.Add(Code_Container_Resource_Instance);
             CodeResourceID_Container_Instance = ExternalResourceList.Count;
-            ExternalResource Code_Container_Resource_Trigger = new ExternalResource($"res://code/Containers/TriggerVolume.gd");
+            ExternalResource Code_Container_Resource_Trigger = new ExternalResource($"res://code/Containers/TriggerVolume{ExportGodot.ScriptExt}");
             Code_Container_Resource_Trigger.SetAsScript();
             ExternalResourceList.Add(Code_Container_Resource_Trigger);
             CodeResourceID_Container_Trigger = ExternalResourceList.Count;
-            ExternalResource Code_Container_Resource_Camera = new ExternalResource($"res://code/Containers/CameraTriggerVolume.gd");
+            ExternalResource Code_Container_Resource_Camera = new ExternalResource($"res://code/Containers/CameraTriggerVolume{ExportGodot.ScriptExt}");
             Code_Container_Resource_Camera.SetAsScript();
             ExternalResourceList.Add(Code_Container_Resource_Camera);
             CodeResourceID_Container_Camera = ExternalResourceList.Count;
             /*
-            ExternalResource Code_Container_Resource_AIPath = new ExternalResource($"../Code/Containers/AIPath.gd");
+            ExternalResource Code_Container_Resource_AIPath = new ExternalResource($"../Code/Containers/AIPath{ExportGodot.ScriptExt}");
             Code_Container_Resource_AIPath.SetAsScript();
             ExternalResourceList.Add(Code_Container_Resource_AIPath);
             CodeResourceID_Container_AIPath = ExternalResourceList.Count;
-            ExternalResource Code_Container_Resource_AIPathNode = new ExternalResource($"../Code/Containers/AIPathNode.gd");
+            ExternalResource Code_Container_Resource_AIPathNode = new ExternalResource($"../Code/Containers/AIPathNode{ExportGodot.ScriptExt}");
             Code_Container_Resource_AIPathNode.SetAsScript();
             ExternalResourceList.Add(Code_Container_Resource_AIPathNode);
             CodeResourceID_Container_AIPathNode = ExternalResourceList.Count;
-            ExternalResource Code_Container_Resource_AgentPath = new ExternalResource($"../Code/Containers/AgentPath.gd");
+            ExternalResource Code_Container_Resource_AgentPath = new ExternalResource($"../Code/Containers/AgentPath{ExportGodot.ScriptExt}");
             Code_Container_Resource_AgentPath.SetAsScript();
             ExternalResourceList.Add(Code_Container_Resource_AgentPath);
             CodeResourceID_Container_AgentPath = ExternalResourceList.Count;

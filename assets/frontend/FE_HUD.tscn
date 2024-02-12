@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://deku1jgir0rrr"]
 
-[ext_resource type="Script" path="res://code/Frontend/FrontendHUD.gd" id="1_yrfyt"]
+[ext_resource type="Script" path="res://code/Frontend/FrontendHUD.cs" id="1_yrfyt"]
 [ext_resource type="Shader" path="res://shaders/FontGradient.gdshader" id="2_n118i"]
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="2_rt1ju"]
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="3_updjh"]

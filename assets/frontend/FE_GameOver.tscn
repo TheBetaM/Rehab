@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dnro8427myeml"]
 
-[ext_resource type="Script" path="res://code/Frontend/FrontendGameOver.gd" id="1_vwxlb"]
+[ext_resource type="Script" path="res://code/Frontend/FrontendGameOver.cs" id="1_vwxlb"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="3_o5sws"]
 [ext_resource type="PackedScene" uid="uid://do0s11ctvcqp1" path="res://assets/frontend/windows/RehabMenuButton.tscn" id="4_rg0al"]
 

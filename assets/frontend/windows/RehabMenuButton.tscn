@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" path="res://shaders/FontGradient.gdshader" id="1_881wj"]
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="2_6vesv"]
-[ext_resource type="Script" path="res://code/Frontend/RehabMenuButton.gd" id="3_txwtx"]
+[ext_resource type="Script" path="res://code/Frontend/RehabMenuButton.cs" id="3_txwtx"]
 [ext_resource type="PackedScene" uid="uid://djiau18vfikps" path="res://assets/frontend/RehabShadowLabel.tscn" id="4_6edaw"]
 
 [sub_resource type="Gradient" id="Gradient_6e6ww"]

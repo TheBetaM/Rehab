@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cuo4j5jc63e2f"]
 
-[ext_resource type="Script" path="res://code/Frontend/FrontendCredits.gd" id="1_hrn25"]
+[ext_resource type="Script" path="res://code/Frontend/FrontendCredits.cs" id="1_hrn25"]
 
 [node name="FE_Credits" type="Control"]
 process_mode = 4

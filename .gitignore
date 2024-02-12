@@ -1,5 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
+.vs/
+.vscode/
 
 # Rehab - imported assets must not be checked in!
 import/

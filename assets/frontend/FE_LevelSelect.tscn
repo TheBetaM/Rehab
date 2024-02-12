@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dj63qinhimnyd"]
 
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="1"]
-[ext_resource type="Script" path="res://code/Frontend/LevelSelectList.gd" id="1_axws6"]
+[ext_resource type="Script" path="res://code/Frontend/LevelSelectList.cs" id="1_axws6"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="2_5qxim"]
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="3_sxwkc"]
 [ext_resource type="PackedScene" uid="uid://do0s11ctvcqp1" path="res://assets/frontend/windows/RehabMenuButton.tscn" id="5_qu4xw"]

@@ -1,13 +1,13 @@
 [gd_scene load_steps=11 format=3 uid="uid://csc3ocq55uwbc"]
 
 [ext_resource type="PackedScene" uid="uid://bvnasa3s1tj38" path="res://assets/frontend/windows/WindowMainRound.tscn" id="1_cbs7t"]
-[ext_resource type="Script" path="res://code/Frontend/FrontendMenu.gd" id="1_w3elq"]
+[ext_resource type="Script" path="res://code/Frontend/FrontendMenu.cs" id="1_w3elq"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="3_d138b"]
 [ext_resource type="PackedScene" uid="uid://v2rbsdmdkbbt" path="res://assets/frontend/windows/WindowRound.tscn" id="4_66hls"]
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="5_c5h6c"]
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="6_1cstp"]
 [ext_resource type="PackedScene" uid="uid://do0s11ctvcqp1" path="res://assets/frontend/windows/RehabMenuButton.tscn" id="6_2mxrl"]
-[ext_resource type="Script" path="res://code/Frontend/TextureRectWobble.gd" id="7_te4ee"]
+[ext_resource type="Script" path="res://code/Frontend/TextureRectWobble.cs" id="7_te4ee"]
 
 [sub_resource type="Gradient" id="Gradient_yoo12"]
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0)

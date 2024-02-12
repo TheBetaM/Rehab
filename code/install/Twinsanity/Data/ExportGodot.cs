@@ -830,6 +830,7 @@ namespace RehabSetup
         public const bool ExportSoundsAsResource = true; // sounds as resource can be loaded at runtime without compression or pre-processing, but loads longer
         public const bool ExportScripts = false;
         public const bool ExportResBinary = true; // binary resource files instead of text-based
+        public const string ScriptExt = ".cs"; // or .gd
 
         public const uint Format = 3;
         public const string Node3D = "Node3D";

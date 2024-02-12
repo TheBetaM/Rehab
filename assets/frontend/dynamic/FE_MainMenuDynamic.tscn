@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://remb1fd1nang"]
 
-[ext_resource type="Script" path="res://code/Frontend/MainMenuDynamic.gd" id="1_kani7"]
+[ext_resource type="Script" path="res://code/Frontend/MainMenuDynamic.cs" id="1_kani7"]
 [ext_resource type="Shader" path="res://shaders/canvas/Circle.gdshader" id="2_5jhga"]
 [ext_resource type="PackedScene" uid="uid://do0s11ctvcqp1" path="res://assets/frontend/windows/RehabMenuButton.tscn" id="4_hr576"]
 
