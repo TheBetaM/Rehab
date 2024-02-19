@@ -84,6 +84,7 @@ namespace RehabSetup
             ISO_PS2 = new ISO9660();
             BufferFiles.Clear();
             BufferBD = null;
+            TwinsSection.ResetCache();
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
@@ -242,11 +243,11 @@ namespace RehabSetup
                 }
                 else if (pair.Key.ToLower().EndsWith(".mb"))
                 {
-                    TaskList.Add(ExportMB(pair));
+                    //TaskList.Add(ExportMB(pair));
                 }
                 else if (pair.Key.ToLower().EndsWith(".xwb"))
                 {
-                    TaskList.Add(ExportXWB(pair));
+                    //TaskList.Add(ExportXWB(pair));
                 }
                 else if (pair.Key.ToLower().EndsWith(".bin"))
                 {
@@ -277,6 +278,7 @@ namespace RehabSetup
             BufferBD = null;
             Cache.Clear();
             BufferFiles.Clear();
+            TwinsSection.ResetCache();
             timer.Stop();
             GC.Collect();
             GC.WaitForPendingFinalizers();
@@ -458,6 +460,7 @@ namespace RehabSetup
                 BufferBD = null;
                 Cache.Clear();
                 BufferFiles.Clear();
+                TwinsSection.ResetCache();
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
 
