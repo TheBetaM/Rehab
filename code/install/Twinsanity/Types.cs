@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using BigGustave;
 
 namespace Twinsanity
 {
@@ -117,72 +116,6 @@ namespace Twinsanity
 
         public static bool operator !=(Color left, Color right){
             return !left.Equals(right);
-        }
-
-    }
-
-    public class Bitmap
-    {
-
-        public int Width;
-        public int Height;
-        public Color[,] data;
-
-        public Bitmap(int width, int height)
-        {
-            Width = width;
-            Height = height;
-            data = new Color[height, width];
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    data[y, x] = new Color(0,0,0,0);
-                }
-            }
-        }
-
-        public void SetPixel(int x, int y, Color color)
-        {
-            data[y, x] = color;
-        }
-
-        public void Save(string path)
-        {
-            var builder = PngBuilder.Create(Width, Height, true);
-            for (int y = 0; y < Height; y++)
-            {
-                for (int x = 0; x < Width; x++)
-                {
-                    builder.SetPixel(new Pixel(data[y,x].R, data[y,x].G, data[y,x].B, data[y,x].A, false), x, y);
-                }
-            }
-            using (MemoryStream stream = new MemoryStream())
-            {
-                builder.Save(stream);
-                stream.Position = 0;
-                try
-                {
-                    File.WriteAllBytes(path, stream.ToArray());
-                }
-                catch
-                {
-                    
-                }
-            }
-        }
-
-        public void Save(ref MemoryStream stream)
-        {
-            var builder = PngBuilder.Create(Width, Height, true);
-            for (int y = 0; y < Height; y++)
-            {
-                for (int x = 0; x < Width; x++)
-                {
-                    builder.SetPixel(new Pixel(data[y,x].R, data[y,x].G, data[y,x].B, data[y,x].A, false), x, y);
-                }
-            }
-            builder.Save(stream);
         }
 
     }

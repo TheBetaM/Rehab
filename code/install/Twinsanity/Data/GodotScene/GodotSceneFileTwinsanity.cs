@@ -325,15 +325,7 @@ namespace RehabSetup
 
                 // Export DAE and textures
                 RigidModel RigidModelCont = rigid_sec.GetItem<RigidModel>(ThisModel.ModelID);
-                uint Hash;
-                if (ExportGodot.ExportModelsAsResource)
-                {
-                    Hash = ExportGodot.ExportModelResource(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
-                }
-                else
-                {
-                    //Hash = ExportGodot.ExportModel(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae", SceneOnly);
-                }
+                uint Hash = ExportGodot.ExportModelResource(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
                 Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(ThisModel.ModelID, Hash)}", $"{RootNode.Name}/{ColNode.Name}");
 
                 if (Scene.Models[i].GI_Types.Count == 0) continue;
@@ -494,15 +486,7 @@ namespace RehabSetup
             {
                 // Export DAE and textures
                 RigidModel RigidModelCont = rigid_sec.GetItem<RigidModel>(Scene.ModelIDs[i]);
-                uint Hash;
-                if (ExportGodot.ExportModelsAsResource)
-                {
-                    Hash = ExportGodot.ExportModelResource(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
-                }
-                else
-                {
-                    //Hash = ExportGodot.ExportModel(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae", SceneOnly);
-                }
+                uint Hash = ExportGodot.ExportModelResource(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
                 Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(Scene.ModelIDs[i], Hash)}", $".");
                 Nodes[i + 1].Lines.Add($"cast_shadow=0"); // no need for skydome to cast shadows? can always tune for clouds or sth afterwards
             }
@@ -517,15 +501,7 @@ namespace RehabSetup
             {
                 // Export DAE and textures
                 RigidModel RigidModelCont = rigid_sec.GetItem<RigidModel>(Scene.LODModelIDs[i]);
-                uint Hash;
-                if (ExportGodot.ExportModelsAsResource)
-                {
-                    Hash = ExportGodot.ExportModelResource(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
-                }
-                else
-                {
-                    //Hash = ExportGodot.ExportModel(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae", SceneOnly);
-                }
+                uint Hash = ExportGodot.ExportModelResource(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
                 Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(Scene.LODModelIDs[i], Hash)}", $".");
                 
                 if (i != 0)
@@ -711,56 +687,17 @@ namespace RehabSetup
                 Nodes.Add(BodyNode);
 
                 int ShapeID = 0;
-                if (ExportGodot.ExportResBinary)
-                {
-                    GodotBinaryCollisionShape shape = new GodotBinaryCollisionShape(Data, (int)i);
-                    string ShapeFilePath = $"{DirPath}{ModelFilePath}_{(DefaultEnums.SurfaceTypes)i}.res";
-                    shape.WriteToFile(ShapeFilePath);
+                GodotBinaryCollisionShape shape = new GodotBinaryCollisionShape(Data, (int)i);
+                string ShapeFilePath = $"{DirPath}{ModelFilePath}_{(DefaultEnums.SurfaceTypes)i}.res";
+                shape.WriteToFile(ShapeFilePath);
 
-                    ExternalResource ShapeRes = new ExternalResource($"{ModelFilePath}_{(DefaultEnums.SurfaceTypes)i}.res", shape.ResType);
-                    ExternalResourceList.Add(ShapeRes);
-                    ShapeID = ExternalResourceList.Count;
-                }
-                else
-                {
-                    InternalResource Shape = new InternalResource();
-                    Shape.Type = ExportGodot.ConcavePolygonShape3D;
-                    StringBuilder ShapeArray = new StringBuilder();
-                    ShapeArray.Append("data=PoolVector3Array(");
-
-                    List<int> LayerIndices = new List<int>();
-
-                    for (int g = 0; g < Data.Tris.Count; g++)
-                    {
-                        if (Data.Tris[g].Surface == i)
-                        {
-                            LayerIndices.Add(Data.Tris[g].Vert1);
-                            LayerIndices.Add(Data.Tris[g].Vert2);
-                            LayerIndices.Add(Data.Tris[g].Vert3);
-                        }
-                    }
-                    for (int g = 0; g < LayerIndices.Count; g++)
-                    {
-                        ShapeArray.Append($"{(-Data.Vertices[LayerIndices[g]].X).ToText()},{Data.Vertices[LayerIndices[g]].Y.ToText()},{Data.Vertices[LayerIndices[g]].Z.ToText()}, ");
-                    }
-                    ShapeArray.Remove(ShapeArray.Length - 2, 2);
-                    ShapeArray.Append(")");
-                    Shape.Lines.Add(ShapeArray.ToString());
-                    Shape.Lines.Add($"backface_collision=true");
-                    InternalResourceList.Add(Shape);
-                    ShapeID = InternalResourceList.Count;
-                }
+                ExternalResource ShapeRes = new ExternalResource($"{ModelFilePath}_{(DefaultEnums.SurfaceTypes)i}.res", shape.ResType);
+                ExternalResourceList.Add(ShapeRes);
+                ShapeID = ExternalResourceList.Count;
 
                 Node ShapeNode = new Node("CollisionShape", ExportGodot.CollisionShape3D);
                 ShapeNode.KeyValues.Add("parent", $"{GeomNode.Name}/{BodyNode.Name}");
-                if (ExportGodot.ExportResBinary)
-                {
-                    ShapeNode.Lines.Add($"shape=ExtResource({ ShapeID })");
-                }
-                else
-                {
-                    ShapeNode.Lines.Add($"shape=SubResource({ ShapeID })");
-                }
+                ShapeNode.Lines.Add($"shape=ExtResource({ ShapeID })");
                 Nodes.Add(ShapeNode);
 
             }
@@ -825,42 +762,24 @@ namespace RehabSetup
                 {
                     BlendSkinX skin = bskin_sec.GetItem<BlendSkinX>(GI.BlendSkinID);
                     BlendShapeCount = skin.BlendShapeCount;
-                    if (ExportGodot.ExportModelsAsResource)
-                    {
-                        ExportGodot.ExportBlendSkinXResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae");
-                        //ExportGodot.ExportBlendSkinX_GLTF(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.glb");
-                    }
-                    else
-                    {
-                        //ExportGodot.ExportBlendSkinX(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae", SceneOnly);
-                    }
+                    ExportGodot.ExportBlendSkinXResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae");
                     string ModelFilePath = $"../Skins/BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
 
-                    if (ExportGodot.ExportModelsAsResource)
-                    {
-                        // adjusting name for blend shape animation access
-                        Nodes.Last().Name = "BlendSkin";
-                        // attaching blend skin to skeleton (no longer needed)
-                        //Node AttachMesh = new Node("Mesh2");
-                        //AttachMesh.KeyValues.Add("parent", $"RigidBody/{RootNode.Name}/BlendSkin");
-                        //AttachMesh.KeyValues.Add("index", "0");
-                        //AttachMesh.Lines.Add($"skeleton = NodePath(\"../..\")");
-                        //Nodes.Add(AttachMesh);
-                        //Editables.Add($"RigidBody/{RootNode.Name}/BlendSkin");
-                    }
+                    // adjusting name for blend shape animation access
+                    Nodes.Last().Name = "BlendSkin";
+                    // attaching blend skin to skeleton (no longer needed)
+                    //Node AttachMesh = new Node("Mesh2");
+                    //AttachMesh.KeyValues.Add("parent", $"RigidBody/{RootNode.Name}/BlendSkin");
+                    //AttachMesh.KeyValues.Add("index", "0");
+                    //AttachMesh.Lines.Add($"skeleton = NodePath(\"../..\")");
+                    //Nodes.Add(AttachMesh);
+                    //Editables.Add($"RigidBody/{RootNode.Name}/BlendSkin");
                 }
                 if (GI.SkinID != 0)
                 {
                     SkinX skin = skin_sec.GetItem<SkinX>(GI.SkinID);
-                    if (ExportGodot.ExportModelsAsResource)
-                    {
-                        ExportGodot.ExportSkinXResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae");
-                    }
-                    else
-                    {
-                        //ExportGodot.ExportSkinX(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae", SceneOnly);
-                    }
+                    ExportGodot.ExportSkinXResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae");
                     string ModelFilePath = $"../Skins/Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
                 }
@@ -871,61 +790,33 @@ namespace RehabSetup
                 {
                     BlendSkin skin = bskin_sec.GetItem<BlendSkin>(GI.BlendSkinID);
                     BlendShapeCount = skin.BlendShapeCount;
-                    if (ExportGodot.ExportModelsAsResource)
-                    {
-                        ExportGodot.ExportBlendSkinResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae");
-                        //ExportGodot.ExportBlendSkin_GLTF(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.glb");
-                    }
-                    else
-                    {
-                        //ExportGodot.ExportBlendSkin(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae", SceneOnly);
-                    }
+                    ExportGodot.ExportBlendSkinResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae");
                     string ModelFilePath = $"../Skins/BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
 
-                    if (ExportGodot.ExportModelsAsResource)
-                    {
-                        // adjusting name for blend shape animation access
-                        Nodes.Last().Name = "BlendSkin";
-                        // attaching blend skin to skeleton (no longer needed)
-                        //Node AttachMesh = new Node("Mesh2");
-                        //AttachMesh.KeyValues.Add("parent", $"RigidBody/{RootNode.Name}/BlendSkin");
-                        //AttachMesh.KeyValues.Add("index", "0");
-                        //AttachMesh.Lines.Add($"skeleton = NodePath(\"../..\")");
-                        //Nodes.Add(AttachMesh);
-                        //Editables.Add($"RigidBody/{RootNode.Name}/BlendSkin");
-                    }
+                    // adjusting name for blend shape animation access
+                    Nodes.Last().Name = "BlendSkin";
+                    // attaching blend skin to skeleton (no longer needed)
+                    //Node AttachMesh = new Node("Mesh2");
+                    //AttachMesh.KeyValues.Add("parent", $"RigidBody/{RootNode.Name}/BlendSkin");
+                    //AttachMesh.KeyValues.Add("index", "0");
+                    //AttachMesh.Lines.Add($"skeleton = NodePath(\"../..\")");
+                    //Nodes.Add(AttachMesh);
+                    //Editables.Add($"RigidBody/{RootNode.Name}/BlendSkin");
                 }
                 if (GI.SkinID != 0)
                 {
                     Skin skin = skin_sec.GetItem<Skin>(GI.SkinID);
-                    if (ExportGodot.ExportModelsAsResource)
-                    {
-                        ExportGodot.ExportSkinResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae");
-                    }
-                    else
-                    {
-                        //ExportGodot.ExportSkin(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae", SceneOnly);
-                    }
+                    ExportGodot.ExportSkinResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae");
                     string ModelFilePath = $"../Skins/Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
                 }
             }
 
             // Export RESET animation
-            if (ExportGodot.ExportResBinary)
-            {
-                GodotBinaryAnimation ResetAnim = new GodotBinaryAnimation(GI, BlendShapeCount);
-                string AnimPath = $"{System.IO.Path.GetDirectoryName(path)}\\Rigs\\RigRESET_{DefaultHashes.ToName(SectionType.OGI, GI.ID)}.res";
-                ResetAnim.WriteToFile(AnimPath);
-            }
-            else
-            {
-                GodotResourceFileTwinsanity ResetAnim = GodotResourceFileTwinsanity.Create("RESET");
-                string AnimPath = $"{System.IO.Path.GetDirectoryName(path)}\\Rigs\\RigRESET_{DefaultHashes.ToName(SectionType.OGI, GI.ID)}.tres";
-                ResetAnim.AddResetAnimation(GI, AnimPath, BlendShapeCount);
-                ResetAnim.WriteToFile(AnimPath);
-            }
+            GodotBinaryAnimation ResetAnim = new GodotBinaryAnimation(GI, BlendShapeCount);
+            string AnimPath = $"{System.IO.Path.GetDirectoryName(path)}\\Rigs\\RigRESET_{DefaultHashes.ToName(SectionType.OGI, GI.ID)}.res";
+            ResetAnim.WriteToFile(AnimPath);
 
             // Attachments
             Dictionary<uint, Node> AttachNodes = new();
@@ -1007,15 +898,7 @@ namespace RehabSetup
                 }
 
                 RigidModel model = rigid_sec.GetItem<RigidModel>(modelID);
-                uint Hash;
-                if (ExportGodot.ExportModelsAsResource)
-                {
-                    Hash = ExportGodot.ExportModelResource(model, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
-                }
-                else
-                {
-                    //Hash = ExportGodot.ExportModel(model, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae", SceneOnly);
-                }
+                uint Hash = ExportGodot.ExportModelResource(model, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
                 string outName = DefaultHashes.RigidToName(model.ID, Hash);
                 string ModelFilePath = $"../Mesh/{outName}";
 
@@ -1247,8 +1130,7 @@ namespace RehabSetup
             Dictionary<int, int> AnimList = new Dictionary<int, int>();
             if (Agent.Anims.Count != 0)
             {
-                string Extension = ".tres";
-                if (ExportGodot.ExportResBinary) Extension = ".res";
+                string Extension = ".res";
                 for (int i = 0; i < Agent.Anims.Count; i++)
                 {
                     if (Agent.Anims[i] != 65535 && !AnimList.ContainsKey(Agent.Anims[i]))
@@ -1297,8 +1179,7 @@ namespace RehabSetup
                         //ModelFileReference.SetAsPackedScene();
                         //ExternalResourceList.Add(ModelFileReference);
 
-                        string Extension = ".tres";
-                        if (ExportGodot.ExportResBinary) Extension = ".res";
+                        string Extension = ".res";
                         ExternalResource ResetAnimRef = new ExternalResource($"../Rigs/RigRESET_{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[i])}{Extension}");
                         ResetAnimRef.SetAsAnimation();
                         ExternalResourceList.Add(ResetAnimRef);
@@ -1402,8 +1283,7 @@ namespace RehabSetup
 
             if (Agent.Sounds.Count != 0)
             {
-                string Extension = ".tres";
-                if (ExportGodot.ExportResBinary) Extension = ".res";
+                string Extension = ".res";
                 Dictionary<int, int> SoundIDs = new Dictionary<int, int>();
                 for (int i = 0; i < Agent.Sounds.Count; i++)
                 {
@@ -2109,7 +1989,7 @@ namespace RehabSetup
                     }
                     else
                     {
-                        ExternalResource PrefabRes = new ExternalResource($"../Actors/{DefaultHashes.ToName(SectionType.Object, Inst.ObjectID)}{ExportGodot.GetSceneExtension()}");
+                        ExternalResource PrefabRes = new ExternalResource($"../Actors/{DefaultHashes.ToName(SectionType.Object, Inst.ObjectID)}{ExportGodot.SceneExtension}");
                         PrefabRes.SetAsPackedScene();
                         ExternalResourceList.Add(PrefabRes);
                         PrefabResID = ExternalResourceList.Count;
@@ -2419,15 +2299,7 @@ namespace RehabSetup
 
         public void ExportSounds(TwinsSection Cont, string path)
         {
-            string SoundExt = ".wav";
-            if (ExportGodot.ExportSoundsAsResource)
-            {
-                SoundExt = ".tres";
-                if (ExportGodot.ExportResBinary)
-                {
-                    SoundExt = ".res";
-                }
-            }
+            string SoundExt = ".res";
             // PAL languages rely on ID overlap so thay are better left as a mod?
             TwinsSection CodeSection = Cont.GetItem<TwinsSection>(10);
             bool IsXbox = CodeSection.Type == SectionType.CodeX;
@@ -2445,45 +2317,9 @@ namespace RehabSetup
                             SoundEffectX SFX = Section.GetItem<SoundEffectX>(Section.Records[a].ID);
                             if (!File.Exists(SoundPath))
                             {
-                                if (ExportGodot.ExportSoundsAsResource)
-                                {
-                                    try
-                                    {
-                                        if (ExportGodot.ExportResBinary)
-                                        {
-                                            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
-                                            GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(SFX);
-                                            wav.WriteToFile(SoundPath);
-                                        }
-                                        else
-                                        {
-                                            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
-                                            GodotResourceFileTwinsanity SoundRes = GodotResourceFileTwinsanity.Create("sound");
-                                            SoundRes.AddAudioStream(SFX);
-                                            SoundRes.WriteToFile(SoundPath);
-                                        }
-                                    }
-                                    catch
-                                    {
-                                        // race condition
-                                    }
-                                }
-                                else
-                                {
-                                    byte[] SoundData = RIFF.SaveRiff(SFX.SoundData, 1, SFX.Freq);
-                                    try
-                                    {
-                                        Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
-                                        FileStream file = new FileStream(SoundPath, FileMode.Create, FileAccess.Write);
-                                        BinaryWriter writer = new BinaryWriter(file);
-                                        writer.Write(SoundData);
-                                        writer.Close();
-                                    }
-                                    catch
-                                    {
-                                        // race condition
-                                    }
-                                }
+                                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
+                                GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(SFX);
+                                wav.WriteToFile(SoundPath);
                             }
                         }
                         else
@@ -2491,47 +2327,9 @@ namespace RehabSetup
                             SoundEffect SFX = Section.GetItem<SoundEffect>(Section.Records[a].ID);
                             if (!File.Exists(SoundPath))
                             {
-                                if (ExportGodot.ExportSoundsAsResource)
-                                {
-                                    try
-                                    {
-                                        if (ExportGodot.ExportResBinary)
-                                        {
-                                            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
-                                            GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(SFX);
-                                            wav.WriteToFile(SoundPath);
-                                        }
-                                        else
-                                        {
-                                            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
-                                            GodotResourceFileTwinsanity SoundRes = GodotResourceFileTwinsanity.Create("sound");
-                                            SoundRes.AddAudioStream(SFX);
-                                            SoundRes.WriteToFile(SoundPath);
-                                        }
-                                    }
-                                    catch
-                                    {
-                                        // race condition
-                                    }
-                                }
-                                else
-                                {
-                                    byte[] RawData = new byte[SFX.SoundSize];
-                                    Array.Copy(SFX.Parent.ExtraData, SFX.SoundOffset, RawData, 0, SFX.SoundSize);
-                                    byte[] SoundData = RIFF.SaveRiff(ADPCM.ToPCMMono(RawData, (int)SFX.SoundSize), 1, SFX.Freq);
-                                    try
-                                    {
-                                        Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
-                                        FileStream file = new FileStream(SoundPath, FileMode.Create, FileAccess.Write);
-                                        BinaryWriter writer = new BinaryWriter(file);
-                                        writer.Write(SoundData);
-                                        writer.Close();
-                                    }
-                                    catch
-                                    {
-                                        // race condition
-                                    }
-                                }
+                                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
+                                GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(SFX);
+                                wav.WriteToFile(SoundPath);
                             }
                         }
                     }
@@ -2542,8 +2340,7 @@ namespace RehabSetup
         public void AddRigidModelResource(RigidModel MCont, string path, bool SceneOnly)
         {
             string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Mesh\\";
-            string Extension = ".tres";
-            if (ExportGodot.ExportResBinary) Extension = ".res";
+            string Extension = ".res";
             Directory.CreateDirectory(DirPath);
             TwinsSection mesh_sec = MCont.Parent.Parent.GetItem<TwinsSection>(2);
             int SubModels = 0;
@@ -2551,48 +2348,24 @@ namespace RehabSetup
             string MeshName = "";
 
             // Export resource
-            if (ExportGodot.ExportResBinary)
+            GodotBinaryArrayMesh ModelResource;
+            if (mesh_sec.Type == SectionType.ModelX)
             {
-                GodotBinaryArrayMesh ModelResource;
-                if (mesh_sec.Type == SectionType.ModelX)
-                {
-                    ModelX Cont = mesh_sec.GetItem<ModelX>(MCont.MeshID);
-                    SubModels = Cont.SubModels.Count;
-                    ModelResource = new GodotBinaryArrayMesh(Cont);
-                }
-                else
-                {
-                    Model Cont = mesh_sec.GetItem<Model>(MCont.MeshID);
-                    SubModels = Cont.SubModels.Count;
-                    ModelResource = new GodotBinaryArrayMesh(Cont);
-                }
-                ModelResource.WriteResourceToBuffer();
-                MeshHash = ModelResource.WriteBuffer.GetSequenceHashCode();
-                MeshName = $"Mesh{DefaultHashes.ModelToName(MCont.MeshID, MeshHash)}{Extension}";
-                if (!File.Exists($"{DirPath}{MeshName}"))
-                    ModelResource.WriteBufferToFile($"{DirPath}{MeshName}");
+                ModelX Cont = mesh_sec.GetItem<ModelX>(MCont.MeshID);
+                SubModels = Cont.SubModels.Count;
+                ModelResource = new GodotBinaryArrayMesh(Cont);
             }
             else
             {
-                GodotResourceFileTwinsanity ModelResource = GodotResourceFileTwinsanity.Create($"Mesh");
-                if (mesh_sec.Type == SectionType.ModelX)
-                {
-                    ModelX Cont = mesh_sec.GetItem<ModelX>(MCont.MeshID);
-                    ModelResource.AddNewModelX(Cont);
-                    SubModels = Cont.SubModels.Count;
-                }
-                else
-                {
-                    Model Cont = mesh_sec.GetItem<Model>(MCont.MeshID);
-                    ModelResource.AddNewModel(Cont);
-                    SubModels = Cont.SubModels.Count;
-                }
-                ModelResource.Serialize();
-                MeshHash = ModelResource.FileLines.GetSequenceHashCode();
-                MeshName = $"Mesh{DefaultHashes.ModelToName(MCont.MeshID, MeshHash)}{Extension}";
-                if (!File.Exists($"{DirPath}{MeshName}"))
-                    ModelResource.WriteToFile($"{DirPath}{MeshName}");
+                Model Cont = mesh_sec.GetItem<Model>(MCont.MeshID);
+                SubModels = Cont.SubModels.Count;
+                ModelResource = new GodotBinaryArrayMesh(Cont);
             }
+            ModelResource.WriteResourceToBuffer();
+            MeshHash = ModelResource.WriteBuffer.GetSequenceHashCode();
+            MeshName = $"Mesh{DefaultHashes.ModelToName(MCont.MeshID, MeshHash)}{Extension}";
+            if (!File.Exists($"{DirPath}{MeshName}"))
+                ModelResource.WriteBufferToFile($"{DirPath}{MeshName}");
 
             ExternalResource ModelFileReference = new ExternalResource(MeshName);
             ModelFileReference.SetAsArrayMesh();
@@ -2626,23 +2399,13 @@ namespace RehabSetup
             string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
             Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"Skin_{DefaultHashes.ToName(SectionType.Skin, Cont.ID)}";
-            string Extension = ".tres";
-            if (ExportGodot.ExportResBinary) Extension = ".res";
+            string Extension = ".res";
 
             // Export resource
             if (!File.Exists($"{DirPath}{ModelFilePath}{Extension}"))
             {
-                if (ExportGodot.ExportResBinary)
-                {
-                    GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
-                    ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
-                }
-                else
-                {
-                    GodotResourceFileTwinsanity ModelResource = GodotResourceFileTwinsanity.Create(ModelFilePath);
-                    ModelResource.AddNewSkin(Cont);
-                    ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
-                }
+                GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
+                ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
             }
 
             ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}{Extension}");
@@ -2677,23 +2440,13 @@ namespace RehabSetup
             string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
             Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"Skin_{DefaultHashes.ToName(SectionType.Skin, Cont.ID)}";
-            string Extension = ".tres";
-            if (ExportGodot.ExportResBinary) Extension = ".res";
+            string Extension = ".res";
 
             // Export resource
             if (!File.Exists($"{DirPath}{ModelFilePath}{Extension}"))
             {
-                if (ExportGodot.ExportResBinary)
-                {
-                    GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
-                    ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
-                }
-                else
-                {
-                    GodotResourceFileTwinsanity ModelResource = GodotResourceFileTwinsanity.Create(ModelFilePath);
-                    ModelResource.AddNewSkinX(Cont);
-                    ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
-                }
+                GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
+                ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
             }
 
             ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}{Extension}");
@@ -2728,23 +2481,13 @@ namespace RehabSetup
             string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
             Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, Cont.ID)}";
-            string Extension = ".tres";
-            if (ExportGodot.ExportResBinary) Extension = ".res";
+            string Extension = ".res";
 
             // Export resource
             if (!File.Exists($"{DirPath}{ModelFilePath}{Extension}"))
             {
-                if (ExportGodot.ExportResBinary)
-                {
-                    GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
-                    ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
-                }
-                else
-                {
-                    GodotResourceFileTwinsanity ModelResource = GodotResourceFileTwinsanity.Create(ModelFilePath);
-                    ModelResource.AddNewBlendSkin(Cont);
-                    ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
-                }
+                GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
+                ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
             } 
 
             ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}{Extension}");
@@ -2779,23 +2522,13 @@ namespace RehabSetup
             string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
             Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, Cont.ID)}";
-            string Extension = ".tres";
-            if (ExportGodot.ExportResBinary) Extension = ".res";
+            string Extension = ".res";
 
             // Export resource
             if (!File.Exists($"{DirPath}{ModelFilePath}{Extension}"))
             {
-                if (ExportGodot.ExportResBinary)
-                {
-                    GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
-                    ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
-                }
-                else
-                {
-                    GodotResourceFileTwinsanity ModelResource = GodotResourceFileTwinsanity.Create(ModelFilePath);
-                    ModelResource.AddNewBlendSkinX(Cont);
-                    ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
-                }
+                GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
+                ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
             } 
 
             ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}{Extension}");
@@ -3128,15 +2861,7 @@ namespace RehabSetup
             int THeight = Tex.Height;
             List<Color> Texture = new List<Color>(Tex.RawData);
             string Path;
-            string Extenstion = ".tres";
-            if (ExportGodot.ExportResBinary)
-            {
-                Extenstion = ".res";
-            }
-            if (!ExportGodot.ExportTexturesAsResource)
-            {
-                Extenstion = ".png";
-            }
+            string Extenstion = ".res";
 
             if (ReHash)
             {
@@ -3157,29 +2882,9 @@ namespace RehabSetup
             try
             {
                 Directory.CreateDirectory(System.IO.Path.GetDirectoryName($"{DirPath}\\{Path}"));
-                if (ExportGodot.ExportTexturesAsResource)
-                {
-                    if (ExportGodot.ExportResBinary)
-                    {
-                        GodotBinaryImageTexture TexRes = new GodotBinaryImageTexture(Tex);
-                        if (!File.Exists($"{DirPath}\\{Path}"))
-                            TexRes.WriteToFile($"{DirPath}\\{Path}");
-                    }
-                    else
-                    {
-                        GodotResourceFileTwinsanity TexRes = new GodotResourceFileTwinsanity();
-                        TexRes.AddTextureX(Tex);
-                        if (!File.Exists($"{DirPath}\\{Path}"))
-                            TexRes.WriteToFile($"{DirPath}\\{Path}");
-                    }
-                }
-                else
-                {
-                    Bitmap BMP = new Bitmap(TWidth, THeight);
-                    for (int i = 0; i < Texture.Count; i++)
-                        BMP.SetPixel((i % TWidth), (i / TWidth), Texture[i]);
-                    BMP.Save($"{DirPath}\\{Path}");
-                }
+                GodotBinaryImageTexture TexRes = new GodotBinaryImageTexture(Tex);
+                if (!File.Exists($"{DirPath}\\{Path}"))
+                    TexRes.WriteToFile($"{DirPath}\\{Path}");
             }
             catch
             {
@@ -3191,7 +2896,7 @@ namespace RehabSetup
 
         public void Add_InstancedScene(string ModelFilePath, string parentNodePath)
         {
-            ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}{ExportGodot.GetSceneExtension()}");
+            ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}{ExportGodot.SceneExtension}");
             ModelFileReference.SetAsPackedScene();
             ExternalResourceList.Add(ModelFileReference);
 
@@ -3242,15 +2947,7 @@ namespace RehabSetup
                 else
                 {
                     RigidModel RigidCont = ModelSection.GetItem<RigidModel>(ModelID);
-                    uint Hash;
-                    if (ExportGodot.ExportModelsAsResource)
-                    {
-                        Hash = ExportGodot.ExportModelResource(RigidCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
-                    }
-                    else
-                    {
-                        //Hash = ExportGodot.ExportModel(RigidCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
-                    }
+                    uint Hash = ExportGodot.ExportModelResource(RigidCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
                     Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(ModelID, Hash)}", ParentNodeName);
                     ExportedModels.Add(ModelID, (ExternalResourceList.Count, Hash));
                 }
@@ -3301,15 +2998,7 @@ namespace RehabSetup
             int THeight = Tex.Height;
             List<Color> Texture = new List<Color>(Tex.RawData);
             string Path;
-            string Extenstion = ".tres";
-            if (ExportGodot.ExportResBinary)
-            {
-                Extenstion = ".res";
-            }
-            if (!ExportGodot.ExportTexturesAsResource)
-            {
-                Extenstion = ".png";
-            }
+            string Extenstion = ".res";
 
             if (ReHash)
             {
@@ -3330,29 +3019,9 @@ namespace RehabSetup
             try
             {
                 Directory.CreateDirectory(System.IO.Path.GetDirectoryName($"{DirPath}\\{Path}"));
-                if (ExportGodot.ExportTexturesAsResource)
-                {
-                    if (ExportGodot.ExportResBinary)
-                    {
-                        GodotBinaryImageTexture TexRes = new GodotBinaryImageTexture(Tex);
-                        if (!File.Exists($"{DirPath}\\{Path}"))
-                            TexRes.WriteToFile($"{DirPath}\\{Path}");
-                    }
-                    else
-                    {
-                        GodotResourceFileTwinsanity TexRes = new GodotResourceFileTwinsanity();
-                        TexRes.AddTexture(Tex);
-                        if (!File.Exists($"{DirPath}\\{Path}"))
-                            TexRes.WriteToFile($"{DirPath}\\{Path}");
-                    }
-                }
-                else
-                {
-                    Bitmap BMP = new Bitmap(TWidth, THeight);
-                    for (int i = 0; i < Texture.Count; i++)
-                        BMP.SetPixel((i % TWidth), (i / TWidth), Texture[i]);
-                    BMP.Save($"{DirPath}\\{Path}");
-                }
+                GodotBinaryImageTexture TexRes = new GodotBinaryImageTexture(Tex);
+                if (!File.Exists($"{DirPath}\\{Path}"))
+                    TexRes.WriteToFile($"{DirPath}\\{Path}");
             }
             catch
             {

@@ -84,7 +84,7 @@ namespace RehabSetup
             //ExternalResourceList.Add(CodeRef);
             //int CodeID = ExternalResourceList.Count;
 
-            ExternalResource PrefabRef = new ExternalResource($"../Actors/{DefaultHashes.ToName(SectionType.Object, Temp.ObjectID)}{ExportGodot.GetSceneExtension()}");
+            ExternalResource PrefabRef = new ExternalResource($"../Actors/{DefaultHashes.ToName(SectionType.Object, Temp.ObjectID)}{ExportGodot.SceneExtension}");
             PrefabRef.SetAsPackedScene();
             ExternalResourceList.Add(PrefabRef);
             int PrefabID = ExternalResourceList.Count;

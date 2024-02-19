@@ -12,8 +12,6 @@ namespace RehabSetup
     public static class ExportGodot
     {
 
-        public static string GetSceneExtension() => ".tscn"; //".escn"
-
         public static void ExportScenery(SceneryData Cont, string path, bool SceneOnly = false, bool Standalone = false)
         {
             Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\");
@@ -26,7 +24,7 @@ namespace RehabSetup
                 ModelScene.AddDynamicScenery(DynScenery, path, SceneOnly);
             }
             ModelScene.AddScenery(Cont, path, SceneOnly, Standalone);
-            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\{SceneName}{GetSceneExtension()}");
+            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\{SceneName}{SceneExtension}");
         }
 
         public static string ExportLODModel(LodModel Cont, string path, bool SceneOnly = false)
@@ -38,7 +36,7 @@ namespace RehabSetup
             // Re-hashing LOD due to ID collisions
             ModelScene.Serialize();
             string Hash = ModelScene.FileLines.GetSequenceHashCode().ToString("X8");
-            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\LODs\\{SceneName}_{Hash}{GetSceneExtension()}";
+            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\LODs\\{SceneName}_{Hash}{SceneExtension}";
             if (File.Exists(outPath)) return Hash;
             ModelScene.SaveToFile(outPath);
             return Hash;
@@ -49,7 +47,7 @@ namespace RehabSetup
             Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skydomes\\");
             string hashName = DefaultHashes.SkyToName(Cont);
             string SceneName = $"Skydome_{hashName}";
-            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skydomes\\{SceneName}{GetSceneExtension()}";
+            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skydomes\\{SceneName}{SceneExtension}";
             if (File.Exists(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
             ModelScene.AddSkydome(Cont, path, SceneOnly);
@@ -64,7 +62,7 @@ namespace RehabSetup
             string SceneName = $"{Scene.ChunkName.Replace('\\', '_')}-DynamicScenery";
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
             ModelScene.AddDynamicScenery(Cont, path, SceneOnly);
-            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\DynamicScenery\\{SceneName}{GetSceneExtension()}");
+            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\DynamicScenery\\{SceneName}{SceneExtension}");
         }
 
         public static void ExportSM(TwinsFile targetFile, string path, bool SceneOnly = false)
@@ -74,7 +72,7 @@ namespace RehabSetup
             string SceneName = $"{Scene.ChunkName.Replace('\\', '_')}-SM";
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
             ModelScene.AddSM(targetFile, path, SceneOnly);
-            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\{SceneName}{GetSceneExtension()}");
+            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\{SceneName}{SceneExtension}");
         }
 
         public static void ExportCollisionData(ColData Cont, string path, bool SceneOnly = false)
@@ -85,7 +83,7 @@ namespace RehabSetup
             //GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName, 1);
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
             ModelScene.AddCollisionData(Cont, path, SceneOnly);
-            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\{SceneName}{GetSceneExtension()}");
+            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\{SceneName}{SceneExtension}");
         }
 
         public static void ExportOGI(GraphicsInfo Cont, string path, bool SceneOnly = false)
@@ -93,7 +91,7 @@ namespace RehabSetup
             Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Rigs\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"Rig_{hashName}";
-            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Rigs\\{SceneName}{GetSceneExtension()}";
+            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Rigs\\{SceneName}{SceneExtension}";
             bool forceWrite = false;
             if (File.Exists(outPath))
             {
@@ -120,7 +118,7 @@ namespace RehabSetup
             Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Actors\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"{hashName}";
-            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Actors\\{SceneName}{GetSceneExtension()}";
+            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Actors\\{SceneName}{SceneExtension}";
             if (File.Exists(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
             ModelScene.AddGameObject(Cont, path, SceneOnly);
@@ -132,7 +130,7 @@ namespace RehabSetup
             string SceneName = $"Scene_ParticleData";
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
             ModelScene.AddParticleData(Cont, path, SceneOnly);
-            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\{SceneName}{GetSceneExtension()}");
+            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\{SceneName}{SceneExtension}");
         }
 
         public static void ExportRM(TwinsFile targetFile, string path, bool AllowGlobal, TwinsFile file_Default, bool SceneOnly = false)
@@ -149,7 +147,7 @@ namespace RehabSetup
             ModelScene.AddRM(targetFile, path, SceneOnly, AllowGlobal);
             if (!targetFile.FileName.ToLower().Contains("default.rm"))
             {
-                ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\{SceneName}{GetSceneExtension()}");
+                ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\{SceneName}{SceneExtension}");
             }
 
             if (AllowGlobal && file_Default != null)
@@ -163,13 +161,11 @@ namespace RehabSetup
         public static void ExportInstanceTemplate(InstanceTemplate Cont, string path)
         {
             // These are useless for now, since they were only meant for the debug object editor
-            //string CodePath = $"{System.IO.Path.GetDirectoryName(path)}\\Code\\Containers\\InstanceTemplate.gd";
-            //ContainerWriter.ExportContainer_Template(CodePath);
             if (!ExportEditableObjects) return;
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\EditableObjects\\");
-            GodotResourceFileTwinsanity Res = GodotResourceFileTwinsanity.Create($"Editable_{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}");
-            Res.AddInstanceTemplate(Cont, path);
-            Res.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\EditableObjects\\Editable_{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}.tres");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\EditableObjects\\");
+            //GodotResourceFileTwinsanity Res = GodotResourceFileTwinsanity.Create($"Editable_{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}");
+            //Res.AddInstanceTemplate(Cont, path);
+            //Res.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\EditableObjects\\Editable_{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}.tres");
         }
 
         public static void ExportCollisionSurface(CollisionSurface Cont, string path)
@@ -192,7 +188,7 @@ namespace RehabSetup
             //hashName += $"_{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}";
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\{hashName}.gd";
             if (File.Exists(outPath)) return;
-            GDScriptFile.WriteToFile(Cont, outPath);
+            //GDScriptFile.WriteToFile(Cont, outPath);
         }
 
         public static void ExportCustomAgent(CustomAgent Cont, string path, string actorName)
@@ -200,14 +196,13 @@ namespace RehabSetup
             Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\");
             //string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\";
-            GDScriptFile.WriteToFile(Cont, outPath, actorName);
+            //GDScriptFile.WriteToFile(Cont, outPath, actorName);
         }
 
         public static void ExportAnimation(Animation Cont, string path)
         {
             Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Animations\\");
-            string Extension = ".tres";
-            if (ExportGodot.ExportResBinary) Extension = ".res";
+            string Extension = ".res";
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Animations\\{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}{Extension}";
             if (File.Exists(outPath)) return;
 
@@ -256,19 +251,9 @@ namespace RehabSetup
                 }
             }
 
-            if (ExportGodot.ExportResBinary)
-            {
-                GodotBinaryAnimation Res = new GodotBinaryAnimation(Cont, RigAddRot, RigJointParent);
-                if (File.Exists(outPath)) return;
-                Res.WriteToFile(outPath);
-            }
-            else
-            {
-                GodotResourceFileTwinsanity Res = GodotResourceFileTwinsanity.Create($"Animation");
-                Res.AddAnimation(Cont, path, RigAddRot, RigJointParent);
-                if (File.Exists(outPath)) return;
-                Res.WriteToFile(outPath);
-            }
+            GodotBinaryAnimation Res = new GodotBinaryAnimation(Cont, RigAddRot, RigJointParent);
+            if (File.Exists(outPath)) return;
+            Res.WriteToFile(outPath);
         }
 
         public static void ExportFull(TwinsFile file_RM, TwinsFile file_SM, string path, bool AllowGlobal, TwinsFile file_Default, bool IncludeSkydome = true, bool SceneOnly = false)
@@ -322,22 +307,14 @@ namespace RehabSetup
                 ModelScene.Nodes[0].Lines.Add($"WorldEnv = SubResource( {ModelScene.WorldEnvResourceID} )");
             }
 
-            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\{SceneName}{GetSceneExtension()}");
+            ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\{SceneName}{SceneExtension}");
             
             Timer.Stop();
         }
 
         public static void ExportBIN(TwinsFile targetFile, string path)
         {
-            string SoundExt = ".wav";
-            if (ExportGodot.ExportSoundsAsResource)
-            {
-                SoundExt = ".tres";
-                if (ExportGodot.ExportResBinary)
-                {
-                    SoundExt = ".res";
-                }
-            }
+            string SoundExt = ".res";
             // Three menu sound effects
             Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\");
             TwinsSection section = targetFile.GetItem<TwinsSection>(0);
@@ -349,56 +326,13 @@ namespace RehabSetup
                 {
                     if (item is SoundEffectX sfx)
                     {
-                        if (ExportGodot.ExportSoundsAsResource)
-                        {
-                            if (ExportGodot.ExportResBinary)
-                            {
-                                GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx);
-                                wav.WriteToFile(SoundPath);
-                            }
-                            else
-                            {
-                                GodotResourceFileTwinsanity SoundRes = GodotResourceFileTwinsanity.Create("sound");
-                                SoundRes.AddAudioStream(sfx);
-                                SoundRes.WriteToFile(SoundPath);
-                            }
-                        }
-                        else
-                        {
-                            byte[] SoundData = RIFF.SaveRiff(sfx.SoundData, 1, sfx.Freq);
-                            FileStream file = new FileStream(SoundPath, FileMode.Create, FileAccess.Write);
-                            BinaryWriter writer = new BinaryWriter(file);
-                            writer.Write(SoundData);
-                            writer.Close();
-                        }
+                        GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx);
+                        wav.WriteToFile(SoundPath);
                     }
                     else if (item is SoundEffect sound)
                     {
-                        if (ExportGodot.ExportSoundsAsResource)
-                        {
-                            if (ExportGodot.ExportResBinary)
-                            {
-                                GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sound);
-                                wav.WriteToFile(SoundPath);
-                            }
-                            else
-                            {
-                                GodotResourceFileTwinsanity SoundRes = GodotResourceFileTwinsanity.Create("sound");
-                                SoundRes.AddAudioStream(sound);
-                                SoundRes.WriteToFile(SoundPath);
-                            }
-                        }
-                        else
-                        {
-                            byte[] RawData = new byte[sound.SoundSize];
-                            Array.Copy(sound.Parent.ExtraData, sound.SoundOffset, RawData, 0, sound.SoundSize);
-                            byte[] SoundData = RIFF.SaveRiff(ADPCM.ToPCMMono(RawData, (int)sound.SoundSize), 1, sound.Freq);
-
-                            FileStream file = new FileStream(SoundPath, FileMode.Create, FileAccess.Write);
-                            BinaryWriter writer = new BinaryWriter(file);
-                            writer.Write(SoundData);
-                            writer.Close();
-                        }
+                        GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sound);
+                        wav.WriteToFile(SoundPath);
                     }
                 }
                 
@@ -422,30 +356,8 @@ namespace RehabSetup
                 string ResPath = $"{SoundPath}.res";
                 string TResPath = $"{SoundPath}.tres";
                 string WavPath = $"{SoundPath}.wav";
-                if (ExportGodot.ExportSoundsAsResource)
-                {
-                    if (ExportGodot.ExportResBinary)
-                    {
-                        GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, FolderName == "Music");
-                        wav.WriteToFile(ResPath);
-                    }
-                    else
-                    {
-                        byte[] data = IMA_ADPCM.IMA_Decoder.Decode(sfx.SoundData, sfx.Channels);
-                        GodotResourceFileTwinsanity SoundRes = GodotResourceFileTwinsanity.Create(sfx.FileName);
-                        SoundRes.AddRawAudioStream(data, (int)sfx.SampleRate, sfx.Channels, FolderName == "Music");
-                        SoundRes.WriteToFile(TResPath);
-                    }
-                }
-                else if (!File.Exists(WavPath))
-                {
-                    byte[] data = IMA_ADPCM.IMA_Decoder.Decode(sfx.SoundData, sfx.Channels);
-                    byte[] SoundData = RIFF.SaveRiff(data, sfx.Channels, (int)sfx.SampleRate);
-                    FileStream file = new FileStream(WavPath, FileMode.Create, FileAccess.Write);
-                    BinaryWriter writer = new BinaryWriter(file);
-                    writer.Write(SoundData);
-                    writer.Close();
-                }
+                GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, FolderName == "Music");
+                wav.WriteToFile(ResPath);
             }
         }
 
@@ -473,38 +385,8 @@ namespace RehabSetup
                 string TResPath = $"{SoundPath}.tres";
                 string WavPath = $"{SoundPath}.wav";
                 if (sfx.Name == "undefined") undefinedDone = true;
-                int channels = 1;
-                if (sfx.Type == 1) channels = 2;
-                if (ExportGodot.ExportSoundsAsResource)
-                {
-                    if (ExportGodot.ExportResBinary)
-                    {
-                        GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, FolderName == "Music");
-                        wav.WriteToFile(ResPath);
-                    }
-                    else
-                    {
-                        GodotResourceFileTwinsanity SoundRes = GodotResourceFileTwinsanity.Create(sfx.Name);
-                        SoundRes.AddRawAudioStreamPS2(sfx.SoundData, sfx.SampleRate, (short)channels, sfx.inter, FolderName == "Music");
-                        SoundRes.WriteToFile(TResPath);
-                    }
-                }
-                else if (!File.Exists(WavPath))
-                {
-                    byte[] SoundData;
-                    if (sfx.Type == 1)
-                    {
-                        SoundData = RIFF.SaveRiff(ADPCM.ToPCMStereo(sfx.SoundData, sfx.SoundData.Length, sfx.inter), 2, sfx.SampleRate);
-                    }
-                    else
-                    {
-                        SoundData = RIFF.SaveRiff(ADPCM.ToPCMMono(sfx.SoundData, sfx.SoundData.Length), 1, sfx.SampleRate);
-                    }
-                    FileStream file = new FileStream(WavPath, FileMode.Create, FileAccess.Write);
-                    BinaryWriter writer = new BinaryWriter(file);
-                    writer.Write(SoundData);
-                    writer.Close();
-                }
+                GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, FolderName == "Music");
+                wav.WriteToFile(ResPath);
             }
         }
 
@@ -516,15 +398,7 @@ namespace RehabSetup
             List<List<Color>> Textures = new List<List<Color>>();
             List<string> Names = new List<string>();
             bool MultiExport = false;
-            string Extension = ".png";
-            if (ExportGodot.ExportTexturesAsResource)
-            {
-                Extension = ".tres";
-                if (ExportGodot.ExportResBinary)
-                {
-                    Extension = ".res";
-                }
-            }
+            string Extension = ".res";
 
             if (!isPTC && !isPSF)
             {
@@ -633,126 +507,18 @@ namespace RehabSetup
 
             if (!MultiExport)
             {
-                if (ExportGodot.ExportTexturesAsResource)
-                {
-                    if (ExportGodot.ExportResBinary)
-                    {
-                        GodotBinaryImageTexture TexRes = new(Textures, Widths, Heights);
-                        if (!File.Exists(OutName))
-                            TexRes.WriteToFile(OutName);
-                    }
-                    else
-                    {
-                        GodotResourceFileTwinsanity TexRes = new GodotResourceFileTwinsanity();
-                        TexRes.AddCombinedTexture(Textures, Widths, Heights);
-                        if (!File.Exists(OutName))
-                            TexRes.WriteToFile(OutName);
-                    }
-                }
-                else
-                {
-                    int ogWidth = Widths[0];
-                    int ogHeight = Heights[0];
-                    int maxWidth = ogWidth;
-                    int maxHeight = ogHeight;
-
-                    if (TexCount > 1)
-                    {
-                        maxWidth += ogWidth;
-                        if (TexCount > 2)
-                        {
-                            maxWidth += ogWidth;
-                        }
-                        if (TexCount > 3)
-                        {
-                            maxWidth += ogWidth;
-                        }
-                    }
-                    int rows = (TexCount / 4);
-                    if (rows == 0)
-                        rows = 1;
-
-                    maxHeight = maxHeight * rows;
-
-                    Bitmap BMP = new Bitmap(maxWidth, maxHeight);
-
-                    int ptc = 0;
-                    int col = 0;
-                    int row = 0;
-                    while (ptc < TexCount)
-                    {
-                        int c = 0;
-                        for (int y = row * ogHeight; y < ogHeight + (row * ogHeight); y++)
-                        {
-                            for (int x = col * ogWidth; x < ogWidth + (col * ogWidth); x++)
-                            {
-                                if (c < Textures[ptc].Count)
-                                {
-                                    BMP.SetPixel(x, y, Textures[ptc][c]);
-                                }
-                                else
-                                {
-                                    BMP.SetPixel(x, y, Color.Black);
-                                }
-                                c++;
-                            }
-                        }
-                        col++;
-                        if (col == 4)
-                        {
-                            col = 0;
-                            row++;
-                        }
-                        ptc++;
-                    }
-
-                    BMP.Save(OutName);
-                }
+                GodotBinaryImageTexture TexRes = new(Textures, Widths, Heights);
+                if (!File.Exists(OutName))
+                    TexRes.WriteToFile(OutName);
             }
             else
             {
-                if (ExportGodot.ExportTexturesAsResource)
+                for (int i = 0; i < TexCount; i++)
                 {
-                    if (ExportGodot.ExportResBinary)
-                    {
-                        for (int i = 0; i < TexCount; i++)
-                        {
-                            string TexName = $"{System.IO.Path.GetDirectoryName(OutName)}\\{Names[i]}.res";
-                            GodotBinaryImageTexture TexRes = new(Textures[i], Widths[i], Heights[i]);
-                            if (!File.Exists(TexName))
-                                TexRes.WriteToFile(TexName);
-                        }
-                    }
-                    else
-                    {
-                        for (int i = 0; i < TexCount; i++)
-                        {
-                            string TexName = $"{System.IO.Path.GetDirectoryName(OutName)}\\{Names[i]}.tres";
-                            GodotResourceFileTwinsanity TexRes = new GodotResourceFileTwinsanity();
-                            TexRes.AddRawTexture(Textures[i], Widths[i], Heights[i]);
-                            if (!File.Exists(TexName))
-                                TexRes.WriteToFile(TexName);
-                        }
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < TexCount; i++)
-                    {
-                        Bitmap BMP = new Bitmap(Widths[i], Heights[i]);
-                        string TexName = $"{System.IO.Path.GetDirectoryName(OutName)}\\{Names[i]}.png";
-                        int c = 0;
-                        for (int y = 0; y < Heights[i]; y++)
-                        {
-                            for (int x = 0; x < Widths[i]; x++)
-                            {
-                                BMP.SetPixel(x, y, Textures[i][c]);
-                                c++;
-                            }
-                        }
-
-                        BMP.Save(TexName);
-                    }
+                    string TexName = $"{System.IO.Path.GetDirectoryName(OutName)}\\{Names[i]}.res";
+                    GodotBinaryImageTexture TexRes = new(Textures[i], Widths[i], Heights[i]);
+                    if (!File.Exists(TexName))
+                        TexRes.WriteToFile(TexName);
                 }
             }
 
@@ -768,7 +534,7 @@ namespace RehabSetup
             ModelScene.Serialize();
             uint Hash = ModelScene.FileLines.GetSequenceHashCode();
             string outName = DefaultHashes.RigidToName(Cont.ID, Hash);
-            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Mesh\\{outName}{GetSceneExtension()}";
+            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Mesh\\{outName}{SceneExtension}";
             if (File.Exists(outPath)) return Hash;
             ModelScene.Nodes[0].Name = outName;
             ModelScene.SaveToFile(outPath);
@@ -779,7 +545,7 @@ namespace RehabSetup
             Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"Skin_{hashName}";
-            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{GetSceneExtension()}";
+            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{SceneExtension}";
             if (File.Exists(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName, -1, ExportGodot.MeshInstance3D);
             ModelScene.AddSkinXResource(Cont, path, SceneOnly);
@@ -790,7 +556,7 @@ namespace RehabSetup
             Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"Skin_{hashName}";
-            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{GetSceneExtension()}";
+            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{SceneExtension}";
             if (File.Exists(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName, -1, ExportGodot.MeshInstance3D);
             ModelScene.AddSkinResource(Cont, path, SceneOnly);
@@ -801,7 +567,7 @@ namespace RehabSetup
             Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"BlendSkin_{hashName}";
-            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{GetSceneExtension()}";
+            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{SceneExtension}";
             if (File.Exists(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName, -1, ExportGodot.MeshInstance3D);
             ModelScene.AddBlendSkinResource(Cont, path);
@@ -813,7 +579,7 @@ namespace RehabSetup
             Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"BlendSkin_{hashName}";
-            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{GetSceneExtension()}";
+            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{SceneExtension}";
             if (File.Exists(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName, -1, ExportGodot.MeshInstance3D);
             ModelScene.AddBlendSkinXResource(Cont, path);
@@ -823,14 +589,11 @@ namespace RehabSetup
 
         #region Constants
 
-        public const bool ExportModelsAsResource = true; // set to false to export COLLADA
         public const bool ExportLODs = false; // set to false to use only the highest detail model and ignore the original LOD stuff
         public const bool ExportEditableObjects = false;
-        public const bool ExportTexturesAsResource = true; // textures as resource can be loaded at runtime without compression or pre-processing, but loads longer
-        public const bool ExportSoundsAsResource = true; // sounds as resource can be loaded at runtime without compression or pre-processing, but loads longer
         public const bool ExportScripts = false;
-        public const bool ExportResBinary = true; // binary resource files instead of text-based
         public const string ScriptExt = ".cs"; // or .gd
+        public const string SceneExtension = ".tscn"; //".escn"
 
         public const uint Format = 3;
         public const string Node3D = "Node3D";
