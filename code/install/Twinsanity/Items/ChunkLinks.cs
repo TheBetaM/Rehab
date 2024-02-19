@@ -8,47 +8,6 @@ namespace Twinsanity
     {
         public List<ChunkLink> Links { get; set; } = new List<ChunkLink>();
 
-        /////////PARENTS FUNCTION//////////
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(Links.Count);
-            foreach (var i in Links)
-            {
-                writer.Write(i.Type);
-                writer.Write(i.Path.Length);
-                writer.Write(i.Path.ToCharArray());
-                writer.Write(i.Flags);
-                for (int j = 0; j < 4; ++j)
-                {
-                    writer.Write(i.ObjectMatrix[j].X);
-                    writer.Write(i.ObjectMatrix[j].Y);
-                    writer.Write(i.ObjectMatrix[j].Z);
-                    writer.Write(i.ObjectMatrix[j].W);
-                }
-                for (int j = 0; j < 4; ++j)
-                {
-                    writer.Write(i.ChunkMatrix[j].X);
-                    writer.Write(i.ChunkMatrix[j].Y);
-                    writer.Write(i.ChunkMatrix[j].Z);
-                    writer.Write(i.ChunkMatrix[j].W);
-                }
-                if ((i.Flags & 0x80000) != 0)
-                {
-                    for (int j = 0; j < 4; ++j)
-                    {
-                        writer.Write(i.LoadWall[j].X);
-                        writer.Write(i.LoadWall[j].Y);
-                        writer.Write(i.LoadWall[j].Z);
-                        writer.Write(i.LoadWall[j].W);
-                    }
-                }
-                if (i.TreeRoot != null)
-                {
-                    SaveTree(writer, i.TreeRoot);
-                }
-            }
-        }
-
         public override void Load(BinaryReader reader, int size)
         {
             Links.Clear();
@@ -118,70 +77,6 @@ namespace Twinsanity
             Node.Next = ReadTree(reader, Node.Header);
 
             return Node;
-        }
-
-        private void SaveTree(BinaryWriter writer, ChunkLink.LinkTree node)
-        {
-            writer.Write(node.Header);
-            for (var i = 0; i < 11; ++i)
-            {
-                writer.Write(node.GI_Type.Header[i]);
-            }
-            writer.Write(node.GI_Type.collisionDataBlob.Length + 320);
-
-            for (int j = 0; j < node.LoadArea.Length; ++j)
-            {
-                writer.Write(node.LoadArea[j].X);
-                writer.Write(node.LoadArea[j].Y);
-                writer.Write(node.LoadArea[j].Z);
-                writer.Write(node.LoadArea[j].W);
-            }
-            for (int j = 0; j < node.AreaMatrix.Length; ++j)
-            {
-                writer.Write(node.AreaMatrix[j].X);
-                writer.Write(node.AreaMatrix[j].Y);
-                writer.Write(node.AreaMatrix[j].Z);
-                writer.Write(node.AreaMatrix[j].W);
-            }
-            for (int j = 0; j < node.UnknownMatrix.Length; ++j)
-            {
-                writer.Write(node.UnknownMatrix[j].X);
-                writer.Write(node.UnknownMatrix[j].Y);
-                writer.Write(node.UnknownMatrix[j].Z);
-                writer.Write(node.UnknownMatrix[j].W);
-            }
-
-            writer.Write(node.GI_Type.collisionDataBlob);
-
-            if (node.Next != null)
-            {
-                SaveTree(writer, node.Next);
-            }
-        }
-
-        protected override int GetSize()
-        {
-            int size = 4;
-            foreach (var i in Links)
-            {
-                size += i.Path.Length + 8 + 132;
-                if ((i.Flags & 0x80000) != 0)
-                    size += 64;
-                if (i.TreeRoot != null)
-                {
-                    CountTree(i.TreeRoot, ref size);
-                }
-            }
-            return size;
-        }
-
-        private void CountTree(ChunkLink.LinkTree ptr, ref int size)
-        {
-            size += 350 + ptr.GI_Type.collisionDataBlob.Length;
-            if (ptr.Next != null)
-            {
-                CountTree(ptr.Next, ref size);
-            }
         }
 
         #region STRUCTURES

@@ -19,19 +19,6 @@ namespace Twinsanity
 
         public ushort Freq { get => GetFreq(FreqFac); }
 
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(Head);
-            writer.Write(UnkFlag);
-            writer.Write(FreqFac);
-            writer.Write(Param1);
-            writer.Write(Param2);
-            writer.Write(Param3);
-            writer.Write(Param4);
-            writer.Write(SoundSize);
-            writer.Write(SoundOffset);
-        }
-
         public override void Load(BinaryReader reader, int size)
         {
             Head = reader.ReadUInt32();
@@ -43,11 +30,6 @@ namespace Twinsanity
             Param4 = reader.ReadUInt16();
             SoundSize = reader.ReadUInt32();
             SoundOffset = reader.ReadUInt32();
-        }
-
-        protected override int GetSize()
-        {
-            return 22;
         }
 
         public static ushort GetFreq(ushort freq)

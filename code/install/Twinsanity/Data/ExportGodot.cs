@@ -157,29 +157,6 @@ namespace RehabSetup
             }
         }
 
-        public static void ExportScript(Script Cont, string path)
-        {
-            if (Cont.Header != null)
-            {
-                // Starters are handled automatically in GameObject export
-                return;
-            }
-            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\");
-            string hashName = DefaultHashes.Hash_Scripts[Cont.ID];
-            //hashName += $"_{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}";
-            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\{hashName}.gd";
-            if (AssetExporter.Check(outPath)) return;
-            //GDScriptFile.WriteToFile(Cont, outPath);
-        }
-
-        public static void ExportCustomAgent(CustomAgent Cont, string path, string actorName)
-        {
-            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\");
-            //string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
-            string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\";
-            //GDScriptFile.WriteToFile(Cont, outPath, actorName);
-        }
-
         public static void ExportAnimation(Animation Cont, string path)
         {
             //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Animations\\");
@@ -572,7 +549,6 @@ namespace RehabSetup
 
         public const bool ExportLODs = false; // set to false to use only the highest detail model and ignore the original LOD stuff
         public const bool ExportEditableObjects = false;
-        public const bool ExportScripts = false;
         public const string ScriptExt = ".cs"; // or .gd
         public const string SceneExtension = ".tscn"; //".escn"
 

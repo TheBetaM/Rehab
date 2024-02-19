@@ -17,58 +17,6 @@ namespace Twinsanity
             Vertices = new List<Pos>();
         }
 
-        protected override int GetSize()
-        {
-            return isEmpty ? 0 : (20 + Triggers.Count * 32 + Groups.Count * 8 + Tris.Count * 8 + Vertices.Count * 16);
-        }
-
-        /// <summary>
-        /// Write converted binary data to file.
-        /// </summary>
-        public override void Save(BinaryWriter writer)
-        {
-            if (isEmpty) return;
-            if (someNumber > 0)
-            {
-                writer.Write(someNumber);
-                writer.Write(Triggers.Count);
-                writer.Write(Groups.Count);
-                writer.Write(Tris.Count);
-                writer.Write(Vertices.Count);
-                for (int i = 0; i < Triggers.Count; i++)
-                {
-                    writer.Write(Triggers[i].X1);
-                    writer.Write(Triggers[i].Y1);
-                    writer.Write(Triggers[i].Z1);
-                    writer.Write(Triggers[i].Flag1);
-                    writer.Write(Triggers[i].X2);
-                    writer.Write(Triggers[i].Y2);
-                    writer.Write(Triggers[i].Z2);
-                    writer.Write(Triggers[i].Flag2);
-                }
-                for (int i = 0; i < Groups.Count; i++)
-                {
-                    writer.Write(Groups[i].Size);
-                    writer.Write(Groups[i].Offset);
-                }
-                for (int i = 0; i < Tris.Count; i++)
-                {
-                    ulong tmp = (ulong)Tris[i].Vert1 & mask;
-                    tmp |= (ulong)(Tris[i].Vert2 & mask) << 18;
-                    tmp |= (ulong)(Tris[i].Vert3 & mask) << 36;
-                    tmp |= (ulong)(Tris[i].Surface & 0x3FF) << 54;
-                    writer.Write(tmp);
-                }
-                for (int i = 0; i < Vertices.Count; i++)
-                {
-                    writer.Write(Vertices[i].X);
-                    writer.Write(Vertices[i].Y);
-                    writer.Write(Vertices[i].Z);
-                    writer.Write(Vertices[i].W);
-                }
-            }
-        }
-
         /////////PARENTS FUNCTION//////////
         public override void Load(BinaryReader reader, int size)
         {

@@ -29,75 +29,6 @@ namespace Twinsanity
         public List<uint> UnkI323 { get; set; } = new List<uint>();
         public byte[] Remain = new byte[0];
 
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(Pos.X);
-            writer.Write(Pos.Y);
-            writer.Write(Pos.Z);
-            writer.Write(Pos.W);
-            writer.Write(RotX);
-            writer.Write(COMRotX);
-            writer.Write(RotY);
-            writer.Write(COMRotY);
-            writer.Write(RotZ);
-            writer.Write(COMRotZ);
-            writer.Write(InstanceIDs.Count);
-            writer.Write(InstanceIDs.Count);
-            writer.Write(SomeNum1);
-            for (int i = 0; i < InstanceIDs.Count; ++i)
-                writer.Write(InstanceIDs[i]);
-            writer.Write(PositionIDs.Count);
-            writer.Write(PositionIDs.Count);
-            writer.Write(SomeNum2);
-            for (int i = 0; i < PositionIDs.Count; ++i)
-                writer.Write(PositionIDs[i]);
-            writer.Write(PathIDs.Count);
-            writer.Write(PathIDs.Count);
-            writer.Write(SomeNum3);
-            for (int i = 0; i < PathIDs.Count; ++i)
-                writer.Write(PathIDs[i]);
-            writer.Write(ObjectID);
-            writer.Write(RefList);
-            writer.Write(ScriptID);
-            if (ParentType == SectionType.ObjectInstance)
-            {
-                PHeader = (uint)((byte)UnkI321.Count
-                | (UnkI322.Count << 8)
-                | (UnkI323.Count << 16));
-                writer.Write(PHeader);
-                writer.Write(Flags);
-                writer.Write(UnkI321.Count);
-                for (int i = 0; i < UnkI321.Count; ++i)
-                    writer.Write(UnkI321[i]);
-                writer.Write(UnkI322.Count);
-                for (int i = 0; i < UnkI322.Count; ++i)
-                    writer.Write(UnkI322[i]);
-                writer.Write(UnkI323.Count);
-                for (int i = 0; i < UnkI323.Count; ++i)
-                    writer.Write(UnkI323[i]);
-            }
-            else if (ParentType == SectionType.ObjectInstanceDemo)
-            {
-                writer.Write((byte)UnkI321.Count);
-                writer.Write((byte)UnkI322.Count);
-                writer.Write((byte)UnkI323.Count);
-                writer.Write((byte)0);
-
-                writer.Write(Flags);
-
-                for (int i = 0; i < UnkI321.Count; ++i)
-                    writer.Write(UnkI321[i]);
-                for (int i = 0; i < UnkI322.Count; ++i)
-                    writer.Write(UnkI322[i]);
-                for (int i = 0; i < UnkI323.Count; ++i)
-                    writer.Write(UnkI323[i]);
-            }
-            else
-            {
-                writer.Write(Remain);
-            }
-        }
-
         public override void Load(BinaryReader reader, int size)
         {
             long start_pos = reader.BaseStream.Position;
@@ -173,20 +104,5 @@ namespace Twinsanity
             }
         }
 
-        protected override int GetSize()
-        {
-            if (ParentType == SectionType.Instance)
-            {
-                return 90 + (InstanceIDs.Count + PositionIDs.Count + PathIDs.Count) * 2 + (UnkI321.Count + UnkI322.Count + UnkI323.Count) * 4;
-            }
-            else if (ParentType == SectionType.InstanceDemo)
-            {
-                return 78 + (InstanceIDs.Count + PositionIDs.Count + PathIDs.Count) * 2 + (UnkI321.Count + UnkI322.Count + UnkI323.Count) * 4;
-            }
-            else
-            {
-                return 70 + Remain.Length + (InstanceIDs.Count + PositionIDs.Count + PathIDs.Count) * 2;
-            }
-        }
     }
 }

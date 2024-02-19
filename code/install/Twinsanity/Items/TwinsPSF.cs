@@ -39,20 +39,5 @@ namespace Twinsanity.Items
                 Records.Add(FontPages[(int)i]);
             }
         }
-
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(FontPages.Count);
-            foreach (var page in FontPages)
-            {
-                page.Save(writer);
-            }
-            writer.Write(Vectors.Count);
-            writer.Write(UnkInt);
-            foreach (var v in Vectors)
-            {
-                v.Save(writer);
-            }
-        }
     }
 }

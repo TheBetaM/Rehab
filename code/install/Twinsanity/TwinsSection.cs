@@ -75,7 +75,6 @@ namespace Twinsanity
         public Dictionary<uint, int> RecordIDs = new Dictionary<uint, int>();
         public SectionType Type { get; set; }
         public int Level { get; set; }
-        public int ContentSize { get => GetContentSize(); }
 
         public byte[] ExtraData { get; set; }
         public bool IsProto { get; set; }
@@ -211,10 +210,10 @@ namespace Twinsanity
                         switch (sub.ID)
                         {
                             case 0:
-                                if (Type == SectionType.InstanceDemo)
-                                    LoadSection(reader, sub, SectionType.InstanceTemplateDemo);
-                                else
-                                    LoadSection(reader, sub, SectionType.InstanceTemplate);
+                                //if (Type == SectionType.InstanceDemo)
+                                //    LoadSection(reader, sub, SectionType.InstanceTemplateDemo);
+                                //else
+                                //    LoadSection(reader, sub, SectionType.InstanceTemplate);
                                 break;
                             case 1:
                                 LoadSection(reader, sub, SectionType.AIPosition);
@@ -229,7 +228,7 @@ namespace Twinsanity
                                 LoadSection(reader, sub, SectionType.Path);
                                 break;
                             case 5:
-                                LoadSection(reader, sub, SectionType.CollisionSurface);
+                                //LoadSection(reader, sub, SectionType.CollisionSurface);
                                 break;
                             case 6:
                                 if (Type == SectionType.InstanceDemo)
@@ -298,12 +297,12 @@ namespace Twinsanity
                                     LoadSection(reader, sub, SectionType.Object);
                                 break;
                             case 1:
-                                if (Type == SectionType.CodeDemo)
-                                    LoadSection(reader, sub, SectionType.ScriptDemo);
-                                else if (Type == SectionType.CodeX)
-                                    LoadSection(reader, sub, SectionType.ScriptX);
-                                else
-                                    LoadSection(reader, sub, SectionType.Script);
+                                //if (Type == SectionType.CodeDemo)
+                                //    LoadSection(reader, sub, SectionType.ScriptDemo);
+                                //else if (Type == SectionType.CodeX)
+                                //    LoadSection(reader, sub, SectionType.ScriptX);
+                                //else
+                                //    LoadSection(reader, sub, SectionType.Script);
                                 break;
                             case 2:
                                 LoadSection(reader, sub, SectionType.Animation);
@@ -312,12 +311,12 @@ namespace Twinsanity
                                 LoadSection(reader, sub, SectionType.OGI);
                                 break;
                             case 4:
-                                if (Type == SectionType.CodeDemo)
-                                    LoadSection(reader, sub, SectionType.CustomAgentDemo);
-                                else if (Type == SectionType.CodeX)
-                                    LoadSection(reader, sub, SectionType.CustomAgentX);
-                                else
-                                    LoadSection(reader, sub, SectionType.CustomAgent);
+                                //if (Type == SectionType.CodeDemo)
+                                //    LoadSection(reader, sub, SectionType.CustomAgentDemo);
+                                //else if (Type == SectionType.CodeX)
+                                //    LoadSection(reader, sub, SectionType.CustomAgentX);
+                                //else
+                                //    LoadSection(reader, sub, SectionType.CustomAgent);
                                 break;
                             case 6:
                                 if (Type == SectionType.CodeX)
@@ -356,10 +355,10 @@ namespace Twinsanity
                                     LoadSection(reader, sub, SectionType.SE_Ita);
                                 break;
                             case 12:
-                                if (Type == SectionType.CodeX)
-                                    LoadSection(reader, sub, SectionType.Xbox_SE_Jpn);
-                                else
-                                    LoadSection(reader, sub, SectionType.SE_Jpn);
+                                //if (Type == SectionType.CodeX)
+                                //    LoadSection(reader, sub, SectionType.Xbox_SE_Jpn);
+                                //else
+                                //    LoadSection(reader, sub, SectionType.SE_Jpn);
                                 break;
                             default:
                                 LoadItem<TwinsItem>(reader, sub, Type);
@@ -448,13 +447,13 @@ namespace Twinsanity
                     case SectionType.CustomAgent:
                     case SectionType.CustomAgentX:
                     case SectionType.CustomAgentDemo:
-                        LoadItem<CustomAgent>(reader, sub, Type);
+                        //LoadItem<CustomAgent>(reader, sub, Type);
                         break;
                     case SectionType.Script:
                     case SectionType.ScriptX:
                     case SectionType.ScriptDemo:
                     case SectionType.ScriptMB:
-                        LoadItem<Script>(reader, sub, Type);
+                        //LoadItem<Script>(reader, sub, Type);
                         break;
                     case SectionType.SE:
                     case SectionType.SE_Eng:
@@ -520,13 +519,13 @@ namespace Twinsanity
                         LoadItem<ParticleData>(reader, sub, Type);
                         break;
                     case SectionType.CollisionSurface:
-                        LoadItem<CollisionSurface>(reader, sub, Type);
+                        //LoadItem<CollisionSurface>(reader, sub, Type);
                         break;
                     case SectionType.InstanceTemplate:
-                        LoadItem<InstanceTemplate>(reader, sub, Type);
+                        //LoadItem<InstanceTemplate>(reader, sub, Type);
                         break;
                     case SectionType.InstanceTemplateDemo:
-                        LoadItem<InstanceTemplate>(reader, sub, Type);
+                        //LoadItem<InstanceTemplate>(reader, sub, Type);
                         break;
                     case SectionType.Animation:
                         LoadItem<Animation>(reader, sub, Type);
@@ -576,50 +575,9 @@ namespace Twinsanity
             Records.Add(sec);
         }
 
-        public override void Save(BinaryWriter writer)
-        {
-            if (size == 0)
-                return;
-            writer.Write(Magic);
-            writer.Write(Records.Count);
-            writer.Write(ContentSize);
-
-            var sec_off = Records.Count * 12 + 12;
-            foreach (var i in Records)
-            {
-                writer.Write(sec_off);
-                writer.Write(i.Size);
-                writer.Write(i.ID);
-                sec_off += i.Size;
-            }
-
-            foreach (var i in Records)
-            {
-                i.Save(writer);
-            }
-
-            writer.Write(ExtraData);
-        }
-
-        protected override int GetSize()
-        {
-            if (size < 0xC)
-                return size;
-            else
-                return (Records.Count + 1) * 12 + ContentSize + ExtraData.Length;
-        }
-
         public override string ToString()
         {
             return $"Section: {Type}";// Magic {Magic:X8}";
-        }
-
-        private int GetContentSize()
-        {
-            int c_size = 0;
-            foreach (var i in Records)
-                c_size += i.Size;
-            return c_size;
         }
 
         public T GetItem<T>(uint id) where T : TwinsItem

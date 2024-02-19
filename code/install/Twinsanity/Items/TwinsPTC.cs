@@ -50,20 +50,5 @@ namespace Twinsanity.Items
             RecordIDs.Add(MatID, Records.Count);
             Records.Add(Material);
         }
-
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(TexID);
-            writer.Write(MatID);
-            if (IsXbox)
-            {
-                TextureX.Save(writer);
-            }
-            else
-            {
-                Texture.Save(writer);
-            }
-            Material.Save(writer);
-        }
     }
 }

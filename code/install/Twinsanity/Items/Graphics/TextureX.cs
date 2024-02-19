@@ -47,11 +47,6 @@ namespace Twinsanity
         public uint TextureType;
         public long ItemSize { get; set; }
 
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(Data);
-        }
-
         public override void Load(BinaryReader reader, int size)
         {
             long pre_pos = reader.BaseStream.Position;
@@ -133,11 +128,6 @@ namespace Twinsanity
                     reader.ReadBytes(unkBytes2[4] - 0x84); // 0x1C
                 }
             }
-        }
-
-        protected override int GetSize()
-        {
-            return (int)ItemSize;
         }
 
         public override string ToString()

@@ -14,75 +14,7 @@ namespace Twinsanity
         {
 
         }
-
-        protected override int GetSize()
-        {
-            int count = 4 + 2;
-
-            for (int i = 0; i < Models.Count; i++)
-            {
-                count += 4 + 4;
-                if (Models[i].GI_Types.Count > 0)
-                {
-                    for (int g = 0; g < Models[i].GI_Types.Count; g++)
-                    {
-                        count += 0x16;
-                        count += 4;
-                        count += Models[i].GI_Types[g].unkBlob.Length;
-                    }
-                }
-                count += 4 + 4 + 2;
-                count += Models[i].dynBlob.Length;
-                count += 1 + 4 + 32;
-            }
-
-            return count;
-        }
-
-        /// <summary>
-        /// Write converted binary data to file.
-        /// </summary>
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(Header1);
-            writer.Write((ushort)Models.Count);
-
-            for (int i = 0; i < Models.Count; i++)
-            {
-                writer.Write(Models[i].UnkInt1);
-                writer.Write(Models[i].GI_Types.Count);
-                for (int g = 0; g < Models[i].GI_Types.Count; g++)
-                {
-                    writer.Write((ushort)Models[i].GI_Types[g].Vertices.Count);
-                    writer.Write(Models[i].GI_Types[g].Header);
-                    for (int v = 0; v < Models[i].GI_Types[g].Vertices.Count; v++)
-                    {
-                        writer.Write(Models[i].GI_Types[g].Vertices[v].X);
-                        writer.Write(Models[i].GI_Types[g].Vertices[v].Y);
-                        writer.Write(Models[i].GI_Types[g].Vertices[v].Z);
-                        writer.Write(Models[i].GI_Types[g].Vertices[v].W);
-                    }
-                    writer.Write(Models[i].GI_Types[g].unkBlob.Length + (Models[i].GI_Types[g].Vertices.Count * 16));
-                    writer.Write(Models[i].GI_Types[g].unkBlob);
-                }
-                writer.Write(Models[i].FrameCount);
-                writer.Write(Models[i].unkBlobSizePacked);
-                writer.Write(Models[i].unkBlobSizeHelper);
-                writer.Write(Models[i].dynBlob);
-                writer.Write(Models[i].unkByte);
-                writer.Write(Models[i].ModelID);
-                writer.Write(Models[i].BoundingBoxVector1.X);
-                writer.Write(Models[i].BoundingBoxVector1.Y);
-                writer.Write(Models[i].BoundingBoxVector1.Z);
-                writer.Write(Models[i].BoundingBoxVector1.W);
-                writer.Write(Models[i].BoundingBoxVector2.X);
-                writer.Write(Models[i].BoundingBoxVector2.Y);
-                writer.Write(Models[i].BoundingBoxVector2.Z);
-                writer.Write(Models[i].BoundingBoxVector2.W);
-            }
-
-        }
-
+        
         public override void Load(BinaryReader reader, int size)
         {
             //long start_pos = reader.BaseStream.Position;

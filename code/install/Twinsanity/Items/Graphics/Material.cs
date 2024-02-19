@@ -12,19 +12,6 @@ namespace Twinsanity
         public List<TwinsShader> Shaders = new List<TwinsShader>();
         public bool ForceDemo { get; set; }
 
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(Header);
-            writer.Write(Unknown);
-            writer.Write(Name.Length);
-            writer.Write(Name.ToCharArray());
-            writer.Write(Shaders.Count);
-            foreach (var shd in Shaders)
-            {
-                shd.Write(writer);
-            }
-        }
-
         public override void Load(BinaryReader reader, int size)
         {
             Header = reader.ReadUInt64();
@@ -39,16 +26,6 @@ namespace Twinsanity
                 shd.Read(reader, 0, ParentType == SectionType.MaterialDemo || ForceDemo);
                 Shaders.Add(shd);
             }
-        }
-
-        protected override int GetSize()
-        {
-            var shdLen = 0;
-            foreach (var shd in Shaders)
-            {
-                shdLen += shd.GetLength();
-            }
-            return 20 + Name.Length + shdLen;
         }
 
         public override string ToString()

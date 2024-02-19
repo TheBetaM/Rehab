@@ -10,36 +10,6 @@ namespace Twinsanity
         public BlendSkinRigidModel[] Models;
         public uint BlendShapeCount;
 
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(Models.Length);
-            writer.Write(BlendShapeCount);
-
-            for (int sub = 0; sub < Models.Length; sub++)
-            {
-                writer.Write(Models[sub].SubModels.Length);
-                writer.Write(Models[sub].MaterialID);
-                for (int t = 0; t < Models[sub].SubModels.Length; t++)
-                {
-                    writer.Write(Models[sub].SubModels[t].VifCode.Length);
-                    writer.Write(Models[sub].SubModels[t].VertexesAmount);
-                    writer.Write(Models[sub].SubModels[t].VifCode);
-                    writer.Write(Models[sub].SubModels[t].BlendShapeX);
-                    writer.Write(Models[sub].SubModels[t].BlendShapeY);
-                    writer.Write(Models[sub].SubModels[t].BlendShapeZ);
-
-                    for (int b = 0; b < BlendShapeCount; b++)
-                    {
-                        writer.Write(Models[sub].SubModels[t].BlendShapes[b].Blob.Length >> 4);
-                        writer.Write(Models[sub].SubModels[t].BlendShapes[b].VertexesAmount);
-                        writer.Write(Models[sub].SubModels[t].BlendShapes[b].Blob);
-                    }
-                }
-
-            }
-
-        }
-
         public override void Load(BinaryReader reader, int size)
         {
             long start_pos = reader.BaseStream.Position;
@@ -231,25 +201,6 @@ namespace Twinsanity
                 i += (int)fields + 3;
             }
             return vertexes;
-        }
-
-        protected override int GetSize()
-        {
-            int size = 8;
-            for (int sub = 0; sub < Models.Length; sub++)
-            {
-                size += 8;
-                for (int t = 0; t < Models[sub].SubModels.Length; t++)
-                {
-                    size += 8 + 0xC + Models[sub].SubModels[t].VifCode.Length;
-                    for (int b = 0; b < BlendShapeCount; b++)
-                    {
-                        size += 8 + Models[sub].SubModels[t].BlendShapes[b].Blob.Length;
-                    }
-                }
-            }
-
-            return size;
         }
 
         public class BlendSkinRigidModel

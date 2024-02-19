@@ -476,48 +476,6 @@ namespace Twinsanity
             //reader.Close();
         }
 
-        /// <summary>
-        /// Save the file.
-        /// </summary>
-        /// <param name="path">File directory to save to.</param>
-        public void SaveFile(string path)
-        {
-            FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write);
-            BinaryWriter writer = new BinaryWriter(file, System.Text.Encoding.ASCII);
-            writer.Write(Magic);
-            writer.Write(Records.Count);
-            writer.Write(ContentSize);
-
-            var sec_off = Records.Count * 12 + 12;
-            foreach (var i in Records)
-            {
-                writer.Write(sec_off);
-                writer.Write(i.Size);
-                writer.Write(i.ID);
-                sec_off += i.Size;
-            }
-
-            foreach (var i in Records)
-            {
-                i.Save(writer);
-            }
-
-            writer.Close();
-        }
-        
-        private int GetContentSize()
-        {
-            int c_size = 0;
-            foreach (var i in Records)
-                c_size += i.Size;
-            return c_size;
-        }
-
-        protected override int GetSize()
-        {
-            return ContentSize + Records.Count * 12 + 12;
-        }
-
         //NOTE: Do NOT use "First"
         public enum FileType { First = SectionType.Last, RM2, SM2, DemoRM2, DemoSM2, RMX, SMX, PTL, BIN, DIR, TRI, LIGHTS, GHG, RS2, PSM, PSM_XBOX, PTC, PTC_XBOX, PSF, PSF_XBOX, DemoPSM, DemoPTC, DemoPSF, BIN_XBOX, OldPTL, HGO, MonkeyBallRM, MonkeyBallSM, NuGeom, RawTexture, XWB, BD, MB, BH, MH };
 

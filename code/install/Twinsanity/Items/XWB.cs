@@ -74,11 +74,6 @@ namespace Twinsanity.Items
             return;
         }
 
-        public override void Save(BinaryWriter writer)
-        {
-            
-        }
-
         public class Sound : TwinsItem
         {
             public uint FileOffset;

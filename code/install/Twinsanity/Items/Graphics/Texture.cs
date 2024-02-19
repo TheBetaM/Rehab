@@ -213,68 +213,6 @@ namespace Twinsanity
             }
         }
 
-        public override void Save(BinaryWriter writer)
-        {
-            // Raw colors to texture data
-            switch (PixelFormat)
-            {
-                case TexturePixelFormat.PSMCT32:
-
-                    imageData = new byte[RawData.Length * 4];
-                    for (int i = 0; i < RawData.Length; i++)
-                    {
-                        imageData[(i * 4) + 0] = RawData[i].R;
-                        imageData[(i * 4) + 1] = RawData[i].G;
-                        imageData[(i * 4) + 2] = RawData[i].B;
-                        imageData[(i * 4) + 3] = (byte)(RawData[i].A >> 1);
-                    }
-
-                    break;
-                case TexturePixelFormat.PSMT8:
-                    break;
-                default:
-                    break;
-            }
-
-            writer.Write(texSize);
-            writer.Write(unkInt);
-            writer.Write(w);
-            writer.Write(h);
-            writer.Write(m);
-            writer.Write(format);
-            writer.Write(destinationFormat);
-            writer.Write(texColComponent);
-            writer.Write(unkByte);
-            writer.Write(textureFun);
-            writer.Write(unkBytes);
-            writer.Write(textureBasePointer);
-            for (var i = 0; i < 6; ++i)
-            {
-                writer.Write(mipLevelsTBP[i]);
-            }
-            writer.Write(textureBufferWidth);
-            for (var i = 0; i < 6; ++i)
-            {
-                writer.Write(mipLevelsTBW[i]);
-            }
-            writer.Write(clutBufferBasePointer);
-            writer.Write(unkBytes2);
-            writer.Write(0);
-            writer.Write(0);
-            writer.Write(unkBytes3);
-            writer.Write((byte)0);
-            writer.Write((byte)0);
-            writer.Write(unusedMetadata);
-            writer.Write(vifBlock);
-            writer.Write(imageData);
-
-        }
-
-        protected override int GetSize()
-        {
-            return texSize + 4;
-        }
-
         public void ConvertToPSMCT32()
         {
             // an attempt was made...

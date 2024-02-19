@@ -30,13 +30,5 @@ namespace Twinsanity.Items
                 Records.Add(PTCs[(int)i]);
             }
         }
-
-        public override void Save(BinaryWriter writer)
-        {
-            foreach (var ptc in PTCs)
-            {
-                ptc.Save(writer);
-            }
-        }
     }
 }

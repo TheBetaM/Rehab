@@ -8,78 +8,7 @@ namespace Twinsanity
     {
         public List<SubModel> SubModels = new List<SubModel>();
         public uint BlendShapeCount { get; set; }
-
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write((uint)SubModels.Count);
-            writer.Write(BlendShapeCount);
-            for (int i = 0; i < SubModels.Count; i++)
-            {
-                SubModel Sub = SubModels[i];
-
-                writer.Write(Sub.MaterialID);
-                writer.Write(Sub.VData.Count * 0x30);
-                writer.Write(Sub.VData.Count);
-
-                int GJointCount = 0;
-                for (int c = 0; c < Sub.GroupList.Count; c++)
-                {
-                    GJointCount += Sub.GroupJoints[c].Count;
-                }
-
-                writer.Write(GJointCount);
-                writer.Write(Sub.GroupList.Count);
-                for (int c = 0; c < Sub.GroupList.Count; c++)
-                {
-                    writer.Write(Sub.GroupList[c]);
-                }
-                for (int c = 0; c < Sub.GroupList.Count; c++)
-                {
-                    writer.Write(Sub.GroupJoints[c].Count);
-                }
-                for (int c = 0; c < Sub.GroupList.Count; c++)
-                {
-                    for (int a = 0; a < Sub.GroupJoints[c].Count; a++)
-                    {
-                        writer.Write(Sub.GroupJoints[c][a]);
-                    }
-                }
-
-                for (int c = 0; c < Sub.VData.Count; c++)
-                {
-                    VertexData v = Sub.VData[c];
-                    writer.Write(v.X);
-                    writer.Write(v.Y);
-                    writer.Write(v.Z);
-                    writer.Write(v.Weight1);
-                    writer.Write(v.Weight2);
-                    writer.Write(v.Weight3);
-                    writer.Write(v.Joint1);
-                    writer.Write(v.Joint2);
-                    writer.Write(v.Joint3);
-                    writer.Write(v.UnkShort);
-                    writer.Write(v.PackedNormals);
-                    writer.Write(v.R);
-                    writer.Write(v.G);
-                    writer.Write(v.B);
-                    writer.Write(v.A);
-                    writer.Write(v.UV_X);
-                    writer.Write(v.UV_Y);
-                }
-
-                for (int b = 0; b < BlendShapeCount; b++)
-                {
-                    for (int c = 0; c < Sub.VData.Count; c++)
-                    {
-                        VertexData v = Sub.VData[c];
-                        writer.Write(v.BlendShapes[b].X);
-                        writer.Write(v.BlendShapes[b].Y);
-                        writer.Write(v.BlendShapes[b].Z);
-                    }
-                }
-            }
-        }
-
+        
         public override void Load(BinaryReader reader, int size)
         {
             var count = reader.ReadInt32();
@@ -182,23 +111,6 @@ namespace Twinsanity
                 SubModels.Add(sub);
             }
 
-        }
-
-        protected override int GetSize()
-        {
-            int Size = 8;
-            for (int i = 0; i < SubModels.Count; i++)
-            {
-                Size += 20;
-                Size += SubModels[i].GroupList.Count * 8;
-                for (int c = 0; c < SubModels[i].GroupList.Count; c++)
-                {
-                    Size += SubModels[i].GroupJoints[c].Count * 4;
-                }
-                Size += SubModels[i].VData.Count * 0x30;
-                Size += (int)BlendShapeCount * SubModels[i].VData.Count * 12;
-            }
-            return Size;
         }
 
         public override string ToString()

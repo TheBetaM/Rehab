@@ -8,24 +8,6 @@ namespace Twinsanity
         public List<Pos> Positions { get; set; } = new List<Pos>();
         public List<PathParam> Params { get; set; } = new List<PathParam>();
 
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(Positions.Count);
-            foreach (var p in Positions)
-            {
-                writer.Write(p.X);
-                writer.Write(p.Y);
-                writer.Write(p.Z);
-                writer.Write(p.W);
-            }
-            writer.Write(Params.Count);
-            foreach (var p in Params)
-            {
-                writer.Write(p.P1);
-                writer.Write(p.P2);
-            }
-        }
-
         public override void Load(BinaryReader reader, int size)
         {
             int count = reader.ReadInt32();
@@ -38,11 +20,6 @@ namespace Twinsanity
             {
                 Params.Add(new PathParam { P1 = reader.ReadSingle(), P2 = reader.ReadSingle() });
             }
-        }
-
-        protected override int GetSize()
-        {
-            return 8 + Positions.Count * 16 + Params.Count * 8;
         }
 
         #region STRUCTURES

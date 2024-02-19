@@ -49,11 +49,6 @@ namespace Twinsanity.Items
 
             return;
         }
-
-        public override void Save(BinaryWriter writer)
-        {
-            
-        }
     }
 
     public class MusicBank : TwinsSection
@@ -111,11 +106,6 @@ namespace Twinsanity.Items
                 }
                 
             }
-        }
-
-        public override void Save(BinaryWriter writer)
-        {
-            
         }
 
         public class Sound : TwinsItem

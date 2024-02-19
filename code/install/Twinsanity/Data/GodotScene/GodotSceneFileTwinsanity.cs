@@ -1320,6 +1320,7 @@ namespace RehabSetup
                 Nodes[0].Lines.Add(AudioList.ToString());
             }
 
+            /*
             if (ExportGodot.ExportScripts)
             {
                 Dictionary<int, int> ScriptIDs = new Dictionary<int, int>();
@@ -1381,6 +1382,7 @@ namespace RehabSetup
                     Nodes[0].Lines.Add(MessList.ToString());
                 }
             }
+            */
 
             if (Agent.OGIs.Count != 0 && Agent.Anims.Count != 0 && AnimList.Count != 0 && ModelList.Count != 0)
             {
@@ -1450,6 +1452,7 @@ namespace RehabSetup
 
         void AddObjectScript(GameObject Agent, TwinsSection scr_sec, ushort scriptID)
         {
+            /*
             uint TargetScript = scriptID;
             Script target = null;
             bool isStarter = false;
@@ -1524,6 +1527,7 @@ namespace RehabSetup
                 }
             }
             InternalResourceList.Add(ScriptRes);
+            */
         }
 
         public void AddAIPositions(TwinsSection Section, uint SectionID, string RootNodeName)
@@ -2164,6 +2168,7 @@ namespace RehabSetup
             }
 
             // Export Scripts
+            /*
             if (ExportGodot.ExportScripts)
             {
                 TwinsSection scr_sec = Cont.GetItem<TwinsSection>(10).GetItem<TwinsSection>(1);
@@ -2174,6 +2179,7 @@ namespace RehabSetup
                     ExportGodot.ExportScript(scr_sec.GetItem<Script>(ScriptID), $"{System.IO.Path.GetDirectoryName(path)}\\{ScriptName}.dae");
                 }
             }
+            */
 
             // Export Animations
             TwinsSection anim_sec = Cont.GetItem<TwinsSection>(10).GetItem<TwinsSection>(2);
@@ -2194,6 +2200,7 @@ namespace RehabSetup
             }
 
             // Export CustomAgents
+            /*
             if (ExportGodot.ExportScripts)
             {
                 TwinsSection ca_sec = Cont.GetItem<TwinsSection>(10).GetItem<TwinsSection>(4);
@@ -2204,6 +2211,7 @@ namespace RehabSetup
                     ExportGodot.ExportCustomAgent(ca_sec.GetItem<CustomAgent>(ObjectID), $"{System.IO.Path.GetDirectoryName(path)}\\{ObjectName}.dae", ObjectName);
                 }
             }
+            */
             #endregion
 
             Node Locators_RootNode = new Node($"Locators", ExportGodot.Node3D);
@@ -2243,14 +2251,14 @@ namespace RehabSetup
                     Dictionary<uint, int> PathsExported = new Dictionary<uint, int>();
 
                     TwinsSection Section = Cont.GetItem<TwinsSection>(i);
-                    if (Section.ContainsItem(0) && Section.Records.Count != 0)
-                    {
-                        TwinsSection TemplateSection = Section.GetItem<TwinsSection>(0);
-                        for (int a = 0; a < TemplateSection.Records.Count; a++)
-                        {
+                    //if (Section.ContainsItem(0) && Section.Records.Count != 0)
+                    //{
+                        //TwinsSection TemplateSection = Section.GetItem<TwinsSection>(0);
+                        //for (int a = 0; a < TemplateSection.Records.Count; a++)
+                        //{
                             //ExportGodot.ExportInstanceTemplate(TemplateSection.GetItem<InstanceTemplate>(TemplateSection.Records[a].ID), path);
-                        }
-                    }
+                        //}
+                    //}
                     if (Section.ContainsItem(1) && Section.GetItem<TwinsSection>(1).Records.Count != 0)
                     {
                         AddAIPositions(Section.GetItem<TwinsSection>(1), i, $"{Locators_RootNode.Name}/{AIPos_RootNode.Name}");
@@ -2267,14 +2275,14 @@ namespace RehabSetup
                     {
                         AddPath(Section.GetItem<TwinsSection>(4), Section.GetItem<TwinsSection>(3), i, $"{Locators_RootNode.Name}/{Paths_RootNode.Name}");
                     }
-                    if (Section.ContainsItem(5) && Section.GetItem<TwinsSection>(5).Records.Count != 0)
-                    {
-                        TwinsSection SurfaceSection = Section.GetItem<TwinsSection>(5);
-                        for (int a = 0; a < SurfaceSection.Records.Count; a++)
-                        {
+                    //if (Section.ContainsItem(5) && Section.GetItem<TwinsSection>(5).Records.Count != 0)
+                    //{
+                        //TwinsSection SurfaceSection = Section.GetItem<TwinsSection>(5);
+                        //for (int a = 0; a < SurfaceSection.Records.Count; a++)
+                        //{
                             //ExportGodot.ExportCollisionSurface(SurfaceSection.GetItem<CollisionSurface>(SurfaceSection.Records[a].ID), path);
-                        }
-                    }
+                        //}
+                    //}
                     if (Section.ContainsItem(6) && Section.GetItem<TwinsSection>(6).Records.Count != 0)
                     {
                         AddInstance(Section.GetItem<TwinsSection>(6), i, ImportedObjects, AllowGlobal, $"{Instances_RootNode.Name}", Section.GetItem<TwinsSection>(3), Section.GetItem<TwinsSection>(4), PathsExported);

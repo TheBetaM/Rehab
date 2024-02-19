@@ -74,48 +74,6 @@ namespace Twinsanity
             
         }
 
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write((uint)SubModels.Count);
-            for (int i = 0; i < SubModels.Count; i++)
-            {
-                SubModel Sub = SubModels[i];
-                writer.Write(Sub.VData.Count);
-                writer.Write(Sub.VData.Count * 0x1C);
-                writer.Write(Sub.GroupList.Count);
-                for (int c = 0; c < Sub.GroupList.Count; c++)
-                {
-                    writer.Write(Sub.GroupList[c]);
-                }
-                for (int c = 0; c < Sub.VData.Count; c++)
-                {
-                    VertexData v = Sub.VData[c];
-                    writer.Write(v.X);
-                    writer.Write(v.Y);
-                    writer.Write(v.Z);
-                    writer.Write(v.PackedNormals);
-                    writer.Write(v.R);
-                    writer.Write(v.G);
-                    writer.Write(v.B);
-                    writer.Write(v.A);
-                    writer.Write(v.UV_X);
-                    writer.Write(v.UV_Y);
-                }
-                writer.Write((uint)0);
-            }
-        }
-
-        protected override int GetSize()
-        {
-            int Size = 4;
-            for (int i = 0; i < SubModels.Count; i++)
-            {
-                Size += 16;
-                Size += SubModels[i].GroupList.Count * 4;
-                Size += SubModels[i].VData.Count * 0x1C;
-            }
-            return Size;
-        }
 
         #region STRUCTURES
         public struct SubModel

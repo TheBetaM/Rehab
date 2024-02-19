@@ -109,30 +109,6 @@ namespace Twinsanity
         public ushort Arg3 { get; set; }
         public ushort Arg4 { get; set; }
 
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(Header);
-            writer.Write(Enabled);
-            writer.Write(SomeFloat);
-            for (int i = 0; i < 3; ++i)
-            {
-                writer.Write(Coords[i].X);
-                writer.Write(Coords[i].Y);
-                writer.Write(Coords[i].Z);
-                writer.Write(Coords[i].W);
-            }
-            writer.Write(Instances.Count);
-            writer.Write(Instances.Count);
-            writer.Write(SectionHead);
-            for (int i = 0; i < Instances.Count; ++i)
-                writer.Write(Instances[i]);
-
-            writer.Write(Arg1);
-            writer.Write(Arg2);
-            writer.Write(Arg3);
-            writer.Write(Arg4);
-        }
-
         public override void Load(BinaryReader reader, int size)
         {
             Header = reader.ReadUInt32();
@@ -155,9 +131,5 @@ namespace Twinsanity
             Arg4 = reader.ReadUInt16();
         }
 
-        protected override int GetSize()
-        {
-            return 80 + Instances.Count * 2;
-        }
     }
 }

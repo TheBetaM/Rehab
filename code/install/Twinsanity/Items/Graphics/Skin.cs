@@ -13,11 +13,6 @@ namespace Twinsanity
 
         public List<SubModel> SubModels { get; set; }
 
-        public override void Save(BinaryWriter writer)
-        {
-            writer.Write(Data);
-        }
-
         public override void Load(BinaryReader reader, int size)
         {
             long pre_pos = reader.BaseStream.Position;
@@ -43,11 +38,6 @@ namespace Twinsanity
             ItemSize = size;
             reader.BaseStream.Position = pre_pos;
             Data = reader.ReadBytes(size);
-        }
-
-        protected override int GetSize()
-        {
-            return (int)ItemSize;
         }
 
         private List<VertexData> CalculateData(List<List<Vector4>> data)
