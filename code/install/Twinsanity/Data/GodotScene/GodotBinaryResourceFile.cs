@@ -15,18 +15,19 @@ namespace RehabSetup
 
         public void WriteToFile(string path)
         {
-            if (File.Exists(path)) return;
+            if (AssetExporter.Check(path)) return;
             using (MemoryStream stream = new MemoryStream())
             {
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
                     Write(writer);
-                    if (!File.Exists(path))
+                    if (!AssetExporter.Check(path))
                     {
                         try
                         {
                             stream.Position = 0;
-                            File.WriteAllBytes(path, stream.ToArray());
+                            //File.WriteAllBytes(path, stream.ToArray());
+                            AssetExporter.Add(path, stream.ToArray());
                         }
                         catch
                         {
@@ -44,7 +45,8 @@ namespace RehabSetup
                 {
                     Write(writer);
                     stream.Position = 0;
-                    File.WriteAllBytes(path, stream.ToArray());
+                    //File.WriteAllBytes(path, stream.ToArray());
+                    AssetExporter.Add(path, stream.ToArray());
                 }
             }
         }
@@ -63,11 +65,12 @@ namespace RehabSetup
         }
         public void WriteBufferToFile(string path)
         {
-            if (!File.Exists(path))
+            if (!AssetExporter.Check(path))
             {
                 try
                 {
-                    File.WriteAllBytes(path, WriteBuffer);
+                    //File.WriteAllBytes(path, WriteBuffer);
+                    AssetExporter.Add(path, WriteBuffer);
                 }
                 catch
                 {

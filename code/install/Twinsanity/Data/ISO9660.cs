@@ -94,7 +94,7 @@ namespace RehabSetup
             CNF_Only = false;
             ExtractFiles = true;
             ExtractPath = outputPath;
-            Directory.CreateDirectory(ExtractPath);
+            //Directory.CreateDirectory(ExtractPath);
 
             IList<Task> extractTaskList = new List<Task>();
             Dictionary<string, string> Paths = new Dictionary<string, string>();
@@ -147,12 +147,18 @@ namespace RehabSetup
                 {
                     using (Stream fileStreamFrom = cd.OpenFile(file, FileMode.Open))
                     {
+                        uint size = (uint)fileStreamFrom.Length;
+                        byte[] data = new byte[size];
+                        await fileStreamFrom.ReadAsync(data, 0, (int)size);
+                        AssetExporter.BufferFiles.Add(path, (0, size, data));
+                        /*
                         Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
                         using (Stream fileStreamTo = System.IO.File.Open(path, FileMode.OpenOrCreate))
                         {
                             await fileStreamFrom.CopyToAsync(fileStreamTo);
                             //fileStreamFrom.CopyTo(fileStreamTo);
                         }
+                        */
                     }
                 }
             }

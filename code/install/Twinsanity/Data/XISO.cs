@@ -24,6 +24,9 @@ namespace RehabSetup
 
         public string ExtractPath;
 
+        public List<string> IgnoreExt = new();
+        public List<string> IgnoreName = new();
+
         public bool DetectXBE(string filePath)
         {
             bool isISO = false;
@@ -116,7 +119,7 @@ namespace RehabSetup
                             XBE_Only = false;
                             ExtractFiles = true;
                             ExtractPath = outputPath;
-                            Directory.CreateDirectory(ExtractPath);
+                            //Directory.CreateDirectory(ExtractPath);
                             int root_dir_sect = 0;
                             int root_dir_size = 0;
                             bool result = VerifyXISO(reader, ref root_dir_sect, ref root_dir_size);
@@ -193,21 +196,21 @@ namespace RehabSetup
             {
                 file.BaseStream.Seek((long)dir.start_sector * XISO_SECTOR_SIZE + s_xbox_disc_lseek, SeekOrigin.Begin);
                 string FileName = ExtractPath + path + dir.filename;
-                if (XBE_Only)
-                {
-                    if (System.IO.Path.GetExtension(FileName).ToLower() == ".xbe")
-                    {
-                        byte[] data = file.ReadBytes((int)dir.file_size);
-                        XBE_Buffer = data;
-                        return;
-                    }
-                }
-                else if (ExtractFiles)
+                string Ext = System.IO.Path.GetExtension(FileName).ToLower();
+                if (XBE_Only && Ext == ".xbe")
                 {
                     byte[] data = file.ReadBytes((int)dir.file_size);
+                    XBE_Buffer = data;
+                    return;
+                }
+                else if (ExtractFiles && !IgnoreExt.Contains(Ext) && !IgnoreName.Contains(dir.filename + Ext))
+                {
+                    //byte[] data = file.ReadBytes((int)dir.file_size);
                     //Console.WriteLine(FileName);
-                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FileName));
-                    File.WriteAllBytes(FileName, data);
+                    //Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FileName));
+                    //File.WriteAllBytes(FileName, data);
+                    //AssetExporter.BufferFiles.Add(FileName, (0, (uint)dir.file_size, data));
+                    AssetExporter.BufferFiles.Add(FileName, ((uint)file.BaseStream.Position + 1, (uint)dir.file_size, null));
                 }
             }
 

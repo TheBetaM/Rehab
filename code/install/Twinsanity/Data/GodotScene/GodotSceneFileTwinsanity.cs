@@ -2303,7 +2303,7 @@ namespace RehabSetup
             // PAL languages rely on ID overlap so thay are better left as a mod?
             TwinsSection CodeSection = Cont.GetItem<TwinsSection>(10);
             bool IsXbox = CodeSection.Type == SectionType.CodeX;
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\");
             for (uint i = 6; i < 8; i++)
             {
                 if (CodeSection.ContainsItem(i))
@@ -2315,9 +2315,9 @@ namespace RehabSetup
                         if (IsXbox)
                         {
                             SoundEffectX SFX = Section.GetItem<SoundEffectX>(Section.Records[a].ID);
-                            if (!File.Exists(SoundPath))
+                            if (!AssetExporter.Check(SoundPath))
                             {
-                                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
+                                //Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
                                 GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(SFX);
                                 wav.WriteToFile(SoundPath);
                             }
@@ -2325,9 +2325,9 @@ namespace RehabSetup
                         else
                         {
                             SoundEffect SFX = Section.GetItem<SoundEffect>(Section.Records[a].ID);
-                            if (!File.Exists(SoundPath))
+                            if (!AssetExporter.Check(SoundPath))
                             {
-                                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
+                                //Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
                                 GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(SFX);
                                 wav.WriteToFile(SoundPath);
                             }
@@ -2341,7 +2341,7 @@ namespace RehabSetup
         {
             string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Mesh\\";
             string Extension = ".res";
-            Directory.CreateDirectory(DirPath);
+            //Directory.CreateDirectory(DirPath);
             TwinsSection mesh_sec = MCont.Parent.Parent.GetItem<TwinsSection>(2);
             int SubModels = 0;
             uint MeshHash = 0;
@@ -2364,7 +2364,7 @@ namespace RehabSetup
             ModelResource.WriteResourceToBuffer();
             MeshHash = ModelResource.WriteBuffer.GetSequenceHashCode();
             MeshName = $"Mesh{DefaultHashes.ModelToName(MCont.MeshID, MeshHash)}{Extension}";
-            if (!File.Exists($"{DirPath}{MeshName}"))
+            if (!AssetExporter.Check($"{DirPath}{MeshName}"))
                 ModelResource.WriteBufferToFile($"{DirPath}{MeshName}");
 
             ExternalResource ModelFileReference = new ExternalResource(MeshName);
@@ -2397,12 +2397,12 @@ namespace RehabSetup
         public void AddSkinResource(Skin Cont, string path, bool SceneOnly)
         {
             string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
-            Directory.CreateDirectory(DirPath);
+            //Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"Skin_{DefaultHashes.ToName(SectionType.Skin, Cont.ID)}";
             string Extension = ".res";
 
             // Export resource
-            if (!File.Exists($"{DirPath}{ModelFilePath}{Extension}"))
+            if (!AssetExporter.Check($"{DirPath}{ModelFilePath}{Extension}"))
             {
                 GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
                 ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
@@ -2438,12 +2438,12 @@ namespace RehabSetup
         public void AddSkinXResource(SkinX Cont, string path, bool SceneOnly)
         {
             string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
-            Directory.CreateDirectory(DirPath);
+            //Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"Skin_{DefaultHashes.ToName(SectionType.Skin, Cont.ID)}";
             string Extension = ".res";
 
             // Export resource
-            if (!File.Exists($"{DirPath}{ModelFilePath}{Extension}"))
+            if (!AssetExporter.Check($"{DirPath}{ModelFilePath}{Extension}"))
             {
                 GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
                 ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
@@ -2479,12 +2479,12 @@ namespace RehabSetup
         public void AddBlendSkinResource(BlendSkin Cont, string path)
         {
             string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
-            Directory.CreateDirectory(DirPath);
+            //Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, Cont.ID)}";
             string Extension = ".res";
 
             // Export resource
-            if (!File.Exists($"{DirPath}{ModelFilePath}{Extension}"))
+            if (!AssetExporter.Check($"{DirPath}{ModelFilePath}{Extension}"))
             {
                 GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
                 ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
@@ -2520,12 +2520,12 @@ namespace RehabSetup
         public void AddBlendSkinXResource(BlendSkinX Cont, string path)
         {
             string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
-            Directory.CreateDirectory(DirPath);
+            //Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, Cont.ID)}";
             string Extension = ".res";
 
             // Export resource
-            if (!File.Exists($"{DirPath}{ModelFilePath}{Extension}"))
+            if (!AssetExporter.Check($"{DirPath}{ModelFilePath}{Extension}"))
             {
                 GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(Cont);
                 ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
@@ -2563,13 +2563,13 @@ namespace RehabSetup
         {
             string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Materials\\";
             string TexPath = $"{System.IO.Path.GetDirectoryName(path)}\\Textures\\";
-            Directory.CreateDirectory(DirPath);
-            Directory.CreateDirectory(TexPath);
+            //Directory.CreateDirectory(DirPath);
+            //Directory.CreateDirectory(TexPath);
 
             List<string> MaterialFileNames = new List<string>();
             for (int mat = 0; mat < Materials.Count; mat++)
             {
-                GodotResourceFileTwinsanity MaterialFile = new GodotResourceFileTwinsanity();
+                var MaterialFile = new GodotResourceFile();
                 int ExtraShaderID = -1;
                 string ExtraShaderType = "";
                 for (int i = 0; i < Materials[mat].Shaders.Count; i++)
@@ -2841,7 +2841,7 @@ namespace RehabSetup
                 string MatHash = MaterialFile.FileLines.GetSequenceHashCode().ToString("X8");
                 string MatName = $"Mat{Materials[mat].ID.ToString("X8")}-{Materials[mat].Name.Replace("\0", "")}-{MatHash}";
                 string MatPath = $"{DirPath}{MatName}.tres";
-                if (!File.Exists(MatPath))
+                if (!AssetExporter.Check(MatPath))
                     MaterialFile.WriteToFile(MatPath);
                 MaterialFileNames.Add($"../Materials/{MatName}.tres");
             }
@@ -2868,12 +2868,12 @@ namespace RehabSetup
                 // Rehashing Textures due to ID collisions
                 uint Hash = Texture.GetSequenceHashCode();
                 Path = $"{DefaultHashes.TexToName(Tex.ID, Hash)}{Extenstion}";
-                if (File.Exists($"{DirPath}\\{Path}")) return Path;
+                if (AssetExporter.Check($"{DirPath}\\{Path}")) return Path;
             }
             else
             {
                 Path = $"{DefaultHashes.ToName(SectionType.Texture, Tex.ID)}{Extenstion}";
-                if (File.Exists($"{DirPath}\\{Path}"))
+                if (AssetExporter.Check($"{DirPath}\\{Path}"))
                 {
                     return Path;
                 }
@@ -2881,9 +2881,9 @@ namespace RehabSetup
             
             try
             {
-                Directory.CreateDirectory(System.IO.Path.GetDirectoryName($"{DirPath}\\{Path}"));
+                //Directory.CreateDirectory(System.IO.Path.GetDirectoryName($"{DirPath}\\{Path}"));
                 GodotBinaryImageTexture TexRes = new GodotBinaryImageTexture(Tex);
-                if (!File.Exists($"{DirPath}\\{Path}"))
+                if (!AssetExporter.Check($"{DirPath}\\{Path}"))
                     TexRes.WriteToFile($"{DirPath}\\{Path}");
             }
             catch
@@ -3005,12 +3005,12 @@ namespace RehabSetup
                 // Rehashing Textures due to ID collisions
                 uint Hash = Texture.GetSequenceHashCode();
                 Path = $"{DefaultHashes.TexToName(Tex.ID, Hash)}{Extenstion}";
-                if (File.Exists($"{DirPath}\\{Path}")) return Path;
+                if (AssetExporter.Check($"{DirPath}\\{Path}")) return Path;
             }
             else
             {
                 Path = $"{DefaultHashes.ToName(SectionType.Texture, Tex.ID)}{Extenstion}";
-                if (File.Exists($"{DirPath}\\{Path}"))
+                if (AssetExporter.Check($"{DirPath}\\{Path}"))
                 {
                     return Path;
                 }
@@ -3018,9 +3018,9 @@ namespace RehabSetup
             
             try
             {
-                Directory.CreateDirectory(System.IO.Path.GetDirectoryName($"{DirPath}\\{Path}"));
+                //Directory.CreateDirectory(System.IO.Path.GetDirectoryName($"{DirPath}\\{Path}"));
                 GodotBinaryImageTexture TexRes = new GodotBinaryImageTexture(Tex);
-                if (!File.Exists($"{DirPath}\\{Path}"))
+                if (!AssetExporter.Check($"{DirPath}\\{Path}"))
                     TexRes.WriteToFile($"{DirPath}\\{Path}");
             }
             catch

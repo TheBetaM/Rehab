@@ -16,11 +16,23 @@ namespace RehabSetup
         public void WriteToFile(string path)
         {
             Serialize();
-            if (!File.Exists(path))
+            if (!AssetExporter.Check(path))
             {
                 try
                 {
-                    File.WriteAllLines(path, FileLines);
+                    using (MemoryStream mStream = new())
+                    {
+                        using (StreamWriter writer = new StreamWriter(mStream))
+                        {
+                            foreach (var line in FileLines)
+                            {
+                                writer.WriteLine(line);
+                            }
+                            mStream.Position = 0;
+                            AssetExporter.Add(path, mStream.ToArray());
+                        }
+                    }
+                    //File.WriteAllLines(path, FileLines);
                 }
                 catch
                 {
@@ -31,7 +43,19 @@ namespace RehabSetup
         public void WriteToFileForce(string path)
         {
             Serialize();
-            File.WriteAllLines(path, FileLines);
+            using (MemoryStream mStream = new())
+            {
+                using (StreamWriter writer = new StreamWriter(mStream))
+                {
+                    foreach (var line in FileLines)
+                    {
+                        writer.WriteLine(line);
+                    }
+                    mStream.Position = 0;
+                    AssetExporter.Add(path, mStream.ToArray());
+                }
+            }
+            //File.WriteAllLines(path, FileLines);
         }
         public void Serialize()
         {
@@ -59,7 +83,19 @@ namespace RehabSetup
         {
             try
             {
-                File.WriteAllLines(path, FileLines);
+                using (MemoryStream mStream = new())
+                {
+                    using (StreamWriter writer = new StreamWriter(mStream))
+                    {
+                        foreach (var line in FileLines)
+                        {
+                            writer.WriteLine(line);
+                        }
+                        mStream.Position = 0;
+                        AssetExporter.Add(path, mStream.ToArray());
+                    }
+                }
+                //File.WriteAllLines(path, FileLines);
             }
             catch
             {

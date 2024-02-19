@@ -120,9 +120,9 @@ namespace Twinsanity
 
         public void dumpMemory(string path, bool dumpImage = false, string imgPath = "")
         {
-            var gsDump = File.Create(path, gs.Length);
-            gsDump.Write(gs, 0, gs.Length);
-            gsDump.Close();
+            //var gsDump = File.Create(path, gs.Length);
+            //gsDump.Write(gs, 0, gs.Length);
+            //gsDump.Close();
 
             if (!dumpImage) return;
             // Use this strictly for debugging as this is a processor heavy operation to visualize the entire GS map

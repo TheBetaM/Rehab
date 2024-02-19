@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
 using Twinsanity;
 using Twinsanity.Items;
 using System.Diagnostics;
@@ -14,7 +13,7 @@ namespace RehabSetup
 
         public static void ExportScenery(SceneryData Cont, string path, bool SceneOnly = false, bool Standalone = false)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\");
             string SceneName = $"{Cont.ChunkName.Replace('\\','_')}-Scenery";
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
             TwinsSection targetFile = Cont.Parent;
@@ -29,7 +28,7 @@ namespace RehabSetup
 
         public static string ExportLODModel(LodModel Cont, string path, bool SceneOnly = false)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\LODs\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\LODs\\");
             string SceneName = $"LODModel_{Cont.ID.ToString("X8")}";
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
             ModelScene.AddLODModel(Cont, path, SceneOnly);
@@ -37,18 +36,18 @@ namespace RehabSetup
             ModelScene.Serialize();
             string Hash = ModelScene.FileLines.GetSequenceHashCode().ToString("X8");
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\LODs\\{SceneName}_{Hash}{SceneExtension}";
-            if (File.Exists(outPath)) return Hash;
+            if (AssetExporter.Check(outPath)) return Hash;
             ModelScene.SaveToFile(outPath);
             return Hash;
         }
 
         public static void ExportSkydome(Skydome Cont, string path, bool SceneOnly = false)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skydomes\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skydomes\\");
             string hashName = DefaultHashes.SkyToName(Cont);
             string SceneName = $"Skydome_{hashName}";
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skydomes\\{SceneName}{SceneExtension}";
-            if (File.Exists(outPath)) return;
+            if (AssetExporter.Check(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
             ModelScene.AddSkydome(Cont, path, SceneOnly);
             ModelScene.WriteToFile(outPath);
@@ -56,7 +55,7 @@ namespace RehabSetup
 
         public static void ExportDynamicScenery(DynamicSceneryData Cont, string path, bool SceneOnly = false)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\DynamicScenery\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\DynamicScenery\\");
             TwinsSection targetFile = Cont.Parent;
             SceneryData Scene = targetFile.GetItem<SceneryData>(0);
             string SceneName = $"{Scene.ChunkName.Replace('\\', '_')}-DynamicScenery";
@@ -67,7 +66,7 @@ namespace RehabSetup
 
         public static void ExportSM(TwinsFile targetFile, string path, bool SceneOnly = false)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\");
             SceneryData Scene = targetFile.GetItem<SceneryData>(0);
             string SceneName = $"{Scene.ChunkName.Replace('\\', '_')}-SM";
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
@@ -77,7 +76,7 @@ namespace RehabSetup
 
         public static void ExportCollisionData(ColData Cont, string path, bool SceneOnly = false)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\");
             string SceneName = $"{System.IO.Path.GetFileNameWithoutExtension(path)}";
             // optional for collision model visuals
             //GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName, 1);
@@ -88,12 +87,12 @@ namespace RehabSetup
 
         public static void ExportOGI(GraphicsInfo Cont, string path, bool SceneOnly = false)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Rigs\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Rigs\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"Rig_{hashName}";
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Rigs\\{SceneName}{SceneExtension}";
             bool forceWrite = false;
-            if (File.Exists(outPath))
+            if (AssetExporter.Check(outPath))
             {
                 // Some models were packed incorrectly, so we have to pick and choose which file to get them from
                 if (!DefaultHashes.OGI_Override.Contains(Cont.ID)) return;
@@ -115,11 +114,11 @@ namespace RehabSetup
         public static void ExportGameObject(GameObject Cont, string path, bool SceneOnly = false)
         {
             // Default's GameObjects have some parameters that equivalents in chunks don't have, so it should be extracted first
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Actors\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Actors\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"{hashName}";
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Actors\\{SceneName}{SceneExtension}";
-            if (File.Exists(outPath)) return;
+            if (AssetExporter.Check(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
             ModelScene.AddGameObject(Cont, path, SceneOnly);
             ModelScene.WriteToFile(outPath);
@@ -138,8 +137,8 @@ namespace RehabSetup
             string SceneName = $"Scene_RM";
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
 
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\");
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\");
             ExportCollisionData(targetFile.GetItem<ColData>(9), $"{System.IO.Path.GetDirectoryName(path)}\\Scene-Collision.dae", SceneOnly);
             ModelScene.Add_InstancedScene($"../Scenery/Scene-Collision", $".");
             //ModelScene.Nodes.Last().Lines.Add("visible = false");
@@ -158,24 +157,6 @@ namespace RehabSetup
             }
         }
 
-        public static void ExportInstanceTemplate(InstanceTemplate Cont, string path)
-        {
-            // These are useless for now, since they were only meant for the debug object editor
-            if (!ExportEditableObjects) return;
-            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\EditableObjects\\");
-            //GodotResourceFileTwinsanity Res = GodotResourceFileTwinsanity.Create($"Editable_{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}");
-            //Res.AddInstanceTemplate(Cont, path);
-            //Res.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\EditableObjects\\Editable_{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}.tres");
-        }
-
-        public static void ExportCollisionSurface(CollisionSurface Cont, string path)
-        {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Surfaces\\");
-            GodotResourceFileTwinsanity Res = GodotResourceFileTwinsanity.Create($"{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}");
-            Res.AddCollisionSurface(Cont, path);
-            Res.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Surfaces\\{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}.tres");
-        }
-
         public static void ExportScript(Script Cont, string path)
         {
             if (Cont.Header != null)
@@ -183,17 +164,17 @@ namespace RehabSetup
                 // Starters are handled automatically in GameObject export
                 return;
             }
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\");
             string hashName = DefaultHashes.Hash_Scripts[Cont.ID];
             //hashName += $"_{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}";
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\{hashName}.gd";
-            if (File.Exists(outPath)) return;
+            if (AssetExporter.Check(outPath)) return;
             //GDScriptFile.WriteToFile(Cont, outPath);
         }
 
         public static void ExportCustomAgent(CustomAgent Cont, string path, string actorName)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\");
             //string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Scripts\\";
             //GDScriptFile.WriteToFile(Cont, outPath, actorName);
@@ -201,10 +182,10 @@ namespace RehabSetup
 
         public static void ExportAnimation(Animation Cont, string path)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Animations\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Animations\\");
             string Extension = ".res";
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Animations\\{DefaultHashes.ToName(Cont.ParentType, Cont.ID)}{Extension}";
-            if (File.Exists(outPath)) return;
+            if (AssetExporter.Check(outPath)) return;
 
             List<Pos> RigAddRot = new List<Pos>();
             List<uint> RigJointParent = new List<uint>();
@@ -252,7 +233,7 @@ namespace RehabSetup
             }
 
             GodotBinaryAnimation Res = new GodotBinaryAnimation(Cont, RigAddRot, RigJointParent);
-            if (File.Exists(outPath)) return;
+            if (AssetExporter.Check(outPath)) return;
             Res.WriteToFile(outPath);
         }
 
@@ -262,8 +243,8 @@ namespace RehabSetup
             string SceneName = $"{Scene.ChunkName.Replace('\\', '_')}";
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName);
 
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\");
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\");
             ExportCollisionData(file_RM.GetItem<ColData>(9), $"{System.IO.Path.GetDirectoryName(path)}\\{SceneName}-Collision.dae", SceneOnly);
             ModelScene.Add_InstancedScene($"../Scenery/{SceneName}-Collision", $".");
             ModelScene.Nodes.Last().Lines.Add("visible = false");
@@ -316,13 +297,13 @@ namespace RehabSetup
         {
             string SoundExt = ".res";
             // Three menu sound effects
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\");
             TwinsSection section = targetFile.GetItem<TwinsSection>(0);
             foreach (TwinsItem item in section.Records)
             {
                 string SoundPath = $"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\{DefaultHashes.ToName(SectionType.SE, item.ID)}{SoundExt}";
-                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
-                if (!File.Exists(SoundPath))
+                //Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
+                if (!AssetExporter.Check(SoundPath))
                 {
                     if (item is SoundEffectX sfx)
                     {
@@ -347,7 +328,7 @@ namespace RehabSetup
             else if (targetFile.FileName.Contains("German")) return; //FolderName = "GlobalVO_German";
             else if (targetFile.FileName.Contains("Italian")) return; //FolderName = "GlobalVO_Italian";
 
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\{FolderName}\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\{FolderName}\\");
             TwinsSection section = targetFile.GetItem<TwinsSection>(0);
             foreach (TwinsItem item in section.Records)
             {
@@ -372,7 +353,7 @@ namespace RehabSetup
             else if (targetFile.FileName.ToUpper().Contains("JAPANESE")) return; //FolderName = "GlobalVO_Japanese";
 
             bool undefinedDone = false;
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\{FolderName}\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\{FolderName}\\");
             TwinsSection section = targetFile.GetItem<TwinsSection>(0);
             foreach (TwinsItem item in section.Records)
             {
@@ -404,7 +385,7 @@ namespace RehabSetup
             {
                 if (targetFile.FileName.ToLower().EndsWith("icons.psm"))
                 {
-                    Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Textures\\Icons\\");
+                    //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Textures\\Icons\\");
                     OutName = $"{System.IO.Path.GetDirectoryName(path)}\\Textures\\Icons\\Icons{Extension}";
                     MultiExport = true;
                 }
@@ -426,7 +407,7 @@ namespace RehabSetup
                     int ExtrasStart = OrigPath.IndexOf(BaseFolder) + (BaseFolder.Length + 1);
                     string RelativePath = OrigPath.Substring(ExtrasStart);
                     OutName = $"{ExtrasPath}{RelativePath}";
-                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(OutName));
+                    //Directory.CreateDirectory(System.IO.Path.GetDirectoryName(OutName));
                 }
 
                 TwinsSection section = targetFile.GetItem<TwinsSection>(0);
@@ -457,7 +438,7 @@ namespace RehabSetup
             }
             else if (isPSF)
             {
-                Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Textures\\Startup\\");
+                //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Textures\\Startup\\");
 
                 TwinsSection section = targetFile.GetItem<TwinsSection>(0);
                 for (int i = 0; i < section.Records.Count; i++)
@@ -482,7 +463,7 @@ namespace RehabSetup
             }
             else
             {
-                Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Textures\\Startup\\");
+                //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Textures\\Startup\\");
 
                 TwinsPTC tptc = targetFile.GetItem<TwinsPTC>(0);
                 if (tptc.TextureX != null)
@@ -508,7 +489,7 @@ namespace RehabSetup
             if (!MultiExport)
             {
                 GodotBinaryImageTexture TexRes = new(Textures, Widths, Heights);
-                if (!File.Exists(OutName))
+                if (!AssetExporter.Check(OutName))
                     TexRes.WriteToFile(OutName);
             }
             else
@@ -517,7 +498,7 @@ namespace RehabSetup
                 {
                     string TexName = $"{System.IO.Path.GetDirectoryName(OutName)}\\{Names[i]}.res";
                     GodotBinaryImageTexture TexRes = new(Textures[i], Widths[i], Heights[i]);
-                    if (!File.Exists(TexName))
+                    if (!AssetExporter.Check(TexName))
                         TexRes.WriteToFile(TexName);
                 }
             }
@@ -526,7 +507,7 @@ namespace RehabSetup
 
         public static uint ExportModelResource(RigidModel Cont, string path, bool SceneOnly = false)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Mesh\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Mesh\\");
             string SceneName = $"Model";
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName, -1, ExportGodot.MeshInstance3D);
             ModelScene.AddRigidModelResource(Cont, path, SceneOnly);
@@ -535,40 +516,40 @@ namespace RehabSetup
             uint Hash = ModelScene.FileLines.GetSequenceHashCode();
             string outName = DefaultHashes.RigidToName(Cont.ID, Hash);
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Mesh\\{outName}{SceneExtension}";
-            if (File.Exists(outPath)) return Hash;
+            if (AssetExporter.Check(outPath)) return Hash;
             ModelScene.Nodes[0].Name = outName;
             ModelScene.SaveToFile(outPath);
             return Hash;
         }
         public static void ExportSkinXResource(SkinX Cont, string path, bool SceneOnly = false)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"Skin_{hashName}";
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{SceneExtension}";
-            if (File.Exists(outPath)) return;
+            if (AssetExporter.Check(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName, -1, ExportGodot.MeshInstance3D);
             ModelScene.AddSkinXResource(Cont, path, SceneOnly);
             ModelScene.WriteToFile(outPath);
         }
         public static void ExportSkinResource(Skin Cont, string path, bool SceneOnly = false)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"Skin_{hashName}";
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{SceneExtension}";
-            if (File.Exists(outPath)) return;
+            if (AssetExporter.Check(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName, -1, ExportGodot.MeshInstance3D);
             ModelScene.AddSkinResource(Cont, path, SceneOnly);
             ModelScene.WriteToFile(outPath);
         }
         public static void ExportBlendSkinResource(BlendSkin Cont, string path)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"BlendSkin_{hashName}";
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{SceneExtension}";
-            if (File.Exists(outPath)) return;
+            if (AssetExporter.Check(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName, -1, ExportGodot.MeshInstance3D);
             ModelScene.AddBlendSkinResource(Cont, path);
             ModelScene.WriteToFile(outPath);
@@ -576,11 +557,11 @@ namespace RehabSetup
         }
         public static void ExportBlendSkinXResource(BlendSkinX Cont, string path)
         {
-            Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
+            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Skins\\");
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
             string SceneName = $"BlendSkin_{hashName}";
             string outPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\{SceneName}{SceneExtension}";
-            if (File.Exists(outPath)) return;
+            if (AssetExporter.Check(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName, -1, ExportGodot.MeshInstance3D);
             ModelScene.AddBlendSkinXResource(Cont, path);
             ModelScene.WriteToFile(outPath);
