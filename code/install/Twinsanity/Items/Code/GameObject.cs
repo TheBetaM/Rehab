@@ -31,8 +31,8 @@ namespace Twinsanity
         public int scriptCommandsAmount;
         public List<UInt16> scriptParams = new List<UInt16>();
         public int scriptGameVersion = 0;
-        public Script.MainScript.ScriptCommand scriptCommand = null;
-        public List<Script.MainScript.ScriptCommand> scriptCommands = new List<Script.MainScript.ScriptCommand>();
+        //public Script.MainScript.ScriptCommand scriptCommand = null;
+        //public List<Script.MainScript.ScriptCommand> scriptCommands = new List<Script.MainScript.ScriptCommand>();
         public bool IsDemo = false;
 
         public string Name { get; set; }
@@ -286,6 +286,7 @@ namespace Twinsanity
             }
 
             scriptCommandsAmount = (int)reader.ReadUInt32();
+            /*
             if (scriptCommandsAmount != 0)
             {
                 scriptCommand = new Script.MainScript.ScriptCommand(reader, scriptGameVersion);
@@ -300,6 +301,7 @@ namespace Twinsanity
             {
                 scriptCommand = null;
             }
+            */
             this.size = size;
         }
 

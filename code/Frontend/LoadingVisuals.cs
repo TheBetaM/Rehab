@@ -160,6 +160,8 @@ public partial class LoadingVisuals : Control
             LevelIcon2.Texture = LevelIcon.Texture;
             GetNode<Label>("LabelLevelName").Text = "";
         }
+        LevelIcon.Texture = null;
+        LevelIcon2.Texture = null;
     }
 
     public async void AnimIn()
@@ -190,7 +192,7 @@ public partial class LoadingVisuals : Control
                 Root3D.RotationDegrees = new Vector3(0, 90f, 0);
             else
                 Root3D.RotationDegrees = new Vector3(0, -90f, 0);
-            var randAnim = System.Random.Shared.Next(1, 4);
+            var randAnim = System.Random.Shared.Next(1, 2);
             ActorNode.Visible = true;
             Root3D.Visible = true;
             Root3D.ProcessMode = ProcessModeEnum.Inherit;

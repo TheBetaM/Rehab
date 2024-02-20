@@ -29,7 +29,8 @@ namespace RehabSetup
         public ISO9660 ISO_PS2;
         public string ISOpath = string.Empty;
         public string GodotPath = string.Empty;
-        public string ZipPath = AppDomain.CurrentDomain.BaseDirectory + "\\Packs\\RehabData.pcz";
+        public string ZipPath = Rehab.RehabGame.DataPath + "RehabData.pcz";
+        //AppDomain.CurrentDomain.BaseDirectory + "\\Packs\\RehabData.pcz";
         public string ISO_Extract_Path = AppDomain.CurrentDomain.BaseDirectory + "Packs\\ISO\\";
 
         public int VideosLeft = 0;
@@ -89,10 +90,10 @@ namespace RehabSetup
             GC.WaitForPendingFinalizers();
         }
 
-        public void StartWorker(string inPath, string outPath)
+        public void StartWorker(string inPath)
         {
             InputPath = inPath;
-            OutputPath = outPath;
+            //OutputPath = outPath;
             Worker.RunWorkerAsync();
         }
 
@@ -143,13 +144,13 @@ namespace RehabSetup
             Stage = ProcessStages.Prepare;
             Stopwatch timer = new();
             timer.Start();
-            Console.WriteLine($"Preparing...");
+            Debug.WriteLine($"Preparing...");
 
             Stage = ProcessStages.ExtractISO;
 
             if (isISO)
             {
-                Console.WriteLine($"Extracting ISO... {timer.Elapsed}");
+                Debug.WriteLine($"Done in {timer.Elapsed}. Extracting ISO...");
                 timer.Restart();
                 DirPath = ISO_Extract_Path;
                 if (isPS2)
@@ -159,26 +160,20 @@ namespace RehabSetup
                 else
                 {
                     await ISO.ExportISO(ISOpath, ISO_Extract_Path);
-                    Console.WriteLine($"Copying ISO to memory... {timer.Elapsed}");
-                    timer.Restart();
-                    BufferBD = await File.ReadAllBytesAsync(ISOpath);
                 }
             }
 
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             Stage = ProcessStages.ExtractAssets;
-            Console.WriteLine($"Extracting assets... {timer.Elapsed}");
+            Debug.WriteLine($"Done in {timer.Elapsed}. Extracting default...");
             timer.Restart();
 
             #region Extract Assets
-            //DirectoryInfo Dir = new DirectoryInfo(DirPath);
-            //FilePaths = new Dictionary<string, List<string>>();
-            //Recursive_Batch(Dir, FilePaths);
 
             if (isPS2)
             {
-                
                 byte[] bh = null;
-                //foreach (string Path in FilePaths[".bd"])
                 foreach (var pair in BufferFiles)
                 {
                     if (pair.Key.ToLower().EndsWith(".bd"))
@@ -191,10 +186,6 @@ namespace RehabSetup
                     }
                 }
                 await ExportBD(BufferBD, bh);
-                
-                //Dir = new DirectoryInfo(DirPath);
-                //FilePaths = new Dictionary<string, List<string>>();
-                //Recursive_Batch(Dir, FilePaths);
             }
 
             Task DefaultTask = null;
@@ -211,7 +202,7 @@ namespace RehabSetup
             if (DefaultTask != null)
                 await DefaultTask;
 
-            Console.WriteLine($"Extracted default... {timer.Elapsed}");
+            Debug.WriteLine($"Done in {timer.Elapsed}. Extracting assets...");
             timer.Restart();
 
             IList<Task> TaskList = new List<Task>();
@@ -243,11 +234,11 @@ namespace RehabSetup
                 }
                 else if (pair.Key.ToLower().EndsWith(".mb"))
                 {
-                    //TaskList.Add(ExportMB(pair));
+                    TaskList.Add(ExportMB(pair));
                 }
                 else if (pair.Key.ToLower().EndsWith(".xwb"))
                 {
-                    //TaskList.Add(ExportXWB(pair));
+                    TaskList.Add(ExportXWB(pair));
                 }
                 else if (pair.Key.ToLower().EndsWith(".bin"))
                 {
@@ -266,13 +257,13 @@ namespace RehabSetup
             GC.WaitForPendingFinalizers();
 
             Stage = ProcessStages.PackAssets;
-            Console.WriteLine($"Packing assets... {timer.Elapsed}");
+            Debug.WriteLine($"Done in {timer.Elapsed}. Packing assets...");
             timer.Restart();
 
             await PackAssets(DirPath);
 
             Stage = ProcessStages.End;
-            Console.WriteLine($"Finishing up... {timer.Elapsed}");
+            Debug.WriteLine($"Done in {timer.Elapsed}. Finishing up...");
             timer.Restart();
             
             BufferBD = null;
@@ -283,7 +274,7 @@ namespace RehabSetup
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            Console.WriteLine("Complete!");
+            Debug.WriteLine("Complete!");
             Exporting = false;
             
         }
@@ -310,6 +301,10 @@ namespace RehabSetup
                     RMstream.Dispose();
                     SMstream.Close();
                     SMstream.Dispose();
+
+                    BufferFiles.Remove(pair.Key);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
                 );
         }
@@ -327,6 +322,10 @@ namespace RehabSetup
                     FilesLeft--;
                     RMstream.Close();
                     RMstream.Dispose();
+                    
+                    BufferFiles.Remove(pair.Key);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
                 );
         }
@@ -343,6 +342,10 @@ namespace RehabSetup
                     FilesLeft--;
                     stream.Close();
                     stream.Dispose();
+
+                    BufferFiles.Remove(pair.Key);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
                 );
         }
@@ -360,6 +363,10 @@ namespace RehabSetup
                     FilesLeft--;
                     stream.Close();
                     stream.Dispose();
+
+                    BufferFiles.Remove(pair.Key);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
                 );
         }
@@ -377,6 +384,10 @@ namespace RehabSetup
                     FilesLeft--;
                     stream.Close();
                     stream.Dispose();
+
+                    BufferFiles.Remove(pair.Key);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
                 );
         }
@@ -394,6 +405,10 @@ namespace RehabSetup
                     FilesLeft--;
                     stream.Close();
                     stream.Dispose();
+
+                    BufferFiles.Remove(pair.Key);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
                 );
         }
@@ -410,6 +425,10 @@ namespace RehabSetup
                     FilesLeft--;
                     stream.Close();
                     stream.Dispose();
+
+                    BufferFiles.Remove(pair.Key);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
                 );
         }
@@ -433,6 +452,10 @@ namespace RehabSetup
                     mbstream.Dispose();
                     mhstream.Close();
                     mhstream.Dispose();
+
+                    BufferFiles.Remove(pair.Key);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
                 );
         }
@@ -445,28 +468,27 @@ namespace RehabSetup
 
         async Task PackAssets(string IsoExtrPath)
         {
-            using (MemoryStream mStream = new())
+            using (FileStream zipStream = new FileStream(ZipPath, FileMode.Create))
             {
-                ZipArchive zip = new(mStream);
-                foreach (var item in Cache)
+                using (ZipArchive zip = new ZipArchive(zipStream, ZipArchiveMode.Create))
                 {
-                    var entry = zip.CreateEntry(item.Key, CompressionLevel.Fastest);
-                    using (var stream = entry.Open())
+                    foreach (var item in Cache)
                     {
-                        await stream.WriteAsync(item.Value);
+                        var entry = zip.CreateEntry(item.Key, CompressionLevel.Fastest);
+                        using (var stream = entry.Open())
+                        {
+                            await stream.WriteAsync(item.Value);
+                        }
                     }
                 }
-
-                BufferBD = null;
-                Cache.Clear();
-                BufferFiles.Clear();
-                TwinsSection.ResetCache();
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
-                mStream.Position = 0;
-                await File.WriteAllBytesAsync(ZipPath, mStream.ToArray());
             }
+
+            BufferBD = null;
+            Cache.Clear();
+            BufferFiles.Clear();
+            TwinsSection.ResetCache();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         public bool DetectXBE(string inputPath)
@@ -547,8 +569,20 @@ namespace RehabSetup
             }
         }
 
-        public static bool Check(string name) => Cache.ContainsKey(name.Replace('\\','/'));
-        public static void Add(string name, byte[] data) => Cache.TryAdd(name.Replace('\\','/'), data);
+        public static bool Check(string name)
+        {
+            lock (Cache)
+            {
+                return Cache.ContainsKey(name.Replace('\\','/').Replace("//","/"));
+            }
+        }
+        public static void Add(string name, byte[] data)
+        {
+            lock (Cache)
+            {
+                Cache.TryAdd(name.Replace('\\','/').Replace("//","/"), data);
+            }
+        }
 
     }
 }

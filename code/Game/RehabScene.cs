@@ -54,7 +54,7 @@ public partial class RehabScene : Node3D
         GameInit();
     }
 
-    async void GameInit()
+    public async void GameInit()
     {
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         LoadPacks();
@@ -93,7 +93,8 @@ public partial class RehabScene : Node3D
             await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
             while (GameMenu.Visible)
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            GetTree().Quit();
+            //GetTree().Quit();
+            GetNode<FrontendInstaller>("FE/FE_Installer").Activate();
         }
     }
 

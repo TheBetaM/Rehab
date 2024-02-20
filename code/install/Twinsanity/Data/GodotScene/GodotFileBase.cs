@@ -18,25 +18,17 @@ namespace RehabSetup
             Serialize();
             if (!AssetExporter.Check(path))
             {
-                try
+                using (MemoryStream mStream = new())
                 {
-                    using (MemoryStream mStream = new())
+                    using (StreamWriter writer = new StreamWriter(mStream, null, -1, true))
                     {
-                        using (StreamWriter writer = new StreamWriter(mStream))
+                        foreach (var line in FileLines)
                         {
-                            foreach (var line in FileLines)
-                            {
-                                writer.WriteLine(line);
-                            }
-                            mStream.Position = 0;
-                            AssetExporter.Add(path, mStream.ToArray());
+                            writer.WriteLine(line);
                         }
                     }
-                    //File.WriteAllLines(path, FileLines);
-                }
-                catch
-                {
-                    // race condition
+                    mStream.Position = 0;
+                    AssetExporter.Add(path, mStream.ToArray());
                 }
             }
         }
@@ -45,14 +37,17 @@ namespace RehabSetup
             Serialize();
             using (MemoryStream mStream = new())
             {
-                using (StreamWriter writer = new StreamWriter(mStream))
+                using (StreamWriter writer = new StreamWriter(mStream, null, -1, true))
                 {
                     foreach (var line in FileLines)
                     {
                         writer.WriteLine(line);
                     }
-                    mStream.Position = 0;
-                    AssetExporter.Add(path, mStream.ToArray());
+                }
+                mStream.Position = 0;
+                lock (AssetExporter.Cache)
+                {
+                    AssetExporter.Cache[path.Replace('\\','/').Replace("//","/")] = mStream.ToArray();
                 }
             }
             //File.WriteAllLines(path, FileLines);
@@ -81,25 +76,20 @@ namespace RehabSetup
         }
         public void SaveToFile(string path)
         {
-            try
+            if (!AssetExporter.Check(path))
             {
                 using (MemoryStream mStream = new())
                 {
-                    using (StreamWriter writer = new StreamWriter(mStream))
+                    using (StreamWriter writer = new StreamWriter(mStream, null, -1, true))
                     {
                         foreach (var line in FileLines)
                         {
                             writer.WriteLine(line);
-                        }
-                        mStream.Position = 0;
-                        AssetExporter.Add(path, mStream.ToArray());
+                        }    
                     }
+                    mStream.Position = 0;
+                    AssetExporter.Add(path, mStream.ToArray());
                 }
-                //File.WriteAllLines(path, FileLines);
-            }
-            catch
-            {
-                // race condition
             }
         }
 

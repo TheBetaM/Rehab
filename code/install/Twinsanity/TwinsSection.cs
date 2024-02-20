@@ -159,7 +159,6 @@ namespace Twinsanity
                 case SectionType.Graphics:
                 case SectionType.GraphicsX:
                 case SectionType.GraphicsD:
-                case SectionType.GraphicsMB:
                 case SectionType.Instance:
                 case SectionType.InstanceDemo:
                 case SectionType.Code:
@@ -175,6 +174,13 @@ namespace Twinsanity
                 case SectionType.RigidModel:
                 case SectionType.Mesh:
                 case SectionType.LodModel:
+                case SectionType.Object:
+                case SectionType.ObjectDemo:
+                case SectionType.OGI:
+                case SectionType.Skin:
+                case SectionType.SkinX:
+                case SectionType.BlendSkin:
+                case SectionType.BlendSkinX:
                 
                 case SectionType.AIPosition:
                 case SectionType.AIPath:
@@ -191,10 +197,8 @@ namespace Twinsanity
                     LoadSectionItem(reader, SubItems[i]);
                 }
                 break;
-                 // skipping items that only need to be loaded once
+                // skipping items that only need to be loaded once
                 case SectionType.Skydome:
-		        case SectionType.Object:
-                case SectionType.ObjectDemo:
                 case SectionType.SE:
 		        case SectionType.SE_Eng:
                 case SectionType.SE_Fre:
@@ -207,12 +211,7 @@ namespace Twinsanity
                 case SectionType.Xbox_SE_Ger:
                 case SectionType.Xbox_SE_Ita:
                 case SectionType.Xbox_SE_Spa:
-                case SectionType.OGI:
 	            case SectionType.Animation:
-		        case SectionType.Skin:
-                case SectionType.SkinX:
-                case SectionType.BlendSkin:
-                case SectionType.BlendSkinX:
                 for (int i = 0; i < count; i++)
                 {
                     if (!DupeFiles[Type].Contains(SubItems[i].ID))

@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://crkj3084akhns"]
+[gd_scene load_steps=6 format=3 uid="uid://crkj3084akhns"]
 
+[ext_resource type="Script" path="res://code/Frontend/FrontendInstaller.cs" id="1_53l0q"]
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="1_sbn4t"]
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="2_md01y"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="3_80ive"]
@@ -13,6 +14,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_53l0q")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -68,10 +70,10 @@ grow_vertical = 2
 theme = ExtResource("2_md01y")
 
 [node name="FileDialog" type="FileDialog" parent="."]
-title = "#FE-Installer-OpenFileTitle"
+title = "Open a File"
 initial_position = 1
 size = Vector2i(960, 480)
-ok_button_text = "#FE-Continue"
+ok_button_text = "Open"
 dialog_hide_on_ok = true
 cancel_button_text = "#FE-CancelSaveOption"
 file_mode = 0

@@ -518,7 +518,7 @@ namespace RehabSetup
             TwinsSection scene_sky_sec = Scene.Parent.GetItem<TwinsSection>(6).GetItem<TwinsSection>(8);
 
             // Export skydome
-            if (Scene.SkydomeID != 0)
+            if (Scene.SkydomeID != 0 && scene_sky_sec.ContainsItem(Scene.SkydomeID))
             {
                 Skydome SkydomeCont = scene_sky_sec.GetItem<Skydome>(Scene.SkydomeID);
                 string ModelFilePath = $"Skydome_{DefaultHashes.SkyToName(SkydomeCont)}";
@@ -760,10 +760,13 @@ namespace RehabSetup
             {
                 if (GI.BlendSkinID != 0)
                 {
-                    BlendSkinX skin = bskin_sec.GetItem<BlendSkinX>(GI.BlendSkinID);
-                    BlendShapeCount = skin.BlendShapeCount;
-                    ExportGodot.ExportBlendSkinXResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae");
-                    string ModelFilePath = $"../Skins/BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}";
+                    if (bskin_sec.ContainsItem(GI.BlendSkinID))
+                    {
+                        BlendSkinX skin = bskin_sec.GetItem<BlendSkinX>(GI.BlendSkinID);
+                        BlendShapeCount = skin.BlendShapeCount;
+                        ExportGodot.ExportBlendSkinXResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae");
+                    }
+                    string ModelFilePath = $"../Skins/BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
 
                     // adjusting name for blend shape animation access
@@ -778,9 +781,12 @@ namespace RehabSetup
                 }
                 if (GI.SkinID != 0)
                 {
-                    SkinX skin = skin_sec.GetItem<SkinX>(GI.SkinID);
-                    ExportGodot.ExportSkinXResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae");
-                    string ModelFilePath = $"../Skins/Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}";
+                    if (skin_sec.ContainsItem(GI.SkinID))
+                    {
+                        SkinX skin = skin_sec.GetItem<SkinX>(GI.SkinID);
+                        ExportGodot.ExportSkinXResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae");
+                    }
+                    string ModelFilePath = $"../Skins/Skin_{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
                 }
             }
@@ -788,10 +794,13 @@ namespace RehabSetup
             {
                 if (GI.BlendSkinID != 0)
                 {
-                    BlendSkin skin = bskin_sec.GetItem<BlendSkin>(GI.BlendSkinID);
-                    BlendShapeCount = skin.BlendShapeCount;
-                    ExportGodot.ExportBlendSkinResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae");
-                    string ModelFilePath = $"../Skins/BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}";
+                    if (bskin_sec.ContainsItem(GI.BlendSkinID))
+                    {
+                        BlendSkin skin = bskin_sec.GetItem<BlendSkin>(GI.BlendSkinID);
+                        BlendShapeCount = skin.BlendShapeCount;
+                        ExportGodot.ExportBlendSkinResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae");
+                    }
+                    string ModelFilePath = $"../Skins/BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
 
                     // adjusting name for blend shape animation access
@@ -806,9 +815,12 @@ namespace RehabSetup
                 }
                 if (GI.SkinID != 0)
                 {
-                    Skin skin = skin_sec.GetItem<Skin>(GI.SkinID);
-                    ExportGodot.ExportSkinResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae");
-                    string ModelFilePath = $"../Skins/Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}";
+                    if (skin_sec.ContainsItem(GI.SkinID))
+                    {
+                        Skin skin = skin_sec.GetItem<Skin>(GI.SkinID);
+                        ExportGodot.ExportSkinResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae");
+                    }
+                    string ModelFilePath = $"../Skins/Skin_{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
                 }
             }
@@ -967,10 +979,10 @@ namespace RehabSetup
 
         public void AddGameObject(GameObject Agent, string path, bool SceneOnly = false)
         {
-            TwinsSection gi_sec = Agent.Parent.Parent.GetItem<TwinsSection>(3);
-            TwinsSection obj_sec = Agent.Parent.Parent.GetItem<TwinsSection>(0);
-            TwinsSection ca_sec = Agent.Parent.Parent.GetItem<TwinsSection>(4);
-            TwinsSection scr_sec = Agent.Parent.Parent.GetItem<TwinsSection>(1);
+            //TwinsSection gi_sec = Agent.Parent.Parent.GetItem<TwinsSection>(3);
+            //TwinsSection obj_sec = Agent.Parent.Parent.GetItem<TwinsSection>(0);
+            //TwinsSection ca_sec = Agent.Parent.Parent.GetItem<TwinsSection>(4);
+            //TwinsSection scr_sec = Agent.Parent.Parent.GetItem<TwinsSection>(1);
             byte AgentType = (byte)(Agent.UnkBitfield >> 0x14 & 0xFF);
             byte AgentUnkTypeValue = (byte)(Agent.UnkBitfield >> 0xC & 0xFF);
             byte AgentJointIDs = (byte)(Agent.UnkBitfield >> 0x6 & 0x3F);
@@ -2887,19 +2899,19 @@ namespace RehabSetup
                 }
             }
             
-            try
-            {
+            //try
+            //{
                 //Directory.CreateDirectory(System.IO.Path.GetDirectoryName($"{DirPath}\\{Path}"));
                 GodotBinaryImageTexture TexRes = new GodotBinaryImageTexture(Tex);
                 if (!AssetExporter.Check($"{DirPath}\\{Path}"))
                     TexRes.WriteToFile($"{DirPath}\\{Path}");
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
                 // race condition
                 return Path;
-            }
-            return Path;
+            //}
+            //return Path;
         }
 
         public void Add_InstancedScene(string ModelFilePath, string parentNodePath)

@@ -226,24 +226,24 @@ namespace RehabSetup
             ModelScene.Add_InstancedScene($"../Scenery/{SceneName}-Collision", $".");
             ModelScene.Nodes.Last().Lines.Add("visible = false");
 
-            Stopwatch Timer = new Stopwatch();
-            Timer.Start();
+            //Stopwatch Timer = new Stopwatch();
+            //Timer.Start();
             if (AllowGlobal && file_Default != null)
             {
                 // Exports default resources
                 GodotSceneFileTwinsanity Default = GodotSceneFileTwinsanity.Create("Default");
                 Default.AddRM(file_Default, path, SceneOnly);
-                Debug.WriteLine($"Default: {Timer.Elapsed}");
-                Timer.Restart();
+                //Debug.WriteLine($"Default: {Timer.Elapsed}");
+                //Timer.Restart();
             }
 
             ModelScene.AddSM(file_SM, path, SceneOnly, IncludeSkydome);
-            Debug.WriteLine($"SM: {Timer.Elapsed}");
-            Timer.Restart();
+            //Debug.WriteLine($"SM: {Timer.Elapsed}");
+            //Timer.Restart();
 
             ModelScene.AddRM(file_RM, path, SceneOnly, AllowGlobal);
-            Debug.WriteLine($"RM: {Timer.Elapsed}");
-            Timer.Restart();
+            //Debug.WriteLine($"RM: {Timer.Elapsed}");
+            //Timer.Restart();
 
             SceneryData Scenery = file_SM.GetItem<SceneryData>(0);
             bool SetSkyDome = false;
@@ -267,7 +267,7 @@ namespace RehabSetup
 
             ModelScene.WriteToFile($"{System.IO.Path.GetDirectoryName(path)}\\Levels\\{SceneName}{SceneExtension}");
             
-            Timer.Stop();
+            //Timer.Stop();
         }
 
         public static void ExportBIN(TwinsFile targetFile, string path)

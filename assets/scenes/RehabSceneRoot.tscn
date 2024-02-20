@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://by5ieljhkskx8"]
+[gd_scene load_steps=16 format=3 uid="uid://by5ieljhkskx8"]
 
 [ext_resource type="Script" path="res://code/Game/RehabScene.cs" id="1_nokr2"]
 [ext_resource type="PackedScene" uid="uid://dj63qinhimnyd" path="res://assets/frontend/FE_LevelSelect.tscn" id="2_hbkbo"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://remb1fd1nang" path="res://assets/frontend/dynamic/FE_MainMenuDynamic.tscn" id="7_clxc5"]
 [ext_resource type="Script" path="res://code/Frontend/MusicFader.cs" id="8_ld425"]
 [ext_resource type="PackedScene" uid="uid://dnro8427myeml" path="res://assets/frontend/FE_GameOver.tscn" id="8_yxkhr"]
+[ext_resource type="PackedScene" uid="uid://crkj3084akhns" path="res://assets/frontend/FE_Installer.tscn" id="9_8r62c"]
 [ext_resource type="Script" path="res://code/Frontend/ConfigHandler.cs" id="12_x2vfy"]
 
 [sub_resource type="Environment" id="Environment_3bekd"]
@@ -69,6 +70,12 @@ layout_mode = 1
 process_mode = 4
 visible = false
 z_index = 5
+layout_mode = 1
+
+[node name="FE_Installer" parent="FE" instance=ExtResource("9_8r62c")]
+process_mode = 4
+visible = false
+z_index = 6
 layout_mode = 1
 
 [node name="WorldEnv" type="WorldEnvironment" parent="."]

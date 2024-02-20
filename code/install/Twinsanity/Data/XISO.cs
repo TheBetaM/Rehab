@@ -35,7 +35,7 @@ namespace RehabSetup
             if (xbe == null) return false;
 
             Stream fileStream = null;
-            if (xbe.Extension.ToLower() == ".iso")
+            if (xbe.Extension.ToLower() == ".iso" || xbe.Extension.ToLower() == ".xiso")
             {
                 isISO = true;
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
@@ -205,12 +205,12 @@ namespace RehabSetup
                 }
                 else if (ExtractFiles && !IgnoreExt.Contains(Ext) && !IgnoreName.Contains(dir.filename + Ext))
                 {
-                    //byte[] data = file.ReadBytes((int)dir.file_size);
+                    byte[] data = file.ReadBytes((int)dir.file_size);
                     //Console.WriteLine(FileName);
                     //Directory.CreateDirectory(System.IO.Path.GetDirectoryName(FileName));
                     //File.WriteAllBytes(FileName, data);
-                    //AssetExporter.BufferFiles.Add(FileName, (0, (uint)dir.file_size, data));
-                    AssetExporter.BufferFiles.Add(FileName, ((uint)file.BaseStream.Position + 1, (uint)dir.file_size, null));
+                    AssetExporter.BufferFiles.Add(FileName, (0, (uint)dir.file_size, data));
+                    //AssetExporter.BufferFiles.Add(FileName, ((uint)file.BaseStream.Position + 1, (uint)dir.file_size, null));
                 }
             }
 
