@@ -316,6 +316,10 @@ namespace RehabSetup
                 string WavPath = $"{SoundPath}.wav";
                 GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, FolderName == "Music");
                 wav.WriteToFile(ResPath);
+                sfx.SoundData = null;
+                wav = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
         }
 
@@ -345,6 +349,11 @@ namespace RehabSetup
                 if (sfx.Name == "undefined") undefinedDone = true;
                 GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, FolderName == "Music");
                 wav.WriteToFile(ResPath);
+                sfx.SoundData = null;
+                sfxHolder.track = null;
+                wav = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
         }
 
