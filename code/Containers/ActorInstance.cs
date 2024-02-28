@@ -24,7 +24,7 @@ public partial class ActorInstance : Marker3D
         
         var act = Prefab.Instantiate();
         if (Engine.IsEditorHint())
-            Actor.Set("metadata/_edit_lock_", true);
+            act.Set("metadata/_edit_lock_", true);
         if (act is not Agent a)
         {
             AddChild(act);

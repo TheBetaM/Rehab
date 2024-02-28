@@ -21,7 +21,7 @@ namespace RehabSetup
         public bool isPAL = false;
         public bool isPS2 = false;
         public string InputPath = string.Empty; // folder path to game files
-        public string OutputPath = "import\\";//string.Empty;
+        public string OutputPath = "import";//string.Empty;
         BackgroundWorker Worker;
         Dictionary<string, List<string>> FilePaths;
         List<string> XMVPaths;
@@ -474,7 +474,8 @@ namespace RehabSetup
                 {
                     foreach (var item in Cache)
                     {
-                        var entry = zip.CreateEntry(item.Key, CompressionLevel.Fastest);
+                        //var entry = zip.CreateEntry(item.Key, CompressionLevel.Fastest);
+                        var entry = zip.CreateEntry(item.Key, CompressionLevel.NoCompression);
                         using (var stream = entry.Open())
                         {
                             await stream.WriteAsync(item.Value);

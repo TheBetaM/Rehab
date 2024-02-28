@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
 using Twinsanity;
 
 namespace RehabSetup
@@ -303,8 +302,8 @@ namespace RehabSetup
             TwinsSection targetFile = Scene.Parent;
             SceneryData SceneData = targetFile.GetItem<SceneryData>(0);
             string SceneName = $"{SceneData.ChunkName.Replace('\\', '_')}-DynamicScenery";
-            string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\";
-            string ModelFilePath = System.IO.Path.GetFileNameWithoutExtension(path);
+            string DirPath = $"{path}\\Scenery\\";
+            //string ModelFilePath = System.IO.Path.GetFileNameWithoutExtension(path);
 
             Node RootNode = new Node($"DynamicScenery", ExportGodot.Node3D);
             RootNode.KeyValues.Add("parent", ".");
@@ -325,7 +324,7 @@ namespace RehabSetup
 
                 // Export DAE and textures
                 RigidModel RigidModelCont = rigid_sec.GetItem<RigidModel>(ThisModel.ModelID);
-                uint Hash = ExportGodot.ExportModelResource(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
+                uint Hash = ExportGodot.ExportModelResource(RigidModelCont, path);
                 Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(ThisModel.ModelID, Hash)}", $"{RootNode.Name}/{ColNode.Name}");
 
                 if (Scene.Models[i].GI_Types.Count == 0) continue;
@@ -486,7 +485,7 @@ namespace RehabSetup
             {
                 // Export DAE and textures
                 RigidModel RigidModelCont = rigid_sec.GetItem<RigidModel>(Scene.ModelIDs[i]);
-                uint Hash = ExportGodot.ExportModelResource(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
+                uint Hash = ExportGodot.ExportModelResource(RigidModelCont, path);
                 Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(Scene.ModelIDs[i], Hash)}", $".");
                 Nodes[i + 1].Lines.Add($"cast_shadow=0"); // no need for skydome to cast shadows? can always tune for clouds or sth afterwards
             }
@@ -501,7 +500,7 @@ namespace RehabSetup
             {
                 // Export DAE and textures
                 RigidModel RigidModelCont = rigid_sec.GetItem<RigidModel>(Scene.LODModelIDs[i]);
-                uint Hash = ExportGodot.ExportModelResource(RigidModelCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
+                uint Hash = ExportGodot.ExportModelResource(RigidModelCont, path);
                 Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(Scene.LODModelIDs[i], Hash)}", $".");
                 
                 if (i != 0)
@@ -524,7 +523,7 @@ namespace RehabSetup
                 string ModelFilePath = $"Skydome_{DefaultHashes.SkyToName(SkydomeCont)}";
                 if (!SceneOnly)
                 {
-                    ExportGodot.ExportSkydome(SkydomeCont, $"{System.IO.Path.GetDirectoryName(path)}\\{ModelFilePath}.dae", false);
+                    ExportGodot.ExportSkydome(SkydomeCont, path, false);
                 }
 
                 // when not exporting as SM
@@ -593,7 +592,7 @@ namespace RehabSetup
             string SceneryFilePath = $"{Scene.ChunkName.Replace('\\', '_')}-Scenery";
             if (!SceneOnly)
             {
-                ExportGodot.ExportScenery(Scene, $"{System.IO.Path.GetDirectoryName(path)}\\{SceneryFilePath}.dae", false, true);
+                ExportGodot.ExportScenery(Scene, path, false, true);
             }
             Add_InstancedScene($"../Scenery/{SceneryFilePath}", $".");
             Nodes.Last().Lines.Add("metadata/_edit_lock_ = true"); // prevents scenery from being selected in editor (easier for level editing)
@@ -607,10 +606,10 @@ namespace RehabSetup
             AddLinks(Links);
         }
 
-        public void AddCollisionData(ColData Data, string path, bool SceneOnly = false)
+        public void AddCollisionData(ColData Data, string path, string ModelFilePath, bool SceneOnly = false)
         {
-            string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Scenery\\";
-            string ModelFilePath = System.IO.Path.GetFileNameWithoutExtension(path);
+            string DirPath = $"{path}\\Scenery\\";
+            //string ModelFilePath = System.IO.Path.GetFileNameWithoutExtension(path);
             // optional collision visuals
             /*
             // Export DAE
@@ -764,7 +763,7 @@ namespace RehabSetup
                     {
                         BlendSkinX skin = bskin_sec.GetItem<BlendSkinX>(GI.BlendSkinID);
                         BlendShapeCount = skin.BlendShapeCount;
-                        ExportGodot.ExportBlendSkinXResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae");
+                        ExportGodot.ExportBlendSkinXResource(skin, path);
                     }
                     string ModelFilePath = $"../Skins/BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
@@ -784,7 +783,7 @@ namespace RehabSetup
                     if (skin_sec.ContainsItem(GI.SkinID))
                     {
                         SkinX skin = skin_sec.GetItem<SkinX>(GI.SkinID);
-                        ExportGodot.ExportSkinXResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae");
+                        ExportGodot.ExportSkinXResource(skin, path);
                     }
                     string ModelFilePath = $"../Skins/Skin_{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
@@ -798,7 +797,7 @@ namespace RehabSetup
                     {
                         BlendSkin skin = bskin_sec.GetItem<BlendSkin>(GI.BlendSkinID);
                         BlendShapeCount = skin.BlendShapeCount;
-                        ExportGodot.ExportBlendSkinResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, skin.ID)}.dae");
+                        ExportGodot.ExportBlendSkinResource(skin, path);
                     }
                     string ModelFilePath = $"../Skins/BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
@@ -818,7 +817,7 @@ namespace RehabSetup
                     if (skin_sec.ContainsItem(GI.SkinID))
                     {
                         Skin skin = skin_sec.GetItem<Skin>(GI.SkinID);
-                        ExportGodot.ExportSkinResource(skin, $"{System.IO.Path.GetDirectoryName(path)}\\Skin_{DefaultHashes.ToName(SectionType.Skin, skin.ID)}.dae");
+                        ExportGodot.ExportSkinResource(skin, path);
                     }
                     string ModelFilePath = $"../Skins/Skin_{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
@@ -827,7 +826,7 @@ namespace RehabSetup
 
             // Export RESET animation
             GodotBinaryAnimation ResetAnim = new GodotBinaryAnimation(GI, BlendShapeCount);
-            string AnimPath = $"{System.IO.Path.GetDirectoryName(path)}\\Rigs\\RigRESET_{DefaultHashes.ToName(SectionType.OGI, GI.ID)}.res";
+            string AnimPath = $"{path}\\Rigs\\RigRESET_{DefaultHashes.ToName(SectionType.OGI, GI.ID)}.res";
             ResetAnim.WriteToFile(AnimPath);
 
             // Attachments
@@ -910,7 +909,7 @@ namespace RehabSetup
                 }
 
                 RigidModel model = rigid_sec.GetItem<RigidModel>(modelID);
-                uint Hash = ExportGodot.ExportModelResource(model, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
+                uint Hash = ExportGodot.ExportModelResource(model, path);
                 string outName = DefaultHashes.RigidToName(model.ID, Hash);
                 string ModelFilePath = $"../Mesh/{outName}";
 
@@ -2176,7 +2175,7 @@ namespace RehabSetup
             {
                 uint ObjectID = obj_sec.Records[i].ID;
                 string ObjectName = $"{DefaultHashes.ToName(SectionType.Object, ObjectID)}";
-                ExportGodot.ExportGameObject(obj_sec.GetItem<GameObject>(ObjectID), $"{System.IO.Path.GetDirectoryName(path)}\\{ObjectName}.dae", SceneOnly);
+                ExportGodot.ExportGameObject(obj_sec.GetItem<GameObject>(ObjectID), path, SceneOnly);
             }
 
             // Export Scripts
@@ -2199,7 +2198,7 @@ namespace RehabSetup
             {
                 uint ObjectID = anim_sec.Records[i].ID;
                 string ObjectName = DefaultHashes.ToName(SectionType.Animation, ObjectID);
-                ExportGodot.ExportAnimation(anim_sec.GetItem<Animation>(ObjectID), $"{System.IO.Path.GetDirectoryName(path)}\\{ObjectName}.dae");
+                ExportGodot.ExportAnimation(anim_sec.GetItem<Animation>(ObjectID), path);
             }
 
             // Export OGis
@@ -2208,7 +2207,7 @@ namespace RehabSetup
             {
                 uint OGID = ogi_sec.Records[i].ID;
                 string ObjectName = $"Rig_{DefaultHashes.ToName(SectionType.OGI, OGID)}";
-                ExportGodot.ExportOGI(ogi_sec.GetItem<GraphicsInfo>(OGID), $"{System.IO.Path.GetDirectoryName(path)}\\{ObjectName}.dae", SceneOnly);
+                ExportGodot.ExportOGI(ogi_sec.GetItem<GraphicsInfo>(OGID), path, SceneOnly);
             }
 
             // Export CustomAgents
@@ -2331,7 +2330,7 @@ namespace RehabSetup
                     TwinsSection Section = CodeSection.GetItem<TwinsSection>(i);
                     for (int a = 0; a < Section.Records.Count; a++)
                     {
-                        string SoundPath = $"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\{DefaultHashes.ToName(SectionType.SE, Section.Records[a].ID).Replace("/","\\")}{SoundExt}";
+                        string SoundPath = $"{path}\\Sounds\\{DefaultHashes.ToName(SectionType.SE, Section.Records[a].ID).Replace("/","\\")}{SoundExt}";
                         if (IsXbox)
                         {
                             SoundEffectX SFX = Section.GetItem<SoundEffectX>(Section.Records[a].ID);
@@ -2359,7 +2358,7 @@ namespace RehabSetup
 
         public void AddRigidModelResource(RigidModel MCont, string path, bool SceneOnly)
         {
-            string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Mesh\\";
+            string DirPath = $"{path}\\Mesh\\";
             string Extension = ".res";
             //Directory.CreateDirectory(DirPath);
             TwinsSection mesh_sec = MCont.Parent.Parent.GetItem<TwinsSection>(2);
@@ -2416,7 +2415,7 @@ namespace RehabSetup
         }
         public void AddSkinResource(Skin Cont, string path, bool SceneOnly)
         {
-            string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
+            string DirPath = $"{path}\\Skins\\";
             //Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"Skin_{DefaultHashes.ToName(SectionType.Skin, Cont.ID)}";
             string Extension = ".res";
@@ -2457,7 +2456,7 @@ namespace RehabSetup
         }
         public void AddSkinXResource(SkinX Cont, string path, bool SceneOnly)
         {
-            string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
+            string DirPath = $"{path}\\Skins\\";
             //Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"Skin_{DefaultHashes.ToName(SectionType.Skin, Cont.ID)}";
             string Extension = ".res";
@@ -2498,7 +2497,7 @@ namespace RehabSetup
         }
         public void AddBlendSkinResource(BlendSkin Cont, string path)
         {
-            string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
+            string DirPath = $"{path}\\Skins\\";
             //Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, Cont.ID)}";
             string Extension = ".res";
@@ -2539,7 +2538,7 @@ namespace RehabSetup
         }
         public void AddBlendSkinXResource(BlendSkinX Cont, string path)
         {
-            string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Skins\\";
+            string DirPath = $"{path}\\Skins\\";
             //Directory.CreateDirectory(DirPath);
             string ModelFilePath = $"BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, Cont.ID)}";
             string Extension = ".res";
@@ -2581,8 +2580,8 @@ namespace RehabSetup
 
         public void AddMaterialsTextures(string path, List<Material> Materials, TwinsSection tex_section)
         {
-            string DirPath = $"{System.IO.Path.GetDirectoryName(path)}\\Materials\\";
-            string TexPath = $"{System.IO.Path.GetDirectoryName(path)}\\Textures\\";
+            string DirPath = $"{path}\\Materials\\";
+            string TexPath = $"{path}\\Textures\\";
             //Directory.CreateDirectory(DirPath);
             //Directory.CreateDirectory(TexPath);
 
@@ -2942,7 +2941,7 @@ namespace RehabSetup
                 {
                     string ModelName = $"LODModel_{Model.ModelID.ToString("X8")}";
                     LodModel LODCont = LODSection.GetItem<LodModel>(Model.ModelID);
-                    string Hash = ExportGodot.ExportLODModel(LODCont, $"{System.IO.Path.GetDirectoryName(path)}\\{ModelName}.dae");
+                    string Hash = ExportGodot.ExportLODModel(LODCont, path);
                     Add_InstancedScene($"../LODs/{ModelName}_{Hash}", ParentNodeName);
                     ExportedLODs.Add(Model.ModelID, ExternalResourceList.Count);
                 }
@@ -2967,7 +2966,7 @@ namespace RehabSetup
                 else
                 {
                     RigidModel RigidCont = ModelSection.GetItem<RigidModel>(ModelID);
-                    uint Hash = ExportGodot.ExportModelResource(RigidCont, $"{System.IO.Path.GetDirectoryName(path)}\\Model.dae");
+                    uint Hash = ExportGodot.ExportModelResource(RigidCont, path);
                     Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(ModelID, Hash)}", ParentNodeName);
                     ExportedModels.Add(ModelID, (ExternalResourceList.Count, Hash));
                 }

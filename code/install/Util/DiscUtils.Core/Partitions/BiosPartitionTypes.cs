@@ -33,7 +33,7 @@ namespace DiscUtils.Partitions
         public const byte Fat12 = 0x01;
 
         /// <summary>
-        /// Microsoft FAT16 (32,680–65,535 sectors or 16 MB–33 MB).
+        /// Microsoft FAT16 (32,680â€“65,535 sectors or 16 MBâ€“33 MB).
         /// </summary>
         public const byte Fat16Small = 0x04;
 
@@ -43,7 +43,7 @@ namespace DiscUtils.Partitions
         public const byte Extended = 0x05;
 
         /// <summary>
-        /// Microsoft BIGDOS FAT16 (33 MB–4 GB).
+        /// Microsoft BIGDOS FAT16 (33 MBâ€“4 GB).
         /// </summary>
         public const byte Fat16 = 0x06;
 
