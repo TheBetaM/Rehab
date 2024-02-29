@@ -181,9 +181,13 @@ public partial class LoadingVisuals : Control
             var c = (Control)i;
             c.PivotOffset = new Vector2(c.Size.X / 2, c.PivotOffset.Y);
         }
-        GetNode<Control>("Control").Position = new Vector2(GetNode<Control>("Control").Position.X, GetWindow().Size.Y);
+        float origY = GetNode<Control>("Control").Position.Y;
+        GetNode<Control>("Control").Position = new Vector2(GetNode<Control>("Control").Position.X, GetNode<Control>("Control").Position.Y + GetNode<Control>("Control").Size.Y);
         var aTween = CreateTween();
-        aTween.TweenProperty(GetNode("Control"), "position:y", GetWindow().Size.Y - GetNode<Control>("Control").Size.Y, 0.5f);
+        aTween.TweenProperty(GetNode("Control"), "position:y", origY, 0.5f);
+        GetNode<Control>("ViewHolder").Modulate = new Color(1f, 1f, 1f, 0f);
+        var aTween1 = CreateTween();
+        aTween1.TweenProperty(GetNode("ViewHolder"), "modulate:a", 1f, 0.25f);
         Visible = true;
         if (ActorsExist)
         {

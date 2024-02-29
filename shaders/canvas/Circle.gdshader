@@ -4,13 +4,13 @@ void fragment() {
 	vec2 uv = (UV * 2.0) - 1.0;
 	float c = length(uv);
 	COLOR.rgb = vec3(COLOR.rgb);
-	if (c <= 0.999)
+	if (c <= 0.99)
 	{
 		COLOR.a = COLOR.a * 1.0;
 	}
 	else if (c <= 1.0)
 	{
-		COLOR.a = COLOR.a * 0.5;
+		COLOR.a = COLOR.a * 500.0 * (1.0 - c);
 	}
 	else
 	{
