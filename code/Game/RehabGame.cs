@@ -120,6 +120,7 @@ public static class RehabGame
 
     public static Dictionary<int, string> MusicPaths = new Dictionary<int, string>(){
         [0] = "undefined",
+        [1] = "DemoHub",
 	    [7] = "4_6_Twisted_Docamok",
         [8] = "3_4B_Cortex_Amberley",
         [9] = "2_8_Embryo_Boss_Fight",

@@ -58,7 +58,7 @@ public partial class AgentFurniture : Agent
         }
         else if (Name == "Util_IceHousekeeping")
         {
-            RehabScene.Root.PlayMusic(27);
+            RehabScene.Root.PlayMusic(1);
             RehabGame.SetLevelID(6);
         }
     }

@@ -517,7 +517,7 @@ namespace RehabSetup
             TwinsSection scene_sky_sec = Scene.Parent.GetItem<TwinsSection>(6).GetItem<TwinsSection>(8);
 
             // Export skydome
-            if (Scene.SkydomeID != 0 && scene_sky_sec.ContainsItem(Scene.SkydomeID))
+            if ((Scene.SkydomeID != 0 || Scene.ParentFile.Type == TwinsFile.FileType.DemoSM2) && scene_sky_sec.ContainsItem(Scene.SkydomeID))
             {
                 Skydome SkydomeCont = scene_sky_sec.GetItem<Skydome>(Scene.SkydomeID);
                 string ModelFilePath = $"Skydome_{DefaultHashes.SkyToName(SkydomeCont)}";

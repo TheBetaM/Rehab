@@ -73,6 +73,7 @@ public partial class RehabScene : Node3D
             GetNode<LevelSelectList>("FE/LevelSelect").Generate();
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            GameHUD.Setup();
             if (RehabGame.Dev)
             {
                 StartLevelSelect();

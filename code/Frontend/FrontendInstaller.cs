@@ -113,7 +113,15 @@ public partial class FrontendInstaller : Control
         else
         {
             string verString = isPS2 ? "PS2" : "XBOX";
+            if (isPS2)
+            {
+                verString = Exporter.isDemo ? "DEMO" : "PS2";
+            }
             string regionString = Exporter.isPAL ? "EUR" : "USA";
+            if (!Exporter.isPAL)
+            {
+                regionString = Exporter.isJPN ? "JPN" : "USA";
+            }
             MainLabel.Text = $"Detected the {regionString} {verString} version.\nBegin install?";
             Step = ProcessStep.Confirm;
             Button1.Text = "START";

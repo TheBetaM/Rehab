@@ -15,7 +15,11 @@ namespace Twinsanity.Items
 
         public override void Load(BinaryReader reader, int size)
         {
-            var pages = reader.ReadInt32();
+            int pages = 1;
+            if (!IsDemo)
+            {
+                pages = reader.ReadInt32();
+            }
             for (var i = 0; i < pages; ++i)
             {
                 var page = new TwinsPTC();

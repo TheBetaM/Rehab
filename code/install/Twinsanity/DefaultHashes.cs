@@ -78,6 +78,9 @@ namespace Twinsanity
                 case SectionType.MB:
                     targetDict = Hash_Music;
                     break;
+                case SectionType.MSB:
+                    targetDict = Hash_MusicDemo;
+                    break;
             }
 
             if (targetDict.ContainsKey(ID))
@@ -10003,6 +10006,25 @@ namespace Twinsanity
             
         };
         
+        public static Dictionary<uint, string> Hash_MusicDemo = new Dictionary<uint, string>()
+        {
+            // names based on final game to ensure overlap
+            [15] = "Music/1_3_Totem_Hokem",
+            [16] = "Music/DemoHub",
+            [17] = "Music/1_1_Nsanity_Island",
+            [18] = "Music/1_2_Cavern_Catastrophe",
+            [19] = "GlobalVO/Demo_CavernIntro",
+            [20] = "GlobalVO/Demo_Universal",
+            [21] = "GlobalVO/Demo_IntroCutscene1",
+            [22] = "GlobalVO/Demo_JungleIntro",
+            [23] = "GlobalVO/Demo_IntroCutscene2",
+            [24] = "GlobalVO/Demo_TotemIntro",
+            [25] = "GlobalVO/Demo_IntroCutscene3",
+            [26] = "GlobalVO/Demo_TotemCutscene4",
+            [27] = "GlobalVO/Demo_TotemCutscene2",
+            [28] = "GlobalVO/Demo_TotemCutscene1",
+            [29] = "GlobalVO/Demo_TotemCutscene3",
+        };
         public const string TexCrate = "Crates/";
         public const string TexIcons = "Icons/";
         public const string TexActor = "Actors/";

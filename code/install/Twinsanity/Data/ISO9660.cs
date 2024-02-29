@@ -150,7 +150,10 @@ namespace RehabSetup
                         uint size = (uint)fileStreamFrom.Length;
                         byte[] data = new byte[size];
                         await fileStreamFrom.ReadAsync(data, 0, (int)size);
-                        AssetExporter.BufferFiles.Add(path, (0, size, data));
+                        lock (AssetExporter.BufferFiles)
+                        {
+                            AssetExporter.BufferFiles.TryAdd(path, (0, size, data));
+                        }
                         /*
                         Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
                         using (Stream fileStreamTo = System.IO.File.Open(path, FileMode.OpenOrCreate))

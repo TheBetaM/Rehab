@@ -15,6 +15,7 @@ namespace Twinsanity
         public new FileType Type { get; set; }
         public ConsoleType Console { get; set; }
         public Items.MusicHash musicHash { get; set;}
+        public Items.MusicHashDemo musicHashDemo { get; set;}
 
 
         public void LoadFile(string fileName, FileType type)
@@ -191,6 +192,31 @@ namespace Twinsanity
             {
                 Items.MusicHash sec = new Items.MusicHash() { ID = 0, ParentFile = this };
                 sec.Type = SectionType.MH;
+                var sk = reader.BaseStream.Position;
+                sec.Level = 1;
+                sec.Load(reader, (int)reader.BaseStream.Length);
+                RecordIDs.Add(0, Records.Count);
+                Records.Add(sec);
+                reader.Close();
+                return;
+            }
+            else if (type == FileType.MSB)
+            {
+                Items.MusicBankDemo sec = new Items.MusicBankDemo() { ID = 0, ParentFile = this };
+                sec.Hash = musicHashDemo;
+                sec.Type = SectionType.MSB;
+                var sk = reader.BaseStream.Position;
+                sec.Level = 1;
+                sec.Load(reader, (int)reader.BaseStream.Length);
+                RecordIDs.Add(0, Records.Count);
+                Records.Add(sec);
+                reader.Close();
+                return;
+            }
+            else if (type == FileType.MSH)
+            {
+                Items.MusicHashDemo sec = new Items.MusicHashDemo() { ID = 0, ParentFile = this };
+                sec.Type = SectionType.MSH;
                 var sk = reader.BaseStream.Position;
                 sec.Level = 1;
                 sec.Load(reader, (int)reader.BaseStream.Length);
@@ -477,7 +503,7 @@ namespace Twinsanity
         }
 
         //NOTE: Do NOT use "First"
-        public enum FileType { First = SectionType.Last, RM2, SM2, DemoRM2, DemoSM2, RMX, SMX, PTL, BIN, DIR, TRI, LIGHTS, GHG, RS2, PSM, PSM_XBOX, PTC, PTC_XBOX, PSF, PSF_XBOX, DemoPSM, DemoPTC, DemoPSF, BIN_XBOX, OldPTL, HGO, MonkeyBallRM, MonkeyBallSM, NuGeom, RawTexture, XWB, BD, MB, BH, MH };
+        public enum FileType { First = SectionType.Last, RM2, SM2, DemoRM2, DemoSM2, RMX, SMX, PTL, BIN, DIR, TRI, LIGHTS, GHG, RS2, PSM, PSM_XBOX, PTC, PTC_XBOX, PSF, PSF_XBOX, DemoPSM, DemoPTC, DemoPSF, BIN_XBOX, OldPTL, HGO, MonkeyBallRM, MonkeyBallSM, NuGeom, RawTexture, XWB, BD, MB, BH, MH, MSB, MSH };
 
         public enum ConsoleType { First = SectionType.Last, PS2, PSP, XBOX, GCN, }
     }

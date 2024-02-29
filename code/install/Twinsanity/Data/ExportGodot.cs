@@ -344,8 +344,6 @@ namespace RehabSetup
                 if (sfx.Name == "undefined" && undefinedDone) continue;
                 string SoundPath = $"{path}\\Sounds\\{FolderName}\\{sfx.Name}";
                 string ResPath = $"{SoundPath}.res";
-                string TResPath = $"{SoundPath}.tres";
-                string WavPath = $"{SoundPath}.wav";
                 if (sfx.Name == "undefined") undefinedDone = true;
                 GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, FolderName == "Music");
                 wav.WriteToFile(ResPath);
@@ -356,6 +354,41 @@ namespace RehabSetup
                 GC.WaitForPendingFinalizers();
             }
         }
+
+        public static void ExportMSB(TwinsFile targetFile, string path)
+        {
+            TwinsSection section = targetFile.GetItem<TwinsSection>(0);
+            foreach (TwinsItem item in section.Records)
+            {
+                MusicBankDemo.Sound sfxHolder = (MusicBankDemo.Sound)item;
+                MusicHashDemo.Track sfx = sfxHolder.track;
+                string SoundPath = $"{path}\\Sounds\\{sfx.Name}";
+                string ResPath = $"{SoundPath}.res";
+                if (sfx.isStereo && sfx.Size < 0x1000) continue;
+                GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, false);
+                wav.WriteToFile(ResPath);
+                sfx.SoundData = null;
+                sfxHolder.track = null;
+                wav = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+        }
+
+        static string[] DemoIcons = [
+            "1up-crash",
+            "1up-cortex",
+            "wumpa_icon",
+            "crystal_icon",
+            "relic_icon",
+            "gem_greyed",
+            "gem-blue",
+            "gem-clear",
+            "gem-green",
+            "gem-purple",
+            "gem-red",
+            "gem-yellow",
+        ];
 
         public static void ExportPSM(TwinsFile targetFile, string path, bool isPTC = false, bool isPSF = false)
         {
@@ -388,7 +421,11 @@ namespace RehabSetup
                         BaseFolder = "Language";
                         BaseName = BaseName.Replace("American", "English"); // simplified asset paths for Titles
                     }
-                    string OrigPath = BaseName.Replace(".psm", Extension).Replace(".PSM", Extension); //System.IO.Path.ChangeExtension(BaseName, Extension);
+                    else if (BaseName.Contains("Startup"))
+                    {
+                        BaseFolder = "Startup";
+                    }
+                    string OrigPath = BaseName.Replace(".psm", Extension).Replace(".PSM", Extension);
                     string ExtrasPath = $"{path}\\Textures\\{BaseFolder}\\";
                     int ExtrasStart = OrigPath.IndexOf(BaseFolder) + (BaseFolder.Length + 1);
                     string RelativePath = OrigPath.Substring(ExtrasStart);
@@ -414,7 +451,12 @@ namespace RehabSetup
                     }
                     if (tptc.Material != null)
                     {
-                        Names.Add(tptc.Material.Name.Replace("\0", ""));
+                        string mName = tptc.Material.Name.Replace("\0", "");
+                        if (string.IsNullOrWhiteSpace(mName))
+                        {
+                            mName = DemoIcons[i];
+                        }
+                        Names.Add(mName);
                     }
                     else
                     {

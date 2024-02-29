@@ -19,7 +19,9 @@ namespace RehabSetup
         public bool Exporting = true;
         public bool isISO = false;
         public bool isPAL = false;
+        public bool isJPN = false;
         public bool isPS2 = false;
+        public bool isDemo = false;
         public string InputPath = string.Empty; // folder path to game files
         public string OutputPath = "import";//string.Empty;
         BackgroundWorker Worker;
@@ -236,6 +238,10 @@ namespace RehabSetup
                 {
                     TaskList.Add(ExportMB(pair));
                 }
+                else if (pair.Key.ToLower().EndsWith(".msb"))
+                {
+                    TaskList.Add(ExportMSB(pair));
+                }
                 else if (pair.Key.ToLower().EndsWith(".xwb"))
                 {
                     TaskList.Add(ExportXWB(pair));
@@ -290,10 +296,30 @@ namespace RehabSetup
                     TwinsFile RM = new TwinsFile();
                     TwinsFile SM = new TwinsFile();
 
-                    RM.LoadFileStream(new BinaryReader(RMstream), isPS2 ? TwinsFile.FileType.RM2 : TwinsFile.FileType.RMX, pair.Key);
-                    SM.LoadFileStream(new BinaryReader(SMstream), isPS2 ? TwinsFile.FileType.SM2 : TwinsFile.FileType.SMX, smName);
+                    TwinsFile.FileType TypeRM = TwinsFile.FileType.RM2;
+                    TwinsFile.FileType TypeSM = TwinsFile.FileType.SM2;
+                    if (isDemo)
+                    {
+                        TypeRM = TwinsFile.FileType.DemoRM2;
+                        TypeSM = TwinsFile.FileType.DemoSM2;
+                    }
+                    else if (!isPS2)
+                    {
+                        TypeRM = TwinsFile.FileType.RMX;
+                        TypeSM = TwinsFile.FileType.SMX;
+                    }
 
-                    ExportGodot.ExportFull(RM, SM, OutputPath, true, null, true, false);
+                    try
+                    {
+                        RM.LoadFileStream(new BinaryReader(RMstream), TypeRM, pair.Key);
+                        SM.LoadFileStream(new BinaryReader(SMstream), TypeSM, smName);
+
+                        ExportGodot.ExportFull(RM, SM, OutputPath, true, null, true, false);
+                    }
+                    catch
+                    {
+                        Debug.WriteLine($"[AssetExporter] File failed: {pair.Key}");
+                    }
 
                     LevelsLeft--;
                     FilesLeft--;
@@ -314,9 +340,15 @@ namespace RehabSetup
             await Task.Run(
                 () =>
                 {
+                    TwinsFile.FileType TypeRM = TwinsFile.FileType.RM2;
+                    if (isDemo)
+                        TypeRM = TwinsFile.FileType.DemoRM2;
+                    else if (!isPS2)
+                        TypeRM = TwinsFile.FileType.RMX;
+
                     MemoryStream RMstream = GetFile(pair);
                     TwinsFile RM = new TwinsFile();
-                    RM.LoadFileStream(new BinaryReader(RMstream), isPS2 ? TwinsFile.FileType.RM2 : TwinsFile.FileType.RMX, pair.Key);
+                    RM.LoadFileStream(new BinaryReader(RMstream), TypeRM, pair.Key);
                     ExportGodot.ExportRM(RM, OutputPath, true, null);
                     LevelsLeft--;
                     FilesLeft--;
@@ -355,9 +387,15 @@ namespace RehabSetup
             await Task.Run(
                 () =>
                 {
+                    TwinsFile.FileType TypePSM = TwinsFile.FileType.RM2;
+                    if (isDemo)
+                        TypePSM = TwinsFile.FileType.DemoPSM;
+                    else if (!isPS2)
+                        TypePSM = TwinsFile.FileType.RMX;
+
                     MemoryStream stream = GetFile(pair);
                     TwinsFile PSM = new TwinsFile();
-                    PSM.LoadFileStream(new BinaryReader(stream), isPS2 ? TwinsFile.FileType.PSM : TwinsFile.FileType.PSM_XBOX, pair.Key);
+                    PSM.LoadFileStream(new BinaryReader(stream), TypePSM, pair.Key);
                     ExportGodot.ExportPSM(PSM, OutputPath);
                     PSMLeft--;
                     FilesLeft--;
@@ -376,9 +414,15 @@ namespace RehabSetup
             await Task.Run(
                 () =>
                 {
+                    TwinsFile.FileType TypePSM = TwinsFile.FileType.PTC;
+                    if (isDemo)
+                        TypePSM = TwinsFile.FileType.DemoPTC;
+                    else if (!isPS2)
+                        TypePSM = TwinsFile.FileType.PTC_XBOX;
+
                     MemoryStream stream = GetFile(pair);
                     TwinsFile PSM = new TwinsFile();
-                    PSM.LoadFileStream(new BinaryReader(stream), isPS2 ? TwinsFile.FileType.PTC : TwinsFile.FileType.PTC_XBOX, pair.Key);
+                    PSM.LoadFileStream(new BinaryReader(stream), TypePSM, pair.Key);
                     ExportGodot.ExportPSM(PSM, OutputPath, true);
                     PSMLeft--;
                     FilesLeft--;
@@ -397,9 +441,15 @@ namespace RehabSetup
             await Task.Run(
                 () =>
                 {
+                    TwinsFile.FileType TypePSM = TwinsFile.FileType.PSF;
+                    if (isDemo)
+                        TypePSM = TwinsFile.FileType.DemoPSF;
+                    else if (!isPS2)
+                        TypePSM = TwinsFile.FileType.PSF_XBOX;
+
                     MemoryStream stream = GetFile(pair);
                     TwinsFile PSM = new TwinsFile();
-                    PSM.LoadFileStream(new BinaryReader(stream), isPS2 ? TwinsFile.FileType.PSF : TwinsFile.FileType.PSF_XBOX, pair.Key);
+                    PSM.LoadFileStream(new BinaryReader(stream), TypePSM, pair.Key);
                     ExportGodot.ExportPSM(PSM, OutputPath, false, true);
                     PSMLeft--;
                     FilesLeft--;
@@ -460,6 +510,33 @@ namespace RehabSetup
                 );
         }
 
+        async Task ExportMSB(KeyValuePair<string, (uint, uint, byte[])> pair)
+        {
+            await Task.Run(
+                () =>
+                {
+                    string mhName = pair.Key.Replace("msb","msh").Replace("MSB","MSH");
+                    MemoryStream mbstream = GetFile(pair);
+                    MemoryStream mhstream = GetFile(mhName);
+                    TwinsFile Hash = new TwinsFile();
+                    Hash.LoadFileStream(new BinaryReader(mhstream), TwinsFile.FileType.MSH, mhName);
+                    TwinsFile MB = new TwinsFile();
+                    MB.musicHashDemo = (Twinsanity.Items.MusicHashDemo)Hash.Records[0];
+                    MB.LoadFileStream(new BinaryReader(mbstream), TwinsFile.FileType.MSB, pair.Key);
+                    ExportGodot.ExportMSB(MB, OutputPath);
+                    FilesLeft--;
+                    mbstream.Close();
+                    mbstream.Dispose();
+                    mhstream.Close();
+                    mhstream.Dispose();
+
+                    BufferFiles.Remove(pair.Key);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                }
+                );
+        }
+
         async Task ExportBD(byte[] bd, byte[] bh)
         {
             BD_Archive BD = new BD_Archive();
@@ -498,6 +575,8 @@ namespace RehabSetup
             if (Check)
             {
                 isPS2 = false;
+                isDemo = false;
+                isJPN = false;
                 isPAL = ISO.IsPAL;
                 if (inputPath.ToLower().EndsWith(".iso"))
                 {
@@ -509,7 +588,9 @@ namespace RehabSetup
             {
                 isISO = false;
                 isPAL = false;
+                isDemo = false;
                 isPS2 = false;
+                isJPN = false;
             }
 
             GC.Collect();
@@ -524,7 +605,9 @@ namespace RehabSetup
             if (Check)
             {
                 isPS2 = true;
-                isPAL = ISO_PS2.Version == ISO9660.GameVersion.EUR;
+                isPAL = ISO_PS2.Version == ISO9660.GameVersion.EUR || ISO_PS2.Version == ISO9660.GameVersion.DEMO_EUR;
+                isDemo = ISO_PS2.Version == ISO9660.GameVersion.DEMO_USA || ISO_PS2.Version == ISO9660.GameVersion.DEMO_EUR;
+                isJPN = ISO_PS2.Version == ISO9660.GameVersion.JPN;
                 if (inputPath.ToLower().EndsWith(".iso"))
                 {
                     isISO = true;
@@ -535,7 +618,9 @@ namespace RehabSetup
             {
                 isISO = false;
                 isPAL = false;
+                isDemo = false;
                 isPS2 = false;
+                isJPN = false;
             }
 
             GC.Collect();

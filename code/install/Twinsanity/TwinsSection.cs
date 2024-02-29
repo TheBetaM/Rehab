@@ -51,7 +51,7 @@ namespace Twinsanity
         Trigger,
         Camera, CameraDemo,
 
-        PSM, PTC, PSF, XWB, BD, MB, BH, MH,
+        PSM, PTC, PSF, XWB, BD, MB, BH, MH, MSB, MSH,
 
         Last
     }
@@ -199,6 +199,19 @@ namespace Twinsanity
                 break;
                 // skipping items that only need to be loaded once
                 case SectionType.Skydome:
+                for (int i = 0; i < count; i++)
+                {
+                    if (!DupeFiles[Type].Contains(SubItems[i].ID) || ParentFile.Type == TwinsFile.FileType.DemoSM2)
+                    {
+                        if (!DupeFiles[Type].Contains(SubItems[i].ID))
+                        {
+                            DupeFiles[Type].Add(SubItems[i].ID);
+                        }
+                        reader.BaseStream.Position = SubItems[i].Off;
+                        LoadSectionItem(reader, SubItems[i]);
+                    }
+                }
+                break;
                 case SectionType.SE:
 		        case SectionType.SE_Eng:
                 case SectionType.SE_Fre:

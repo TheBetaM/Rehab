@@ -32,7 +32,7 @@ public partial class FrontendHUD : Control
         RehabGame.AssetsPath + "Textures/Icons/gem-yellow.res",
     ];
 
-    public override async void _Ready()
+    public override void _Ready()
     {
         WumpaLabel = GetNode<Label>("Wumpa/CountWumpa");
         LivesLabel = GetNode<Label>("Lives/CountLives");
@@ -45,12 +45,10 @@ public partial class FrontendHUD : Control
         LivesIcon = GetNode<TextureRect>("Lives/IconLives");
         GemIcon = GetNode<TextureRect>("Gem/IconGem");
         CrystalIcon = GetNode<TextureRect>("Crystal/IconCrystal");
+    }
 
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+    public void Setup()
+    {
         if (ResourceLoader.Exists(WumpaIconPath))
             WumpaIcon.Texture = (Texture2D)ResourceLoader.Load(WumpaIconPath);
         else
