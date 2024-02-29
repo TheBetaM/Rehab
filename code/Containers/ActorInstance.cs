@@ -17,8 +17,24 @@ public partial class ActorInstance : Marker3D
 
     public override async void _Ready()
     {
-        //Preventing load stutter
-        int delay = System.Random.Shared.Next(1, 31);
+        //Preventing load stutter and prioritizing current scene
+        int delay = GetIndex() % 30;
+        delay++;
+
+        var parent = GetParent();
+        ChunkScene ParentScene = null;
+        while (ParentScene == null && parent != null)
+        {
+            if (parent is ChunkScene chunk)
+                ParentScene = chunk;
+            else
+                parent = parent.GetParent();
+        }
+        if (ParentScene != null && !ParentScene.ActiveScene)
+        {
+            delay += 31;
+        }
+
         for (int i = 0; i < delay; i++)
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         

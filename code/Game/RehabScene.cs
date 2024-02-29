@@ -155,6 +155,8 @@ public partial class RehabScene : Node3D
             string skypath = RehabGame.AssetsPath + loadedScene.SkydomePath;
             if (!string.IsNullOrWhiteSpace(loadedScene.SkydomePath))
             {
+                if (!string.IsNullOrWhiteSpace(SkydomePath))
+                    Skydome.QueueFree();
                 var sky = (PackedScene)ResourceLoader.Load(skypath);
                 SkydomePath = skypath;
                 Skydome = (Node3D)sky.Instantiate();
@@ -232,7 +234,7 @@ public partial class RehabScene : Node3D
         string skypath = RehabGame.AssetsPath + chunk.SkydomePath;
         if (SkydomePath != skypath && !string.IsNullOrWhiteSpace(chunk.SkydomePath))
         {
-            if (Skydome != null && SkydomePath != "")
+            if (!string.IsNullOrWhiteSpace(SkydomePath))
                 Skydome.QueueFree();
             var sky = (PackedScene)ResourceLoader.Load(skypath);
             SkydomePath = skypath;
@@ -241,7 +243,7 @@ public partial class RehabScene : Node3D
         }
         else if (string.IsNullOrWhiteSpace(chunk.SkydomePath))
         {
-            if (Skydome != null && SkydomePath != "")
+            if (!string.IsNullOrWhiteSpace(SkydomePath))
                 Skydome.QueueFree();
             SkydomePath = "";
         }
@@ -325,9 +327,8 @@ public partial class RehabScene : Node3D
         AgentCharacter.ActiveActorTypes.Clear();
         AgentCharacter.activeCharacter = null;
         PlayerCam.camTarget = null;
-        if (Skydome != null)
+        if (!string.IsNullOrWhiteSpace(SkydomePath))
             Skydome.QueueFree();
-        Skydome = null;
         SkydomePath = "";
     }
 
