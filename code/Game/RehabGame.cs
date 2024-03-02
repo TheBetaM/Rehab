@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Godot;
 namespace Rehab;
@@ -52,6 +53,12 @@ public static class RehabGame
             DataPath = PacksPath;
             if (!DirAccess.DirExistsAbsolute(PacksPath))
                 DirAccess.MakeDirAbsolute(PacksPath);
+        }
+
+        string locale = OS.GetLocaleLanguage();
+        if (TranslationServer.GetLoadedLocales().Contains(locale))
+        {
+            TranslationServer.SetLocale(locale);
         }
     }
 

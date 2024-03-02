@@ -31,9 +31,7 @@ namespace RehabSetup
         public ISO9660 ISO_PS2;
         public string ISOpath = string.Empty;
         public string GodotPath = string.Empty;
-        public string ZipPath = Rehab.RehabGame.DataPath + "RehabData.pcz";
-        //AppDomain.CurrentDomain.BaseDirectory + "\\Packs\\RehabData.pcz";
-        public string ISO_Extract_Path = AppDomain.CurrentDomain.BaseDirectory + "Packs\\ISO\\";
+        public string ZipPath => Rehab.RehabGame.DataPath + "RehabData.pcz";
 
         public int VideosLeft = 0;
         public int TotalVideos = 0;
@@ -41,6 +39,7 @@ namespace RehabSetup
         public int TotalLevels = 0;
         public int PSMLeft = 0;
         public int TotalPSM = 0;
+        int AddPercent = 0;
         public ProcessStages Stage = ProcessStages.Prepare;
 
         static List<string> IgnoreTXT = new List<string>() { "command.txt", "levelselect.txt" };
@@ -53,6 +52,13 @@ namespace RehabSetup
 
         static List<string> XISO_Ignore_Name = new List<string>(){
             "dsstdfx.bin",
+        };
+
+        static List<string> ISO_Allow_Ext = new List<string>() {
+            ".rm2", ".sm2", ".psm", ".psf", ".ptc", ".bin", ".bd", ".bh", ".mb", ".mh", ".msb", ".msh"
+        };
+        static List<string> XISO_Allow_Ext = new List<string>() {
+            ".rmx", ".smx", ".psm", ".psf", ".ptc", ".bin", ".xwb"
         };
 
         public event EventHandler<int> WorkerProgressChanged;
@@ -84,9 +90,12 @@ namespace RehabSetup
             ISO = new XISO();
             //ISO.IgnoreExt = XISO_Ignore_Ext;
             //ISO.IgnoreName = XISO_Ignore_Name;
+            ISO.AllowExt = XISO_Allow_Ext;
             ISO_PS2 = new ISO9660();
+            ISO_PS2.AllowExt = ISO_Allow_Ext;
             BufferFiles.Clear();
             BufferBD = null;
+            AddPercent = 0;
             TwinsSection.ResetCache();
             GC.Collect();
             GC.WaitForPendingFinalizers();
@@ -99,7 +108,7 @@ namespace RehabSetup
             Worker.RunWorkerAsync();
         }
 
-        void Worker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+        void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (WorkerProgressChanged != null)
             {
@@ -114,7 +123,7 @@ namespace RehabSetup
             GC.WaitForPendingFinalizers();
         }
 
-        void Worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
+        void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             if (WorkerProgressChanged != null)
             {
@@ -122,7 +131,7 @@ namespace RehabSetup
             }
         }
 
-        void Worker_DoWork(object? sender, DoWorkEventArgs e)
+        void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
             Exporting = true;
             StartExport();
@@ -132,17 +141,22 @@ namespace RehabSetup
                 Thread.Sleep(100);
                 if (TotalFiles != 0)
                 {
-                    Worker.ReportProgress((int)((1f - (FilesLeft / (float)TotalFiles)) * 100));
+                    int FilesPercent = (int)((1f - (FilesLeft / (float)TotalFiles)) * 100);
+                    FilesPercent = Math.Clamp(FilesPercent, 0, 90);
+                    Worker.ReportProgress(FilesPercent + AddPercent);
                 }
             }
+            Worker.ReportProgress(100);
             
         }
 
         async void StartExport()
         {
-            string DirPath = InputPath;
             string RMext = ".rmx";
-            if (isPS2) RMext= ".rm2";
+            if (isPS2)
+            { 
+                RMext = ".rm2";
+            }
             Stage = ProcessStages.Prepare;
             Stopwatch timer = new();
             timer.Start();
@@ -154,20 +168,20 @@ namespace RehabSetup
             {
                 Debug.WriteLine($"Done in {timer.Elapsed}. Extracting ISO...");
                 timer.Restart();
-                DirPath = ISO_Extract_Path;
                 if (isPS2)
                 {
-                    await ISO_PS2.ExportISO(ISOpath, ISO_Extract_Path);
+                    await ISO_PS2.ExportISO(ISOpath);
                 }
                 else
                 {
-                    await ISO.ExportISO(ISOpath, ISO_Extract_Path);
+                    await ISO.ExportISO(ISOpath);
                 }
             }
 
             GC.Collect();
             GC.WaitForPendingFinalizers();
             Stage = ProcessStages.ExtractAssets;
+            AddPercent = 5;
             Debug.WriteLine($"Done in {timer.Elapsed}. Extracting default...");
             timer.Restart();
 
@@ -249,7 +263,9 @@ namespace RehabSetup
                 else if (pair.Key.ToLower().EndsWith(".bin"))
                 {
                     if (pair.Key.ToLower().Contains("frontend"))
+                    {
                         TaskList.Add(ExportFrontend(pair));
+                    }
                 }
             }
             TotalFiles += TaskList.Count;
@@ -266,7 +282,7 @@ namespace RehabSetup
             Debug.WriteLine($"Done in {timer.Elapsed}. Packing assets...");
             timer.Restart();
 
-            await PackAssets(DirPath);
+            await PackAssets();
 
             Stage = ProcessStages.End;
             Debug.WriteLine($"Done in {timer.Elapsed}. Finishing up...");
@@ -329,6 +345,7 @@ namespace RehabSetup
                     SMstream.Dispose();
 
                     BufferFiles.Remove(pair.Key);
+                    BufferFiles.Remove(smName);
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                 }
@@ -387,11 +404,11 @@ namespace RehabSetup
             await Task.Run(
                 () =>
                 {
-                    TwinsFile.FileType TypePSM = TwinsFile.FileType.RM2;
+                    TwinsFile.FileType TypePSM = TwinsFile.FileType.PSM;
                     if (isDemo)
                         TypePSM = TwinsFile.FileType.DemoPSM;
                     else if (!isPS2)
-                        TypePSM = TwinsFile.FileType.RMX;
+                        TypePSM = TwinsFile.FileType.PSM_XBOX;
 
                     MemoryStream stream = GetFile(pair);
                     TwinsFile PSM = new TwinsFile();
@@ -504,6 +521,7 @@ namespace RehabSetup
                     mhstream.Dispose();
 
                     BufferFiles.Remove(pair.Key);
+                    BufferFiles.Remove(mhName);
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                 }
@@ -531,6 +549,7 @@ namespace RehabSetup
                     mhstream.Dispose();
 
                     BufferFiles.Remove(pair.Key);
+                    BufferFiles.Remove(mhName);
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                 }
@@ -543,12 +562,14 @@ namespace RehabSetup
             await BD.ExtractAsync(bd, bh);
         }
 
-        async Task PackAssets(string IsoExtrPath)
+        async Task PackAssets()
         {
             using (FileStream zipStream = new FileStream(ZipPath, FileMode.Create))
             {
                 using (ZipArchive zip = new ZipArchive(zipStream, ZipArchiveMode.Create))
                 {
+                    int items = Cache.Count;
+                    int itemsLeft = Cache.Count;
                     foreach (var item in Cache)
                     {
                         //var entry = zip.CreateEntry(item.Key, CompressionLevel.Fastest);
@@ -557,6 +578,8 @@ namespace RehabSetup
                         {
                             await stream.WriteAsync(item.Value);
                         }
+                        itemsLeft--;
+                        AddPercent = 5 + (int)((1f - (itemsLeft / (float)items)) * 5);
                     }
                 }
             }
@@ -571,7 +594,15 @@ namespace RehabSetup
 
         public bool DetectXBE(string inputPath)
         {
-            bool Check = ISO.DetectXBE(inputPath);
+            bool Check = false;
+            try
+            {
+                Check = ISO.DetectXBE(inputPath);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
             if (Check)
             {
                 isPS2 = false;
@@ -601,7 +632,15 @@ namespace RehabSetup
 
         public bool DetectPS2(string inputPath)
         {
-            bool Check = ISO_PS2.DetectPS2(inputPath);
+            bool Check = false;
+            try
+            {
+                Check = ISO_PS2.DetectPS2(inputPath);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+            }
             if (Check)
             {
                 isPS2 = true;

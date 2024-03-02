@@ -15,12 +15,13 @@ namespace RehabSetup
         public string ExtractPath;
         public string[] CNF_Buffer;
         public GameVersion Version = GameVersion.USA_ver2;
+        public List<string> AllowExt = new();
 
         public bool DetectPS2(string filePath)
         {
-            bool isISO = false;
+            //bool isISO = false;
             string dirPath = string.Empty;
-            FileInfo? xbe = new FileInfo(filePath);
+            FileInfo xbe = new FileInfo(filePath);
             if (xbe == null) return false;
 
             CNF_Only = true;
@@ -28,7 +29,7 @@ namespace RehabSetup
 
             if (xbe.Extension.ToLower() == ".iso")
             {
-                isISO = true;
+                //isISO = true;
                 ExtractPath = AppDomain.CurrentDomain.BaseDirectory;
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
@@ -89,12 +90,11 @@ namespace RehabSetup
             return true;
         }
 
-        public async Task ExportISO(string inputPath, string outputPath)
+        public async Task ExportISO(string inputPath)
         {
             CNF_Only = false;
             ExtractFiles = true;
-            ExtractPath = outputPath;
-            //Directory.CreateDirectory(ExtractPath);
+            ExtractPath = "";
 
             IList<Task> extractTaskList = new List<Task>();
             Dictionary<string, string> Paths = new Dictionary<string, string>();
@@ -126,7 +126,11 @@ namespace RehabSetup
                 {
                     string filename = ExtractPath.TrimEnd('\\') + file;
                     filename = filename.Replace(";1", string.Empty);
-                    Paths.Add(file, filename);
+                    string Ext = System.IO.Path.GetExtension(filename).ToLower();
+                    if (AllowExt.Contains(Ext))
+                    {
+                        Paths.Add(file, filename);
+                    }
                 }
             }
             if (cd.GetDirectories(dir).Length > 0)
@@ -154,14 +158,6 @@ namespace RehabSetup
                         {
                             AssetExporter.BufferFiles.TryAdd(path, (0, size, data));
                         }
-                        /*
-                        Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
-                        using (Stream fileStreamTo = System.IO.File.Open(path, FileMode.OpenOrCreate))
-                        {
-                            await fileStreamFrom.CopyToAsync(fileStreamTo);
-                            //fileStreamFrom.CopyTo(fileStreamTo);
-                        }
-                        */
                     }
                 }
             }

@@ -2266,6 +2266,52 @@ namespace Twinsanity
             #endregion
         };
 
+        public static List<uint> DupeTextureIDs = new List<uint>()
+        {
+            // final game only
+            0x05D44571,
+            0x734ED2E9,
+            0x7AE4447B,
+            0x7B00962D,
+            0xCC4BA680,
+            0xBAC3703A,
+            0xDF309D02,
+            0xDF14B867,
+            0xBE831509,
+            0xA15CB59B,
+            0xD55E89A7,
+            0x3B69A5CF,
+            0x5844B4A0,
+            0x1CEDA63D,
+            0x724E78E0,
+            0x935246FC,
+            0x671573F7,
+            0x57D3A067,
+            0xF8233089,
+            0xB6CE3C55,
+            0x2578F1E8,
+            0x348B2300,
+            0x39237D77,
+            0x3E723B2C,
+            0x61AC17EB,
+            0x8C490822,
+            0x8D2CF2C7,
+            0xB7D46A15,
+            0xC3DBA0E8,
+            0xEF4A08C6,
+        };
+
+        public static Dictionary<uint, uint> BlendShapeCounts = new()
+        {
+            [0x56ACB25E] = 1,
+            [0x5689B1E5] = 2,
+            [0x74984C93] = 7,
+            [0x7459443C] = 2,
+            [0xA0BFF7C4] = 15,
+            [0xBA6B109A] = 13,
+            [0xCAB4690A] = 13,
+        };
+
         public static Dictionary<uint, string> Hash_Animations = new Dictionary<uint, string>()
         {
             #region Unofficial names

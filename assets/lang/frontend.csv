@@ -128,4 +128,11 @@
 #FE-DubSelection,Voice Language,Stimmen-Sprache,Langue vocal,Lingua vocale,Idioma de voz,Język Głosów
 #FE-Dub-Japanese,Japanese,Japanisch,Japonais,Giapponese,Japonés,Japoński
 #FE-NoActorError,"No character found\nin this level!\nReturning to menu.","Keinen Spielcharakter\ngefunden!\nZurück nach Menu.","Aucun personnage de jeu\ntrouvé dans ce niveau!\nRetour au menu.","Nessun personaggio del gioco\ntrovato in questo livello!\nTornando al menù.","¡No se encontró ningún personaje\ndel juego en este nivel!\nVolviendo al menú.","Nie znaleziono\npostaci do gry!\nWracamy do menu."
-#FE-Installer-OpenFileTitle,"Locate game ISO or game files (default.xbe/system.cnf)",,,,,
+#FE-Installer-OpenFileTitle,"Locate the game",,,,,
+#FE-Installer-Installing,"Installing","Installieren","Installation","Installazione","Instalación","Instaluję"
+#FE-Installer-Browse,"Browse","Durchsuchen","Parcourir","Navigare","Navegar","Przeglądaj"
+#FE-Installer-Header,"Installer","Installieren","Installation","Installazione","Instalación","Instalator"
+#FE-Installer-StartMessage,"The original game is required to install.","Zur Installation ist das Originalspiel erforderlich.","Le jeu original est requis pour l'installation.","Per l'installazione è necessario il gioco originale.","Se requiere el juego original para instalar.","Do instalacji wymagana jest oryginalna gra."
+#FE-Installer-DetectFailed,"Failed to detect the game.","Das Spiel wurde nicht gefundet.","Jeu non détecté.","Gioco non rilevato","Juego no detectado","Nie wykryto gry."
+#FE-Installer-Detected,"Game detected","Spiel gefunden","Jeu détecté","Gioco rilevato","Juego detectado","Gra wykryta"
+#FE-Installer-Complete,"Install complete!","Installation abgeschlossen!","Installation terminée!","Installazione completata!","¡Instalación completa!","Instalacja zakończona pomyślnie!"

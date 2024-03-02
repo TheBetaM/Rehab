@@ -90,10 +90,10 @@ public partial class RehabScene : Node3D
         else
         {
             GD.Print("[ROOT] Cannot open " + RehabGame.AssetsPath + "Levels/");
-            StartMessage("#FE-NoGameData");
-            await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-            while (GameMenu.Visible)
-                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            //StartMessage("#FE-NoGameData");
+            //await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+            //while (GameMenu.Visible)
+            //    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             //GetTree().Quit();
             GetNode<FrontendInstaller>("FE/FE_Installer").Activate();
         }

@@ -7,7 +7,6 @@ namespace Twinsanity
     {
         public uint someNumber;
         private readonly uint mask = 0x3FFFF;
-        private bool isEmpty;
 
         public ColData()
         {
@@ -22,7 +21,6 @@ namespace Twinsanity
         {
             if (size < 20)
             {
-                isEmpty = true;
                 return;
             }
             someNumber = reader.ReadUInt32();

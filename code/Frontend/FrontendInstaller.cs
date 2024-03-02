@@ -16,6 +16,9 @@ public partial class FrontendInstaller : Control
     Button Button2;
     ProcessStep Step = ProcessStep.Start;
     string FilePath;
+    bool ProcessActive = false;
+    double TextTimer = 0f;
+    int TextStep = 3;
 
     enum ProcessStep
     {
@@ -42,11 +45,41 @@ public partial class FrontendInstaller : Control
         Button2.Pressed += Button2_Click;
     }
 
+    public override void _Process(double delta)
+    {
+        if (!ProcessActive) return;
+        TextTimer -= delta;
+        if (TextTimer <= 0d)
+        {
+            TextTimer = 0.5d;
+            string Add;
+            switch (TextStep)
+            {
+                default:
+                case 3:
+                    Add = ".";
+                break;
+                case 2:
+                    Add = "..";
+                break;
+                case 1:
+                    Add = "...";
+                break;
+            }
+            MainLabel.Text = $"{TranslationServer.Translate("#FE-Installer-Installing")}{Add}";
+            TextStep--;
+            if (TextStep <= 0)
+            {
+                TextStep = 3;
+            }
+        }
+    }
+
     public void Activate()
     {
-        TitleLabel.Text = "Installer";
+        TitleLabel.Text = "#FE-Installer-Header";
         BottomLabel.Text = "";
-        MainLabel.Text = "The game data must be installed to play.";
+        MainLabel.Text = "#FE-Installer-StartMessage";
         ProgBar.Value = 0f;
         Step = ProcessStep.Start;
         Visible = true;
@@ -55,9 +88,11 @@ public partial class FrontendInstaller : Control
         Exporter = new();
         Exporter.WorkerFinished += ExportDone;
         Exporter.WorkerProgressChanged += UpdateProgress;
-        Button1.Text = "BROWSE";
-        Button2.Text = "QUIT";
+        Button1.Text = "#FE-Installer-Browse";
+        Button2.Text = "#FE-QuitGame";
         Button1.GrabFocus();
+        ProcessActive = false;
+        TextStep = 3;
     }
 
     public void Deactivate()
@@ -75,12 +110,18 @@ public partial class FrontendInstaller : Control
         switch (Step)
         {
             case ProcessStep.Start:
+                Dialog.UseNativeDialog = true;
+                if (Input.IsActionPressed("pad1_R1"))
+                {
+                    Dialog.UseNativeDialog = false;
+                }
                 Dialog.Visible = true;
                 Dialog.GrabFocus();
                 break;
             case ProcessStep.Confirm:
-                MainLabel.Text = "Installing...";
+                MainLabel.Text = TranslationServer.Translate("#FE-Installer-Installing");
                 Exporter.StartWorker(FilePath);
+                ProcessActive = true;
                 break;
             case ProcessStep.End:
                 Deactivate();
@@ -108,7 +149,7 @@ public partial class FrontendInstaller : Control
         }
         if (!isXbox && !isPS2)
         {
-            MainLabel.Text = "Failed to detect the game.";
+            MainLabel.Text = "#FE-Installer-DetectFailed";
         }
         else
         {
@@ -122,9 +163,9 @@ public partial class FrontendInstaller : Control
             {
                 regionString = Exporter.isJPN ? "JPN" : "USA";
             }
-            MainLabel.Text = $"Detected the {regionString} {verString} version.\nBegin install?";
+            MainLabel.Text = $"{TranslationServer.Translate("#FE-Installer-Detected")}: {regionString} {verString}";
             Step = ProcessStep.Confirm;
-            Button1.Text = "START";
+            Button1.Text = "#FE-Continue";
         }
         OptionsHolder.Visible = true;
         Button1.GrabFocus();
@@ -138,12 +179,16 @@ public partial class FrontendInstaller : Control
 
     public void ExportDone(object s, EventArgs e)
     {
-        MainLabel.Text = $"Install complete!";
+        ProcessActive = false;
+        MainLabel.Text = $"#FE-Installer-Complete";
         Step = ProcessStep.End;
-        Button1.Text = "START GAME";
+        Button1.Text = "#FE-Continue";
         OptionsHolder.Visible = true;
         Button1.GrabFocus();
         GetWindow().RequestAttention();
+        Exporter = null;
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
     }
 
     public void UpdateProgress(object s, int e)

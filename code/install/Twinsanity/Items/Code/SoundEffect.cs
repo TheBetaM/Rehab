@@ -5,8 +5,6 @@ namespace Twinsanity
 {
     public class SoundEffect : TwinsItem
     {
-        private static readonly double k = ((22050.0f / 1881.0f) + (44100.0f / 3763.0f) + (48000.0f / 4096.0f)) / 3.0f;
-
         public uint Head { get; set; }
         public byte UnkFlag { get; set; }
         public byte FreqFac { get; set; }

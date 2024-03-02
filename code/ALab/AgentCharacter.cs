@@ -321,10 +321,15 @@ public partial class AgentCharacter : Agent
             }
             if (!isJumping && onFloor && spinTimer <= 0f)
             {
-                if (!isCrouched)
+                if (!isCrouched && slideTimer <= 0f)
                     DoAnimation(8, true);
                 else
-                    DoAnimation(32, true);
+                {
+                    if (slideTimer <= 0f)
+                        DoAnimation(32, true);
+                    else
+                        DoAnimation(36, true);
+                }
             }
         }
             

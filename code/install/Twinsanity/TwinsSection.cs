@@ -165,22 +165,13 @@ namespace Twinsanity
                 case SectionType.CodeX:
                 case SectionType.CodeDemo:
 
-                case SectionType.Texture:
-                case SectionType.TextureX:
                 case SectionType.Material:
                 case SectionType.MaterialDemo:
-                case SectionType.Model:
-                case SectionType.ModelX:
-                case SectionType.RigidModel:
                 case SectionType.Mesh:
                 case SectionType.LodModel:
+                case SectionType.OGI:
                 case SectionType.Object:
                 case SectionType.ObjectDemo:
-                case SectionType.OGI:
-                case SectionType.Skin:
-                case SectionType.SkinX:
-                case SectionType.BlendSkin:
-                case SectionType.BlendSkinX:
                 
                 case SectionType.AIPosition:
                 case SectionType.AIPath:
@@ -225,6 +216,10 @@ namespace Twinsanity
                 case SectionType.Xbox_SE_Ita:
                 case SectionType.Xbox_SE_Spa:
 	            case SectionType.Animation:
+                case SectionType.Skin:
+                case SectionType.SkinX:
+                case SectionType.BlendSkin:
+                case SectionType.BlendSkinX:
                 for (int i = 0; i < count; i++)
                 {
                     if (!DupeFiles[Type].Contains(SubItems[i].ID))
@@ -235,6 +230,66 @@ namespace Twinsanity
                     }
                 }
                 break;
+                case SectionType.Texture:
+                case SectionType.TextureX:
+                for (int i = 0; i < count; i++)
+                {
+                    if (!DefaultHashes.DupeTextureIDs.Contains(SubItems[i].ID))
+                    {
+                        if (!DupeFiles[Type].Contains(SubItems[i].ID))
+                        {
+                            DupeFiles[Type].Add(SubItems[i].ID);
+                            reader.BaseStream.Position = SubItems[i].Off;
+                            LoadSectionItem(reader, SubItems[i]);
+                        }
+                    }
+                    else
+                    {
+                        reader.BaseStream.Position = SubItems[i].Off;
+                        LoadSectionItem(reader, SubItems[i]);
+                    }
+                }
+                break;
+                case SectionType.RigidModel:
+                for (int i = 0; i < count; i++)
+                {
+                    if (DefaultHashes.Hash_RigidModels.ContainsKey(SubItems[i].ID))
+                    {
+                        if (!DupeFiles[Type].Contains(SubItems[i].ID))
+                        {
+                            DupeFiles[Type].Add(SubItems[i].ID);
+                            reader.BaseStream.Position = SubItems[i].Off;
+                            LoadSectionItem(reader, SubItems[i]);
+                        }
+                    }
+                    else
+                    {
+                        reader.BaseStream.Position = SubItems[i].Off;
+                        LoadSectionItem(reader, SubItems[i]);
+                    }
+                }
+                break;
+                case SectionType.Model:
+                case SectionType.ModelX:
+                for (int i = 0; i < count; i++)
+                {
+                    if (DefaultHashes.Hash_Models.ContainsKey(SubItems[i].ID))
+                    {
+                        if (!DupeFiles[Type].Contains(SubItems[i].ID))
+                        {
+                            DupeFiles[Type].Add(SubItems[i].ID);
+                            reader.BaseStream.Position = SubItems[i].Off;
+                            LoadSectionItem(reader, SubItems[i]);
+                        }
+                    }
+                    else
+                    {
+                        reader.BaseStream.Position = SubItems[i].Off;
+                        LoadSectionItem(reader, SubItems[i]);
+                    }
+                }
+                break;
+                
             }
             reader.BaseStream.Position = start_sk + extra_begin;
             ExtraData = reader.ReadBytes((int)(size - extra_begin));
@@ -716,6 +771,11 @@ namespace Twinsanity
         public static void ResetCache()
         {
             DupeFiles.Clear();
+            DupeFiles.Add(SectionType.Texture, new List<uint>());
+            DupeFiles.Add(SectionType.TextureX, new List<uint>());
+            DupeFiles.Add(SectionType.RigidModel, new List<uint>());
+            DupeFiles.Add(SectionType.ModelX, new List<uint>());
+            DupeFiles.Add(SectionType.Model, new List<uint>());
             DupeFiles.Add(SectionType.Skydome, new List<uint>());
             DupeFiles.Add(SectionType.Object, new List<uint>());
             DupeFiles.Add(SectionType.ObjectDemo, new List<uint>());

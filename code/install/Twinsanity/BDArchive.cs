@@ -17,20 +17,25 @@ namespace Twinsanity
             await Task.Run(
                 () =>
                 {
-                    using (BinaryReader hr = new BinaryReader(new MemoryStream(bh)))
-                    {
-                        int magic = hr.ReadInt32();
-                        while (hr.BaseStream.Position < hr.BaseStream.Length)
+                    //using (BinaryReader hd = new BinaryReader(new MemoryStream(bd)))
+                    //{
+                        using (BinaryReader hr = new BinaryReader(new MemoryStream(bh)))
                         {
-                            int namelen = hr.ReadInt32();
-                            string name = Encoding.ASCII.GetString(hr.ReadBytes(namelen));
-                            uint offset = hr.ReadUInt32();
-                            uint size = hr.ReadUInt32();
-                            //Files.Add(offset, name);
-                            //Sizes.Add(offset, size);
-                            AssetExporter.BufferFiles.Add(name, (offset + 1, size, null));
+                            int magic = hr.ReadInt32();
+                            while (hr.BaseStream.Position < hr.BaseStream.Length)
+                            {
+                                int namelen = hr.ReadInt32();
+                                string name = Encoding.ASCII.GetString(hr.ReadBytes(namelen));
+                                uint offset = hr.ReadUInt32();
+                                uint size = hr.ReadUInt32();
+                                //Files.Add(offset, name);
+                                //Sizes.Add(offset, size);
+                                AssetExporter.BufferFiles.Add(name, (offset + 1, size, null));
+                                //hd.BaseStream.Position = offset;
+                                //AssetExporter.BufferFiles.Add(name, (0, size, hd.ReadBytes((int)size)));
+                            }
                         }
-                    }
+                    //}
                 }
                 );
             /*

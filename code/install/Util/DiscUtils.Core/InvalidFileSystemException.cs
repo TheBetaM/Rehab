@@ -22,7 +22,7 @@
 
 using System;
 using System.IO;
-using System.Runtime.Serialization;
+//using System.Runtime.Serialization;
 
 namespace DiscUtils
 {
@@ -57,9 +57,9 @@ namespace DiscUtils
         /// </summary>
         /// <param name="info">The serialization info.</param>
         /// <param name="context">The streaming context.</param>
-        protected InvalidFileSystemException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+        //protected InvalidFileSystemException(SerializationInfo info, StreamingContext context)
+        //    : base(info, context)
+        //{
+        //}
     }
 }

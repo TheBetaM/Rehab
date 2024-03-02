@@ -24,20 +24,21 @@ namespace RehabSetup
 
         public string ExtractPath;
 
+        public List<string> AllowExt = new();
         public List<string> IgnoreExt = new();
         public List<string> IgnoreName = new();
 
         public bool DetectXBE(string filePath)
         {
-            bool isISO = false;
+            //bool isISO = false;
             string dirPath = string.Empty;
-            FileInfo? xbe = new FileInfo(filePath);
+            FileInfo xbe = new FileInfo(filePath);
             if (xbe == null) return false;
 
             Stream fileStream = null;
             if (xbe.Extension.ToLower() == ".iso" || xbe.Extension.ToLower() == ".xiso")
             {
-                isISO = true;
+                //isISO = true;
                 using (FileStream file = new FileStream(filePath, FileMode.Open))
                 {
                     using (BinaryReader ireader = new BinaryReader(file))
@@ -107,7 +108,7 @@ namespace RehabSetup
             return false;
         }
 
-        public async Task ExportISO(string inputPath, string outputPath)
+        public async Task ExportISO(string inputPath)
         {
             await Task.Run(
                 () =>
@@ -118,7 +119,7 @@ namespace RehabSetup
                         {
                             XBE_Only = false;
                             ExtractFiles = true;
-                            ExtractPath = outputPath;
+                            ExtractPath = "";
                             //Directory.CreateDirectory(ExtractPath);
                             int root_dir_sect = 0;
                             int root_dir_size = 0;
@@ -203,7 +204,7 @@ namespace RehabSetup
                     XBE_Buffer = data;
                     return;
                 }
-                else if (ExtractFiles && !IgnoreExt.Contains(Ext) && !IgnoreName.Contains(dir.filename + Ext))
+                else if (ExtractFiles && AllowExt.Contains(Ext) && !IgnoreExt.Contains(Ext) && !IgnoreName.Contains(dir.filename + Ext))
                 {
                     byte[] data = file.ReadBytes((int)dir.file_size);
                     //Console.WriteLine(FileName);

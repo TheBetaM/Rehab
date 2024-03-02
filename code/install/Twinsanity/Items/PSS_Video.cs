@@ -37,7 +37,6 @@ namespace Twinsanity.Video
                     break;
                     default:
                     throw new Exception("Bad PSS header.");
-                    break;
                 }
                 Header = reader.ReadUInt32();
             }

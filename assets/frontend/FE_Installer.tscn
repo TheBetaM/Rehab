@@ -78,7 +78,8 @@ dialog_hide_on_ok = true
 cancel_button_text = "#FE-CancelSaveOption"
 file_mode = 0
 access = 2
-filters = PackedStringArray("*.iso", "*.xbe", "*.cnf")
+filters = PackedStringArray("*.iso")
+use_native_dialog = true
 
 [node name="RehabLabel" parent="." instance=ExtResource("3_80ive")]
 layout_mode = 0
