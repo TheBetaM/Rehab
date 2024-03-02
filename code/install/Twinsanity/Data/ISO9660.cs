@@ -176,7 +176,7 @@ namespace RehabSetup
 
         Dictionary<string, GameVersion> TitleIDs = new Dictionary<string, GameVersion>(){
             ["SLUS_209.09"] = GameVersion.USA_ver2,
-            ["SLES_515.68"] = GameVersion.EUR,
+            ["SLES_525.68"] = GameVersion.EUR,
             ["SLPM_658.01"] = GameVersion.JPN,
             ["CRASH6\\CRASH6.ELF"] = GameVersion.DEMO_USA,
             ["SLUS_291.01"] = GameVersion.DEMO_USA,

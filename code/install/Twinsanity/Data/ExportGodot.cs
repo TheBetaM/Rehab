@@ -418,7 +418,9 @@ namespace RehabSetup
                             BaseName = BaseName.Replace("loading1", "Loading1");
                         }
                         BaseFolder = "Language";
-                        BaseName = BaseName.Replace("American", "English"); // simplified asset paths for Titles
+                        // simplified asset paths for Titles
+                        BaseName = BaseName.Replace("American", "English"); 
+                        BaseName = BaseName.Replace("Japanese", "English");
                     }
                     else if (BaseName.Contains("Startup"))
                     {
