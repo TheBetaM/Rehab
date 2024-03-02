@@ -162,6 +162,7 @@ public partial class LoadingVisuals : Control
         }
         LevelIcon.Texture = null;
         LevelIcon2.Texture = null;
+        GetNode<Label>("LabelLevelName").Text = "";
     }
 
     public async void AnimIn()

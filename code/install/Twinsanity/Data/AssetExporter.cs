@@ -252,7 +252,7 @@ namespace RehabSetup
                 {
                     TaskList.Add(ExportMB(pair));
                 }
-                else if (pair.Key.ToLower().EndsWith(".msb"))
+                else if (pair.Key.ToLower().EndsWith(".msb") && pair.Key.ToLower().Contains("music"))
                 {
                     TaskList.Add(ExportMSB(pair));
                 }

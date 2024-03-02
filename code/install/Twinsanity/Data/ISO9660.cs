@@ -180,6 +180,9 @@ namespace RehabSetup
             ["SLPM_658.01"] = GameVersion.JPN,
             ["CRASH6\\CRASH6.ELF"] = GameVersion.DEMO_USA,
             ["SLUS_291.01"] = GameVersion.DEMO_USA,
+            ["SCUS_974.56"] = GameVersion.DEMO_USA,
+            ["SCED_521.65"] = GameVersion.DEMO_EUR,
+            ["SLED_525.74"] = GameVersion.DEMO_EUR,
         };
     }
 }

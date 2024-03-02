@@ -82,6 +82,7 @@ filters = PackedStringArray("*.iso")
 use_native_dialog = true
 
 [node name="RehabLabel" parent="." instance=ExtResource("3_80ive")]
+visible = false
 layout_mode = 0
 offset_left = 50.0
 offset_top = 10.0
@@ -90,6 +91,7 @@ offset_bottom = 75.0
 text = "Installer"
 
 [node name="RehabLabel2" parent="." instance=ExtResource("3_80ive")]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
