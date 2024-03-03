@@ -31,7 +31,7 @@ namespace RehabSetup
         public ISO9660 ISO_PS2;
         public string ISOpath = string.Empty;
         public string GodotPath = string.Empty;
-        public string ZipPath => Rehab.RehabGame.DataPath + "RehabData.pcz";
+        public string ZipPath => Rehab.RehabGame.DataPath + "DataRehab";
 
         public int VideosLeft = 0;
         public int TotalVideos = 0;
@@ -55,10 +55,10 @@ namespace RehabSetup
         };
 
         static List<string> ISO_Allow_Ext = new List<string>() {
-            ".rm2", ".sm2", ".psm", ".psf", ".ptc", ".bin", ".bd", ".bh", ".mb", ".mh", ".msb", ".msh"
+            ".rm2", ".sm2", ".psm", ".psf", ".ptc", ".bin", ".bd", ".bh", ".mb", ".mh", ".msb", ".msh", ".txt"
         };
         static List<string> XISO_Allow_Ext = new List<string>() {
-            ".rmx", ".smx", ".psm", ".psf", ".ptc", ".bin", ".xwb"
+            ".rmx", ".smx", ".psm", ".psf", ".ptc", ".bin", ".xwb", ".txt"
         };
 
         public event EventHandler<int> WorkerProgressChanged;
@@ -184,6 +184,7 @@ namespace RehabSetup
             AddPercent = 5;
             Debug.WriteLine($"Done in {timer.Elapsed}. Extracting default...");
             timer.Restart();
+            ExportGodot.IsJPN = isJPN;
 
             #region Extract Assets
 
@@ -267,7 +268,17 @@ namespace RehabSetup
                         TaskList.Add(ExportFrontend(pair));
                     }
                 }
+                else if (pair.Key.ToLower().EndsWith(".txt") && pair.Key.ToLower().Contains("language") 
+                && pair.Key.ToLower().Contains("credits") && (pair.Key.ToLower().Contains("english") || pair.Key.ToLower().Contains("american")))
+                {
+                    TaskList.Add(ExportCredits(pair));
+                    PSMLeft++;
+                    TotalPSM++;
+                }
             }
+            TaskList.Add(ExportBuildInfo());
+            PSMLeft++;
+            TotalPSM++;
             TotalFiles += TaskList.Count;
             FilesLeft += TaskList.Count;
 
@@ -556,6 +567,55 @@ namespace RehabSetup
                 );
         }
 
+        async Task ExportCredits(KeyValuePair<string, (uint, uint, byte[])> pair)
+        {
+            await Task.Run(
+                () =>
+                {
+                    MemoryStream stream = GetFile(pair);
+                    ExportGodot.ExportCredits(stream, OutputPath);
+                    PSMLeft--;
+                    FilesLeft--;
+                    stream.Close();
+                    stream.Dispose();
+                    BufferFiles.Remove(pair.Key);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                }
+                );
+        }
+
+        async Task ExportBuildInfo()
+        {
+            await Task.Run(
+                () =>
+                {
+                    using (MemoryStream mStream = new())
+                    {
+                        string versionString = "PS2";
+                        if (!isPS2) versionString = "XBOX";
+                        if (isDemo) versionString = "DEMO";
+                        using (StreamWriter writer = new StreamWriter(mStream, null, -1, true))
+                        {
+                            writer.WriteLineAsync("[mod]");
+                            writer.WriteLineAsync("");
+                            writer.WriteLineAsync($"name=\"Installed Game\"");
+                            writer.WriteLineAsync($"IsPS2={isPS2}");
+                            writer.WriteLineAsync($"IsDemo={isDemo}");
+                            writer.WriteLineAsync($"IsPAL={isPAL}");
+                            writer.WriteLineAsync($"IsJPN={isJPN}");
+                        }
+                        mStream.Position = 0;
+                        Add($"{OutputPath}/Mods/Base{versionString}.cfg", mStream.ToArray());
+                    }
+                    PSMLeft--;
+                    FilesLeft--;
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                }
+                );
+        }
+
         async Task ExportBD(byte[] bd, byte[] bh)
         {
             BD_Archive BD = new BD_Archive();
@@ -564,7 +624,11 @@ namespace RehabSetup
 
         async Task PackAssets()
         {
-            using (FileStream zipStream = new FileStream(ZipPath, FileMode.Create))
+            string versionString = "PS2";
+            if (!isPS2) versionString = "XBOX";
+            if (isDemo) versionString = "DEMO";
+            string path = $"{ZipPath}{versionString}.pcz";
+            using (FileStream zipStream = new FileStream(path, FileMode.Create))
             {
                 using (ZipArchive zip = new ZipArchive(zipStream, ZipArchiveMode.Create))
                 {

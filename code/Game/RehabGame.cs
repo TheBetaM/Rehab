@@ -26,6 +26,7 @@ public static class RehabGame
     public static bool InvertCameraX = false;
     public static bool InvertCameraY = false;
     public static bool UseMouseCamera = true;
+    public static VoiceLanguage VoiceLang = VoiceLanguage.English;
     public static string AssetsPath = "res://import/";
     public static string ConfigPath = "user://rehab.cfg";
     public static string DataPath = OS.GetExecutablePath();
@@ -125,6 +126,25 @@ public static class RehabGame
         LevelID = id;
     }
 
+    public static string GetVoicePath(){
+        switch (VoiceLang)
+        {
+            default:
+            case VoiceLanguage.English:
+                return "English";
+            case VoiceLanguage.French:
+                return "French";
+            case VoiceLanguage.German:
+                return "German";
+            case VoiceLanguage.Italian:
+                return "Italian";
+            case VoiceLanguage.Spanish:
+                return "Spanish";
+            case VoiceLanguage.Japanese:
+                return "Japanese";
+        }
+    }
+
     public static Dictionary<int, string> MusicPaths = new Dictionary<int, string>(){
         [0] = "undefined",
         [1] = "DemoHub",
@@ -193,4 +213,14 @@ public static class RehabGame
         [139] = "L05_Chickens",
         [140] = "B01_MechEndfall",
     };
+
+    public enum VoiceLanguage
+    {
+        English = 0,
+        German = 1,
+        Spanish = 2,
+        French = 3,
+        Italian = 4,
+        Japanese = 5,
+    }
 }

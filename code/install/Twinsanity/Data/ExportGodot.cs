@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Twinsanity;
@@ -9,6 +10,7 @@ namespace RehabSetup
 {
     public static class ExportGodot
     {
+        public static bool IsJPN = false;
 
         public static void ExportScenery(SceneryData Cont, string path, Dictionary<uint, string> ExportedTextures)
         {
@@ -298,23 +300,20 @@ namespace RehabSetup
 
         public static void ExportXWB(TwinsFile targetFile, string path)
         {
-            string FolderName = "GlobalVO";
+            string FolderName = "GlobalVO\\English";
             if (targetFile.FileName.Contains("Music")) FolderName = "Music";
-            else if (targetFile.FileName.Contains("French")) return; //FolderName = "GlobalVO_French";
-            else if (targetFile.FileName.Contains("German")) return; //FolderName = "GlobalVO_German";
-            else if (targetFile.FileName.Contains("Italian")) return; //FolderName = "GlobalVO_Italian";
+            else if (targetFile.FileName.Contains("French")) FolderName = "GlobalVO\\French";
+            else if (targetFile.FileName.Contains("German")) FolderName = "GlobalVO\\German";
+            else if (targetFile.FileName.Contains("Italian")) FolderName = "GlobalVO\\Italian";
 
-            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\{FolderName}\\");
             TwinsSection section = targetFile.GetItem<TwinsSection>(0);
             foreach (TwinsItem item in section.Records)
             {
                 XWB.Sound sfx = (XWB.Sound)item;
-                string SoundPath = $"{path}\\Sounds\\{FolderName}\\{sfx.FileName}";
-                string ResPath = $"{SoundPath}.res";
-                string TResPath = $"{SoundPath}.tres";
-                string WavPath = $"{SoundPath}.wav";
+                if (sfx.BitsPerSample) continue; // only used in undefined on PAL and one French voiceline
+                string SoundPath = $"{path}\\Sounds\\{FolderName}\\{sfx.FileName}.res";
                 GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, FolderName == "Music");
-                wav.WriteToFile(ResPath);
+                wav.WriteToFile(SoundPath);
                 sfx.SoundData = null;
                 wav = null;
                 GC.Collect();
@@ -324,16 +323,15 @@ namespace RehabSetup
 
         public static void ExportMB(TwinsFile targetFile, string path)
         {
-            string FolderName = "GlobalVO";
+            string FolderName = "GlobalVO\\English";
             if (targetFile.FileName.ToUpper().Contains("MUSIC")) FolderName = "Music";
-            else if (targetFile.FileName.ToUpper().Contains("FRENCH")) return; //FolderName = "GlobalVO_French";
-            else if (targetFile.FileName.ToUpper().Contains("GERMAN")) return; //FolderName = "GlobalVO_German";
-            else if (targetFile.FileName.ToUpper().Contains("ITALIAN")) return; //FolderName = "GlobalVO_Italian";
-            else if (targetFile.FileName.ToUpper().Contains("SPANISH")) return; //FolderName = "GlobalVO_Spanish";
-            else if (targetFile.FileName.ToUpper().Contains("JAPANESE")) return; //FolderName = "GlobalVO_Japanese";
+            else if (targetFile.FileName.ToUpper().Contains("FRENCH")) FolderName = "GlobalVO\\French";
+            else if (targetFile.FileName.ToUpper().Contains("GERMAN")) FolderName = "GlobalVO\\German";
+            else if (targetFile.FileName.ToUpper().Contains("ITALIAN")) FolderName = "GlobalVO\\Italian";
+            else if (targetFile.FileName.ToUpper().Contains("SPANISH")) FolderName = "GlobalVO\\Spanish";
+            else if (targetFile.FileName.ToUpper().Contains("JAPANESE")) FolderName = "GlobalVO\\Japanese";
 
             bool undefinedDone = false;
-            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\{FolderName}\\");
             TwinsSection section = targetFile.GetItem<TwinsSection>(0);
             foreach (TwinsItem item in section.Records)
             {
@@ -341,11 +339,10 @@ namespace RehabSetup
                 MusicHash.Track sfx = sfxHolder.track;
                 if (sfx.Type >= 2) continue;
                 if (sfx.Name == "undefined" && undefinedDone) continue;
-                string SoundPath = $"{path}\\Sounds\\{FolderName}\\{sfx.Name}";
-                string ResPath = $"{SoundPath}.res";
+                string SoundPath = $"{path}\\Sounds\\{FolderName}\\{sfx.Name}.res";
                 if (sfx.Name == "undefined") undefinedDone = true;
                 GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, FolderName == "Music");
-                wav.WriteToFile(ResPath);
+                wav.WriteToFile(SoundPath);
                 sfx.SoundData = null;
                 sfxHolder.track = null;
                 wav = null;
@@ -372,6 +369,32 @@ namespace RehabSetup
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
+        }
+
+        public static void ExportCredits(MemoryStream stream, string path)
+        {
+            string outPath = $"{path}\\credits.tres";
+            if (AssetExporter.Check(outPath)) return;
+            GodotResourceFile Res = new GodotResourceFile();
+            var coderef = new GodotFileBase.ExternalResource("res://code/Containers/TextResource.cs");
+            Res.ExternalResourceList.Add(coderef);
+            Res.Resource.Lines.Add("script=ExtResource(1)");
+            Res.Resource.Lines.Add("text=\"");
+            using (var reader = new StreamReader(stream))
+            {
+                var line = "";
+                while (line != null)
+                {
+                    line = reader.ReadLine();
+                    if (line != null)
+                    {
+                        line = line.ToUpper();
+                    }
+                    Res.Resource.Lines.Add(line);
+                }
+            }
+            Res.Resource.Lines.Add("\"");
+            Res.WriteToFile(outPath);
         }
 
         static string[] DemoIcons = [

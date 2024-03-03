@@ -23,16 +23,8 @@ namespace RehabSetup
                     Write(writer);
                     if (!AssetExporter.Check(path))
                     {
-                        try
-                        {
-                            stream.Position = 0;
-                            //File.WriteAllBytes(path, stream.ToArray());
-                            AssetExporter.Add(path, stream.ToArray());
-                        }
-                        catch
-                        {
-                            // race condition
-                        }
+                        stream.Position = 0;
+                        AssetExporter.Add(path, stream.ToArray());
                     }
                 }
             }
@@ -67,15 +59,7 @@ namespace RehabSetup
         {
             if (!AssetExporter.Check(path))
             {
-                try
-                {
-                    //File.WriteAllBytes(path, WriteBuffer);
-                    AssetExporter.Add(path, WriteBuffer);
-                }
-                catch
-                {
-                    // race condition
-                }
+                AssetExporter.Add(path, WriteBuffer);
             }
         }
 

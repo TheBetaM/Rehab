@@ -56,13 +56,7 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.75, 0.75)
 pivot_offset = Vector2(350, 182)
-text = "checking memory card
-in memory card slot 1.
-
-do not remove
-memory card
-controller, reset, or
-switch-off the console."
+text = "label"
 
 [node name="MenuOptionsMain" type="VBoxContainer" parent="WindowMainRound"]
 visible = false
@@ -121,6 +115,10 @@ text = "#FE-MusicVolume"
 [node name="Button4" parent="WindowMainRound/MenuOptionsSound" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-VoiceVolume"
+
+[node name="Button6" parent="WindowMainRound/MenuOptionsSound" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "VoiceLang"
 
 [node name="Button5" parent="WindowMainRound/MenuOptionsSound" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
@@ -495,7 +493,7 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.6, 0.6)
 pivot_offset = Vector2(350, 182)
-text = "select file to save"
+text = "header label"
 
 [node name="WindowRoundCrystals" parent="." instance=ExtResource("4_66hls")]
 visible = false
@@ -825,6 +823,7 @@ expand_icon = true
 [connection signal="pressed" from="WindowMainRound/MenuOptionsSound/Button2" to="." method="OptionsSound_ToggleVolume_SFX"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsSound/Button3" to="." method="OptionsSound_ToggleVolume_Music"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsSound/Button4" to="." method="OptionsSound_ToggleVolume_Voice"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsSound/Button6" to="." method="OptionsSound_ToggleVoiceLanguage"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsSound/Button5" to="." method="OptionsSound_ToMain"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button1" to="." method="OptionsGraphics_ToggleFullscreen"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button2" to="." method="OptionsGraphics_ToggleMSAA"]

@@ -1,10 +1,12 @@
 using Godot;
+using System.Collections.Generic;
 namespace Rehab;
 public partial class FrontendCredits : Control
 {
     TextureRect ImageRect;
     PackedScene LabelScene;
     string ImagePath = RehabGame.AssetsPath + "Textures/Language/Credits/CreditNew.res";
+    string CreditsPath = "res://import/credits.tres";
     string CreditsText;
     bool CreditsActive;
     int LineCount = 445;
@@ -55,7 +57,17 @@ public partial class FrontendCredits : Control
         var VBox = GetNode<Control>("VBox");
         //var file = FileAccess.open("res://assets/lang/credits.txt", FileAccess.READ)
         TextResource file = (TextResource)ResourceLoader.Load("res://assets/lang/credits.tres");
-        var fileLines = file.text.Split("\n");
+        List<string> textLines = new List<string>(file.text.Split("\n"));
+        if (ResourceLoader.Exists(CreditsPath))
+        {
+            textLines.Add("ORIGINAL GAME CREDITS");
+            textLines.Add("");
+            textLines.Add("");
+            TextResource credfile = (TextResource)ResourceLoader.Load(CreditsPath);
+            var credLines = credfile.text.Split("\n");
+            textLines.AddRange(credLines);
+        }
+        LineCount = textLines.Count;
         //file.get_line()
         CreditsActive = false;
         //modulate.a = 1.0
@@ -75,7 +87,7 @@ public partial class FrontendCredits : Control
         for (int i = 0; i < LineCount; i++){
             var label = (Label)LabelScene.Instantiate();
             //label.text = file.get_line()
-            label.Text = fileLines[i];
+            label.Text = textLines[i];
             VBox.AddChild(label);
         }
         

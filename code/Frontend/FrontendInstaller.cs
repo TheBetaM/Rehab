@@ -82,17 +82,37 @@ public partial class FrontendInstaller : Control
         MainLabel.Text = "#FE-Installer-StartMessage";
         ProgBar.Value = 0f;
         Step = ProcessStep.Start;
-        Visible = true;
         ProcessMode = ProcessModeEnum.Inherit;
-        OptionsHolder.Visible = true;
         Exporter = new();
         Exporter.WorkerFinished += ExportDone;
         Exporter.WorkerProgressChanged += UpdateProgress;
         Button1.Text = "#FE-Installer-Browse";
         Button2.Text = "#FE-QuitGame";
-        Button1.GrabFocus();
         ProcessActive = false;
         TextStep = 3;
+        StartAnim();
+    }
+
+    async void StartAnim()
+    {
+        ProgBar.Visible = false;
+        MainLabel.Visible = false;
+        OptionsHolder.Visible = false;
+        GetNode<Control>("ColorRect").Scale = new Vector2(1f, 0f);
+        GetNode<Control>("ColorRect2").Scale = new Vector2(1f, 0f);
+        GetNode<Control>("ColorRect3").Scale = new Vector2(1f, 0f);
+        var tween1 = CreateTween();
+        tween1.TweenProperty(GetNode<Control>("ColorRect2"), "scale:y", 1f, 1f).SetTrans(Tween.TransitionType.Circ);
+        var tween2 = CreateTween();
+        tween2.TweenProperty(GetNode<Control>("ColorRect3"), "scale:y", 1f, 1f).SetTrans(Tween.TransitionType.Circ);
+        var tween3 = CreateTween();
+        tween3.TweenProperty(GetNode<Control>("ColorRect"), "scale:y", 1f, 0.5f).SetTrans(Tween.TransitionType.Circ);
+        Visible = true;
+        await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+        ProgBar.Visible = true;
+        MainLabel.Visible = true;
+        OptionsHolder.Visible = true;
+        Button1.GrabFocus();
     }
 
     public void Deactivate()
@@ -110,10 +130,10 @@ public partial class FrontendInstaller : Control
         switch (Step)
         {
             case ProcessStep.Start:
-                Dialog.UseNativeDialog = true;
+                Dialog.UseNativeDialog = false;
                 if (Input.IsActionPressed("pad1_R1"))
                 {
-                    Dialog.UseNativeDialog = false;
+                    Dialog.UseNativeDialog = true;
                 }
                 Dialog.Visible = true;
                 Dialog.GrabFocus();
@@ -124,8 +144,7 @@ public partial class FrontendInstaller : Control
                 ProcessActive = true;
                 break;
             case ProcessStep.End:
-                Deactivate();
-                RehabScene.Root.GameInit();
+                EndAnim();
                 break;
             case ProcessStep.Failed:
                 GetTree().Quit();
@@ -194,5 +213,22 @@ public partial class FrontendInstaller : Control
     public void UpdateProgress(object s, int e)
     {
         ProgBar.Value = e;
+    }
+
+    async void EndAnim()
+    {
+        ProgBar.Visible = false;
+        MainLabel.Visible = false;
+        OptionsHolder.Visible = false;
+        var tween1 = CreateTween();
+        tween1.TweenProperty(GetNode<Control>("ColorRect2"), "scale:y", 0f, 1f).SetTrans(Tween.TransitionType.Circ);
+        var tween2 = CreateTween();
+        tween2.TweenProperty(GetNode<Control>("ColorRect3"), "scale:y", 0f, 1f).SetTrans(Tween.TransitionType.Circ);
+        var tween3 = CreateTween();
+        tween3.TweenProperty(GetNode<Control>("ColorRect"), "scale:y", 0f, 0.5f).SetTrans(Tween.TransitionType.Circ);
+        Visible = true;
+        await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
+        Deactivate();
+        RehabScene.Root.GameInit();
     }
 }

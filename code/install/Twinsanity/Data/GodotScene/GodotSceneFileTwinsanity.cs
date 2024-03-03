@@ -22,9 +22,6 @@ namespace RehabSetup
         public int CodeResourceID_Container_Camera = 0;
         public int CodeResourceID_Scene = 0;
         public int WorldEnvResourceID = 0;
-        //public int CodeResourceID_Container_AIPath = 0;
-        //public int CodeResourceID_Container_AIPathNode = 0;
-        //public int CodeResourceID_Container_AgentPath = 0;
 
         public void AddLights(SceneryData Scene)
         {
@@ -520,15 +517,8 @@ namespace RehabSetup
             if ((Scene.SkydomeID != 0 || Scene.ParentFile.Type == TwinsFile.FileType.DemoSM2) && scene_sky_sec.ContainsItem(Scene.SkydomeID))
             {
                 Skydome SkydomeCont = scene_sky_sec.GetItem<Skydome>(Scene.SkydomeID);
-                string ModelFilePath = $"Skydome_{DefaultHashes.SkyToName(SkydomeCont)}";
                 ExportGodot.ExportSkydome(SkydomeCont, path, ExportedTextures);
             }
-
-            // Export lights
-            //if (!Standalone)
-            //{
-                //AddLights(Scene);
-            //}
 
             // Export scenery
             Node RootNode = new Node("SceneryRoot", ExportGodot.Node3D);
@@ -575,7 +565,6 @@ namespace RehabSetup
         public void AddSM(TwinsFile targetFile, string path,  bool SceneOnly, bool IncludeSkydome = true)
         {
             SceneryData Scene = targetFile.GetItem<SceneryData>(0);
-            DynamicSceneryData DynScene = targetFile.GetItem<DynamicSceneryData>(4);
             ChunkLinks Links = targetFile.GetItem<ChunkLinks>(5);
 
             #region Export Textures
@@ -606,9 +595,6 @@ namespace RehabSetup
             }
             #endregion
 
-            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Code\\Containers\\");
-            //ExportGodot.ContainerWriter.ExportContainer_ChunkLink($"{System.IO.Path.GetDirectoryName(path)}\\Code\\Containers\\ChunkLink{ExportGodot.ScriptExt}");
-
             string SceneryFilePath = $"{Scene.ChunkName.Replace('\\', '_')}-Scenery";
             if (!SceneOnly)
             {
@@ -617,11 +603,6 @@ namespace RehabSetup
             Add_InstancedScene($"../Scenery/{SceneryFilePath}", $".");
             Nodes.Last().Lines.Add("metadata/_edit_lock_ = true"); // prevents scenery from being selected in editor (easier for level editing)
 
-            //AddDynamicScenery(DynScene, path, SceneOnly);
-            if (Scene.SkydomeID != 0 && IncludeSkydome)
-            {
-                //Add_InstancedScene($"../Skydomes/Skydome_{DefaultHashes.SkyToName(Scene.SkydomeID)}", $".");
-            }
             AddLights(Scene);
             AddLinks(Links);
         }
@@ -2387,24 +2368,66 @@ namespace RehabSetup
         public void ExportSounds(TwinsSection Cont, string path)
         {
             string SoundExt = ".res";
-            // PAL languages rely on ID overlap so thay are better left as a mod?
             TwinsSection CodeSection = Cont.GetItem<TwinsSection>(10);
             bool IsXbox = CodeSection.Type == SectionType.CodeX;
-            //Directory.CreateDirectory($"{System.IO.Path.GetDirectoryName(path)}\\Sounds\\");
-            for (uint i = 6; i < 8; i++)
+            if (CodeSection.ContainsItem(6))
             {
+                TwinsSection Section = CodeSection.GetItem<TwinsSection>(6);
+                for (int a = 0; a < Section.Records.Count; a++)
+                {
+                    string SoundPath = $"{path}\\Sounds\\{DefaultHashes.ToName(SectionType.SE, Section.Records[a].ID).Replace("/","\\")}{SoundExt}";
+                    if (IsXbox)
+                    {
+                        SoundEffectX SFX = Section.GetItem<SoundEffectX>(Section.Records[a].ID);
+                        if (!AssetExporter.Check(SoundPath))
+                        {
+                            GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(SFX);
+                            wav.WriteToFile(SoundPath);
+                        }
+                    }
+                    else
+                    {
+                        SoundEffect SFX = Section.GetItem<SoundEffect>(Section.Records[a].ID);
+                        if (!AssetExporter.Check(SoundPath))
+                        {
+                            GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(SFX);
+                            wav.WriteToFile(SoundPath);
+                        }
+                    }
+                }
+            }
+            string DirPath_English = "GlobalVO\\English\\";
+            string DirPath_French = "GlobalVO\\French\\";
+            string DirPath_German = "GlobalVO\\German\\";
+            string DirPath_Spanish = "GlobalVO\\Spanish\\";
+            string DirPath_Italian = "GlobalVO\\Italian\\";
+            string DirPath_Japanese = "GlobalVO\\Japanese\\";
+            string DirPath = DirPath_English;
+            for (uint i = 7; i < 12; i++)
+            {
+                switch (i)
+                {
+                    case 7: DirPath = DirPath_English; break;
+                    case 8: DirPath = DirPath_French; break;
+                    case 9: DirPath = DirPath_German; break;
+                    case 10: DirPath = DirPath_Spanish; break;
+                    case 11: DirPath = DirPath_Italian; break;
+                }
+                if (i == 7 && ExportGodot.IsJPN)
+                {
+                    DirPath = DirPath_Japanese;
+                }
                 if (CodeSection.ContainsItem(i))
                 {
                     TwinsSection Section = CodeSection.GetItem<TwinsSection>(i);
                     for (int a = 0; a < Section.Records.Count; a++)
                     {
-                        string SoundPath = $"{path}\\Sounds\\{DefaultHashes.ToName(SectionType.SE, Section.Records[a].ID).Replace("/","\\")}{SoundExt}";
+                        string SoundPath = $"{path}\\Sounds\\{DirPath}{DefaultHashes.ToName(SectionType.SE, Section.Records[a].ID).Replace("/","\\")}{SoundExt}";
                         if (IsXbox)
                         {
                             SoundEffectX SFX = Section.GetItem<SoundEffectX>(Section.Records[a].ID);
                             if (!AssetExporter.Check(SoundPath))
                             {
-                                //Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
                                 GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(SFX);
                                 wav.WriteToFile(SoundPath);
                             }
@@ -2414,7 +2437,6 @@ namespace RehabSetup
                             SoundEffect SFX = Section.GetItem<SoundEffect>(Section.Records[a].ID);
                             if (!AssetExporter.Check(SoundPath))
                             {
-                                //Directory.CreateDirectory(System.IO.Path.GetDirectoryName(SoundPath));
                                 GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(SFX);
                                 wav.WriteToFile(SoundPath);
                             }
@@ -2945,20 +2967,11 @@ namespace RehabSetup
                     return Path;
                 }
             }
-            
-            //try
-            //{
-                //Directory.CreateDirectory(System.IO.Path.GetDirectoryName($"{DirPath}\\{Path}"));
-                GodotBinaryImageTexture TexRes = new GodotBinaryImageTexture(Tex);
-                if (!AssetExporter.Check($"{DirPath}\\{Path}"))
-                    TexRes.WriteToFile($"{DirPath}\\{Path}");
-            //}
-            //catch
-            //{
-                // race condition
-                return Path;
-            //}
-            //return Path;
+
+            GodotBinaryImageTexture TexRes = new GodotBinaryImageTexture(Tex);
+            if (!AssetExporter.Check($"{DirPath}\\{Path}"))
+                TexRes.WriteToFile($"{DirPath}\\{Path}");
+            return Path;
         }
 
         public void Add_InstancedScene(string ModelFilePath, string parentNodePath)
@@ -3058,12 +3071,9 @@ namespace RehabSetup
             return outMatrix;
         }
 
-#region PS2 
         public static string ExtractTexture(Texture Tex, string DirPath, bool ReHash)
         {
             // Duplicate names are skipped to save time where possible
-            int TWidth = Tex.Width;
-            int THeight = Tex.Height;
             List<Color> Texture = new List<Color>(Tex.RawData);
             string Path;
             string Extenstion = ".res";
@@ -3084,22 +3094,12 @@ namespace RehabSetup
                 }
             }
             
-            try
-            {
-                //Directory.CreateDirectory(System.IO.Path.GetDirectoryName($"{DirPath}\\{Path}"));
-                GodotBinaryImageTexture TexRes = new GodotBinaryImageTexture(Tex);
-                if (!AssetExporter.Check($"{DirPath}\\{Path}"))
-                    TexRes.WriteToFile($"{DirPath}\\{Path}");
-            }
-            catch
-            {
-                // race condition
-                return Path;
-            }
+            GodotBinaryImageTexture TexRes = new GodotBinaryImageTexture(Tex);
+            if (!AssetExporter.Check($"{DirPath}\\{Path}"))
+                TexRes.WriteToFile($"{DirPath}\\{Path}");
+            
             return Path;
         }
-
-#endregion
 
     }
 }

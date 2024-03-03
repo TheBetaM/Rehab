@@ -47,7 +47,7 @@ namespace Twinsanity.Items
                 sfx.Channels = (byte)((MagicValue >> 2) & 7);
                 sfx.BitsPerSample = (MagicValue >> 31) != 0;
                 sfx.SampleRate = MagicValue >> 5;
-                if (sfx.BitsPerSample) sfx.SampleRate -= 0x80000000;
+                if (sfx.BitsPerSample) sfx.SampleRate -= 0x4000000;
 
                 sfx.FileOffset = reader.ReadUInt32();
                 sfx.FileSize = reader.ReadUInt32();

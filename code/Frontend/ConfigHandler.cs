@@ -53,6 +53,7 @@ public partial class ConfigHandler : Node
         Dict[Key_CameraH] = RehabGame.InvertCameraX;
         Dict[Key_CameraV] = RehabGame.InvertCameraY;
         Dict[Key_Lang] = TranslationServer.GetLocale();
+        Dict[Key_VoiceLang] = (int)RehabGame.VoiceLang;
         Dict[Key_VolumeGlobal] = AudioServer.GetBusVolumeDb(0);
         Dict[Key_VolumeMusic] = AudioServer.GetBusVolumeDb(1);
         Dict[Key_VolumeSFX] = AudioServer.GetBusVolumeDb(2);
@@ -117,6 +118,8 @@ public partial class ConfigHandler : Node
         }
         if (Dict.ContainsKey(Key_Lang))
             TranslationServer.SetLocale((string)Dict[Key_Lang]);
+        if (Dict.ContainsKey(Key_VoiceLang))
+            RehabGame.VoiceLang = (RehabGame.VoiceLanguage)(int)Dict[Key_VoiceLang];
     }
 
     const string Key_Fullscreen = "fullscreen";
@@ -132,6 +135,7 @@ public partial class ConfigHandler : Node
     const string Key_CameraH = "camera-h";
     const string Key_CameraV = "camera-v";
     const string Key_Lang = "lang";
+    const string Key_VoiceLang = "voice-lang";
     const string Key_WindowSizeX = "window-size-x";
     const string Key_WindowSizeY = "window-size-y";
 }

@@ -308,6 +308,7 @@ public partial class FrontendMenu : Control
         HeaderLabel.Text = "#FE-SFXOptions";
         GetNode<Control>("WindowMainRound/MenuOptionsMain").Visible = false;
         GetNode<Control>("WindowMainRound/MenuOptionsSound").Visible = true;
+        UpdateVoiceLangText();
         GetNode<Control>("WindowMainRound/MenuOptionsSound").GetChild<Control>(0).GrabFocus();
     }
 
@@ -504,6 +505,29 @@ public partial class FrontendMenu : Control
     public void OptionsSound_ToggleVolume_Voice()
     {
         OptionsSound_ToggleVolume(4, false);
+    }
+
+    public void OptionsSound_ToggleVoiceLanguage()
+    {
+        if (RehabGame.VoiceLang < RehabGame.VoiceLanguage.Japanese)
+            RehabGame.VoiceLang++;
+        else
+            RehabGame.VoiceLang = RehabGame.VoiceLanguage.English;
+        UpdateVoiceLangText();
+    }
+    void UpdateVoiceLangText()
+    {
+        string LangString = "#FE-Dub-English";
+        switch (RehabGame.VoiceLang)
+        {
+            default: break;
+            case RehabGame.VoiceLanguage.French: LangString = "#FE-Dub-French"; break;
+            case RehabGame.VoiceLanguage.German: LangString = "#FE-Dub-German"; break;
+            case RehabGame.VoiceLanguage.Italian: LangString = "#FE-Dub-Italian"; break;
+            case RehabGame.VoiceLanguage.Spanish: LangString = "#FE-Dub-Spanish"; break;
+            case RehabGame.VoiceLanguage.Japanese: LangString = "#FE-Dub-Japanese"; break;
+        }
+        GetNode<Button>("WindowMainRound/MenuOptionsSound/Button6").Text = $"{TranslationServer.Translate("#FE-DubSelection")}: {TranslationServer.Translate(LangString)}";
     }
 
     public void OptionsGame_ToggleCameraH()

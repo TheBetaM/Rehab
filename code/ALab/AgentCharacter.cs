@@ -287,12 +287,13 @@ public partial class AgentCharacter : Agent
         {
             char_velocity.X = direction.X * speed;
             char_velocity.Z = direction.Z * speed;
-            var targetRot = new Vector3(0, (float)Math.Atan2(direction.X, direction.Z), 0);
+            float atan = (float)Math.Atan2(direction.X, direction.Z);
+            var targetRot = new Vector3(0, atan, 0);
             if (speed != 0)
                 GlobalRotation = targetRot;
             else
             {
-                GlobalRotation = GlobalRotation.Slerp(targetRot, 5f * delta);
+                GlobalRotation = GlobalRotation.Lerp(targetRot, 5f * delta); //GlobalRotation.Slerp(targetRot, 5f * delta);
                 GlobalRotation = new Vector3(0, GlobalRotation.Y, 0);
             }
             if (!isJumping && onFloor && spinTimer <= 0.0 && slideTimer <= 0.0)
