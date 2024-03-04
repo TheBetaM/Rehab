@@ -135,6 +135,10 @@ public partial class FrontendInstaller : Control
                 {
                     Dialog.UseNativeDialog = true;
                 }
+                if (OS.GetName() == "Android")
+                {
+                    Dialog.CurrentPath = OS.GetSystemDir(OS.SystemDir.Downloads);
+                }
                 Dialog.Visible = true;
                 Dialog.GrabFocus();
                 break;

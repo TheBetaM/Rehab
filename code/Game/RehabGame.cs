@@ -36,8 +36,8 @@ public static class RehabGame
     public static void Init(){
         if (OS.GetName() == "Android")
         {
-            //DataPath = OS.GetUserDataDir() + "/";
-            DataPath = "/storage/emulated/0/Rehab/Packs";
+            //DataPath = OS.GetSystemDir(OS.SystemDir.Downloads) + "Rehab/Packs";
+            DataPath = OS.GetUserDataDir() + "/";
         }
         else
         {

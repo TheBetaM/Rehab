@@ -31,6 +31,8 @@ public partial class LevelSelectList : Control
         SetTexture(GetNode<Button>("SimpleList/Control/Button15"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level11.res", "#FE-LevelName-014");
         SetTexture(GetNode<Button>("SimpleList/Control/Button16"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level12.res", "#FE-LevelName-015");
         SetTexture(GetNode<Button>("SimpleList/Control/Button17"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level13.res", "#FE-LevelName-016");
+        GetNode<ScrollContainer>("AdvList").GetVScrollBar().Scale = new Vector2(5f, 1f);
+        GetNode<ScrollContainer>("AdvList").GetVScrollBar().PivotOffset = new Vector2(GetNode<ScrollContainer>("AdvList").GetVScrollBar().Size.X, GetNode<ScrollContainer>("AdvList").GetVScrollBar().PivotOffset.Y);
     }
 
     public void GenerateLevels()
@@ -315,6 +317,12 @@ public partial class LevelSelectList : Control
                 CreateItem(i.Name, ItemCount);
                 ItemCount = ItemCount + 1;
             }
+        }
+        else
+        {
+            // Android Test
+            CreateItem("Doc-Amok.tscn", ItemCount);
+            ItemCount = ItemCount + 1;
         }
     }
 
