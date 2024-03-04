@@ -509,7 +509,17 @@ public partial class FrontendMenu : Control
 
     public void OptionsSound_ToggleVoiceLanguage()
     {
-        if (RehabGame.VoiceLang < RehabGame.VoiceLanguage.Japanese)
+        bool CanChangeLang = false;
+        foreach (var mod in RehabGame.ModsInstalled)
+        {
+            if (mod.IsPAL)
+            {
+                CanChangeLang = true;
+                break;
+            }
+        }
+        if (!CanChangeLang) return;
+        if (RehabGame.VoiceLang < RehabGame.VoiceLanguage.Italian)
             RehabGame.VoiceLang++;
         else
             RehabGame.VoiceLang = RehabGame.VoiceLanguage.English;
@@ -779,6 +789,7 @@ public partial class FrontendMenu : Control
     public void Extras_ToRed() => ExtrasListStart(4);
     public void Extras_ToYellow() => ExtrasListStart(5);
     public void Extras_ToComplete() => ExtrasListStart(6);
+    public void Go_Mods() => ExtrasListStart(7);
 
     public void ExtrasListStart(int type)
     {
@@ -928,10 +939,20 @@ public partial class FrontendMenu : Control
                     }
                 }
                 else GD.Print("[EXTRAS] Cannot open folder."); break;
+            case 7:
+                headerName = "#FE-Explorer-ModsInstalled";
+                foreach (var i in RehabGame.ModsInstalled)
+                {
+                    Button inst = (Button)prefab.Duplicate();
+                    inst.Text = i.Name;
+                    ExtrasList.AddChild(inst);
+                }
+                break;
             default: break;
         }
 
         HeaderLabel.Text = headerName;
+        GetNode<Control>("WindowMainRound/MenuOptionsMain").Visible = false;
         GetNode<Control>("WindowMainRound/MenuExtras").Visible = false;
         GetNode<Control>("WindowMainRound/MenuExtrasList").Visible = true;
         ExtrasList.GetChild<Control>(0).GrabFocus();
@@ -1007,5 +1028,24 @@ public partial class FrontendMenu : Control
         }
         ExtrasList.Visible = true;
         ExtrasList.GetChild<Control>(LastExtrasItem).GrabFocus();
+    }
+
+    public void LongTextExit()
+    {
+        HeaderLabel.Text = "#FE-Options";
+        GetNode<Control>("WindowMainRound/MenuLongText").Visible = false;
+        GetNode<Control>("WindowMainRound/MenuOptionsMain").Visible = true;
+        GetNode<Control>("WindowMainRound/MenuOptionsMain").GetChild<Control>(0).GrabFocus();
+    }
+
+    public void Go_License()
+    {
+        HeaderLabel.Text = "#FE-Explorer-ViewLicense";
+        GetNode<Control>("WindowMainRound/MenuOptionsMain").Visible = false;
+        GetNode<Control>("WindowMainRound/MenuLongText").Visible = true;
+        var label = GetNode<Control>("WindowMainRound/MenuLongText").GetChild<RichTextLabel>(0);
+        TextResource file = (TextResource)ResourceLoader.Load("res://assets/lang/license.tres");
+        label.Text = file.text;
+        GetNode<Control>("WindowMainRound/MenuLongText").GetChild<Control>(1).GrabFocus();
     }
 }

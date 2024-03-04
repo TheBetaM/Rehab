@@ -16,6 +16,7 @@ public partial class MainMenuDynamic : Control
         RehabGame.AssetsPath + "Rigs/RigRESET_Crash.res",
         RehabGame.AssetsPath + "Rigs/RigRESET_Cortex.res",
     ];
+    string DemoCheck = RehabGame.AssetsPath + "Animations/Cortex_SkateFall.res";
 
     public override void _Ready()
     {
@@ -59,7 +60,14 @@ public partial class MainMenuDynamic : Control
                 GetNode<AudioStreamPlayer>("AudioStreamPlayer").Play();
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             }
-            ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Play("scene/menu_start");
+            if (ResourceLoader.Exists(DemoCheck))
+            {
+                ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Play("scene/menu_start");
+            }
+            else
+            {
+                ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Play("scene/menu_start1");
+            }
         }
         GetNode<AnimationPlayer>("AnimationPlayer").Play("menu_start");
         Visible = true;

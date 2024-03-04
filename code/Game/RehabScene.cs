@@ -70,10 +70,11 @@ public partial class RehabScene : Node3D
         var dir = DirAccess.Open(RehabGame.AssetsPath + "Levels/");
         if (dir != null)
         {
-            GetNode<LevelSelectList>("FE/LevelSelect").Generate();
+            GetNode<LevelSelectList>("FE/LevelSelect").InitIcons();
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             GameHUD.Setup();
+            RehabGame.SetupMods();
             if (RehabGame.Dev)
             {
                 StartLevelSelect();
@@ -132,52 +133,58 @@ public partial class RehabScene : Node3D
         ResourceLoader.LoadThreadedRequest(path);
         while (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.InProgress)
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        if (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.Loaded)
+        if (ResourceLoader.LoadThreadedGetStatus(path) != ResourceLoader.ThreadLoadStatus.Loaded)
         {
-            var loadedPack = (PackedScene)ResourceLoader.LoadThreadedGet(path);
-            var loadedScene = (ChunkScene)loadedPack.Instantiate();
-            loadedScene.ActiveScene = true;
-            loadedScene.ProcessMode = ProcessModeEnum.Disabled;
-            ActiveChunk = loadedScene;
-            Chunks.Add(loadedScene);
-            ChunkNames.Add(loadedScene.Name);
-            for (int i = 1; i <= MaxChunksLoaded; i++)
+            GD.PrintErr("[ROOT] FAILED TO LOAD SCENE AT " + path);
+            GetTree().Quit();
+            return;
+        }
+        var loadedPack = (PackedScene)ResourceLoader.LoadThreadedGet(path);
+        var loadedScene = (ChunkScene)loadedPack.Instantiate();
+        loadedScene.ActiveScene = true;
+        loadedScene.ProcessMode = ProcessModeEnum.Disabled;
+        ActiveChunk = loadedScene;
+        Chunks.Add(loadedScene);
+        ChunkNames.Add(loadedScene.Name);
+        for (int i = 1; i <= MaxChunksLoaded; i++)
+        {
+            if (!ChunkLayers.Contains(i))
             {
-                if (!ChunkLayers.Contains(i))
-                {
-                    ChunkLayers.Add(i);
-                    loadedScene.UpdateLayers(i);
-                    break;
-                }
+                ChunkLayers.Add(i);
+                loadedScene.UpdateLayers(i);
+                break;
             }
-            loadedScene.WorldEnv.TonemapMode = Environment.ToneMapper.Reinhardt;
-            GetNode<WorldEnvironment>("WorldEnv").Environment = loadedScene.WorldEnv;
-            AddChild(loadedScene);
-            string skypath = RehabGame.AssetsPath + loadedScene.SkydomePath;
-            if (!string.IsNullOrWhiteSpace(loadedScene.SkydomePath))
-            {
-                if (!string.IsNullOrWhiteSpace(SkydomePath))
-                    Skydome.QueueFree();
-                var sky = (PackedScene)ResourceLoader.Load(skypath);
-                SkydomePath = skypath;
-                Skydome = (Node3D)sky.Instantiate();
-                AddChild(Skydome);
-            }
-            await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
-            loadedScene.ProcessMode = ProcessModeEnum.Inherit;
-            loadedScene.OnChunkEnter();
-            loadedScene.ShadowToggle(true);
-            GetNode<LoadingVisuals>("FE/Loading").AnimOut();
-            if (RehabGame.UseMouseCamera)
-                Input.MouseMode = Input.MouseModeEnum.Captured;
-            await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-            GetNode<LoadingVisuals>("FE/Loading").Visible = false;
-            GetNode<LoadingVisuals>("FE/Loading").ProcessMode = ProcessModeEnum.Disabled;
+        }
+        loadedScene.WorldEnv.TonemapMode = Environment.ToneMapper.Reinhardt;
+        GetNode<WorldEnvironment>("WorldEnv").Environment = loadedScene.WorldEnv;
+        AddChild(loadedScene);
+        string skypath = RehabGame.AssetsPath + loadedScene.SkydomePath;
+        if (!string.IsNullOrWhiteSpace(loadedScene.SkydomePath))
+        {
+            if (!string.IsNullOrWhiteSpace(SkydomePath))
+                Skydome.QueueFree();
+            var sky = (PackedScene)ResourceLoader.Load(skypath);
+            SkydomePath = skypath;
+            Skydome = (Node3D)sky.Instantiate();
+            AddChild(Skydome);
+        }
+        await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+        loadedScene.ProcessMode = ProcessModeEnum.Inherit;
+        loadedScene.OnChunkEnter();
+        loadedScene.ShadowToggle(true);
+        GetNode<LoadingVisuals>("FE/Loading").AnimOut();
+        if (RehabGame.UseMouseCamera)
+            Input.MouseMode = Input.MouseModeEnum.Captured;
+        await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+        GetNode<LoadingVisuals>("FE/Loading").Visible = false;
+        GetNode<LoadingVisuals>("FE/Loading").ProcessMode = ProcessModeEnum.Disabled;
+        if (RehabGame.Mode == RehabGame.GameMode.Explorer)
+        {
             GameHUD.OnUnPause();
             await ToSignal(GetTree().CreateTimer(3.5f), SceneTreeTimer.SignalName.Timeout);
             if (AgentCharacter.activeCharacter == null && !GetNode<Control>("FE/LevelSelect").Visible &&
-             !GetNode<Control>("FE/Loading").Visible && !GetNode<Control>("FE/FE_MainMenuDynamic").Visible && 
-             !GetNode<Control>("FE/FE_Credits").Visible)
+            !GetNode<Control>("FE/Loading").Visible && !GetNode<Control>("FE/FE_MainMenuDynamic").Visible && 
+            !GetNode<Control>("FE/FE_Credits").Visible)
             {
                 GD.PrintErr("[ROOT] LEVEL LOADED WITH NO CHARACTER");
                 StartMessage("#FE-NoActorError");
@@ -187,10 +194,6 @@ public partial class RehabScene : Node3D
                 ExitLevel(false);
             }
         }
-        else
-        {
-            GD.PrintErr("[ROOT] FAILED TO LOAD SCENE AT " + path);
-        } 
     }
 
     public Node3D LoadChunk(PackedScene chunk, string chunkName, Node3D holder)
@@ -494,6 +497,14 @@ public partial class RehabScene : Node3D
 	    GetNode<ConfigHandler>("ConfigHandler").Save();
     }
 
+    public void StopMusic()
+    {
+        if (AudioMusic.Playing)
+        {
+            var musicFader = (MusicFader)AudioMusic;
+            musicFader.IsFadingOut = true;
+        }
+    }
 
 
 }

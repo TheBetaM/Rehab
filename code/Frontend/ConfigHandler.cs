@@ -122,6 +122,28 @@ public partial class ConfigHandler : Node
             RehabGame.VoiceLang = (RehabGame.VoiceLanguage)(int)Dict[Key_VoiceLang];
     }
 
+    public Dictionary<string, Variant> LoadModInfo(string path)
+    {
+        var ModDict = new Dictionary<string, Variant>();
+        if (!FileAccess.FileExists(path)) return ModDict;
+        var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+        var text = file.GetAsText().ToLower();
+        if (text.Contains("object") || text.Contains("refcounted") || text.Contains("script"))
+        {
+            file.Close();
+            return ModDict;
+        }
+        file.Close();
+        
+        var config = new ConfigFile();
+        var result = config.Load(path);
+        if (result != Error.Ok)
+            return ModDict;
+        foreach (var b in config.GetSectionKeys("mod"))
+            ModDict[b] = config.GetValue("mod", b);
+        return ModDict;
+    }
+
     const string Key_Fullscreen = "fullscreen";
     const string Key_MSAA = "msaa";
     const string Key_FXAA = "fxaa";

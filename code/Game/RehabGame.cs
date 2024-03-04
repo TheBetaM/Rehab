@@ -30,6 +30,8 @@ public static class RehabGame
     public static string AssetsPath = "res://import/";
     public static string ConfigPath = "user://rehab.cfg";
     public static string DataPath = OS.GetExecutablePath();
+    public static List<ModInfo> ModsInstalled = new List<ModInfo>();
+    public static GameMode Mode = GameMode.Explorer;
 
     public static void Init(){
         if (OS.GetName() == "Android")
@@ -145,6 +147,33 @@ public static class RehabGame
         }
     }
 
+    public static void SetupMods()
+    {
+        var conf = RehabScene.Root.GetNode<ConfigHandler>("ConfigHandler");
+        var dir = DirAccess.Open(AssetsPath + "Mods/");
+        if (dir != null)
+        {
+            dir.ListDirBegin();
+            var file_name = dir.GetNext();
+            while (file_name != "")
+            {
+                if (!dir.CurrentIsDir())
+                {
+                    var Dict = conf.LoadModInfo(AssetsPath + "Mods/" + file_name);
+                    if (Dict.ContainsKey("name"))
+                    {
+                        ModInfo mod = new ModInfo();
+                        mod.Name = (string)Dict["name"];
+                        if (Dict.ContainsKey("IsPAL"))
+                            mod.IsPAL = (bool)Dict["IsPAL"];
+                        ModsInstalled.Add(mod);
+                    }
+                }
+                file_name = dir.GetNext();
+            }
+        }
+    }
+
     public static Dictionary<int, string> MusicPaths = new Dictionary<int, string>(){
         [0] = "undefined",
         [1] = "DemoHub",
@@ -222,5 +251,18 @@ public static class RehabGame
         French = 3,
         Italian = 4,
         Japanese = 5,
+    }
+
+    public enum GameMode
+    {
+        Explorer = 0,
+        Cutscene = 1,
+        Minigame = 2,
+    }
+
+    public class ModInfo
+    {
+        public string Name;
+        public bool IsPAL;
     }
 }

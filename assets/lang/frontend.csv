@@ -96,6 +96,13 @@
 #FE-Explorer-Disclaimer-8,"This is a tech demo.\n\nHas anyone seen\nthis mouse?\n\nPure white, pointy,\nclicks everywhere.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
 #FE-Explorer-Disclaimer-9,"This is a game.\n\nOr at least,\nit will be one day.\n\nFor now, this demo\nshall suffice.","Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
 #FE-Explorer-Disclaimer-10,This is a tech demo.\n\nYou cannot complete it.\n\nJust enjoy it.\n\nLike coffee.,"Dies ist ein Tech-Demo.\n\nWenn Sie dies sehen,\nbedeutet das,\ndass es funktioniert.\n\nHoffentlich.",Ceci est une démo technique.,Questa è una demo tecnologica.,Esta es una demostración técnica.,"To jest technologiczne demo.\n\nJeśli to widzisz,\nto znaczy że działa.\n\nMam nadzieję."
+#FE-Explorer-Mods,Mods,Modifikationen,Mods,Mod,Modificaciones,Mody
+#FE-Explorer-ModsInstalled,"Mods Installed",Modifikationen,Mods,Mod,Modificaciones,Zainstalowane mody
+#FE-Explorer-ViewLicense,"View License Info","Lizenzinformationen","Informations sur la licence","Informazioni sulla licenza","Información de licencia","Informacje o licencji"
+#FE-Explorer-Cutscenes,Cutscenes,Sequenzen,Cinématiques,Filmati,Escenas,Sceny
+#FE-Explorer-Minigames,Minigames,Minispiele,Mini-jeux,Mini giochi,Mini juegos,Mini gry
+#FE-Explorer-VRNotAllowed,"This is not supported in VR.","Dies ist in VR nicht verfügbar.","Ceci n’est pas disponible en VR.","Questo non è disponibile in VR.","Esto no está disponible en VR.","To jest niedostępne w VR."
+#FE-Explorer-VROnly,"This is only supported in VR.","Dies ist nur in VR verfügbar.","Ceci n’est disponible qu’en VR.","Questo è disponibile solo in VR.","Esto sólo está disponible en VR.","To jest tylko dostępne w VR."
 #FE-ToggleFullScreen,Toggle Full Screen,Vollbild umschalten,Basculer en plein écran,Passare a schermo intero,Alternar pantalla completa,Przełącz pełny ekran
 #FE-GlobalVolume,Global Volume,Globales-Lautstärke,Volume global,Volume globale,Volumen global,Głośność globalna
 #FE-VoiceVolume,Voice Volume,Stimmen-Lautstärke,Volume de la voix,Volume della voce,Volumen de voz,Głośność głosów

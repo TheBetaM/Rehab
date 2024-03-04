@@ -1,0 +1,720 @@
+[gd_scene load_steps=23 format=3 uid="uid://c4wikn6v7d8a6"]
+
+[ext_resource type="Script" path="res://code/demo/CutsceneChunk.cs" id="1_v4t67"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_earth_docamok_docamok1-Collision.tscn" id="2_houkh"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_earth_hub_docent-Scenery.tscn" id="3_l15cf"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_earth_docamok_docamok1-Scenery.tscn" id="3_wfxy4"]
+[ext_resource type="AudioStream" path="res://import/Sounds/GlobalVO/English/DRC082_P.res" id="6_wxq8o"]
+[ext_resource type="Animation" path="res://import/Rigs/RigRESET_TribesmanA.res" id="7_dq614"]
+[ext_resource type="AudioStream" path="res://import/Sounds/GlobalVO/English/DRC085.res" id="7_hpi5o"]
+[ext_resource type="Animation" path="res://import/Animations/Tribesman_Idle.res" id="8_g0x72"]
+[ext_resource type="AudioStream" path="res://import/Sounds/GlobalVO/English/DRC086_P.res" id="8_srtca"]
+[ext_resource type="Animation" path="res://import/Animations/Tribesman_Cutscene_Clapping.res" id="9_5vde6"]
+[ext_resource type="AudioStream" path="res://import/Sounds/GlobalVO/English/DRC356-03_07.res" id="9_kc1u2"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Rig_TribesmanA.tscn" id="10_6x4ic"]
+[ext_resource type="Animation" path="res://import/Animations/Tribesman_Cutscene_L03E.res" id="10_pjf6y"]
+[ext_resource type="AudioStream" path="res://import/Sounds/Totem_CutsceneDirector_1.res" id="10_r2q0x"]
+[ext_resource type="PackedScene" path="res://import/Actors/Global_Ambient_Sound.tscn" id="11_4xjk1"]
+[ext_resource type="AudioStream" path="res://import/Sounds/Totem_CutsceneDirector_2.res" id="11_t6m1t"]
+[ext_resource type="PackedScene" path="res://import/Actors/CutsceneDirector_Totem.tscn" id="18_5yfmm"]
+
+[sub_resource type="Environment" id="1"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.333333, 0.333333, 0.333333, 1)
+ambient_light_energy = 3.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.005
+volumetric_fog_emission = Color(0.5, 0.5, 0, 1)
+
+[sub_resource type="Animation" id="Animation_kd45t"]
+resource_name = "RESET"
+length = 0.02
+step = 0.01
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Cortex/AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("RESET"),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "animation"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Crash/AnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": PackedStringArray("RESET"),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "animation"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Papu/AnimationPlayer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": PackedStringArray("RESET"),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "animation"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA/AnimationPlayer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": PackedStringArray("RESET"),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "animation"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA2/AnimationPlayer")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": PackedStringArray("RESET"),
+"times": PackedFloat32Array(0)
+}
+tracks/5/type = "animation"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Pig_WildBoar/AnimationPlayer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"clips": PackedStringArray("RESET"),
+"times": PackedFloat32Array(0)
+}
+tracks/6/type = "animation"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Docamok_SwarmOfBees/AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"clips": PackedStringArray("RESET"),
+"times": PackedFloat32Array(0)
+}
+tracks/7/type = "animation"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Bee_Single/AnimationPlayer")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"clips": PackedStringArray("RESET"),
+"times": PackedFloat32Array(0)
+}
+tracks/8/type = "position_3d"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("CutsceneCamera")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = PackedFloat32Array(0, 1, -49.3507, -23.9371, 43.709)
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Crash:rotation")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Cortex:rotation")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("CutsceneCamera:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-49.3507, -23.9371, 43.709)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("CutsceneCamera:rotation")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Docamok_SwarmOfBees:position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Docamok_SwarmOfBees:rotation")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Pig_WildBoar:position")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-59.0676, -25.1466, 54.4894)]
+}
+
+[sub_resource type="Animation" id="Animation_gqxh2"]
+resource_name = "cutscene"
+length = 27.76
+step = 0.01
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Cortex/AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("Cortex_Cutscene_L03A_Shot1", "Cortex_Cutscene_L03A_Shot1To2", "Cortex_Cutscene_L03A_Shot2", "Cortex_Cutscene_L03A_Shot3"),
+"times": PackedFloat32Array(0.5, 9.68, 10.7, 18.95)
+}
+tracks/1/type = "animation"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Crash/AnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": PackedStringArray("Crash_Cutscene_L03A_Shot1", "Crash_Cutscene_L03A_Shot1To2", "Crash_Cutscene_L03A_Shot2", "Crash_Cutscene_L03A_Shot3"),
+"times": PackedFloat32Array(0.5, 9.67, 10.7, 18.95)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Crash:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Cortex:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -2.35619, 0)]
+}
+tracks/4/type = "animation"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Papu/AnimationPlayer")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": PackedStringArray("Papu_Idle", "Papu_Cutscene_L03A_BellyBounce", "Papu_Cutscene_L03A_ButtShake", "Papu_Cutscene_L03A_BellyBounce", "Papu_Cutscene_L03A_ButtShake", "Papu_Cutscene_L03A_BellyBounce", "Papu_Cutscene_L03A_ButtShake"),
+"times": PackedFloat32Array(13.9, 14.2, 15, 15.8, 16.6, 17.4, 18.2)
+}
+tracks/5/type = "animation"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA/AnimationPlayer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"clips": PackedStringArray("Tribesman_Idle", "Tribesman_Idle", "Tribesman_Cutscene_Clapping", "Tribesman_Cutscene_Clapping"),
+"times": PackedFloat32Array(13.9, 15.2, 16.49, 18.68)
+}
+tracks/6/type = "animation"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA2/AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"clips": PackedStringArray("Tribesman_Idle", "Tribesman_Idle", "Tribesman_Cutscene_Clapping", "Tribesman_Cutscene_Clapping"),
+"times": PackedFloat32Array(13.9, 15.2, 16.51, 18.69)
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("CutsceneCamera:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.49, 0.5, 4.09, 4.1, 7.49, 8, 9.69, 10.65, 14.19, 14.2, 18.91, 18.92, 21.82, 21.83, 23.61, 23.62),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-49.3507, -23.9371, 43.709), Vector3(-49.3507, -23.9371, 43.709), Vector3(-50.9516, -23.6527, 40.5331), Vector3(-50.9516, -23.6527, 40.5331), Vector3(-49.855, -23.6098, 39.9031), Vector3(-49.855, -23.6098, 39.9031), Vector3(-51.0043, -23.0171, 38.1383), Vector3(-51.0043, -23.0171, 38.1383), Vector3(-50.999, -23.659, 39.823), Vector3(-50.999, -23.659, 39.823), Vector3(-102.438, -23.3575, 61.1428), Vector3(-102.438, -23.3575, 61.1428), Vector3(-52.1518, -23.5883, 40.1516), Vector3(-52.1518, -23.5883, 40.1516), Vector3(-50.5717, -23.3368, 36.1765), Vector3(-50.5717, -23.3368, 36.1765), Vector3(-51.5163, -23.5031, 40.9837)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("CutsceneCamera:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.49, 0.5, 4.09, 4.1, 7.49, 8, 9.69, 10.65, 14.19, 14.2, 18.91, 18.92, 21.82, 21.83, 23.61, 23.62),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0.633136, 0), Vector3(0, 0.633136, 0), Vector3(-0.466184, 1.05071, 0.0327128), Vector3(-0.466184, 1.05071, 0.0327128), Vector3(-0.176278, 0.0488692, 0), Vector3(-0.176278, 0.0488692, 0), Vector3(-0.125664, 0.551524, 0), Vector3(-0.125664, 0.551524, 0), Vector3(-0.120428, -0.200713, 0), Vector3(-0.120428, -0.200713, 0), Vector3(-0.120428, -3.13402, -1.82741e-09), Vector3(-0.120428, -3.13402, -1.82741e-09), Vector3(-0.0453786, -0.193732, 0)]
+}
+tracks/9/type = "method"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Cortex/RigidBody/Armature/attach12/Audio_1")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.52),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/10/type = "method"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Cortex/RigidBody/Armature/attach12/Audio_2")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(10.73),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/11/type = "method"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Cortex/RigidBody/Armature/attach12/Audio_3")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(18.95),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/12/type = "method"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Cortex/RigidBody/Armature/attach12/Audio_4")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(25.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/13/type = "method"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Papu/RigidBody/Armature/attach5/Audio_5")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(14.12, 15.62, 17.12),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/14/type = "method"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA/RigidBody/Armature/attach9/Audio_6")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(16.55),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/15/type = "method"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA2/RigidBody/Armature/attach9/Audio_7")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(16.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/16/type = "animation"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Pig_WildBoar/AnimationPlayer")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"clips": PackedStringArray("Pig_WildBoar_Run", "Pig_WildBoar_Run", "Pig_WildBoar_Run", "Pig_WildBoar_Run"),
+"times": PackedFloat32Array(21.7, 22.36, 23.02, 23.68)
+}
+tracks/17/type = "animation"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Docamok_SwarmOfBees/AnimationPlayer")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"clips": PackedStringArray("DocAmokSwarmOfBees_Cutscene"),
+"times": PackedFloat32Array(19.03)
+}
+tracks/18/type = "animation"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Bee_Single/AnimationPlayer")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"clips": PackedStringArray("Bee_Single_Cutscene_L03A", "Bee_Single_Cutscene_L03A", "Bee_Single_Cutscene_L03A", "Bee_Single_Cutscene_L03A", "Bee_Single_Cutscene_L03A"),
+"times": PackedFloat32Array(23.67, 24.52, 25.37, 26.2, 27.05)
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Docamok_SwarmOfBees:position")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(23.61, 23.62),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-51.869, -25.086, 37.234)]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Docamok_SwarmOfBees:rotation")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(23.61, 23.62),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -1.5708, 0)]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("Actors/CutsceneDirector_Totem/Models/Rig_Pig_WildBoar:position")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(21.83, 23.74),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-59.0676, -25.1466, 54.4894), Vector3(-39.5604, -25.1466, 54.4894)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s3ton"]
+_data = {
+"RESET": SubResource("Animation_kd45t"),
+"cutscene": SubResource("Animation_gqxh2")
+}
+
+[sub_resource type="AnimationLibrary" id="4"]
+_data = {
+"RESET": ExtResource("7_dq614"),
+"Tribesman_Cutscene_Clapping": ExtResource("9_5vde6"),
+"Tribesman_Cutscene_L03E": ExtResource("10_pjf6y"),
+"Tribesman_Idle": ExtResource("8_g0x72")
+}
+
+[node name="Cutscene_DocAmok" type="Node3D"]
+script = ExtResource("1_v4t67")
+AnimPlayerPath = NodePath("AnimationPlayer")
+AnimCameraPath = NodePath("CutsceneCamera")
+SkydomePath = "Skydomes/Skydome_Earth.tscn"
+WorldEnv = SubResource("1")
+
+[node name="levels_earth_docamok_docamok1-Collision" parent="." instance=ExtResource("2_houkh")]
+visible = false
+
+[node name="levels_earth_hub_docent-Scenery" parent="." instance=ExtResource("3_l15cf")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -94.275, -25.168, 200.134)
+
+[node name="levels_earth_docamok_docamok1-Scenery" parent="." instance=ExtResource("3_wfxy4")]
+metadata/_edit_lock_ = true
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="Directional" type="Node3D" parent="Lights"]
+
+[node name="DirectionalLight0" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.745632, 0.215557, -0.63053, -0.515941, 0.785583, -0.341561, 0.421708, 0.579995, 0.69697, 313.127, -35.0466, 44.3322)
+layers = 0
+light_color = Color(0.396865, 0.363031, 0.240104, 1)
+light_energy = 3.77962
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight1" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.810245, -0.430219, -0.398014, 0.58352, 0.6557, 0.479127, 0.0548485, -0.620459, 0.782318, 233.53, -37.9466, 1494.99)
+layers = 0
+light_color = Color(0.276502, 0.282506, 0.440992, 1)
+light_energy = 2.72114
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight2" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.495077, 0.707943, -0.503702, -0.608906, 0.696252, 0.380088, 0.619784, 0.118534, 0.775769, 233.53, -37.9466, 1494.99)
+layers = 0
+light_color = Color(0.38721, 0.355682, 0.257108, 1)
+light_energy = 3.87386
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight3" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.852319, -0.514346, -0.0948725, 0.258312, 0.571689, -0.778747, 0.454783, 0.639234, 0.620123, 233.53, -37.9466, 1494.99)
+layers = 0
+light_color = Color(0.361497, 0.223891, 0.414613, 1)
+light_energy = 1.39533
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight4" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.540302, 3.42989e-16, 0.841471, -4.44089e-16, 1, -1.22461e-16, -0.841471, -3.07522e-16, 0.540302, 233.53, -37.9466, 1494.99)
+layers = 0
+light_color = Color(0.248851, 0.244301, 0.506848, 1)
+light_energy = 1.43491
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="Links" type="Node3D" parent="."]
+
+[node name="Locators" type="Node3D" parent="."]
+
+[node name="Paths" type="Node3D" parent="Locators"]
+
+[node name="PathsAI" type="Node3D" parent="Locators"]
+
+[node name="Points" type="Node3D" parent="Locators"]
+
+[node name="PointsAI" type="Node3D" parent="Locators"]
+
+[node name="Volumes" type="Node3D" parent="."]
+
+[node name="Triggers" type="Node3D" parent="Volumes"]
+
+[node name="CameraTriggers" type="Node3D" parent="Volumes"]
+
+[node name="Instances" type="Node3D" parent="."]
+
+[node name="CutsceneCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.3507, -23.9371, 43.709)
+current = true
+far = 90000.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_s3ton")
+}
+
+[node name="Actors" type="Node3D" parent="."]
+
+[node name="CutsceneDirector_Totem" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("18_5yfmm")]
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Rig_Cortex" parent="Actors/CutsceneDirector_Totem/Models" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.5176, -25.1253, 37.8927)
+
+[node name="Armature" parent="Actors/CutsceneDirector_Totem/Models/Rig_Cortex/RigidBody" index="0"]
+
+[node name="attach12" parent="Actors/CutsceneDirector_Totem/Models/Rig_Cortex/RigidBody/Armature" index="2"]
+
+[node name="Audio_1" type="AudioStreamPlayer" parent="Actors/CutsceneDirector_Totem/Models/Rig_Cortex/RigidBody/Armature/attach12" index="0"]
+stream = ExtResource("6_wxq8o")
+bus = &"Voice"
+
+[node name="Audio_2" type="AudioStreamPlayer" parent="Actors/CutsceneDirector_Totem/Models/Rig_Cortex/RigidBody/Armature/attach12" index="1"]
+stream = ExtResource("7_hpi5o")
+bus = &"Voice"
+
+[node name="Audio_3" type="AudioStreamPlayer" parent="Actors/CutsceneDirector_Totem/Models/Rig_Cortex/RigidBody/Armature/attach12" index="2"]
+stream = ExtResource("8_srtca")
+bus = &"Voice"
+
+[node name="Audio_4" type="AudioStreamPlayer" parent="Actors/CutsceneDirector_Totem/Models/Rig_Cortex/RigidBody/Armature/attach12" index="3"]
+stream = ExtResource("9_kc1u2")
+bus = &"Voice"
+
+[node name="Rig_Crash" parent="Actors/CutsceneDirector_Totem/Models" index="1"]
+process_mode = 0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.2547, -25.138, 37.8683)
+visible = true
+
+[node name="Armature" parent="Actors/CutsceneDirector_Totem/Models/Rig_Crash/RigidBody" index="0"]
+
+[node name="AnimationPlayer" parent="Actors/CutsceneDirector_Totem/Models/Rig_Crash" index="1"]
+playback_default_blend_time = 0.25
+
+[node name="Rig_Papu" parent="Actors/CutsceneDirector_Totem/Models" index="2"]
+process_mode = 0
+transform = Transform3D(0.785507, 0, 0.618853, 0, 1, 0, -0.618853, 0, 0.785507, -106.079, -25.1466, 55.9829)
+visible = true
+
+[node name="Armature" parent="Actors/CutsceneDirector_Totem/Models/Rig_Papu/RigidBody" index="0"]
+
+[node name="attach5" parent="Actors/CutsceneDirector_Totem/Models/Rig_Papu/RigidBody/Armature" index="6"]
+
+[node name="Audio_5" type="AudioStreamPlayer3D" parent="Actors/CutsceneDirector_Totem/Models/Rig_Papu/RigidBody/Armature/attach5" index="1"]
+transform = Transform3D(0.999984, -0.00563619, 0.00015225, 0.00563622, 0.999984, -0.000257777, -0.000150793, 0.00025875, 1, -0.00337982, -0.127956, -0.121498)
+stream = ExtResource("10_r2q0x")
+bus = &"SFX"
+
+[node name="AnimationPlayer" parent="Actors/CutsceneDirector_Totem/Models/Rig_Papu" index="1"]
+playback_default_blend_time = 0.25
+
+[node name="Rig_TribesmanA" parent="Actors/CutsceneDirector_Totem/Models" index="3"]
+process_mode = 0
+transform = Transform3D(-0.996941, 0, 0.0781534, 0, 1, 0, -0.0781534, 0, -0.996941, -106.132, -25.1466, 60.2591)
+visible = true
+
+[node name="Armature" parent="Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA/RigidBody" index="0"]
+
+[node name="attach9" parent="Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA/RigidBody/Armature" index="1"]
+
+[node name="Audio_6" type="AudioStreamPlayer3D" parent="Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA/RigidBody/Armature/attach9" index="2"]
+transform = Transform3D(0.999984, -0.00563619, 0.00015225, 0.00563622, 0.999984, -0.000257777, -0.000150793, 0.00025875, 1, -0.00337982, -0.127956, -0.121498)
+stream = ExtResource("11_t6m1t")
+bus = &"SFX"
+
+[node name="AnimationPlayer" parent="Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA" index="1"]
+playback_default_blend_time = 0.25
+
+[node name="Rig_TribesmanA2" parent="Actors/CutsceneDirector_Totem/Models" index="4" instance=ExtResource("10_6x4ic")]
+transform = Transform3D(-0.0812115, 0, -0.996697, 0, 1, 0, 0.996697, 0, -0.0812115, -101.688, -25.1466, 57.6557)
+
+[node name="Armature" parent="Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA2/RigidBody" index="0"]
+
+[node name="attach9" parent="Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA2/RigidBody/Armature" index="1"]
+
+[node name="Audio_7" type="AudioStreamPlayer3D" parent="Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA2/RigidBody/Armature/attach9" index="2"]
+transform = Transform3D(0.999984, -0.00563619, 0.00015225, 0.00563622, 0.999984, -0.000257777, -0.000150793, 0.00025875, 1, -0.00337982, -0.127956, -0.121498)
+stream = ExtResource("11_t6m1t")
+bus = &"SFX"
+
+[node name="AnimationPlayer" parent="Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA2" index="1"]
+libraries = {
+"": SubResource("4")
+}
+playback_default_blend_time = 0.25
+
+[node name="Rig_Pig_WildBoar" parent="Actors/CutsceneDirector_Totem/Models" index="5"]
+process_mode = 0
+transform = Transform3D(0.04313, 0, 0.999069, 0, 1, 0, -0.999069, 0, 0.04313, -59.0676, -25.1466, 54.4894)
+visible = true
+
+[node name="Rig_Docamok_SwarmOfBees" parent="Actors/CutsceneDirector_Totem/Models" index="6"]
+process_mode = 0
+visible = true
+
+[node name="Rig_Bee_Single" parent="Actors/CutsceneDirector_Totem/Models" index="8"]
+process_mode = 0
+transform = Transform3D(-0.438099, 0, -0.898927, 0, 1, 0, 0.898927, 0, -0.438099, -50.4386, -24.9456, 39.6844)
+visible = true
+
+[node name="Rig_CortexPimple" parent="Actors/CutsceneDirector_Totem/Models" index="9"]
+process_mode = 0
+
+[node name="Rig_BeeHiveCutscene" parent="Actors/CutsceneDirector_Totem/Models" index="10"]
+process_mode = 0
+
+[node name="Rig_PapuStaff" parent="Actors/CutsceneDirector_Totem/Models" index="11"]
+process_mode = 0
+
+[node name="Global_Ambient_Sound" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("11_4xjk1")]
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+RegInt = Array[int]([0, 0, 90])
+
+[editable path="Actors/CutsceneDirector_Totem"]
+[editable path="Actors/CutsceneDirector_Totem/Models/Rig_Cortex"]
+[editable path="Actors/CutsceneDirector_Totem/Models/Rig_Crash"]
+[editable path="Actors/CutsceneDirector_Totem/Models/Rig_Papu"]
+[editable path="Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA"]
+[editable path="Actors/CutsceneDirector_Totem/Models/Rig_TribesmanA2"]
+[editable path="Actors/CutsceneDirector_Totem/Models/Rig_Pig_WildBoar"]
+[editable path="Actors/CutsceneDirector_Totem/Models/Rig_Docamok_SwarmOfBees"]
+[editable path="Actors/CutsceneDirector_Totem/Models/Rig_Bee_Single"]
+[editable path="Actors/CutsceneDirector_Totem/Models/Rig_CortexPimple"]
+[editable path="Actors/CutsceneDirector_Totem/Models/Rig_BeeHiveCutscene"]
+[editable path="Actors/CutsceneDirector_Totem/Models/Rig_PapuStaff"]

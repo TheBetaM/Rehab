@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://b06yjyl4s3uf6"]
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://b06yjyl4s3uf6"]
 
 [ext_resource type="FontVariation" uid="uid://b0d28n0ldq4v0" path="res://assets/frontend/TwinsFont.tres" id="1_6fysd"]
 
@@ -9,6 +9,11 @@ bg_color = Color(0, 0, 0, 0.25098)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8x6j6"]
 bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_oud1y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_682tu"]
+bg_color = Color(0, 0, 0, 0.380392)
 
 [sub_resource type="StyleBoxFlat" id="2"]
 bg_color = Color(1, 1, 1, 1)
@@ -77,6 +82,10 @@ ProgressBar/font_sizes/font_size = 36
 ProgressBar/fonts/font = ExtResource("1_6fysd")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_xofbv")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_8x6j6")
+RichTextLabel/colors/default_color = Color(1, 1, 1, 1)
+RichTextLabel/font_sizes/normal_font_size = 16
+RichTextLabel/fonts/normal_font = SubResource("SystemFont_oud1y")
+RichTextLabel/styles/normal = SubResource("StyleBoxFlat_682tu")
 VScrollBar/styles/grabber = SubResource("2")
 VScrollBar/styles/grabber_highlight = SubResource("3")
 VScrollBar/styles/grabber_pressed = SubResource("4")

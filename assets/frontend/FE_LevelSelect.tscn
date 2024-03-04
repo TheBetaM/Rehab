@@ -133,13 +133,32 @@ layout_mode = 2
 
 [node name="Button1" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
 layout_mode = 2
-offset_left = 150.0
+offset_top = 200.0
+offset_right = 420.0
+offset_bottom = 244.0
+rotation = -0.174533
+pivot_offset = Vector2(210, 22)
+text = "#FE-Explorer-Advanced"
+
+[node name="Button18" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+layout_mode = 2
+offset_left = -10.0
 offset_top = 150.0
-offset_right = 350.0
+offset_right = 422.0
 offset_bottom = 194.0
 rotation = -0.174533
-pivot_offset = Vector2(100, 22)
-text = "#FE-Explorer-Advanced"
+pivot_offset = Vector2(216, 22)
+text = "#FE-Explorer-Cutscenes"
+
+[node name="Button19" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
+layout_mode = 2
+offset_left = -20.0
+offset_top = 100.0
+offset_right = 417.0
+offset_bottom = 144.0
+rotation = -0.174533
+pivot_offset = Vector2(218.5, 22)
+text = "#FE-Explorer-Minigames"
 
 [node name="Button2" parent="SimpleList/Control" instance=ExtResource("5_qu4xw")]
 material = null
@@ -150,6 +169,8 @@ offset_right = 606.0
 offset_bottom = 276.0
 rotation = -0.174533
 pivot_offset = Vector2(128, 128)
+focus_neighbor_left = NodePath("../Button18")
+focus_previous = NodePath("../Button18")
 text = ""
 icon_alignment = 1
 expand_icon = true
@@ -353,6 +374,12 @@ expand_icon = true
 [connection signal="focus_entered" from="SimpleList/Control/Button1" to="." method="Hover_Clear"]
 [connection signal="mouse_entered" from="SimpleList/Control/Button1" to="." method="Hover_Clear"]
 [connection signal="pressed" from="SimpleList/Control/Button1" to="." method="Simple_ToAdvanced"]
+[connection signal="focus_entered" from="SimpleList/Control/Button18" to="." method="Hover_Clear"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button18" to="." method="Hover_Clear"]
+[connection signal="pressed" from="SimpleList/Control/Button18" to="." method="Go_Cutscenes"]
+[connection signal="focus_entered" from="SimpleList/Control/Button19" to="." method="Hover_Clear"]
+[connection signal="mouse_entered" from="SimpleList/Control/Button19" to="." method="Hover_Clear"]
+[connection signal="pressed" from="SimpleList/Control/Button19" to="." method="Go_Minigames"]
 [connection signal="focus_entered" from="SimpleList/Control/Button2" to="." method="Hover_Hub01"]
 [connection signal="mouse_entered" from="SimpleList/Control/Button2" to="." method="Hover_Hub01"]
 [connection signal="pressed" from="SimpleList/Control/Button2" to="." method="Simple_GoHub01"]

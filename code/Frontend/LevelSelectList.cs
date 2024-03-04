@@ -13,8 +13,35 @@ public partial class LevelSelectList : Control
     int ItemCount;
     float Cooldown;
 
-    public void Generate()
+    public void InitIcons()
     {
+        SetTexture(GetNode<Button>("SimpleList/Control/Button2"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub01.res", "#FE-LevelName-001");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button3"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level01.res", "#FE-LevelName-002");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button4"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level02.res", "#FE-LevelName-003");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button5"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level03.res", "#FE-LevelName-004");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button6"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub02.res", "#FE-LevelName-005");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button7"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level04.res", "#FE-LevelName-006");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button8"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level05.res", "#FE-LevelName-007");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button9"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level06.res", "#FE-LevelName-008");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button10"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub03.res", "#FE-LevelName-009");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button11"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level08.res", "#FE-LevelName-010");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button12"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level09.res", "#FE-LevelName-011");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button13"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level10.res", "#FE-LevelName-012");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button14"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub04.res", "#FE-LevelName-013");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button15"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level11.res", "#FE-LevelName-014");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button16"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level12.res", "#FE-LevelName-015");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button17"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level13.res", "#FE-LevelName-016");
+    }
+
+    public void GenerateLevels()
+    {
+        ItemCount = 0;
+        Labels.Clear();
+        Paths.Clear();
+        foreach (var i in GetNode<VBoxContainer>("AdvList/VBoxContainer").GetChildren())
+        {
+            i.QueueFree();
+        }
         CreateItem("", ItemCount);
         ItemCount = ItemCount + 1;
         var dir = DirAccess.Open(RehabGame.AssetsPath + "Levels/");
@@ -43,23 +70,6 @@ public partial class LevelSelectList : Control
             GD.Print("[LEVEL SELECT] Cannot open " + RehabGame.AssetsPath + "Levels/");
             GetNode<Label>("TitleLabel").Text = "#FE-Explorer-ImportNotFound";
         }
-
-        SetTexture(GetNode<Button>("SimpleList/Control/Button2"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub01.res", "#FE-LevelName-001");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button3"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level01.res", "#FE-LevelName-002");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button4"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level02.res", "#FE-LevelName-003");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button5"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level03.res", "#FE-LevelName-004");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button6"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub02.res", "#FE-LevelName-005");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button7"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level04.res", "#FE-LevelName-006");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button8"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level05.res", "#FE-LevelName-007");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button9"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level06.res", "#FE-LevelName-008");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button10"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub03.res", "#FE-LevelName-009");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button11"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level08.res", "#FE-LevelName-010");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button12"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level09.res", "#FE-LevelName-011");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button13"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level10.res", "#FE-LevelName-012");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button14"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub04.res", "#FE-LevelName-013");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button15"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level11.res", "#FE-LevelName-014");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button16"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level12.res", "#FE-LevelName-015");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button17"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level13.res", "#FE-LevelName-016");
     }
 
     void CreateItem(string itemname, int id)
@@ -74,8 +84,21 @@ public partial class LevelSelectList : Control
         }
         else
         {
-            NewNode.Text = itemname.Replace("_","/").Replace(".tscn", "");
-            NewNode.Pressed += () => StartLevel(itemname);
+            if (RehabGame.Mode == RehabGame.GameMode.Explorer)
+            {
+                NewNode.Text = itemname.Replace("_","/").Replace(".tscn", "");
+                NewNode.Pressed += () => StartLevel(itemname);
+            }
+            else if (RehabGame.Mode == RehabGame.GameMode.Cutscene)
+            {
+                NewNode.Text = itemname.Replace("_"," ").Replace(".tscn", "");
+                NewNode.Pressed += () => StartCutscene(itemname);
+            }
+            else
+            {
+                NewNode.Text = itemname.Replace("_"," ").Replace(".tscn", "");
+                NewNode.Pressed += () => StartMinigame(itemname);
+            }
         }
         GetNode<VBoxContainer>("AdvList/VBoxContainer").AddChild(NewNode);
         Labels.Add(NewNode);
@@ -92,6 +115,20 @@ public partial class LevelSelectList : Control
         Visible = false;
         ProcessMode = ProcessModeEnum.Disabled;
         RehabScene.Root.LoadScene(RehabGame.AssetsPath + "Levels/" + path);
+    }
+
+    public void StartCutscene(string path)
+    {
+        Visible = false;
+        ProcessMode = ProcessModeEnum.Disabled;
+        RehabScene.Root.LoadScene("res://assets/scenes/cutscenes/" + path);
+    }
+
+    public void StartMinigame(string path)
+    {
+        Visible = false;
+        ProcessMode = ProcessModeEnum.Disabled;
+        RehabScene.Root.LoadScene("res://assets/scenes/minigames/" + path);
     }
 
     public override void _Process(double delta)
@@ -116,6 +153,7 @@ public partial class LevelSelectList : Control
 
     public async void Activate()
     {
+        RehabGame.Mode = RehabGame.GameMode.Explorer;
         var SimpleList = GetNode<ScrollContainer>("SimpleList");
         GetNode<Control>("AdvList").Visible = false;
         SimpleList.Visible = false;
@@ -165,6 +203,7 @@ public partial class LevelSelectList : Control
 
     public void Simple_ToAdvanced()
     {
+        GenerateLevels();
         GetNode<Control>("AdvList").Visible = true;
 	    GetNode<Control>("SimpleList").Visible = false;
 	    Labels[0].GrabFocus();
@@ -172,6 +211,7 @@ public partial class LevelSelectList : Control
 
     public void Adv_ToSimple()
     {
+        RehabGame.Mode = RehabGame.GameMode.Explorer;
         GetNode<Control>("AdvList").Visible = false;
 	    GetNode<Control>("SimpleList").Visible = true;
 	    GetNode<Control>("SimpleList/Control/Button2").GrabFocus();
@@ -220,4 +260,102 @@ public partial class LevelSelectList : Control
     public void Hover_Level10() => GetNode<Label>("TitleLabel2").Text = "#FE-LevelName-014";
     public void Hover_Level11() => GetNode<Label>("TitleLabel2").Text = "#FE-LevelName-015";
     public void Hover_Level12() => GetNode<Label>("TitleLabel2").Text = "#FE-LevelName-016";
+
+    public void Go_Cutscenes()
+    {
+        GenerateCutscenes();
+        GetNode<Control>("AdvList").Visible = true;
+	    GetNode<Control>("SimpleList").Visible = false;
+	    Labels[0].GrabFocus();
+    }
+
+    public void Go_Minigames()
+    {
+        GenerateMinigames();
+        GetNode<Control>("AdvList").Visible = true;
+	    GetNode<Control>("SimpleList").Visible = false;
+	    Labels[0].GrabFocus();
+    }
+
+    public void GenerateCutscenes()
+    {
+        RehabGame.Mode = RehabGame.GameMode.Cutscene;
+        ItemCount = 0;
+        Labels.Clear();
+        Paths.Clear();
+        foreach (var i in GetNode<VBoxContainer>("AdvList/VBoxContainer").GetChildren())
+        {
+            i.QueueFree();
+        }
+        CreateItem("", ItemCount);
+        ItemCount++;
+        var dir = DirAccess.Open("res://assets/scenes/cutscenes/");
+        if (dir != null)
+        {
+            dir.ListDirBegin();
+            var file_name = dir.GetNext();
+            while (file_name != "")
+            {
+                if (!dir.CurrentIsDir())
+                {
+                    CreateItem(file_name, ItemCount);
+                    ItemCount = ItemCount + 1;
+                    //GD.Print("Found file: " + file_name);
+                }
+                file_name = dir.GetNext();
+            }
+        }
+        else if (OS.HasFeature("editor"))
+        {
+            // DirAccess editor bug workaround
+            string folderPath = ProjectSettings.GlobalizePath("res://assets/scenes/cutscenes/");
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(folderPath);
+            foreach (var i in di.EnumerateFiles())
+            {
+                CreateItem(i.Name, ItemCount);
+                ItemCount = ItemCount + 1;
+            }
+        }
+    }
+
+    public void GenerateMinigames()
+    {
+        RehabGame.Mode = RehabGame.GameMode.Minigame;
+        ItemCount = 0;
+        Labels.Clear();
+        Paths.Clear();
+        foreach (var i in GetNode<VBoxContainer>("AdvList/VBoxContainer").GetChildren())
+        {
+            i.QueueFree();
+        }
+        CreateItem("", ItemCount);
+        ItemCount++;
+        var dir = DirAccess.Open("res://assets/scenes/minigames/");
+        if (dir != null)
+        {
+            dir.ListDirBegin();
+            var file_name = dir.GetNext();
+            while (file_name != "")
+            {
+                if (!dir.CurrentIsDir())
+                {
+                    CreateItem(file_name, ItemCount);
+                    ItemCount = ItemCount + 1;
+                    //GD.Print("Found file: " + file_name);
+                }
+                file_name = dir.GetNext();
+            }
+        }
+        else if (OS.HasFeature("editor"))
+        {
+            // DirAccess editor bug workaround
+            string folderPath = ProjectSettings.GlobalizePath("res://assets/scenes/minigames/");
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(folderPath);
+            foreach (var i in di.EnumerateFiles())
+            {
+                CreateItem(i.Name, ItemCount);
+                ItemCount = ItemCount + 1;
+            }
+        }
+    }
 }

@@ -2396,12 +2396,12 @@ namespace RehabSetup
                     }
                 }
             }
-            string DirPath_English = "GlobalVO\\English\\";
-            string DirPath_French = "GlobalVO\\French\\";
-            string DirPath_German = "GlobalVO\\German\\";
-            string DirPath_Spanish = "GlobalVO\\Spanish\\";
-            string DirPath_Italian = "GlobalVO\\Italian\\";
-            string DirPath_Japanese = "GlobalVO\\Japanese\\";
+            string DirPath_English = "English";
+            string DirPath_French = "French";
+            string DirPath_German = "German";
+            string DirPath_Spanish = "Spanish";
+            string DirPath_Italian = "Italian";
+            //string DirPath_Japanese = "Japanese";
             string DirPath = DirPath_English;
             for (uint i = 7; i < 12; i++)
             {
@@ -2413,16 +2413,12 @@ namespace RehabSetup
                     case 10: DirPath = DirPath_Spanish; break;
                     case 11: DirPath = DirPath_Italian; break;
                 }
-                if (i == 7 && ExportGodot.IsJPN)
-                {
-                    DirPath = DirPath_Japanese;
-                }
                 if (CodeSection.ContainsItem(i))
                 {
                     TwinsSection Section = CodeSection.GetItem<TwinsSection>(i);
                     for (int a = 0; a < Section.Records.Count; a++)
                     {
-                        string SoundPath = $"{path}\\Sounds\\{DirPath}{DefaultHashes.ToName(SectionType.SE, Section.Records[a].ID).Replace("/","\\")}{SoundExt}";
+                        string SoundPath = $"{path}\\Sounds\\{DefaultHashes.ToName(SectionType.SE, Section.Records[a].ID).Replace("/","\\").Replace(DirPath_English, DirPath)}{SoundExt}";
                         if (IsXbox)
                         {
                             SoundEffectX SFX = Section.GetItem<SoundEffectX>(Section.Records[a].ID);

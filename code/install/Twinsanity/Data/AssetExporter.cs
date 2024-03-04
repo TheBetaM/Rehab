@@ -599,11 +599,11 @@ namespace RehabSetup
                         {
                             writer.WriteLineAsync("[mod]");
                             writer.WriteLineAsync("");
-                            writer.WriteLineAsync($"name=\"Installed Game\"");
-                            writer.WriteLineAsync($"IsPS2={isPS2}");
-                            writer.WriteLineAsync($"IsDemo={isDemo}");
-                            writer.WriteLineAsync($"IsPAL={isPAL}");
-                            writer.WriteLineAsync($"IsJPN={isJPN}");
+                            writer.WriteLineAsync($"name=\"Game Data ({versionString})\"");
+                            writer.WriteLineAsync($"IsPS2={isPS2.ToString().ToLower()}");
+                            writer.WriteLineAsync($"IsDemo={isDemo.ToString().ToLower()}");
+                            writer.WriteLineAsync($"IsPAL={isPAL.ToString().ToLower()}");
+                            writer.WriteLineAsync($"IsJPN={isJPN.ToString().ToLower()}");
                         }
                         mStream.Position = 0;
                         Add($"{OutputPath}/Mods/Base{versionString}.cfg", mStream.ToArray());

@@ -85,6 +85,14 @@ text = "#FE-GameOptions"
 layout_mode = 2
 text = "#FE-Extras"
 
+[node name="Button6" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-Explorer-Mods"
+
+[node name="Button7" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-Explorer-ViewLicense"
+
 [node name="Button4" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Back"
@@ -257,6 +265,35 @@ size_flags_horizontal = 3
 
 [node name="Button1" parent="WindowMainRound/MenuExtrasList/VBoxContainer" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
+text = "#FE-Back"
+
+[node name="MenuLongText" type="VBoxContainer" parent="WindowMainRound"]
+visible = false
+z_index = 10
+layout_mode = 2
+offset_top = 50.0
+offset_right = 640.0
+offset_bottom = 94.0
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="WindowMainRound/MenuLongText"]
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../Button1")
+focus_neighbor_top = NodePath("../Button1")
+focus_neighbor_right = NodePath("../Button1")
+focus_neighbor_bottom = NodePath("../Button1")
+focus_next = NodePath("../Button1")
+focus_previous = NodePath("../Button1")
+focus_mode = 2
+theme = ExtResource("6_1cstp")
+selection_enabled = true
+
+[node name="Button1" parent="WindowMainRound/MenuLongText" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+focus_neighbor_top = NodePath("../RichTextLabel")
+focus_previous = NodePath("../RichTextLabel")
 text = "#FE-Back"
 
 [node name="LevelIcon" type="TextureRect" parent="WindowMainRound"]
@@ -818,6 +855,8 @@ expand_icon = true
 [connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button2" to="." method="OptionsMain_ToSound"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button3" to="." method="OptionsMain_ToGame"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button5" to="." method="OptionsGame_ToExtras"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button6" to="." method="Go_Mods"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button7" to="." method="Go_License"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsMain/Button4" to="." method="OptionsMain_ToPause"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsSound/Button1" to="." method="OptionsSound_ToggleVolume_Global"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsSound/Button2" to="." method="OptionsSound_ToggleVolume_SFX"]
@@ -845,6 +884,7 @@ expand_icon = true
 [connection signal="pressed" from="WindowMainRound/MenuExtras/Button7" to="." method="Extras_ToComplete"]
 [connection signal="pressed" from="WindowMainRound/MenuExtras/Button8" to="." method="OptionsExtras_ToGame"]
 [connection signal="pressed" from="WindowMainRound/MenuExtrasList/VBoxContainer/Button1" to="." method="ExtrasList_ToExtras"]
+[connection signal="pressed" from="WindowMainRound/MenuLongText/Button1" to="." method="LongTextExit"]
 [connection signal="pressed" from="WindowRound/MenuNotice/Button1" to="." method="Notice_Close"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button1" to="." method="Pause_ToOptions"]
 [connection signal="pressed" from="WindowRound/MenuPauseExplorer/Button2" to="." method="Pause_ReturnToLevelSelect"]
