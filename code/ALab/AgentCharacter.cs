@@ -134,6 +134,12 @@ public partial class AgentCharacter : Agent
         activeCharacter = this;
         physCam = RehabScene.PlayerCam;
         physCam.SetupCam(this);
+        if (RehabScene.Root.XR_Enabled)
+        {
+            RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 1f);
+            Visible = false;
+        }
+
         FS_Dirt_1 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/fs_dirt_3.res");
         FS_Dirt_2 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/fs_dirt_5.res");
         FS_Grass_1 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/fs_grass_2.res");

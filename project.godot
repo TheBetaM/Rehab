@@ -248,4 +248,9 @@ locale/translations=PackedStringArray("res://assets/lang/frontend.en_US.translat
 
 textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
-anti_aliasing/quality/msaa_3d=2
+
+[xr]
+
+openxr/enabled=true
+openxr/startup_alert=false
+shaders/enabled=true

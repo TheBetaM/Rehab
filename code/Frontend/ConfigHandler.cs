@@ -74,7 +74,7 @@ public partial class ConfigHandler : Node
             GetWindow().Size = new Vector2I((int)Dict[Key_WindowSizeX], (int)Dict[Key_WindowSizeY]);
             GetWindow().MoveToCenter();
         }
-        if (Dict.ContainsKey(Key_VSYNC))
+        if (Dict.ContainsKey(Key_VSYNC) && !RehabScene.Root.XR_Enabled)
             DisplayServer.WindowSetVsyncMode((DisplayServer.VSyncMode)(int)Dict[Key_VSYNC]);
         if (Dict.ContainsKey(Key_FXAA))
             GetViewport().ScreenSpaceAA = (Viewport.ScreenSpaceAAEnum)(int)Dict[Key_FXAA];

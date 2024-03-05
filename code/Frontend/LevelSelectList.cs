@@ -79,6 +79,7 @@ public partial class LevelSelectList : Control
         var NodeScane = (PackedScene)ResourceLoader.Load("res://assets/frontend/windows/RehabMenuButton.tscn");
         var NewNode = (Button)NodeScane.Instantiate();
         NewNode.Name = $"LevelSelectItem{id}";
+        var AdvList = GetNode<ScrollContainer>("AdvList");
         if (id == 0)
         {
             NewNode.Text = "#FE-Back";
@@ -90,16 +91,19 @@ public partial class LevelSelectList : Control
             {
                 NewNode.Text = itemname.Replace("_","/").Replace(".tscn", "");
                 NewNode.Pressed += () => StartLevel(itemname);
+                NewNode.FocusEntered += () => AdvList.EnsureControlVisible(NewNode);
             }
             else if (RehabGame.Mode == RehabGame.GameMode.Cutscene)
             {
                 NewNode.Text = itemname.Replace("_"," ").Replace(".tscn", "");
                 NewNode.Pressed += () => StartCutscene(itemname);
+                NewNode.FocusEntered += () => AdvList.EnsureControlVisible(NewNode);
             }
             else
             {
                 NewNode.Text = itemname.Replace("_"," ").Replace(".tscn", "");
                 NewNode.Pressed += () => StartMinigame(itemname);
+                NewNode.FocusEntered += () => AdvList.EnsureControlVisible(NewNode);
             }
         }
         GetNode<VBoxContainer>("AdvList/VBoxContainer").AddChild(NewNode);

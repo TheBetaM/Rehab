@@ -319,7 +319,7 @@ public partial class FrontendMenu : Control
         if (OptionsOnly)
         {
             Pause_Resume();
-            RehabScene.Root.GetNode<MainMenuDynamic>("FE/FE_MainMenuDynamic").ReturnOptions();
+            RehabScene.Root.FE.GetNode<MainMenuDynamic>("FE_MainMenuDynamic").ReturnOptions();
             return;
         }
         HeaderLabel.Text = "#FE-Paused";

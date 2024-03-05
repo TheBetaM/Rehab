@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using RehabSetup;
+using System.Collections.Generic;
 namespace Rehab;
 public partial class FrontendInstaller : Control
 {
@@ -19,6 +20,7 @@ public partial class FrontendInstaller : Control
     bool ProcessActive = false;
     double TextTimer = 0f;
     int TextStep = 3;
+    List<Node> DialogItems = new List<Node>();
 
     enum ProcessStep
     {
@@ -137,10 +139,20 @@ public partial class FrontendInstaller : Control
                 }
                 if (OS.GetName() == "Android")
                 {
-                    Dialog.CurrentPath = OS.GetSystemDir(OS.SystemDir.Downloads);
+                    Dialog.CurrentPath = OS.GetSystemDir(OS.SystemDir.Downloads) + "/";
                 }
                 Dialog.Visible = true;
                 Dialog.GrabFocus();
+                if (RehabScene.Root.XR_Enabled)
+                {
+                    Dialog.Visible = false;
+                    Dialog.Exclusive = false;
+                    foreach (var item in Dialog.GetChildren(true))
+                    {
+                        item.Reparent(this);
+                        DialogItems.Add(item);
+                    }
+                }
                 break;
             case ProcessStep.Confirm:
                 MainLabel.Text = TranslationServer.Translate("#FE-Installer-Installing");
@@ -163,6 +175,11 @@ public partial class FrontendInstaller : Control
 
     public void Dialog_Select(string file)
     {
+        foreach (var item in DialogItems)
+        {
+            item.Reparent(Dialog);
+        }
+        DialogItems.Clear();
         FilePath = file;
         bool isXbox = Exporter.DetectXBE(file);
         bool isPS2 = false;
@@ -196,6 +213,11 @@ public partial class FrontendInstaller : Control
 
     public void Dialog_Cancel()
     {
+        foreach (var item in DialogItems)
+        {
+            item.Reparent(Dialog);
+        }
+        DialogItems.Clear();
         OptionsHolder.Visible = true;
         Button1.GrabFocus();
     }

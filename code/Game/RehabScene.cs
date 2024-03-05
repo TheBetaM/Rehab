@@ -30,6 +30,12 @@ public partial class RehabScene : Node3D
     public AudioStream SoundFE_Select;
     bool MusicSwitching;
     bool AmbSwitching;
+    public Control FE;
+    public XRInterface XR_Interface;
+    public bool XR_Enabled = false;
+    public RehabXROrigin XR_Origin;
+    public SubViewport FE_XR_Viewport;
+    
 
     public RehabScene()
     {
@@ -38,15 +44,32 @@ public partial class RehabScene : Node3D
 
     public override void _Ready()
     {
+        FE = GetNode<Control>("FE");
         PlayerCam = GetNode<PlayerCamera>("PlayerCam");
         FreeLookCam = GetNode<FreeLookCamera>("FreeLookCam");
-        GameHUD = GetNode<FrontendHUD>("FE/FE_HUD");
-        GameMenu = GetNode<FrontendMenu>("FE/FE_Menu");
+        GameHUD = FE.GetNode<FrontendHUD>("FE_HUD");
+        GameMenu = FE.GetNode<FrontendMenu>("FE_Menu");
         AudioMusic = GetNode<AudioStreamPlayer>("Audio/AudioMusic1");
         AudioAmbience = GetNode<AudioStreamPlayer>("Audio/AudioAmb1");
         AudioMenu = GetNode<AudioStreamPlayer>("Audio/AudioMenu");
         var env = GetNode<WorldEnvironment>("WorldEnv");
         env.Environment = DefaultEnv;
+        XR_Interface = XRServer.FindInterface("OpenXR");
+        XR_Origin = GetNode<RehabXROrigin>("XROrigin3D");
+        FE_XR_Viewport = GetNode<SubViewport>("XR_FE");
+        if (XR_Interface != null && XR_Interface.IsInitialized())
+        {
+            DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Disabled);
+            GetViewport().UseXR = true;
+            FE.Reparent(FE_XR_Viewport);
+            XR_Origin.Visible = true;
+            XR_Enabled = true;
+        }
+        else
+        {
+            XR_Origin.QueueFree();
+            FE_XR_Viewport.QueueFree();
+        }
         RehabGame.Init();
         var conf = GetNode<ConfigHandler>("ConfigHandler");
         conf.Load();
@@ -70,7 +93,7 @@ public partial class RehabScene : Node3D
         var dir = DirAccess.Open(RehabGame.AssetsPath + "Levels/");
         if (dir != null)
         {
-            GetNode<LevelSelectList>("FE/LevelSelect").InitIcons();
+            FE.GetNode<LevelSelectList>("LevelSelect").InitIcons();
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             GameHUD.Setup();
@@ -96,7 +119,7 @@ public partial class RehabScene : Node3D
             //while (GameMenu.Visible)
             //    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             //GetTree().Quit();
-            GetNode<FrontendInstaller>("FE/FE_Installer").Activate();
+            FE.GetNode<FrontendInstaller>("FE_Installer").Activate();
         }
     }
 
@@ -128,8 +151,8 @@ public partial class RehabScene : Node3D
         PlayerCam.FullReset();
         FreeLookCam.FullReset();
         GameHUD.Clear();
-        GetNode<LoadingVisuals>("FE/Loading").AnimIn();
-        GetNode<LoadingVisuals>("FE/Loading").ProcessMode = ProcessModeEnum.Inherit;
+        FE.GetNode<LoadingVisuals>("Loading").AnimIn();
+        FE.GetNode<LoadingVisuals>("Loading").ProcessMode = ProcessModeEnum.Inherit;
         ResourceLoader.LoadThreadedRequest(path);
         while (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.InProgress)
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -172,19 +195,19 @@ public partial class RehabScene : Node3D
         loadedScene.ProcessMode = ProcessModeEnum.Inherit;
         loadedScene.OnChunkEnter();
         loadedScene.ShadowToggle(true);
-        GetNode<LoadingVisuals>("FE/Loading").AnimOut();
+        FE.GetNode<LoadingVisuals>("Loading").AnimOut();
         if (RehabGame.UseMouseCamera)
             Input.MouseMode = Input.MouseModeEnum.Captured;
         await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-        GetNode<LoadingVisuals>("FE/Loading").Visible = false;
-        GetNode<LoadingVisuals>("FE/Loading").ProcessMode = ProcessModeEnum.Disabled;
+        FE.GetNode<LoadingVisuals>("Loading").Visible = false;
+        FE.GetNode<LoadingVisuals>("Loading").ProcessMode = ProcessModeEnum.Disabled;
         if (RehabGame.Mode == RehabGame.GameMode.Explorer)
         {
             GameHUD.OnUnPause();
             await ToSignal(GetTree().CreateTimer(3.5f), SceneTreeTimer.SignalName.Timeout);
-            if (AgentCharacter.activeCharacter == null && !GetNode<Control>("FE/LevelSelect").Visible &&
-            !GetNode<Control>("FE/Loading").Visible && !GetNode<Control>("FE/FE_MainMenuDynamic").Visible && 
-            !GetNode<Control>("FE/FE_Credits").Visible)
+            if (AgentCharacter.activeCharacter == null && !FE.GetNode<Control>("LevelSelect").Visible &&
+            !FE.GetNode<Control>("Loading").Visible && !FE.GetNode<Control>("FE_MainMenuDynamic").Visible && 
+            !FE.GetNode<Control>("FE_Credits").Visible)
             {
                 GD.PrintErr("[ROOT] LEVEL LOADED WITH NO CHARACTER");
                 StartMessage("#FE-NoActorError");
@@ -348,7 +371,7 @@ public partial class RehabScene : Node3D
         if (!toMain)
         {
             StartLevelSelect();
-            GetNode<LevelSelectList>("FE/LevelSelect").ResetMenu();
+            FE.GetNode<LevelSelectList>("LevelSelect").ResetMenu();
         }
         else
         {
@@ -359,13 +382,13 @@ public partial class RehabScene : Node3D
     public void StartLevelSelect()
     {
         Input.MouseMode = Input.MouseModeEnum.Visible;
-	    GetNode<LevelSelectList>("FE/LevelSelect").Activate();
+	    FE.GetNode<LevelSelectList>("LevelSelect").Activate();
     }
 
     public void StartMainMenu()
     {
         Input.MouseMode = Input.MouseModeEnum.Visible;
-	    GetNode<MainMenuDynamic>("FE/FE_MainMenuDynamic").Activate();
+	    FE.GetNode<MainMenuDynamic>("FE_MainMenuDynamic").Activate();
     }
 
     public void StartPauseMenu(bool optionsOnly)
@@ -456,7 +479,7 @@ public partial class RehabScene : Node3D
     {
         AudioMusic.ProcessMode = ProcessModeEnum.Always;
         ProcessMode = ProcessModeEnum.Disabled;
-        GetNode<FrontendCredits>("FE/FE_Credits").StartCredits();
+        FE.GetNode<FrontendCredits>("FE_Credits").StartCredits();
     }
 
     public void PlayMenuSound_Back()
@@ -483,12 +506,12 @@ public partial class RehabScene : Node3D
 
     public void ForceGameOver()
     {
-        GetNode<FrontendGameOver>("FE/FE_GameOver").Activate();
+        FE.GetNode<FrontendGameOver>("FE_GameOver").Activate();
     }
 
     public void MainMenu_UpdateViewport()
     {
-        GetNode<MainMenuDynamic>("FE/FE_MainMenuDynamic").UpdateViewport();
+        FE.GetNode<MainMenuDynamic>("FE_MainMenuDynamic").UpdateViewport();
     }
 
     public void ConfigSave()

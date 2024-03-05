@@ -23,6 +23,10 @@ public partial class CutsceneChunk : ChunkScene
         AnimPlayer.AnimationFinished += AnimDone;
         AnimCamera.Current = true;
         AnimPlayer.Play(AnimName);
+        if (RehabScene.Root.XR_Enabled)
+        {
+            RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition + (Vector3.Up * 1f);
+        }
     }
 
     void AnimDone(StringName anim)
