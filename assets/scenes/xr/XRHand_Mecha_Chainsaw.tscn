@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsopnphx2fh7o"]
+
+[ext_resource type="PackedScene" path="res://import/Rigs/Rig_Mecha_Chainsaw.tscn" id="1_hpn3f"]
+
+[node name="XRHand" type="Node3D"]
+
+[node name="Rig_Mecha_Chainsaw" parent="." instance=ExtResource("1_hpn3f")]
+transform = Transform3D(6.55671e-09, -0.15, -1.31134e-08, -0.15, -6.55671e-09, 0, -5.73206e-16, 1.31134e-08, -0.15, 0, 0, 0)
+
+[node name="Armature" parent="Rig_Mecha_Chainsaw/RigidBody" index="0"]
+bones/0/enabled = true
+
+[editable path="Rig_Mecha_Chainsaw"]

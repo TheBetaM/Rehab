@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bphpi61wxsoe1"]
+
+[ext_resource type="PackedScene" path="res://import/Mesh/CrashAngel_LeftHand.tscn" id="1_xqr46"]
+[ext_resource type="Material" path="res://import/Materials/MatD165C9CA-evil_body01-D94C08E5.tres" id="2_65vw7"]
+
+[node name="XRHand" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_xqr46")]
+transform = Transform3D(0.421865, 0.0668165, 0.904193, 0.58024, 0.746409, -0.325877, 0.696672, -0.662125, -0.276114, -0.703046, 0.0971861, 0.00425535)
+surface_material_override/0 = ExtResource("2_65vw7")

@@ -136,8 +136,7 @@ public partial class AgentCharacter : Agent
         physCam.SetupCam(this);
         if (RehabScene.Root.XR_Enabled)
         {
-            RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 1f);
-            Visible = false;
+            XR_Setup();
         }
 
         FS_Dirt_1 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/fs_dirt_3.res");
@@ -189,6 +188,10 @@ public partial class AgentCharacter : Agent
         UpdateMovement((float)delta);
         UpdateHeadAnim((float)delta);
         UpdateFootStep((float)delta);
+        if (RehabScene.Root.XR_Enabled)
+        {
+            RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 0.5f);
+        }
     }
 
     void UpdateMovement(float delta)
@@ -213,7 +216,18 @@ public partial class AgentCharacter : Agent
         }
         
         direction = direction.Clamp(-Vector3.One, Vector3.One);
-        direction = (direction.X * physCam.camvector) + (direction.Z * physCam.camright);
+        if (RehabScene.Root.XR_Enabled)
+        {
+            var camvector = RehabScene.Root.XR_Origin.XR_Camera.GlobalTransform.Basis.Z;
+            camvector.Y = 0f;
+            camvector = camvector.Normalized();
+            var camright = new Vector3(camvector.Z, 0, -camvector.X);
+            direction = (direction.X * camvector) + (direction.Z * camright);
+        }
+        else
+        {
+            direction = (direction.X * physCam.camvector) + (direction.Z * physCam.camright);
+        }
         direction.Y = 0f;
         float dirLength = Math.Abs(direction.Length());
         var pressed = dirLength > 0.05;
@@ -505,6 +519,41 @@ public partial class AgentCharacter : Agent
                 footsteptimer = 0.25f;
         }
            
+    }
+
+    void XR_Setup()
+    {
+        RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 0.5f);
+        RehabScene.Root.XR_Origin.GlobalRotation = GlobalRotation;
+        Visible = false;
+        string RHandPath = "res://assets/scenes/xr/XRHand_Crash.tscn";
+        string LHandPath = "res://assets/scenes/xr/XRHand_Crash.tscn";
+        switch (RegInt[(int)CharISlot.AgentType])
+        {
+            default: break;
+            case 1:
+                RHandPath = "res://assets/scenes/xr/XRHand_Cortex.tscn";
+                LHandPath = "res://assets/scenes/xr/XRHand_Cortex.tscn";
+            break;
+            case 2:
+                RHandPath = "res://assets/scenes/xr/XRHand_Crunch_Metal.tscn";
+                LHandPath = "res://assets/scenes/xr/XRHand_Crunch.tscn";
+            break;
+            case 3:
+                RHandPath = "res://assets/scenes/xr/XRHand_Nina.tscn";
+                LHandPath = "res://assets/scenes/xr/XRHand_Nina.tscn";
+            break;
+            case 4:
+                RHandPath = "res://assets/scenes/xr/XRHand_EvilCrash.tscn";
+                LHandPath = "res://assets/scenes/xr/XRHand_EvilCrash.tscn";
+            break;
+            case 5:
+                RHandPath = "res://assets/scenes/xr/XRHand_Mecha_Chainsaw.tscn";
+                LHandPath = "res://assets/scenes/xr/XRHand_Mecha_Rocket.tscn";
+            break;
+        }
+        RehabScene.Root.XR_Origin.XR_HandL.SpawnHand(LHandPath);
+        RehabScene.Root.XR_Origin.XR_HandR.SpawnHand(RHandPath);
     }
 
 }

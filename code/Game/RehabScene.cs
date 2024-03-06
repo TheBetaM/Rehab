@@ -114,12 +114,11 @@ public partial class RehabScene : Node3D
         else
         {
             GD.Print("[ROOT] Cannot open " + RehabGame.AssetsPath + "Levels/");
-            //StartMessage("#FE-NoGameData");
-            //await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-            //while (GameMenu.Visible)
-            //    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            //GetTree().Quit();
             FE.GetNode<FrontendInstaller>("FE_Installer").Activate();
+            if (XR_Enabled)
+            {
+                XR_Origin.FE_Active();
+            }
         }
     }
 
@@ -166,6 +165,7 @@ public partial class RehabScene : Node3D
         var loadedScene = (ChunkScene)loadedPack.Instantiate();
         loadedScene.ActiveScene = true;
         loadedScene.ProcessMode = ProcessModeEnum.Disabled;
+        if (XR_Enabled) loadedScene.Visible = false;
         ActiveChunk = loadedScene;
         Chunks.Add(loadedScene);
         ChunkNames.Add(loadedScene.Name);
@@ -189,6 +189,7 @@ public partial class RehabScene : Node3D
             var sky = (PackedScene)ResourceLoader.Load(skypath);
             SkydomePath = skypath;
             Skydome = (Node3D)sky.Instantiate();
+            if (XR_Enabled) Skydome.Visible = false;
             AddChild(Skydome);
         }
         await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
@@ -198,9 +199,17 @@ public partial class RehabScene : Node3D
         FE.GetNode<LoadingVisuals>("Loading").AnimOut();
         if (RehabGame.UseMouseCamera)
             Input.MouseMode = Input.MouseModeEnum.Captured;
+        if (XR_Enabled) XR_Origin.FE_Inactive();
         await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
         FE.GetNode<LoadingVisuals>("Loading").Visible = false;
         FE.GetNode<LoadingVisuals>("Loading").ProcessMode = ProcessModeEnum.Disabled;
+        if (XR_Enabled) 
+        {
+            loadedScene.Visible = true;
+            if (!string.IsNullOrWhiteSpace(SkydomePath))
+                Skydome.Visible = true;
+            XR_Origin.ToggleHands(true);
+        }
         if (RehabGame.Mode == RehabGame.GameMode.Explorer)
         {
             GameHUD.OnUnPause();
@@ -377,16 +386,23 @@ public partial class RehabScene : Node3D
         {
             StartMainMenu();
         }
+        if (XR_Enabled)
+        {
+            XR_Origin.ClearHands();
+            XR_Origin.ToggleHands(false);
+        }
     }
 
     public void StartLevelSelect()
     {
+        if (XR_Enabled) XR_Origin.FE_Active();
         Input.MouseMode = Input.MouseModeEnum.Visible;
 	    FE.GetNode<LevelSelectList>("LevelSelect").Activate();
     }
 
     public void StartMainMenu()
     {
+        if (XR_Enabled) XR_Origin.FE_Active();
         Input.MouseMode = Input.MouseModeEnum.Visible;
 	    FE.GetNode<MainMenuDynamic>("FE_MainMenuDynamic").Activate();
     }
@@ -394,6 +410,7 @@ public partial class RehabScene : Node3D
     public void StartPauseMenu(bool optionsOnly)
     {
         ProcessMode = ProcessModeEnum.Disabled;
+        if (XR_Enabled) XR_Origin.FE_Active();
         Input.MouseMode = Input.MouseModeEnum.Visible;
         GameHUD.OnPause();
         GameMenu.Start_PauseMenu(optionsOnly);
@@ -402,6 +419,7 @@ public partial class RehabScene : Node3D
     void StartMessage(string text)
     {
         ProcessMode = ProcessModeEnum.Disabled;
+        if (XR_Enabled) XR_Origin.FE_Active();
         Input.MouseMode = Input.MouseModeEnum.Visible;
         GameHUD.OnPause();
         GameMenu.Start_Message(text);

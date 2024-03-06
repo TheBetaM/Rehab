@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://brxgpw5s3up2j"]
+
+[ext_resource type="PackedScene" path="res://import/Mesh/Mecha_Fist_RocketHand.tscn" id="1_ehx7u"]
+
+[node name="XRHand" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_ehx7u")]
+transform = Transform3D(6.55671e-09, -0.15, 5.73206e-16, -0.15, -6.55671e-09, -1.31134e-08, 1.31134e-08, 0, -0.15, 0, 0, 0)

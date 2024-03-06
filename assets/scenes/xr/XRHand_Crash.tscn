@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://24wqvw6ro0ky"]
+
+[ext_resource type="PackedScene" path="res://import/Mesh/CrashAngel_LeftHand.tscn" id="1_tys38"]
+[ext_resource type="Material" path="res://import/Materials/MatA948FFBE-CR_Crash_no_shoes_CR__CR__lambert18-4109E933.tres" id="2_arh5c"]
+
+[node name="XRHand" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_tys38")]
+transform = Transform3D(0.421865, 0.0668165, 0.904193, 0.58024, 0.746409, -0.325877, 0.696672, -0.662125, -0.276114, -0.703046, 0.0971861, 0.00425535)
+surface_material_override/0 = ExtResource("2_arh5c")

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1ypotuddallo"]
+
+[ext_resource type="PackedScene" path="res://import/Mesh/CortexPipe_ArmRight.tscn" id="1_rw8qr"]
+
+[node name="XRHand" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_rw8qr")]
+transform = Transform3D(0.410316, 0.513335, -0.753743, 0.905926, -0.13465, 0.401458, 0.104591, -0.84756, -0.520292, 0.160956, 0.121321, 0.473934)

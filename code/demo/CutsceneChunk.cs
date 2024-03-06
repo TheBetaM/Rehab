@@ -10,6 +10,7 @@ public partial class CutsceneChunk : ChunkScene
     public string AnimName = "cutscene";
     AnimationPlayer AnimPlayer;
     Camera3D AnimCamera;
+    Vector3 LastCamPos;
 
     public override void _Ready()
     {
@@ -25,12 +26,34 @@ public partial class CutsceneChunk : ChunkScene
         AnimPlayer.Play(AnimName);
         if (RehabScene.Root.XR_Enabled)
         {
-            RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition + (Vector3.Up * 1f);
+            RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
+            //RehabScene.Root.XR_Origin.GlobalRotation = AnimCamera.GlobalRotation;
         }
+    }
+
+    public override void _Process(double delta)
+    {
+        if (!RehabScene.Root.XR_Enabled) return;
+        if (LastCamPos.DistanceTo(AnimCamera.Position) > 16f)
+        {
+            ReorientXRCam();
+        }
+        LastCamPos = AnimCamera.Position;
+    }
+
+    async void ReorientXRCam()
+    {
+        RehabScene.Root.Visible = false;
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
+        //RehabScene.Root.XR_Origin.GlobalRotation = AnimCamera.GlobalRotation;
+        await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
+        RehabScene.Root.Visible = true;
     }
 
     void AnimDone(StringName anim)
     {
+        RehabScene.Root.Visible = true;
         RehabScene.Root.ExitLevel(false);
     }
 

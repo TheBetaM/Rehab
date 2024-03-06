@@ -133,6 +133,11 @@ public partial class ChunkLink : Node3D
 
     public async void SpawnChunk()
     {
+        if (OS.GetName() == "Android")
+        {
+            // todo Android/Quest only streaming crash issue
+            return;
+        }
         if (LoadedChunk != null || IsLoading) return;
         IsLoading = true;
         if (LoadedScene == null)

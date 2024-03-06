@@ -61,6 +61,11 @@ public partial class AgentFurniture : Agent
             RehabScene.Root.PlayMusic(1);
             RehabGame.SetLevelID(6);
         }
+        else if (Name == "Util_TotemHousekeeping")
+        {
+            // todo: only in demo chunks
+            RehabScene.Root.PlayMusic(29);
+        }
     }
 
     public void OnDoorTouch(Node3D body)

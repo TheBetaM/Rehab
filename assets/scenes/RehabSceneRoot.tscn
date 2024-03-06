@@ -52,15 +52,18 @@ DefaultEnv = SubResource("Environment_3bekd")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 process_mode = 3
+visible = false
 script = ExtResource("2_3q0m5")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+far = 90000.0
 
 [node name="HandL" type="XRController3D" parent="XROrigin3D"]
 tracker = &"left_hand"
 script = ExtResource("14_23l16")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/HandL"]
+visible = false
 material_override = SubResource("StandardMaterial3D_33vde")
 mesh = SubResource("BoxMesh_2qdrm")
 
@@ -69,22 +72,25 @@ tracker = &"right_hand"
 script = ExtResource("14_23l16")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/HandR"]
+visible = false
 material_override = SubResource("StandardMaterial3D_gb85m")
 mesh = SubResource("BoxMesh_pq7nh")
 
-[node name="FE_Display" type="MeshInstance3D" parent="XROrigin3D"]
+[node name="FE_Pivot" type="Node3D" parent="XROrigin3D"]
+
+[node name="FE_Display" type="MeshInstance3D" parent="XROrigin3D/FE_Pivot"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -8)
 sorting_offset = 120.0
 material_override = SubResource("StandardMaterial3D_h4xuf")
 mesh = SubResource("PlaneMesh_sv34l")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="XROrigin3D/FE_Display"]
+[node name="StaticBody3D" type="StaticBody3D" parent="XROrigin3D/FE_Pivot/FE_Display"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/FE_Display/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/FE_Pivot/FE_Display/StaticBody3D"]
 shape = SubResource("BoxShape3D_lc28n")
 
-[node name="Cursor" type="Sprite3D" parent="XROrigin3D/FE_Display"]
+[node name="Cursor" type="Sprite3D" parent="XROrigin3D/FE_Pivot/FE_Display"]
 transform = Transform3D(0.3, 0, 0, 0, -1.31134e-08, -0.3, 0, 0.3, -1.31134e-08, 0, 0.0999999, 0)
 sorting_offset = 124.0
 texture = ExtResource("14_n1s26")

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3ndc2eapfra8"]
+
+[ext_resource type="PackedScene" path="res://import/Mesh/Crunch_ArmLeft.tscn" id="1_dmmui"]
+
+[node name="XRHand" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_dmmui")]
+transform = Transform3D(-0.300327, -0.519392, 0.00601922, -0.473979, 0.271187, -0.2486, -0.212481, 0.12919, 0.546042, 0.375285, -0.500809, -0.0910216)

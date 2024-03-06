@@ -361,7 +361,7 @@ namespace RehabSetup
                 string SoundPath = $"{path}\\Sounds\\{sfx.Name}";
                 string ResPath = $"{SoundPath}.res";
                 if (sfx.isStereo && sfx.Size < 0x1000) continue;
-                GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, false);
+                GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, sfx.Name.Contains("Music"));
                 wav.WriteToFile(ResPath);
                 sfx.SoundData = null;
                 sfxHolder.track = null;

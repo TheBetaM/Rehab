@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -6,22 +7,38 @@ public partial class RehabXROrigin : XROrigin3D
 {
     
     public MeshInstance3D FE_XR_Mesh;
-    public XRController3D XR_HandL;
-    public XRController3D XR_HandR;
+    public XRCamera3D XR_Camera;
+    public RehabXRController XR_HandL;
+    public RehabXRController XR_HandR;
     public Sprite3D XR_Cursor;
+    public bool FE_XR_Active = false;
+    public Node3D FE_XR_Pivot;
+    double TurnCooldown = 0f;
 
     public override void _Ready()
     {
-        FE_XR_Mesh = GetNode<MeshInstance3D>("FE_Display");
+        XR_Camera = GetNode<XRCamera3D>("XRCamera3D");
+        FE_XR_Pivot = GetNode<Node3D>("FE_Pivot");
+        FE_XR_Mesh =FE_XR_Pivot.GetNode<MeshInstance3D>("FE_Display");
         XR_Cursor = FE_XR_Mesh.GetNode<Sprite3D>("Cursor");
-        XR_HandL = GetNode<XRController3D>("HandL");
-        XR_HandR = GetNode<XRController3D>("HandR");
+        XR_HandL = GetNode<RehabXRController>("HandL");
+        XR_HandR = GetNode<RehabXRController>("HandR");
+        XR_HandL.Visible = false;
+        XR_HandR.Visible = false;
         FE_XR_Mesh.Visible = true;
     }
 
     public override void _Process(double delta)
     {
         if (!RehabScene.Root.XR_Enabled) return;
+
+        UpdateCamera(delta);
+        UpdateFE(delta);
+    }
+
+    void UpdateFE(double delta)
+    {
+        if (!FE_XR_Active) return;
         FE_XR_Mesh.MaterialOverride.Set("albedo_texture", RehabScene.Root.FE_XR_Viewport.GetTexture());
         var spaceState = RehabScene.Root.GetWorld3D().DirectSpaceState;
         Vector3 pos = XR_HandL.GlobalPosition + (-XR_HandL.Transform.Basis.Z * 100f);
@@ -44,11 +61,44 @@ public partial class RehabXROrigin : XROrigin3D
             XR_Cursor.Scale = new Vector3(0.75f, 0.75f, 0.75f);
         }
     }
+    void UpdateCamera(double delta)
+    {
+        if (FE_XR_Active) return;
+        float camdirX = 0f;
+
+        if (Input.IsActionPressed("pad1_rstick_left"))
+        {
+            if (!RehabGame.InvertCameraX)
+                camdirX -= Input.GetActionStrength("pad1_rstick_left");
+            else
+                camdirX += Input.GetActionStrength("pad1_rstick_left");
+        }
+        if (Input.IsActionPressed("pad1_rstick_right"))
+        {
+            if (!RehabGame.InvertCameraX)
+                camdirX += Input.GetActionStrength("pad1_rstick_right");
+            else
+                camdirX -= Input.GetActionStrength("pad1_rstick_right");
+        }
+
+        if (TurnCooldown > 0f) TurnCooldown -= delta;
+        if (Math.Abs(camdirX) > 0.95f && TurnCooldown <= 0f)
+        {
+            var camPos = XR_Camera.GlobalPosition;
+            if (camdirX > 0f)
+                Transform = Transform.RotatedLocal(Vector3.Up, -45f);
+            else
+                Transform = Transform.RotatedLocal(Vector3.Up, 45f);
+            XR_Camera.GlobalPosition = camPos;
+            TurnCooldown = 0.5f;
+        }
+    }
 
     public override void _Input(InputEvent input)
     {
         if (!RehabScene.Root.XR_Enabled) return;
         RehabScene.Root.FE_XR_Viewport.PushInput(input);
+        if (!FE_XR_Active) return;
         if (input is InputEventJoypadButton b)
         {
             if (b.ButtonIndex == JoyButton.A)
@@ -77,5 +127,36 @@ public partial class RehabXROrigin : XROrigin3D
                 }
             }
         }
+    }
+
+    public void FE_Active()
+    {
+        FE_XR_Active = true;
+        XR_Cursor.Visible = true;
+        FE_XR_Pivot.Transform = XR_Camera.Transform;
+    }
+
+    public void FE_Inactive()
+    {
+        FE_XR_Active = false;
+        XR_Cursor.Visible = false;
+    }
+
+    public void ResetOrientation()
+    {
+        FE_XR_Pivot.Transform = XR_Camera.Transform;
+        //XRServer.CenterOnHmd(XRServer.RotationMode.ResetFullRotation, true);
+    }
+
+    public void ClearHands()
+    {
+        XR_HandL.ClearHand();
+        XR_HandR.ClearHand();
+    }
+
+    public void ToggleHands(bool val)
+    {
+        XR_HandL.Visible = val;
+        XR_HandR.Visible = val;
     }
 }

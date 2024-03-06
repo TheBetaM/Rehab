@@ -87,6 +87,7 @@ public partial class FrontendMenu : Control
         var anim1 = CreateTween();
         anim1.TweenProperty(this, "modulate:a", 1f, FadeTime);
         Input.MouseMode = Input.MouseModeEnum.Visible;
+        if (RehabScene.Root.XR_Enabled) RehabScene.Root.XR_Origin.FE_Active();
     }
 
     public void Full_AnimOut()
@@ -194,6 +195,7 @@ public partial class FrontendMenu : Control
             {
                 Input.MouseMode = Input.MouseModeEnum.Captured;
             }
+            if (RehabScene.Root.XR_Enabled) RehabScene.Root.XR_Origin.FE_Inactive();
             RehabScene.GameHUD.OnUnPause();
         }
     }
@@ -419,6 +421,7 @@ public partial class FrontendMenu : Control
 
     public void OptionsGraphics_ToggleVSync()
     {
+        if (RehabScene.Root.XR_Enabled) return;
         var mset = DisplayServer.WindowGetVsyncMode();
         if (mset == DisplayServer.VSyncMode.Disabled)
         {

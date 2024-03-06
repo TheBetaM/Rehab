@@ -63,7 +63,7 @@ public partial class PlayerCamera : Camera3D
             else
                 camdirY += Input.GetActionStrength("pad1_rstick_down");
         }
-        if (Input.IsActionJustPressed("pad1_L1"))
+        if (Input.IsActionJustPressed("pad1_L1") && !RehabScene.Root.XR_Enabled)
         {
             Input.MouseMode = Input.MouseModeEnum.Visible;
             FreeLookCamera freeCam = RehabScene.FreeLookCam;
