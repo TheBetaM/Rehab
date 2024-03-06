@@ -151,6 +151,10 @@ public partial class FrontendInstaller : Control
                     {
                         item.Reparent(this);
                         DialogItems.Add(item);
+                        if (item is Control c)
+                        {
+                            c.Position += new Vector2(180f, 90f);
+                        }
                     }
                 }
                 break;

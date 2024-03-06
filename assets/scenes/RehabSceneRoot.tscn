@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://by5ieljhkskx8"]
+[gd_scene load_steps=27 format=3 uid="uid://by5ieljhkskx8"]
 
 [ext_resource type="Script" path="res://code/Game/RehabScene.cs" id="1_nokr2"]
 [ext_resource type="Script" path="res://code/Game/XR/RehabXROrigin.cs" id="2_3q0m5"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dbctcygs8r8uu" path="res://assets/frontend/FE_Loading.tscn" id="3_w1df3"]
 [ext_resource type="PackedScene" uid="uid://deku1jgir0rrr" path="res://assets/frontend/FE_HUD.tscn" id="4_ckn0n"]
 [ext_resource type="Script" path="res://code/Game/PlayerCamera.cs" id="4_dyya7"]
+[ext_resource type="Texture2D" uid="uid://c4bvmef1cikb4" path="res://assets/textures/shadow/cube.png" id="4_w1lrk"]
 [ext_resource type="Script" path="res://code/Game/FreeLookCamera.cs" id="5_7wkgt"]
 [ext_resource type="PackedScene" uid="uid://csc3ocq55uwbc" path="res://assets/frontend/FE_Menu.tscn" id="5_j6sms"]
 [ext_resource type="PackedScene" uid="uid://cuo4j5jc63e2f" path="res://assets/frontend/FE_Credits.tscn" id="6_b843s"]
@@ -36,6 +37,7 @@ transparency = 1
 depth_draw_mode = 1
 no_depth_test = true
 shading_mode = 0
+albedo_texture = ExtResource("4_w1lrk")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_sv34l"]
 size = Vector2(16, 9)
@@ -80,19 +82,29 @@ mesh = SubResource("BoxMesh_pq7nh")
 
 [node name="FE_Display" type="MeshInstance3D" parent="XROrigin3D/FE_Pivot"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -8)
-sorting_offset = 120.0
+sorting_offset = 124.0
 material_override = SubResource("StandardMaterial3D_h4xuf")
 mesh = SubResource("PlaneMesh_sv34l")
 skeleton = NodePath("../../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="XROrigin3D/FE_Pivot/FE_Display"]
+[node name="FE_Collider" type="StaticBody3D" parent="XROrigin3D/FE_Pivot/FE_Display"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/FE_Pivot/FE_Display/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/FE_Pivot/FE_Display/FE_Collider"]
 shape = SubResource("BoxShape3D_lc28n")
 
-[node name="Cursor" type="Sprite3D" parent="XROrigin3D/FE_Pivot/FE_Display"]
+[node name="CursorL" type="Sprite3D" parent="XROrigin3D/FE_Pivot/FE_Display"]
 transform = Transform3D(0.3, 0, 0, 0, -1.31134e-08, -0.3, 0, 0.3, -1.31134e-08, 0, 0.0999999, 0)
-sorting_offset = 124.0
+sorting_offset = 127.0
+cast_shadow = 0
+no_depth_test = true
+render_priority = 127
+texture = ExtResource("14_n1s26")
+
+[node name="CursorR" type="Sprite3D" parent="XROrigin3D/FE_Pivot/FE_Display"]
+transform = Transform3D(0.3, 0, 0, 0, -1.31134e-08, -0.3, 0, 0.3, -1.31134e-08, 0, 0.0999999, 0)
+sorting_offset = 127.0
+cast_shadow = 0
+render_priority = 127
 texture = ExtResource("14_n1s26")
 
 [node name="FE" type="Control" parent="."]

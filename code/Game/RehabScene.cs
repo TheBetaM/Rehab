@@ -366,6 +366,11 @@ public partial class RehabScene : Node3D
         if (!string.IsNullOrWhiteSpace(SkydomePath))
             Skydome.QueueFree();
         SkydomePath = "";
+        if (XR_Enabled)
+        {
+            XR_Origin.ClearHands();
+            XR_Origin.ToggleHands(false);
+        }
     }
 
     public void ExitLevel(bool toMain)
@@ -385,11 +390,6 @@ public partial class RehabScene : Node3D
         else
         {
             StartMainMenu();
-        }
-        if (XR_Enabled)
-        {
-            XR_Origin.ClearHands();
-            XR_Origin.ToggleHands(false);
         }
     }
 

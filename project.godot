@@ -252,5 +252,7 @@ environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 [xr]
 
 openxr/enabled=true
+openxr/foveation_level=3
+openxr/foveation_dynamic=true
 openxr/startup_alert=false
 shaders/enabled=true

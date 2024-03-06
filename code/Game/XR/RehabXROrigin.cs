@@ -10,7 +10,8 @@ public partial class RehabXROrigin : XROrigin3D
     public XRCamera3D XR_Camera;
     public RehabXRController XR_HandL;
     public RehabXRController XR_HandR;
-    public Sprite3D XR_Cursor;
+    public Sprite3D XR_CursorL;
+    public Sprite3D XR_CursorR;
     public bool FE_XR_Active = false;
     public Node3D FE_XR_Pivot;
     double TurnCooldown = 0f;
@@ -20,7 +21,8 @@ public partial class RehabXROrigin : XROrigin3D
         XR_Camera = GetNode<XRCamera3D>("XRCamera3D");
         FE_XR_Pivot = GetNode<Node3D>("FE_Pivot");
         FE_XR_Mesh =FE_XR_Pivot.GetNode<MeshInstance3D>("FE_Display");
-        XR_Cursor = FE_XR_Mesh.GetNode<Sprite3D>("Cursor");
+        XR_CursorL = FE_XR_Mesh.GetNode<Sprite3D>("CursorL");
+        XR_CursorR = FE_XR_Mesh.GetNode<Sprite3D>("CursorR");
         XR_HandL = GetNode<RehabXRController>("HandL");
         XR_HandR = GetNode<RehabXRController>("HandR");
         XR_HandL.Visible = false;
@@ -41,24 +43,37 @@ public partial class RehabXROrigin : XROrigin3D
         if (!FE_XR_Active) return;
         FE_XR_Mesh.MaterialOverride.Set("albedo_texture", RehabScene.Root.FE_XR_Viewport.GetTexture());
         var spaceState = RehabScene.Root.GetWorld3D().DirectSpaceState;
-        Vector3 pos = XR_HandL.GlobalPosition + (-XR_HandL.Transform.Basis.Z * 100f);
+        Vector3 pos = XR_HandL.GlobalPosition + (-XR_HandL.GlobalTransform.Basis.Z * 400f);
         var query = PhysicsRayQueryParameters3D.Create(XR_HandL.GlobalPosition, pos);
         var result = spaceState.IntersectRay(query);
         if (result.ContainsKey("collider"))
         {
+            XR_CursorL.Visible = true;
             var rPos = (Vector3)result["position"];
-            XR_Cursor.GlobalPosition = new Vector3(rPos.X, rPos.Y, XR_Cursor.GlobalPosition.Z);
-            if (XR_Cursor.Scale.X > 0.7f)
-            {
-                XR_Cursor.Scale = new Vector3(0.3f, 0.3f, 0.3f);
-            }
+            XR_CursorL.GlobalPosition = rPos;
+            XR_CursorL.Position = new Vector3(XR_CursorL.Position.X, 0.1f, XR_CursorL.Position.Z);
+        }
+        else
+        {
+            XR_CursorL.Visible = false;
+        }
+        spaceState = RehabScene.Root.GetWorld3D().DirectSpaceState;
+        pos = XR_HandR.GlobalPosition + (-XR_HandR.GlobalTransform.Basis.Z * 400f);
+        query = PhysicsRayQueryParameters3D.Create(XR_HandR.GlobalPosition, pos);
+        result = spaceState.IntersectRay(query);
+        if (result.ContainsKey("collider"))
+        {
+            XR_CursorR.Visible = true;
+            var rPos = (Vector3)result["position"];
+            XR_CursorR.GlobalPosition = rPos;
+            XR_CursorR.Position = new Vector3(XR_CursorR.Position.X, 0.1f, XR_CursorR.Position.Z);
             var mousePos = new InputEventMouseMotion();
-            mousePos.Position = new Vector2(XR_Cursor.Position.X * 160f + 640f, XR_Cursor.Position.Z * 80f + 360f);
+            mousePos.Position = new Vector2(XR_CursorR.Position.X * 80f + 640f, XR_CursorR.Position.Z * 80f + 360f);
             _Input(mousePos);
         }
         else
         {
-            XR_Cursor.Scale = new Vector3(0.75f, 0.75f, 0.75f);
+            XR_CursorR.Visible = false;
         }
     }
     void UpdateCamera(double delta)
@@ -105,11 +120,11 @@ public partial class RehabXROrigin : XROrigin3D
             {
                 if (b.Pressed)
                 {
-                    XR_Cursor.Scale = new Vector3(0.2f, 0.2f, 0.2f);
+                    XR_CursorR.Scale = new Vector3(0.2f, 0.2f, 0.2f);
                 }
                 else
                 {
-                    XR_Cursor.Scale = new Vector3(0.3f, 0.3f, 0.3f);
+                    XR_CursorR.Scale = new Vector3(0.3f, 0.3f, 0.3f);
                 }
             }
         }
@@ -119,11 +134,11 @@ public partial class RehabXROrigin : XROrigin3D
             {
                 if (m.Pressed)
                 {
-                    XR_Cursor.Scale = new Vector3(0.2f, 0.2f, 0.2f);
+                    XR_CursorR.Scale = new Vector3(0.2f, 0.2f, 0.2f);
                 }
                 else
                 {
-                    XR_Cursor.Scale = new Vector3(0.3f, 0.3f, 0.3f);
+                    XR_CursorR.Scale = new Vector3(0.3f, 0.3f, 0.3f);
                 }
             }
         }
@@ -132,14 +147,16 @@ public partial class RehabXROrigin : XROrigin3D
     public void FE_Active()
     {
         FE_XR_Active = true;
-        XR_Cursor.Visible = true;
+        XR_CursorL.Visible = true;
+        XR_CursorR.Visible = true;
         FE_XR_Pivot.Transform = XR_Camera.Transform;
     }
 
     public void FE_Inactive()
     {
         FE_XR_Active = false;
-        XR_Cursor.Visible = false;
+        XR_CursorL.Visible = false;
+        XR_CursorR.Visible = false;
     }
 
     public void ResetOrientation()
