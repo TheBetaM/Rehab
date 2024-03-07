@@ -131,7 +131,7 @@ public partial class FreeLookCamera : Camera3D
         ProcessMode = ProcessModeEnum.Disabled;
         mainCam.ProcessMode = ProcessModeEnum.Inherit;
         mainCam.camTarget.ProcessMode = ProcessModeEnum.Inherit;
-        RehabGame.DisplayMessage("FREECAM " + TranslationServer.Translate("#FE-Off"));
+        RehabGame.DisplayMessage("FREECAM " + Tr("#FE-Off"));
     }
 
     void _update_movement(double delta)

@@ -12,6 +12,7 @@ public partial class LevelSelectList : Control
     int SelectedItem;
     int ItemCount;
     float Cooldown;
+    string ListPath;
 
     public void InitIcons()
     {
@@ -46,7 +47,13 @@ public partial class LevelSelectList : Control
         }
         CreateItem("", ItemCount);
         ItemCount = ItemCount + 1;
-        var dir = DirAccess.Open(RehabGame.AssetsPath + "Levels/");
+        ListPath = RehabGame.AssetsPath + "Levels/";
+        GenerateList();
+    }
+
+    void GenerateList()
+    {
+        var dir = DirAccess.Open(ListPath);
         if (dir != null)
         {
             dir.ListDirBegin();
@@ -67,10 +74,27 @@ public partial class LevelSelectList : Control
                 return;
             }
         }
+        else if (OS.HasFeature("editor"))
+        {
+            // DirAccess editor bug workaround
+            string folderPath = ProjectSettings.GlobalizePath(ListPath);
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(folderPath);
+            foreach (var i in di.EnumerateFiles())
+            {
+                CreateItem(i.Name, ItemCount);
+                ItemCount = ItemCount + 1;
+            }
+        }
         else
         {
-            GD.Print("[LEVEL SELECT] Cannot open " + RehabGame.AssetsPath + "Levels/");
-            GetNode<Label>("TitleLabel").Text = "#FE-Explorer-ImportNotFound";
+            // still not detected on Android (pck bug with DirAccess)
+            if (ListPath.Contains("cutscenes"))
+            {
+                CreateItem("Doc-Amok.tscn", ItemCount);
+                ItemCount = ItemCount + 1;
+            }
+            //GD.Print("[LEVEL SELECT] Cannot open " + ListPath);
+            //GetNode<Label>("TitleLabel").Text = "#FE-Explorer-ImportNotFound";
         }
     }
 
@@ -87,24 +111,9 @@ public partial class LevelSelectList : Control
         }
         else
         {
-            if (RehabGame.Mode == RehabGame.GameMode.Explorer)
-            {
-                NewNode.Text = itemname.Replace("_","/").Replace(".tscn", "");
-                NewNode.Pressed += () => StartLevel(itemname);
-                NewNode.FocusEntered += () => AdvList.EnsureControlVisible(NewNode);
-            }
-            else if (RehabGame.Mode == RehabGame.GameMode.Cutscene)
-            {
-                NewNode.Text = itemname.Replace("_"," ").Replace(".tscn", "");
-                NewNode.Pressed += () => StartCutscene(itemname);
-                NewNode.FocusEntered += () => AdvList.EnsureControlVisible(NewNode);
-            }
-            else
-            {
-                NewNode.Text = itemname.Replace("_"," ").Replace(".tscn", "");
-                NewNode.Pressed += () => StartMinigame(itemname);
-                NewNode.FocusEntered += () => AdvList.EnsureControlVisible(NewNode);
-            }
+            NewNode.Text = itemname.Replace("_","/").Replace(".tscn", "");
+            NewNode.Pressed += () => StartLevel(itemname);
+            NewNode.FocusEntered += () => AdvList.EnsureControlVisible(NewNode);
         }
         GetNode<VBoxContainer>("AdvList/VBoxContainer").AddChild(NewNode);
         Labels.Add(NewNode);
@@ -120,21 +129,7 @@ public partial class LevelSelectList : Control
     {
         Visible = false;
         ProcessMode = ProcessModeEnum.Disabled;
-        RehabScene.Root.LoadScene(RehabGame.AssetsPath + "Levels/" + path);
-    }
-
-    public void StartCutscene(string path)
-    {
-        Visible = false;
-        ProcessMode = ProcessModeEnum.Disabled;
-        RehabScene.Root.LoadScene("res://assets/scenes/cutscenes/" + path);
-    }
-
-    public void StartMinigame(string path)
-    {
-        Visible = false;
-        ProcessMode = ProcessModeEnum.Disabled;
-        RehabScene.Root.LoadScene("res://assets/scenes/minigames/" + path);
+        RehabScene.Root.LoadScene(ListPath + path);
     }
 
     public override void _Process(double delta)
@@ -159,7 +154,6 @@ public partial class LevelSelectList : Control
 
     public async void Activate()
     {
-        RehabGame.Mode = RehabGame.GameMode.Explorer;
         var SimpleList = GetNode<ScrollContainer>("SimpleList");
         GetNode<Control>("AdvList").Visible = false;
         SimpleList.Visible = false;
@@ -217,7 +211,6 @@ public partial class LevelSelectList : Control
 
     public void Adv_ToSimple()
     {
-        RehabGame.Mode = RehabGame.GameMode.Explorer;
         GetNode<Control>("AdvList").Visible = false;
 	    GetNode<Control>("SimpleList").Visible = true;
 	    GetNode<Control>("SimpleList/Control/Button2").GrabFocus();
@@ -285,7 +278,6 @@ public partial class LevelSelectList : Control
 
     public void GenerateCutscenes()
     {
-        RehabGame.Mode = RehabGame.GameMode.Cutscene;
         ItemCount = 0;
         Labels.Clear();
         Paths.Clear();
@@ -295,44 +287,12 @@ public partial class LevelSelectList : Control
         }
         CreateItem("", ItemCount);
         ItemCount++;
-        var dir = DirAccess.Open("res://assets/scenes/cutscenes/");
-        if (dir != null)
-        {
-            dir.ListDirBegin();
-            var file_name = dir.GetNext();
-            while (file_name != "")
-            {
-                if (!dir.CurrentIsDir())
-                {
-                    CreateItem(file_name, ItemCount);
-                    ItemCount = ItemCount + 1;
-                    //GD.Print("Found file: " + file_name);
-                }
-                file_name = dir.GetNext();
-            }
-        }
-        else if (OS.HasFeature("editor"))
-        {
-            // DirAccess editor bug workaround
-            string folderPath = ProjectSettings.GlobalizePath("res://assets/scenes/cutscenes/");
-            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(folderPath);
-            foreach (var i in di.EnumerateFiles())
-            {
-                CreateItem(i.Name, ItemCount);
-                ItemCount = ItemCount + 1;
-            }
-        }
-        else
-        {
-            // still not detected on Android/Quest (pck bug with DirAccess)
-            CreateItem("Doc-Amok.tscn", ItemCount);
-            ItemCount = ItemCount + 1;
-        }
+        ListPath = "res://assets/scenes/cutscenes/";
+        GenerateList();
     }
 
     public void GenerateMinigames()
     {
-        RehabGame.Mode = RehabGame.GameMode.Minigame;
         ItemCount = 0;
         Labels.Clear();
         Paths.Clear();
@@ -342,32 +302,7 @@ public partial class LevelSelectList : Control
         }
         CreateItem("", ItemCount);
         ItemCount++;
-        var dir = DirAccess.Open("res://assets/scenes/minigames/");
-        if (dir != null)
-        {
-            dir.ListDirBegin();
-            var file_name = dir.GetNext();
-            while (file_name != "")
-            {
-                if (!dir.CurrentIsDir())
-                {
-                    CreateItem(file_name, ItemCount);
-                    ItemCount = ItemCount + 1;
-                    //GD.Print("Found file: " + file_name);
-                }
-                file_name = dir.GetNext();
-            }
-        }
-        else if (OS.HasFeature("editor"))
-        {
-            // DirAccess editor bug workaround
-            string folderPath = ProjectSettings.GlobalizePath("res://assets/scenes/minigames/");
-            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(folderPath);
-            foreach (var i in di.EnumerateFiles())
-            {
-                CreateItem(i.Name, ItemCount);
-                ItemCount = ItemCount + 1;
-            }
-        }
+        ListPath = "res://assets/scenes/minigames/";
+        GenerateList();
     }
 }

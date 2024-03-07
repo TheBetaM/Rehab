@@ -5,7 +5,7 @@ uniform int gradient_lines = 1;
 
 void vertex()
 {
-	float uv = (VERTEX.y - gradient_offset);
+	float uv = (mod(VERTEX.y, 104.0) - gradient_offset);
 	COLOR.rgb = (COLOR.r * (texture(gradient, vec2(uv, 0.0)).rgb)) + (COLOR.g * 1.0) + (COLOR.b * 0.0);
 }
 

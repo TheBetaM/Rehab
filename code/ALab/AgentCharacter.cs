@@ -126,8 +126,6 @@ public partial class AgentCharacter : Agent
         
         CreateShadow(0, Vector2.One, 0);
         
-        if (RegInt[(int)CharISlot.AgentType] > 3)
-            return;
         if (activeCharacter != null)
             return;
         
@@ -256,9 +254,9 @@ public partial class AgentCharacter : Agent
             char_velocity.Y = 0f;
             gravityOn = !gravityOn;
             if (gravityOn)
-                RehabGame.DisplayMessage("GRAVITY " + TranslationServer.Translate("#FE-On"));
+                RehabGame.DisplayMessage("GRAVITY " + Tr("#FE-On"));
             else
-                RehabGame.DisplayMessage("GRAVITY " + TranslationServer.Translate("#FE-Off"));
+                RehabGame.DisplayMessage("GRAVITY " + Tr("#FE-Off"));
         }
         if (Input.IsActionJustPressed("pad1_square") && spinTimer <= 0f && RegFloat[(int)CharFSlot.SpinLength] > 0f && !isCrouched)
         {

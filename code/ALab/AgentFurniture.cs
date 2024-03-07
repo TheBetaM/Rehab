@@ -39,32 +39,32 @@ public partial class AgentFurniture : Agent
 
     public override void OnChunkEnter()
     {
-        if (Name == "DJ")
+        switch (Name)
         {
-            RehabScene.Root.PlayMusic(RegInt[0]);
-            RehabGame.SetLevelID(RegInt[2]);
-        }
-        else if (Name == "Global_Ambient_Sound")
-            RehabScene.Root.PlayAmbience(RegInt[2]);
-        else if (Name == "Util_JungleHousekeeping")
-        {
-            RehabScene.Root.PlayMusic(27);
-            RehabGame.SetLevelID(0);
-        }
-        else if (Name == "Util_CavernHousekeeping")
-        {
-            RehabScene.Root.PlayMusic(28);
-            RehabGame.SetLevelID(3);
-        }
-        else if (Name == "Util_IceHousekeeping")
-        {
-            RehabScene.Root.PlayMusic(1);
-            RehabGame.SetLevelID(6);
-        }
-        else if (Name == "Util_TotemHousekeeping")
-        {
-            // todo: only in demo chunks
-            RehabScene.Root.PlayMusic(29);
+            default: break;
+            case "DJ":
+                RehabScene.Root.PlayMusic(RegInt[0]);
+                RehabGame.SetLevelID(RegInt[2]);
+            break;
+            case "Global_Ambient_Sound":
+                RehabScene.Root.PlayAmbience(RegInt[2]);
+            break;
+            case "Util_JungleHousekeeping":
+                RehabScene.Root.PlayMusic(27);
+                RehabGame.SetLevelID(0);
+            break;
+            case "Util_CavernHousekeeping":
+                RehabScene.Root.PlayMusic(28);
+                RehabGame.SetLevelID(3);
+            break;
+            case "Util_IceHousekeeping":
+                RehabScene.Root.PlayMusic(1);
+                RehabGame.SetLevelID(6);
+            break;
+            case "Util_TotemHousekeeping":
+                // todo: only in demo chunks
+                RehabScene.Root.PlayMusic(29);
+            break;
         }
     }
 

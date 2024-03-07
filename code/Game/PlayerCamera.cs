@@ -75,7 +75,7 @@ public partial class PlayerCamera : Camera3D
             ProcessMode = ProcessModeEnum.Disabled;
             freeCam.ProcessMode = ProcessModeEnum.Always;
             camTarget.ProcessMode = ProcessModeEnum.Disabled;
-            RehabGame.DisplayMessage("FREECAM " + TranslationServer.Translate("#FE-On"));
+            RehabGame.DisplayMessage("FREECAM " + Tr("#FE-On"));
             return;
         }
         if (Input.IsActionPressed("pad1_R3"))

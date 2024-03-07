@@ -165,7 +165,7 @@ public partial class LoadingVisuals : Control
         GetNode<Label>("LabelLevelName").Text = "";
     }
 
-    public async void AnimIn()
+    public void AnimIn()
     {
         UpdateVisuals();
         UpdateViewport();
@@ -204,9 +204,15 @@ public partial class LoadingVisuals : Control
             ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Play("RESET");
             ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Queue($"scene/loading_{randAnim}");
         }
+        EndAnimIn();
+    }
+
+    async void EndAnimIn()
+    {
         await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
         GetNode<AnimationPlayer>("AnimationPlayer").Play("TextAnim");
         LevelIcon.isAnim = true;
+        Modulate = new Color(1f, 1f, 1f, 1f);
     }
 
     public async void AnimOut()

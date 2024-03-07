@@ -13,6 +13,29 @@ public partial class ChunkScene : Node3D
     public int ChunkLayer = 1;
     public int DirShadowCount = 0;
 
+    public override void _Ready()
+    {
+        RehabScene.PlayerCam.Current = true;
+        RehabScene.GameHUD.OnUnPause();
+        PlayerCheck();
+    }
+
+    async void PlayerCheck()
+    { 
+        await ToSignal(GetTree().CreateTimer(3.5f), SceneTreeTimer.SignalName.Timeout);
+        if (AgentCharacter.activeCharacter == null && !RehabScene.FE.GetNode<Control>("LevelSelect").Visible &&
+        !RehabScene.FE.GetNode<Control>("Loading").Visible && !RehabScene.FE.GetNode<Control>("FE_MainMenuDynamic").Visible && 
+        !RehabScene.FE.GetNode<Control>("FE_Credits").Visible)
+        {
+            GD.PrintErr("[ROOT] LEVEL LOADED WITH NO CHARACTER");
+            RehabScene.Root.StartMessage("#FE-NoActorError");
+            await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+            while (RehabScene.GameMenu.Visible)
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            RehabScene.Root.ExitLevel(false);
+        }
+    }
+
     public void UpdateLayers(int layer)
     {
         ChunkLayer = layer;

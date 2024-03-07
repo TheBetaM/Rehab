@@ -247,7 +247,7 @@ public partial class FrontendMenu : Control
     {
         HeaderLabel.Text = "#FE-GFXOptions";
         var scaling = GetViewport().Scaling3DScale;
-        GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button7").Text = $"{TranslationServer.Translate("#FE-RenderScale")}: {(int)Math.Round(scaling * 100)}%";
+        GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button7").Text = $"{Tr("#FE-RenderScale")}: {(int)Math.Round(scaling * 100)}%";
         var mset1 =  GetViewport().Scaling3DMode;
         if (mset1 == Viewport.Scaling3DModeEnum.Bilinear)
             GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button6").Text = "#FE-FSR-Off";
@@ -295,7 +295,7 @@ public partial class FrontendMenu : Control
             GetNode<Button>("WindowMainRound/MenuOptionsGame/Button3").Text = "#FE-CamInvertV-On";
         else
             GetNode<Button>("WindowMainRound/MenuOptionsGame/Button3").Text = "#FE-CamInvertV-Off";
-        GetNode<Button>("WindowMainRound/MenuOptionsGame/Button4").Text = $"{TranslationServer.Translate("#FE-Language")}: {TranslationServer.Translate("#FE-LanguageName")}";
+        GetNode<Button>("WindowMainRound/MenuOptionsGame/Button4").Text = $"{Tr("#FE-Language")}: {Tr("#FE-LanguageName")}";
         GetNode<Control>("WindowMainRound/MenuOptionsMain").Visible = false;
         GetNode<Control>("WindowMainRound/MenuOptionsGame").Visible = true;
         GetNode<Control>("WindowMainRound/MenuOptionsGame").GetChild<Control>(0).GrabFocus();
@@ -321,7 +321,7 @@ public partial class FrontendMenu : Control
         if (OptionsOnly)
         {
             Pause_Resume();
-            RehabScene.Root.FE.GetNode<MainMenuDynamic>("FE_MainMenuDynamic").ReturnOptions();
+            RehabScene.FE.GetNode<MainMenuDynamic>("FE_MainMenuDynamic").ReturnOptions();
             return;
         }
         HeaderLabel.Text = "#FE-Paused";
@@ -467,7 +467,7 @@ public partial class FrontendMenu : Control
         }
         
         var scaling = GetViewport().Scaling3DScale;
-        GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button7").Text = $"{TranslationServer.Translate("#FE-RenderScale")}: {(int)Math.Round(scaling * 100)}%";
+        GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button7").Text = $"{Tr("#FE-RenderScale")}: {(int)Math.Round(scaling * 100)}%";
         RehabScene.Root.MainMenu_UpdateViewport();
     }
 
@@ -485,7 +485,7 @@ public partial class FrontendMenu : Control
                 scaling = 1f;
         }
         GetViewport().Scaling3DScale = scaling;
-        GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button7").Text = $"{TranslationServer.Translate("#FE-RenderScale")}: {(int)Math.Round(scaling * 100)}%";
+        GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button7").Text = $"{Tr("#FE-RenderScale")}: {(int)Math.Round(scaling * 100)}%";
         RehabScene.Root.MainMenu_UpdateViewport();
     }
 
@@ -540,7 +540,7 @@ public partial class FrontendMenu : Control
             case RehabGame.VoiceLanguage.Spanish: LangString = "#FE-Dub-Spanish"; break;
             case RehabGame.VoiceLanguage.Japanese: LangString = "#FE-Dub-Japanese"; break;
         }
-        GetNode<Button>("WindowMainRound/MenuOptionsSound/Button6").Text = $"{TranslationServer.Translate("#FE-DubSelection")}: {TranslationServer.Translate(LangString)}";
+        GetNode<Button>("WindowMainRound/MenuOptionsSound/Button6").Text = $"{Tr("#FE-DubSelection")}: {Tr(LangString)}";
     }
 
     public void OptionsGame_ToggleCameraH()
@@ -577,7 +577,7 @@ public partial class FrontendMenu : Control
         else
             iter = iter + 1;
         TranslationServer.SetLocale(dict[iter]);
-        GetNode<Button>("WindowMainRound/MenuOptionsGame/Button4").Text = $"{TranslationServer.Translate("#FE-Language")}: {TranslationServer.Translate("#FE-LanguageName")}";
+        GetNode<Button>("WindowMainRound/MenuOptionsGame/Button4").Text = $"{Tr("#FE-Language")}: {Tr("#FE-LanguageName")}";
     }
 
     public void OptionsGame_ToExtras()
@@ -608,10 +608,10 @@ public partial class FrontendMenu : Control
         
         switch (busID)
         {
-            case 0: targetText += TranslationServer.Translate("#FE-GlobalVolume") + ": ";
-            break; case 1: targetText += TranslationServer.Translate("#FE-MusicVolume") + ": ";
-            break; case 2: case 3: targetText += TranslationServer.Translate("#FE-EffectsVolume") + ": ";
-            break; case 4: targetText += TranslationServer.Translate("#FE-VoiceVolume") + ": ";
+            case 0: targetText += Tr("#FE-GlobalVolume") + ": ";
+            break; case 1: targetText += Tr("#FE-MusicVolume") + ": ";
+            break; case 2: case 3: targetText += Tr("#FE-EffectsVolume") + ": ";
+            break; case 4: targetText += Tr("#FE-VoiceVolume") + ": ";
             break; default: break;
         }
         
@@ -827,7 +827,7 @@ public partial class FrontendMenu : Control
                     {
                         iter += 1;
                         Button inst = (Button)prefab.Duplicate();
-                        inst.Text = $"{TranslationServer.Translate("#FE-BossExtras")} {iter}";
+                        inst.Text = $"{Tr("#FE-BossExtras")} {iter}";
                         inst.Disconnect("pressed", Callable.From(ExtrasList_ToExtras));
                         inst.Connect("pressed", Callable.From(() => ExtrasItemStart(dirPath + i)));
                         ExtrasList.AddChild(inst);
@@ -845,7 +845,7 @@ public partial class FrontendMenu : Control
                     {
                         iter += 1;
                         Button inst = (Button)prefab.Duplicate();
-                        inst.Text = $"{TranslationServer.Translate("#FE-MovieExtras")} {iter}";
+                        inst.Text = $"{Tr("#FE-MovieExtras")} {iter}";
                         inst.Disconnect("pressed", Callable.From(ExtrasList_ToExtras));
                         inst.Connect("pressed", Callable.From(() => ExtrasItemStartMovie(dirPath + i)));
                         ExtrasList.AddChild(inst);
@@ -863,7 +863,7 @@ public partial class FrontendMenu : Control
                     {
                         iter += 1;
                         Button inst = (Button)prefab.Duplicate();
-                        inst.Text = $"{TranslationServer.Translate("#FE-ConceptExtras")} {iter}";
+                        inst.Text = $"{Tr("#FE-ConceptExtras")} {iter}";
                         inst.Disconnect("pressed", Callable.From(ExtrasList_ToExtras));
                         inst.Connect("pressed", Callable.From(() => ExtrasItemStart(dirPath + i)));
                         ExtrasList.AddChild(inst);
@@ -881,7 +881,7 @@ public partial class FrontendMenu : Control
                     {
                         iter += 1;
                         Button inst = (Button)prefab.Duplicate();
-                        inst.Text = $"{TranslationServer.Translate("#FE-ConceptExtras")} {iter}";
+                        inst.Text = $"{Tr("#FE-ConceptExtras")} {iter}";
                         inst.Disconnect("pressed", Callable.From(ExtrasList_ToExtras));
                         inst.Connect("pressed", Callable.From(() => ExtrasItemStart(dirPath + i)));
                         ExtrasList.AddChild(inst);
@@ -899,7 +899,7 @@ public partial class FrontendMenu : Control
                     {
                         iter += 1;
                         Button inst = (Button)prefab.Duplicate();
-                        inst.Text = $"{TranslationServer.Translate("#FE-EnemyExtras")} {iter}";
+                        inst.Text = $"{Tr("#FE-EnemyExtras")} {iter}";
                         inst.Disconnect("pressed", Callable.From(ExtrasList_ToExtras));
                         inst.Connect("pressed", Callable.From(() => ExtrasItemStart(dirPath + i)));
                         ExtrasList.AddChild(inst);
@@ -917,7 +917,7 @@ public partial class FrontendMenu : Control
                     {
                         iter += 1;
                         Button inst = (Button)prefab.Duplicate();
-                        inst.Text = $"{TranslationServer.Translate("#FE-UnseenExtras")} {iter}";
+                        inst.Text = $"{Tr("#FE-UnseenExtras")} {iter}";
                         inst.Disconnect("pressed", Callable.From(ExtrasList_ToExtras));
                         inst.Connect("pressed", Callable.From(() => ExtrasItemStart(dirPath + i)));
                         ExtrasList.AddChild(inst);
@@ -935,7 +935,7 @@ public partial class FrontendMenu : Control
                     {
                         iter += 1;
                         Button inst = (Button)prefab.Duplicate();
-                        inst.Text = $"{TranslationServer.Translate("#FE-CompleteExtras")} {iter}";
+                        inst.Text = $"{Tr("#FE-CompleteExtras")} {iter}";
                         inst.Disconnect("pressed", Callable.From(ExtrasList_ToExtras));
                         inst.Connect("pressed", Callable.From(() => ExtrasItemStart(dirPath + i)));
                         ExtrasList.AddChild(inst);

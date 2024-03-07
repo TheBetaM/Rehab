@@ -68,7 +68,7 @@ public partial class FrontendInstaller : Control
                     Add = "...";
                 break;
             }
-            MainLabel.Text = $"{TranslationServer.Translate("#FE-Installer-Installing")}{Add}";
+            MainLabel.Text = $"{Tr("#FE-Installer-Installing")}{Add}";
             TextStep--;
             if (TextStep <= 0)
             {
@@ -159,7 +159,7 @@ public partial class FrontendInstaller : Control
                 }
                 break;
             case ProcessStep.Confirm:
-                MainLabel.Text = TranslationServer.Translate("#FE-Installer-Installing");
+                MainLabel.Text = Tr("#FE-Installer-Installing");
                 Exporter.StartWorker(FilePath);
                 ProcessActive = true;
                 break;
@@ -207,7 +207,7 @@ public partial class FrontendInstaller : Control
             {
                 regionString = Exporter.isJPN ? "JPN" : "USA";
             }
-            MainLabel.Text = $"{TranslationServer.Translate("#FE-Installer-Detected")}: {regionString} {verString}";
+            MainLabel.Text = $"{Tr("#FE-Installer-Detected")}: {regionString} {verString}";
             Step = ProcessStep.Confirm;
             Button1.Text = "#FE-Continue";
         }

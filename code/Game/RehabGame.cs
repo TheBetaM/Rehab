@@ -32,7 +32,6 @@ public static class RehabGame
     public static string DataPath = OS.GetExecutablePath();
     public static string PacksPath = OS.GetExecutablePath();
     public static List<ModInfo> ModsInstalled = new List<ModInfo>();
-    public static GameMode Mode = GameMode.Explorer;
 
     public static void Init()
     {
@@ -267,13 +266,6 @@ public static class RehabGame
         French = 3,
         Italian = 4,
         Japanese = 5,
-    }
-
-    public enum GameMode
-    {
-        Explorer = 0,
-        Cutscene = 1,
-        Minigame = 2,
     }
 
     public class ModInfo

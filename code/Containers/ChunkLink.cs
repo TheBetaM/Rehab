@@ -135,7 +135,7 @@ public partial class ChunkLink : Node3D
     {
         if (OS.GetName() == "Android")
         {
-            // todo Android/Quest only streaming crash issue
+            // todo Android only streaming crash issue
             return;
         }
         if (LoadedChunk != null || IsLoading) return;

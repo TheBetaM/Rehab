@@ -30,7 +30,7 @@ public partial class RehabScene : Node3D
     public AudioStream SoundFE_Select;
     bool MusicSwitching;
     bool AmbSwitching;
-    public Control FE;
+    public static Control FE;
     public XRInterface XR_Interface;
     public bool XR_Enabled = false;
     public RehabXROrigin XR_Origin;
@@ -233,22 +233,6 @@ public partial class RehabScene : Node3D
                 Skydome.Visible = true;
             XR_Origin.ToggleHands(true);
         }
-        if (RehabGame.Mode == RehabGame.GameMode.Explorer)
-        {
-            GameHUD.OnUnPause();
-            await ToSignal(GetTree().CreateTimer(3.5f), SceneTreeTimer.SignalName.Timeout);
-            if (AgentCharacter.activeCharacter == null && !FE.GetNode<Control>("LevelSelect").Visible &&
-            !FE.GetNode<Control>("Loading").Visible && !FE.GetNode<Control>("FE_MainMenuDynamic").Visible && 
-            !FE.GetNode<Control>("FE_Credits").Visible)
-            {
-                GD.PrintErr("[ROOT] LEVEL LOADED WITH NO CHARACTER");
-                StartMessage("#FE-NoActorError");
-                await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-                while (GameMenu.Visible)
-                    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-                ExitLevel(false);
-            }
-        }
     }
 
     public Node3D LoadChunk(PackedScene chunk, string chunkName, Node3D holder)
@@ -439,7 +423,7 @@ public partial class RehabScene : Node3D
         GameMenu.Start_PauseMenu(optionsOnly);
     }
 
-    void StartMessage(string text)
+    public void StartMessage(string text)
     {
         ProcessMode = ProcessModeEnum.Disabled;
         if (XR_Enabled) XR_Origin.FE_Active();
