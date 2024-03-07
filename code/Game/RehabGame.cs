@@ -30,19 +30,23 @@ public static class RehabGame
     public static string AssetsPath = "res://import/";
     public static string ConfigPath = "user://rehab.cfg";
     public static string DataPath = OS.GetExecutablePath();
+    public static string PacksPath = OS.GetExecutablePath();
     public static List<ModInfo> ModsInstalled = new List<ModInfo>();
     public static GameMode Mode = GameMode.Explorer;
 
-    public static void Init(){
+    public static void Init()
+    {
         if (OS.GetName() == "Android")
         {
-            //DataPath = OS.GetSystemDir(OS.SystemDir.Downloads) + "Rehab/Packs";
             DataPath = OS.GetUserDataDir() + "/";
+            PacksPath = OS.GetSystemDir(OS.SystemDir.Downloads) +"/Rehab/";
+            if (!DirAccess.DirExistsAbsolute(PacksPath))
+                DirAccess.MakeDirAbsolute(PacksPath);
         }
         else
         {
             var PathSplit = DataPath.Split("/");
-            var PacksPath = "";
+            var PacksAddPath = "";
             var PathID = 0;
             foreach (var i in PathSplit)
             {
@@ -52,10 +56,11 @@ public static class RehabGame
                     PacksPath += i + "/";
                 }
             }
-            PacksPath += "Packs/";
-            DataPath = PacksPath;
-            if (!DirAccess.DirExistsAbsolute(PacksPath))
-                DirAccess.MakeDirAbsolute(PacksPath);
+            PacksAddPath += "Packs/";
+            DataPath = PacksAddPath;
+            if (!DirAccess.DirExistsAbsolute(PacksAddPath))
+                DirAccess.MakeDirAbsolute(PacksAddPath);
+            PacksPath = PacksAddPath;
         }
 
         string locale = OS.GetLocaleLanguage();
@@ -65,7 +70,8 @@ public static class RehabGame
         }
     }
 
-    public static void ResetGame(){
+    public static void ResetGame()
+    {
         Fruit = 0;
         Lives = 4;
         Progress = 0;
@@ -73,7 +79,8 @@ public static class RehabGame
         LevelID = -1;
     }
 
-    public static void AddWumpa(int amount){
+    public static void AddWumpa(int amount)
+    {
         Fruit += amount;
         if (Fruit > 99)
         {
@@ -85,7 +92,8 @@ public static class RehabGame
 	    RehabScene.GameHUD.UpdateWumpa();
     }
 
-    public static void AddLives(int amount){
+    public static void AddLives(int amount)
+    {
         Lives += amount;
         if (Lives > 99) Lives = 99;
         if (Lives < 0)
@@ -97,7 +105,8 @@ public static class RehabGame
 	    RehabScene.GameHUD.UpdateLives();
     }
 
-    public static void AddGem(int gem){
+    public static void AddGem(int gem)
+    {
         RehabScene.GameHUD.AnimateGem(gem);
         if (Gems.ContainsKey(LevelID))
         {
@@ -110,25 +119,31 @@ public static class RehabGame
         }
     }
 
-    public static void AddCrystal(){
+    public static void AddCrystal()
+    {
         Crystals++;
         RehabScene.GameHUD.AnimateCrystal();
     }
 
-    public static void DisplayHUD(){
+    public static void DisplayHUD()
+    {
         RehabScene.GameHUD.UpdateWumpa();
 	    RehabScene.GameHUD.UpdateLives();
+        if (RehabScene.Root.XR_Enabled)
+            RehabScene.Root.XR_Origin.ResetOrientation();
     }
 
     public static void DisplayMessage(string text){
         RehabScene.GameHUD.FlashMessage(text);
     }
 
-    public static void SetLevelID(int id){
+    public static void SetLevelID(int id)
+    {
         LevelID = id;
     }
 
-    public static string GetVoicePath(){
+    public static string GetVoicePath()
+    {
         switch (VoiceLang)
         {
             default:
@@ -174,7 +189,8 @@ public static class RehabGame
         }
     }
 
-    public static Dictionary<int, string> MusicPaths = new Dictionary<int, string>(){
+    public static Dictionary<int, string> MusicPaths = new Dictionary<int, string>()
+    {
         [0] = "undefined",
         [1] = "DemoHub",
 	    [7] = "4_6_Twisted_Docamok",

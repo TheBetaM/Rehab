@@ -7,7 +7,7 @@ public partial class AgentFurniture : Agent
         "Boiler_DoubleDoor_Anim",
         "Door_Cortex_Lab_Big",
         "AltEarth_AntCaves_GiantBlastDoor",
-        "AltEarth_Core_BlaseDoor_Small",
+        "AltEarth_Core_BlastDoor_Small",
         "Battleship_Door_B",
         "Battleship_IronDoor_B",
         "Generic_GreyStoneDoor",

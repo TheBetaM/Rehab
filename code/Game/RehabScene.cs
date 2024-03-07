@@ -70,6 +70,10 @@ public partial class RehabScene : Node3D
             XR_Origin.QueueFree();
             FE_XR_Viewport.QueueFree();
         }
+        if ((string)ProjectSettings.GetSetting("rendering/renderer/rendering_method") == "mobile")
+        {
+            FixMobileFE(FE);
+        }
         RehabGame.Init();
         var conf = GetNode<ConfigHandler>("ConfigHandler");
         conf.Load();
@@ -126,6 +130,24 @@ public partial class RehabScene : Node3D
     {
         string PacksPath = RehabGame.DataPath;
         var pdir = DirAccess.Open(PacksPath);
+        if (pdir != null)
+        {
+            foreach (var i in pdir.GetFiles())
+            {
+                var success = ProjectSettings.LoadResourcePack(PacksPath + i);
+                if (success)
+                    GD.Print("[ROOT] Pack loaded from " + i);
+                else
+                    GD.PrintErr("[ROOT] Pack FAILED from " + i);
+            }
+        }
+        else
+        {
+            GD.Print("[ROOT] Data directory failed to open! " + PacksPath);
+        }
+        if (RehabGame.PacksPath == RehabGame.DataPath || string.IsNullOrWhiteSpace(RehabGame.PacksPath)) return;
+        PacksPath = RehabGame.PacksPath;
+        pdir = DirAccess.Open(PacksPath);
         if (pdir != null)
         {
             foreach (var i in pdir.GetFiles())
@@ -544,6 +566,19 @@ public partial class RehabScene : Node3D
         {
             var musicFader = (MusicFader)AudioMusic;
             musicFader.IsFadingOut = true;
+        }
+    }
+
+    void FixMobileFE(Node parent)
+    {
+        // vulkan mobile workaround (some bug with clipping canvas items)
+        if (parent is TextureRect tex && tex.Name == "TextureRectMask")
+        {
+            tex.Visible = false;
+        }
+        foreach (var i in parent.GetChildren())
+        {
+            FixMobileFE(i);
         }
     }
 

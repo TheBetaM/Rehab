@@ -25,6 +25,9 @@ public partial class RehabXROrigin : XROrigin3D
         XR_CursorR = FE_XR_Mesh.GetNode<Sprite3D>("CursorR");
         XR_HandL = GetNode<RehabXRController>("HandL");
         XR_HandR = GetNode<RehabXRController>("HandR");
+        XR_HandL.Origin = this;
+        XR_HandR.Origin = this;
+        XR_HandR.ActiveCursor = true;
         XR_HandL.Visible = false;
         XR_HandR.Visible = false;
         FE_XR_Mesh.Visible = true;
@@ -52,6 +55,12 @@ public partial class RehabXROrigin : XROrigin3D
             var rPos = (Vector3)result["position"];
             XR_CursorL.GlobalPosition = rPos;
             XR_CursorL.Position = new Vector3(XR_CursorL.Position.X, 0.1f, XR_CursorL.Position.Z);
+            if (XR_HandL.ActiveCursor)
+            {
+                var mousePos = new InputEventMouseMotion();
+                mousePos.Position = new Vector2(XR_CursorL.Position.X * 80f + 640f, XR_CursorL.Position.Z * 80f + 360f);
+                _Input(mousePos);
+            }
         }
         else
         {
@@ -67,9 +76,12 @@ public partial class RehabXROrigin : XROrigin3D
             var rPos = (Vector3)result["position"];
             XR_CursorR.GlobalPosition = rPos;
             XR_CursorR.Position = new Vector3(XR_CursorR.Position.X, 0.1f, XR_CursorR.Position.Z);
-            var mousePos = new InputEventMouseMotion();
-            mousePos.Position = new Vector2(XR_CursorR.Position.X * 80f + 640f, XR_CursorR.Position.Z * 80f + 360f);
-            _Input(mousePos);
+            if (XR_HandR.ActiveCursor)
+            {
+                var mousePos = new InputEventMouseMotion();
+                mousePos.Position = new Vector2(XR_CursorR.Position.X * 80f + 640f, XR_CursorR.Position.Z * 80f + 360f);
+                _Input(mousePos);
+            }
         }
         else
         {
@@ -114,31 +126,23 @@ public partial class RehabXROrigin : XROrigin3D
         if (!RehabScene.Root.XR_Enabled) return;
         RehabScene.Root.FE_XR_Viewport.PushInput(input);
         if (!FE_XR_Active) return;
-        if (input is InputEventJoypadButton b)
-        {
-            if (b.ButtonIndex == JoyButton.A)
-            {
-                if (b.Pressed)
-                {
-                    XR_CursorR.Scale = new Vector3(0.2f, 0.2f, 0.2f);
-                }
-                else
-                {
-                    XR_CursorR.Scale = new Vector3(0.3f, 0.3f, 0.3f);
-                }
-            }
-        }
-        else if (input is InputEventMouseButton m)
+        if (input is InputEventMouseButton m)
         {
             if (m.ButtonIndex == MouseButton.Left)
             {
                 if (m.Pressed)
                 {
-                    XR_CursorR.Scale = new Vector3(0.2f, 0.2f, 0.2f);
+                    if (XR_HandR.ActiveCursor)
+                        XR_CursorR.Scale = new Vector3(0.2f, 0.2f, 0.2f);
+                    else
+                        XR_CursorL.Scale = new Vector3(0.2f, 0.2f, 0.2f);
                 }
                 else
                 {
-                    XR_CursorR.Scale = new Vector3(0.3f, 0.3f, 0.3f);
+                    if (XR_HandR.ActiveCursor)
+                        XR_CursorR.Scale = new Vector3(0.3f, 0.3f, 0.3f);
+                    else
+                        XR_CursorL.Scale = new Vector3(0.3f, 0.3f, 0.3f);
                 }
             }
         }
@@ -162,7 +166,6 @@ public partial class RehabXROrigin : XROrigin3D
     public void ResetOrientation()
     {
         FE_XR_Pivot.Transform = XR_Camera.Transform;
-        //XRServer.CenterOnHmd(XRServer.RotationMode.ResetFullRotation, true);
     }
 
     public void ClearHands()

@@ -190,7 +190,7 @@ public partial class AgentCharacter : Agent
         UpdateFootStep((float)delta);
         if (RehabScene.Root.XR_Enabled)
         {
-            RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 0.5f);
+            RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 0.75f);
         }
     }
 
@@ -523,8 +523,10 @@ public partial class AgentCharacter : Agent
 
     void XR_Setup()
     {
-        RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 0.5f);
+        RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
+        RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 0.75f);
         RehabScene.Root.XR_Origin.GlobalRotation = GlobalRotation;
+        XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
         Visible = false;
         string RHandPath = "res://assets/scenes/xr/XRHand_Crash.tscn";
         string LHandPath = "res://assets/scenes/xr/XRHand_Crash.tscn";

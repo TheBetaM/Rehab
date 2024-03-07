@@ -43,7 +43,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.223529, 0.588235, 1, 1)
 
-[node name="TextureRect" type="TextureRect" parent="Insides"]
+[node name="TextureRectMask" type="TextureRect" parent="Insides"]
 clip_children = 1
 z_index = 1
 layout_mode = 1
@@ -55,7 +55,7 @@ grow_vertical = 2
 texture = ExtResource("2_524ab")
 expand_mode = 1
 
-[node name="InsidesGrad" type="ColorRect" parent="Insides/TextureRect"]
+[node name="InsidesGrad" type="ColorRect" parent="Insides/TextureRectMask"]
 material = SubResource("ShaderMaterial_n76hi")
 layout_mode = 1
 anchors_preset = -1
@@ -68,8 +68,6 @@ offset_bottom = 10.0
 color = Color(0.501961, 0.913725, 1, 1)
 
 [node name="InsidesWhite" type="ColorRect" parent="."]
-clip_children = 2
-z_index = 1
 material = SubResource("ShaderMaterial_qertq")
 layout_mode = 1
 anchors_preset = -1

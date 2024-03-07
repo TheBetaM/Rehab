@@ -201,6 +201,7 @@ public partial class FrontendHUD : Control
 
     public async void FlashMessage(string text)
     {
+        UpdateXR();
         BottomTextLabel.Visible = false;
         BottomTextLabel.Text = text;
         BottomTextLabel.Modulate = new Color(1f, 1f, 1f, 0f);
@@ -235,5 +236,11 @@ public partial class FrontendHUD : Control
     public void OnUnPause()
     {
         GetNode<Control>("TouchControls").Visible = true;
+    }
+
+    void UpdateXR()
+    {
+        if (RehabScene.Root.XR_Enabled)
+            RehabScene.Root.XR_Origin.ResetOrientation();
     }
 }

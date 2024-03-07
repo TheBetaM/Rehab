@@ -235,6 +235,7 @@ public partial class FrontendInstaller : Control
         OptionsHolder.Visible = true;
         Button1.GrabFocus();
         GetWindow().RequestAttention();
+        Input.StartJoyVibration(0, 0.5f, 0f, 0.5f);
         Exporter = null;
         GC.Collect();
         GC.WaitForPendingFinalizers();

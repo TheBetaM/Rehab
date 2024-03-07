@@ -324,7 +324,7 @@ public partial class LevelSelectList : Control
         }
         else
         {
-            // Android Test
+            // still not detected on Android/Quest (pck bug with DirAccess)
             CreateItem("Doc-Amok.tscn", ItemCount);
             ItemCount = ItemCount + 1;
         }

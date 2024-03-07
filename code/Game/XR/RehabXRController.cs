@@ -6,6 +6,8 @@ public partial class RehabXRController : XRController3D
 {
     public bool HasHand = false;
     public Node3D HandModel;
+    public bool ActiveCursor = false;
+    public RehabXROrigin Origin;
 
     public override void _Ready()
     {
@@ -20,13 +22,12 @@ public partial class RehabXRController : XRController3D
         {
             default: break;
             case "trigger_click":
-                if (Tracker == "right_hand")
-                {
-                    var MEvent = new InputEventScreenTouch();
-                    MEvent.Position = RehabScene.Root.FE_XR_Viewport.GetMousePosition() * 2.64f;
-                    MEvent.Pressed = true;
-                    Input.ParseInputEvent(MEvent);
-                }
+                if (!ActiveCursor)
+                    return;
+                var MEvent = new InputEventScreenTouch();
+                MEvent.Position = RehabScene.Root.FE_XR_Viewport.GetMousePosition() * 2.64f;
+                MEvent.Pressed = true;
+                Input.ParseInputEvent(MEvent);
             break;
             case "primary_click":
                 var StickClickEvent = new InputEventJoypadButton();
@@ -78,12 +79,16 @@ public partial class RehabXRController : XRController3D
         {
             default: break;
             case "trigger_click":
-                if (Tracker == "right_hand")
+                if (!ActiveCursor)
                 {
-                    var MEvent = new InputEventScreenTouch();
-                    MEvent.Pressed = false;
-                    Input.ParseInputEvent(MEvent);
+                    Origin.XR_HandL.ActiveCursor = false;
+                    Origin.XR_HandR.ActiveCursor = false;
+                    ActiveCursor = true;
+                    return;
                 }
+                var MEvent = new InputEventScreenTouch();
+                MEvent.Pressed = false;
+                Input.ParseInputEvent(MEvent);
             break;
             case "primary_click":
                 var StickClickEvent = new InputEventJoypadButton();

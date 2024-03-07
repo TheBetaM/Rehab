@@ -23,12 +23,23 @@ public partial class CutsceneChunk : ChunkScene
         AnimCamera = GetNode<Camera3D>(AnimCameraPath);
         AnimPlayer.AnimationFinished += AnimDone;
         AnimCamera.Current = true;
-        AnimPlayer.Play(AnimName);
         if (RehabScene.Root.XR_Enabled)
         {
+            RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
             RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
-            //RehabScene.Root.XR_Origin.GlobalRotation = AnimCamera.GlobalRotation;
+            RehabScene.Root.XR_Origin.GlobalRotation = AnimCamera.GlobalRotation;
+            XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
         }
+        StartCutscene();
+    }
+
+    async void StartCutscene()
+    {
+        if (RehabScene.Root.XR_Enabled)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+        AnimPlayer.Play(AnimName);
     }
 
     public override void _Process(double delta)
@@ -44,11 +55,15 @@ public partial class CutsceneChunk : ChunkScene
     async void ReorientXRCam()
     {
         RehabScene.Root.Visible = false;
+        ProcessMode = ProcessModeEnum.Disabled;
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
         RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
-        //RehabScene.Root.XR_Origin.GlobalRotation = AnimCamera.GlobalRotation;
+        RehabScene.Root.XR_Origin.GlobalRotation = AnimCamera.GlobalRotation;
+        XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
         await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
         RehabScene.Root.Visible = true;
+        ProcessMode = ProcessModeEnum.Inherit;
     }
 
     void AnimDone(StringName anim)
