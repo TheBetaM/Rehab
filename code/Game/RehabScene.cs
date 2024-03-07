@@ -70,7 +70,8 @@ public partial class RehabScene : Node3D
             XR_Origin.QueueFree();
             FE_XR_Viewport.QueueFree();
         }
-        if ((string)ProjectSettings.GetSetting("rendering/renderer/rendering_method") == "mobile")
+        if (OS.HasFeature("mobile") ||
+            (string)ProjectSettings.GetSetting("rendering/renderer/rendering_method") == "mobile")
         {
             FixMobileFE(FE);
         }
