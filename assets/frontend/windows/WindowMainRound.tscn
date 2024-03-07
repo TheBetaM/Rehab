@@ -68,6 +68,7 @@ offset_bottom = 10.0
 color = Color(0.501961, 0.913725, 1, 1)
 
 [node name="InsidesWhite" type="ColorRect" parent="."]
+z_index = 1
 material = SubResource("ShaderMaterial_qertq")
 layout_mode = 1
 anchors_preset = -1

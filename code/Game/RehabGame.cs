@@ -53,7 +53,7 @@ public static class RehabGame
                 PathID++;
                 if (PathID < PathSplit.Length)
                 {
-                    PacksPath += i + "/";
+                    PacksAddPath += i + "/";
                 }
             }
             PacksAddPath += "Packs/";
