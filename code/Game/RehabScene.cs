@@ -18,9 +18,9 @@ public partial class RehabScene : Node3D
     public static AudioStreamPlayer AudioAmbience;
     public static AudioStreamPlayer AudioMenu;
     public static AudioStreamPlayer AudioVoice;
-    List<ChunkScene> Chunks = new();
-    List<StringName> ChunkNames = new();
-    List<int> ChunkLayers = new();
+    public List<ChunkScene> Chunks = new();
+    public List<StringName> ChunkNames = new();
+    public List<int> ChunkLayers = new();
     public string LoadingChunkName;
     const int MaxChunksLoaded = 8; // at the same time
     public string ActiveMusic;
@@ -243,8 +243,11 @@ public partial class RehabScene : Node3D
 		holder.AddChild(LoadedChunk);
 		LoadedChunk.Reparent(this);
         var scene = (ChunkScene)LoadedChunk;
-		Chunks.Add(scene);
-		ChunkNames.Add(chunkName);
+        lock (ChunkNames)
+        {
+            Chunks.Add(scene);
+		    ChunkNames.Add(chunkName);
+        }
         for (int i = 1; i <= MaxChunksLoaded; i++)
         {
             if (!ChunkLayers.Contains(i))
@@ -308,17 +311,17 @@ public partial class RehabScene : Node3D
             if (i.ChunkName == OldChunk.Name)
             {
                 i.IsBuffered = true;
-                i.LoadedChunk = OldChunk;
-                i.LoadedChunk.Position = i.GetNode<Node3D>("ChunkHolder").GlobalPosition;
-                i.LoadedChunk.Rotation = i.GetNode<Node3D>("ChunkHolder").GlobalRotation;
+                int ind = ChunkNames.IndexOf(i.ChunkName);
+                Chunks[ind].Position = i.GetNode<Node3D>("ChunkHolder").GlobalPosition;
+                Chunks[ind].Rotation = i.GetNode<Node3D>("ChunkHolder").GlobalRotation;
             }
             foreach (var a in OldChunk.Links)
             {
-                if (a.ChunkName == i.ChunkName && a.LoadedChunk != null)
+                if (a.ChunkName == i.ChunkName && ChunkNames.Contains(a.ChunkName))
                 {
-                    i.LoadedChunk = a.LoadedChunk;
-                    i.LoadedChunk.Position = i.GetNode<Node3D>("ChunkHolder").GlobalPosition;
-                    i.LoadedChunk.Rotation = i.GetNode<Node3D>("ChunkHolder").GlobalRotation;
+                    int ind = ChunkNames.IndexOf(i.ChunkName);
+                    Chunks[ind].Position = i.GetNode<Node3D>("ChunkHolder").GlobalPosition;
+                    Chunks[ind].Rotation = i.GetNode<Node3D>("ChunkHolder").GlobalRotation;
                 }
             }
             i.ActivateLink();
@@ -352,10 +355,14 @@ public partial class RehabScene : Node3D
         var pos = ChunkNames.IndexOf(chunk);
         if (pos == -1) return;
         GD.Print("[ROOT] Unloading " + chunk);
-        Chunks[pos].QueueFree();
-        Chunks.RemoveAt(pos);
-        ChunkNames.RemoveAt(pos);
-        ChunkLayers.RemoveAt(pos);
+        lock (ChunkNames)
+        {
+            Chunks[pos].QueueFree();
+            Chunks.RemoveAt(pos);
+            ChunkNames.RemoveAt(pos);
+            ChunkLayers.RemoveAt(pos);
+        }
+        //update chunk links here to null the disposed chunk?
     }
 
     void UnloadAllChunks()
@@ -389,6 +396,10 @@ public partial class RehabScene : Node3D
         AudioMusic.Stop();
         ActiveMusic = "";
         GetNode<WorldEnvironment>("WorldEnv").Environment = DefaultEnv;
+        if (OS.GetName() == "Android")
+        {
+            DisplayServer.ScreenSetOrientation(DisplayServer.ScreenOrientation.SensorLandscape);
+        }
         if (!toMain)
         {
             StartLevelSelect();

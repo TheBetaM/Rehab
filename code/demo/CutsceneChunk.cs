@@ -45,6 +45,11 @@ public partial class CutsceneChunk : ChunkScene
 
     public override void _Process(double delta)
     {
+        if (Input.IsActionJustPressed("pad1_start"))
+        {
+            RehabScene.Root.StartPauseMenu(false);
+            return;
+        }
         if (!RehabScene.Root.XR_Enabled) return;
         if (LastCamPos.DistanceTo(AnimCamera.Position) > 16f)
         {

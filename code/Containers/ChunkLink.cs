@@ -13,7 +13,6 @@ public partial class ChunkLink : Node3D
 
     ChunkScene ParentScene;
     PackedScene LoadedScene;
-    public ChunkScene LoadedChunk;
     Area3D EnterTrigger;
     Area3D LoadTriggers; //todo array
     public bool IsBuffered;
@@ -62,13 +61,14 @@ public partial class ChunkLink : Node3D
     {
         if (string.IsNullOrWhiteSpace(ChunkPath)) return;
         ProcessMode = ProcessModeEnum.Inherit;
-        if (ParentScene.ActiveScene && LoadedChunk != null)
+        if (ParentScene.ActiveScene && RehabScene.Root.ChunkNames.Contains(ChunkName))
         {
-            LoadedChunk.Visible = !SpawnInvisible;
+            int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
+            RehabScene.Root.Chunks[ind].Visible = !SpawnInvisible;
             if (SpawnInvisible)
-                LoadedChunk.ProcessMode = ProcessModeEnum.Disabled;
+                RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
             else
-                LoadedChunk.ProcessMode = ProcessModeEnum.Inherit;
+                RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Inherit;
         }
         if (ParentScene.ActiveScene && LoadTriggers == null)
             SpawnChunk();
@@ -77,7 +77,6 @@ public partial class ChunkLink : Node3D
     public void TrigEnter(Node3D body)
     {
         if (ProcessMode == ProcessModeEnum.Disabled) return;
-        if (LoadedChunk == null) return;
         if (!ParentScene.ActiveScene) return;
         if (IsBuffered) return;
     }
@@ -85,21 +84,22 @@ public partial class ChunkLink : Node3D
     public void TrigExit(Node3D body)
     {
         if (ProcessMode == ProcessModeEnum.Disabled) return;
-        if (LoadedChunk == null) return;
+        if (!RehabScene.Root.ChunkNames.Contains(ChunkName)) return;
         if (!ParentScene.ActiveScene) return;
         if (body is AgentCharacter agent)
         {
             if (agent.GetParent() is Agent) return; // attached co-op character
             DisableLinkNow(); // todo remove this?
             agent.isReparenting = true;
-            agent.Reparent(LoadedChunk);
-            agent.ParentScene = LoadedChunk;
-            agent.UpdateLayers(LoadedChunk.ChunkLayer);
+            int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
+            agent.Reparent(RehabScene.Root.Chunks[ind]);
+            agent.ParentScene = RehabScene.Root.Chunks[ind];
+            agent.UpdateLayers(RehabScene.Root.Chunks[ind].ChunkLayer);
             if (AgentCharacter.activeCharacter == agent)
             {
                 GD.Print("---");
                 GD.Print("[LINK] Entered from " + ParentScene.Name);
-                SwitchToChunk(LoadedChunk);
+                SwitchToChunk(RehabScene.Root.Chunks[ind]);
             }
         }
     }
@@ -107,7 +107,7 @@ public partial class ChunkLink : Node3D
     public void LoadTrigEnter(Node3D body)
     {
         if (ProcessMode == ProcessModeEnum.Disabled) return;
-        if (LoadedChunk != null) return;
+        if (RehabScene.Root.ChunkNames.Contains(ChunkName)) return;
         if (!ParentScene.ActiveScene) return;
         if (body is CharacterBody3D cbody)
         {
@@ -119,7 +119,7 @@ public partial class ChunkLink : Node3D
     public void LoadTrigExit(Node3D body)
     {
         if (ProcessMode == ProcessModeEnum.Disabled) return;
-        if (LoadedChunk == null) return;
+        if (!RehabScene.Root.ChunkNames.Contains(ChunkName)) return;
         if (!ParentScene.ActiveScene) return;
         if (body is CharacterBody3D && RehabScene.PlayerCam.Current && !RehabScene.GameMenu.Visible)
         {
@@ -133,7 +133,7 @@ public partial class ChunkLink : Node3D
 
     public async void SpawnChunk()
     {
-        if (LoadedChunk != null || IsLoading) return;
+        if (RehabScene.Root.ChunkNames.Contains(ChunkName) || IsLoading) return;
         IsLoading = true;
         if (LoadedScene == null)
         {
@@ -162,20 +162,19 @@ public partial class ChunkLink : Node3D
                 return;
             }
         }
-        LoadedChunk = (ChunkScene)RehabScene.Root.LoadChunk(LoadedScene, ChunkName, GetNode<Node3D>("ChunkHolder"));
-        if (LoadedChunk != null && SpawnInvisible)
+        RehabScene.Root.LoadChunk(LoadedScene, ChunkName, GetNode<Node3D>("ChunkHolder"));
+        if (RehabScene.Root.ChunkNames.Contains(ChunkName) && SpawnInvisible)
         {
-            LoadedChunk.Visible = false;
-            LoadedChunk.ProcessMode = ProcessModeEnum.Disabled;
+            int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
+            RehabScene.Root.Chunks[ind].Visible = false;
+            RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
         }
         IsLoading = false;
     }
 
     public void DespawnChunk()
     {
-        if (LoadedChunk == null) return;
-        RehabScene.Root.UnloadChunk(LoadedChunk.Name);
-        LoadedChunk = null;
+        RehabScene.Root.UnloadChunk(ChunkName);
     }
 
     public void SwitchToChunk(ChunkScene chunk)

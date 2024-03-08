@@ -8,12 +8,16 @@ public partial class RehabXRController : XRController3D
     public Node3D HandModel;
     public bool ActiveCursor = false;
     public RehabXROrigin Origin;
+    public RehabXRHand Hand;
+    public bool HandModelDynamic;
+    public bool IsGripping;
 
     public override void _Ready()
     {
         ButtonPressed += OnButtonDown;
         ButtonReleased += OnButtonRelease;
-        InputVector2Changed += OnStick;
+        InputVector2Changed += OnVector;
+        InputFloatChanged += OnFloat;
     }
 
     void OnButtonDown(string name)
@@ -70,7 +74,12 @@ public partial class RehabXRController : XRController3D
                     Input.ParseInputEvent(SEvent);
                 }
             break;
+            case "grip_click":
+                IsGripping = true;
+            break;
         }
+        if (HandModelDynamic)
+            Hand.OnButtonDown(name, Tracker == "right_hand");
     }
 
     void OnButtonRelease(string name)
@@ -131,10 +140,15 @@ public partial class RehabXRController : XRController3D
                     Input.ParseInputEvent(SEvent);
                 }
             break;
+            case "grip_click":
+                IsGripping = false;
+            break;
         }
+        if (HandModelDynamic)
+            Hand.OnButtonRelease(name, Tracker == "right_hand");
     }
 
-    void OnStick(string name, Vector2 pos)
+    void OnVector(string name, Vector2 pos)
     {
         switch (name)
         {
@@ -156,16 +170,26 @@ public partial class RehabXRController : XRController3D
                 Input.ParseInputEvent(YEvent);
             break;
         }
+        if (HandModelDynamic)
+            Hand.OnVector(name, pos, Tracker == "right_hand");
+    }
+
+    void OnFloat(string name, double pos)
+    {
+        if (HandModelDynamic)
+            Hand.OnFloat(name, pos, Tracker == "right_hand");
     }
 
     public void SpawnHand(string path)
     {
         if (HasHand)
         {
+            HandModelDynamic = false;
             HandModel.QueueFree();
             HasHand = false;
         }
         if (!ResourceLoader.Exists(path)) return;
+        HandModelDynamic = false;
         var scene = (PackedScene)ResourceLoader.Load(path);
         var hand = (Node3D)scene.Instantiate();
         if (Tracker != "right_hand")
@@ -173,6 +197,11 @@ public partial class RehabXRController : XRController3D
             hand.Scale = new Vector3(-hand.Scale.X, hand.Scale.Y, hand.Scale.Z);
         }
         hand.Scale *= 0.65f;
+        if (hand is RehabXRHand ahand)
+        {
+            Hand = ahand;
+            HandModelDynamic = true;
+        }
         HandModel = hand;
         HasHand = true;
         AddChild(hand);
@@ -180,6 +209,7 @@ public partial class RehabXRController : XRController3D
 
     public void ClearHand()
     {
+        HandModelDynamic = false;
         if (HasHand)
         {
             HandModel.QueueFree();

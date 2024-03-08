@@ -228,6 +228,20 @@ public partial class Agent : Node3D
     public void UpdateLayers(int layer)
     {
         //Updating collision and light layers in child nodes
+        if (this is AgentCharacter)
+        {
+            var agentcol = Call("get_collision_layer_value", 1);
+            if (!FirstSetup || (bool)agentcol == true)
+            {
+                for (int a = 1; a < 9; a++)
+                {
+                    Call("set_collision_mask_value", layer, false);
+                    Call("set_collision_layer_value", layer, false);
+                }
+                Call("set_collision_mask_value", layer, true);
+                Call("set_collision_layer_value", layer, true);
+            }
+        }
 	    UpdateLayersNested(this, layer);
 	    FirstSetup = false;
     }
@@ -251,11 +265,11 @@ public partial class Agent : Node3D
             {
                 for (int a = 1; a < 9; a++)
                 {
-                    col.SetCollisionMaskValue(1, false);
-                    col.SetCollisionLayerValue(1, false);
+                    col.SetCollisionMaskValue(layer, false);
+                    col.SetCollisionLayerValue(layer, false);
                 }
-                col.SetCollisionMaskValue(layer, false);
-                col.SetCollisionLayerValue(layer, false);
+                col.SetCollisionMaskValue(layer, true);
+                col.SetCollisionLayerValue(layer, true);
             }
         }
         foreach (var id in i.GetChildren())
