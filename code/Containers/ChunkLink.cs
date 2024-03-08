@@ -133,11 +133,6 @@ public partial class ChunkLink : Node3D
 
     public async void SpawnChunk()
     {
-        if (OS.GetName() == "Android")
-        {
-            // todo Android only streaming crash issue
-            return;
-        }
         if (LoadedChunk != null || IsLoading) return;
         IsLoading = true;
         if (LoadedScene == null)
@@ -145,13 +140,21 @@ public partial class ChunkLink : Node3D
             string FullChunkPath = RehabGame.AssetsPath + ChunkPath;
             if (FileAccess.FileExists(FullChunkPath))
             {
-                ResourceLoader.LoadThreadedRequest(FullChunkPath);
-                while (ResourceLoader.LoadThreadedGetStatus(FullChunkPath) == ResourceLoader.ThreadLoadStatus.InProgress)
-                    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-                if (ResourceLoader.LoadThreadedGetStatus(FullChunkPath) == ResourceLoader.ThreadLoadStatus.Loaded)
-                    LoadedScene = (PackedScene)ResourceLoader.LoadThreadedGet(FullChunkPath);
+                if (OS.GetName() == "Android")
+                {
+                    // bug: Android crashes trying to stream too many levels from a pack
+                    LoadedScene = (PackedScene)ResourceLoader.Load(FullChunkPath);
+                }
                 else
-                    GD.PrintErr("[ChunkLink] FAILED TO LOAD SCENE AT " + FullChunkPath);
+                {
+                    ResourceLoader.LoadThreadedRequest(FullChunkPath);
+                    while (ResourceLoader.LoadThreadedGetStatus(FullChunkPath) == ResourceLoader.ThreadLoadStatus.InProgress)
+                        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                    if (ResourceLoader.LoadThreadedGetStatus(FullChunkPath) == ResourceLoader.ThreadLoadStatus.Loaded)
+                        LoadedScene = (PackedScene)ResourceLoader.LoadThreadedGet(FullChunkPath);
+                    else
+                        GD.PrintErr("[ChunkLink] FAILED TO LOAD SCENE AT " + FullChunkPath);
+                }
             }
             else
             {

@@ -25,6 +25,7 @@ public partial class CutsceneChunk : ChunkScene
         AnimCamera.Current = true;
         if (RehabScene.Root.XR_Enabled)
         {
+            LastCamPos = AnimCamera.GlobalPosition;
             RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
             RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
             RehabScene.Root.XR_Origin.GlobalRotation = AnimCamera.GlobalRotation;

@@ -120,11 +120,6 @@ public partial class LevelSelectList : Control
         Paths.Add(itemname);
     }
 
-    public void ResetMenu()
-    {
-        Labels[0].GrabFocus();
-    }
-
     public void StartLevel(string path)
     {
         Visible = false;

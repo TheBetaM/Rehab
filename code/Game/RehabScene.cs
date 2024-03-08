@@ -392,7 +392,6 @@ public partial class RehabScene : Node3D
         if (!toMain)
         {
             StartLevelSelect();
-            FE.GetNode<LevelSelectList>("LevelSelect").ResetMenu();
         }
         else
         {
