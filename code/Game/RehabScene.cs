@@ -217,7 +217,7 @@ public partial class RehabScene : Node3D
         }
         await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
         loadedScene.ProcessMode = ProcessModeEnum.Inherit;
-        loadedScene.OnChunkEnter();
+        loadedScene.ChunkEnter();
         loadedScene.ShadowToggle(true);
         FE.GetNode<LoadingVisuals>("Loading").AnimOut();
         if (RehabGame.UseMouseCamera)
@@ -269,7 +269,7 @@ public partial class RehabScene : Node3D
         
         var OldChunk = ActiveChunk;
         OldChunk.ActiveScene = false;
-        OldChunk.OnChunkExit();
+        OldChunk.ChunkExit();
         OldChunk.ShadowToggle(false);
         chunk.ActiveScene = true;
         GD.Print("[ROOT] Entering " + chunk.Name);
@@ -278,17 +278,15 @@ public partial class RehabScene : Node3D
         chunk.WorldEnv.TonemapMode = Environment.ToneMapper.Reinhardt;
         chunk.ShadowToggle(true);
         GetNode<WorldEnvironment>("WorldEnv").Environment = chunk.WorldEnv;
-        
+
         // Updating Skydome
         string skypath = RehabGame.AssetsPath + chunk.SkydomePath;
         if (SkydomePath != skypath && !string.IsNullOrWhiteSpace(chunk.SkydomePath))
         {
             if (!string.IsNullOrWhiteSpace(SkydomePath))
                 Skydome.QueueFree();
-            var sky = (PackedScene)ResourceLoader.Load(skypath);
-            SkydomePath = skypath;
-            Skydome = (Node3D)sky.Instantiate();
-            AddChild(Skydome);
+            SkydomePath = "";
+            SpawnSkydome(skypath);
         }
         else if (string.IsNullOrWhiteSpace(chunk.SkydomePath))
         {
@@ -350,7 +348,18 @@ public partial class RehabScene : Node3D
         ActiveChunk = chunk;
         chunk.Visible = true;
         chunk.ProcessMode = ProcessModeEnum.Inherit;
-        chunk.OnChunkEnter();
+        chunk.ChunkEnter();
+    }
+
+    async void SpawnSkydome(string path)
+    {
+        ResourceLoader.LoadThreadedRequest(path);
+        while (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.InProgress)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var sky = (PackedScene)ResourceLoader.LoadThreadedGet(path);
+        Skydome = (Node3D)sky.Instantiate();
+        AddChild(Skydome);
+        SkydomePath = path;
     }
 
     public void UnloadChunk(string chunk)
@@ -365,7 +374,6 @@ public partial class RehabScene : Node3D
             ChunkNames.RemoveAt(pos);
             ChunkLayers.RemoveAt(pos);
         }
-        //update chunk links here to null the disposed chunk?
     }
 
     void UnloadAllChunks()

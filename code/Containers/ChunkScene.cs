@@ -1,17 +1,22 @@
 using Godot;
+using System.Collections.Generic;
+using System;
 namespace Rehab;
 public partial class ChunkScene : Node3D
 {
     [Export(PropertyHint.File, "*.tscn")]
     public string SkydomePath;
     [Export]
-    public Environment WorldEnv;
+    public Godot.Environment WorldEnv;
     [Export]
     public bool ActiveScene;
     [Export]
     public Godot.Collections.Array<ChunkLink> Links = new();
     public int ChunkLayer = 1;
     public int DirShadowCount = 0;
+
+    public event EventHandler OnChunkEnter;
+    public event EventHandler OnChunkExit;
 
     public override void _Ready()
     {
@@ -73,7 +78,7 @@ public partial class ChunkScene : Node3D
     public void ShadowToggle(bool val)
     {
         DirShadowCount = 0;
-        ShadowToggleNested(this, val);
+        ShadowToggleNested(GetNode("Lights"), val);
     }
 
     void ShadowToggleNested(Node parent, bool val)
@@ -103,25 +108,13 @@ public partial class ChunkScene : Node3D
         }
     }
 
-    public void OnChunkEnter()
+    public void ChunkEnter()
     {
-        AgentOnChunkEnter(this);
+        OnChunkEnter?.Invoke(this, null);
     }
 
-    public void OnChunkExit()
+    public void ChunkExit()
     {
-
-    }
-
-    void AgentOnChunkEnter(Node parent)
-    {
-        foreach (var i in parent.GetChildren())
-        {
-            AgentOnChunkEnter(i);
-            if (i is Agent agent)
-            {
-                agent.OnChunkEnter();
-            }
-        }
+        OnChunkExit?.Invoke(this, null);
     }
 }

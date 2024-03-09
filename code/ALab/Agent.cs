@@ -118,8 +118,19 @@ public partial class Agent : Node3D
         }
         
         if (ParentScene != null)
+        {
             UpdateLayers(ParentScene.ChunkLayer);
+            ParentScene.OnChunkEnter += OnChunkEnter;
+        }
         UpdateActiveModel();
+    }
+
+    public override void _ExitTree()
+    {
+        if (ParentScene != null)
+        {
+            ParentScene.OnChunkEnter -= OnChunkEnter;
+        }
     }
 
     public void DoAnimation(int slot, bool loop)
@@ -294,7 +305,7 @@ public partial class Agent : Node3D
             ExitPoints[i] = (Node3D)SubModels[ActiveModel].FindChild($"ExitPoint{i}", true);
     }
 
-    public virtual void OnChunkEnter()
+    public virtual void OnChunkEnter(object a, System.EventArgs e)
     {
 
     }

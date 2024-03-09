@@ -37,7 +37,7 @@ public partial class AgentFurniture : Agent
         }
     }
 
-    public override void OnChunkEnter()
+    public override void OnChunkEnter(object a, System.EventArgs e)
     {
         switch (Name)
         {
