@@ -109,11 +109,8 @@ public partial class ChunkLink : Node3D
         if (ProcessMode == ProcessModeEnum.Disabled) return;
         if (RehabScene.Root.ChunkNames.Contains(ChunkName)) return;
         if (!ParentScene.ActiveScene) return;
-        if (body is CharacterBody3D cbody)
-        {
-            if (body is AgentCharacter agent && AgentCharacter.activeCharacter == agent)
-                SpawnChunk();
-        }
+        if (body is AgentCharacter agent && AgentCharacter.activeCharacter == agent)
+            SpawnChunk();
     }
 
     public void LoadTrigExit(Node3D body)
@@ -121,10 +118,9 @@ public partial class ChunkLink : Node3D
         if (ProcessMode == ProcessModeEnum.Disabled) return;
         if (!RehabScene.Root.ChunkNames.Contains(ChunkName)) return;
         if (!ParentScene.ActiveScene) return;
-        if (body is CharacterBody3D && RehabScene.PlayerCam.Current && !RehabScene.GameMenu.Visible)
+        if (body is AgentCharacter agent && RehabScene.PlayerCam.Current && !RehabScene.GameMenu.Visible)
         {
-            var agentb = body.GetParent().GetParent().GetParent();
-            if (agentb is AgentCharacter agent && AgentCharacter.activeCharacter == agent)
+            if (AgentCharacter.activeCharacter == agent)
             {
                 DespawnChunk();
             }

@@ -18,6 +18,7 @@ public partial class AgentFurniture : Agent
         "School_OneWayDoor",
         "Village_Stockade_Gate",
         "Boiler_Glass_Panel",
+        "Boiler_Steam_Hazard",
     ];
 
     public override void _Ready()
