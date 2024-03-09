@@ -98,7 +98,6 @@ public partial class RehabScene : Node3D
         var dir = DirAccess.Open(RehabGame.AssetsPath + "Levels/");
         if (dir != null)
         {
-            FE.GetNode<LevelSelectList>("LevelSelect").InitIcons();
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             GameHUD.Setup();
@@ -168,6 +167,7 @@ public partial class RehabScene : Node3D
 
     public async void LoadScene(string path)
     {
+        GD.Print($"[ROOT] Loading {path}");
         UnloadAllChunks();
         LoadingChunkName = path.Split("/").Last().Replace(".tscn","");
         PlayerCam.FullReset();
@@ -248,13 +248,16 @@ public partial class RehabScene : Node3D
             Chunks.Add(scene);
 		    ChunkNames.Add(chunkName);
         }
-        for (int i = 1; i <= MaxChunksLoaded; i++)
+        lock (ChunkLayers)
         {
-            if (!ChunkLayers.Contains(i))
+            for (int i = 1; i <= MaxChunksLoaded; i++)
             {
-                ChunkLayers.Add(i);
-				scene.UpdateLayers(i);
-                break;
+                if (!ChunkLayers.Contains(i))
+                {
+                    ChunkLayers.Add(i);
+                    scene.UpdateLayers(i);
+                    break;
+                }
             }
         }
 		return scene;

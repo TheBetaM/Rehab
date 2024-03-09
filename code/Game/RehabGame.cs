@@ -26,7 +26,7 @@ public static class RehabGame
     public static bool InvertCameraX = false;
     public static bool InvertCameraY = false;
     public static bool UseMouseCamera = true;
-    public static VoiceLanguage VoiceLang = VoiceLanguage.English;
+    public static VoiceLanguage VoiceLang = VoiceLanguage.Unknown;
     public static string AssetsPath = "res://import/";
     public static string ConfigPath = "user://rehab.cfg";
     public static string DataPath = OS.GetExecutablePath();
@@ -186,6 +186,54 @@ public static class RehabGame
                 file_name = dir.GetNext();
             }
         }
+        InitVoiceLang();
+    }
+
+    public static void InitVoiceLang()
+    {
+        if (VoiceLang != VoiceLanguage.Unknown) return;
+        VoiceLang = VoiceLanguage.English;
+        bool CanChangeLang = false;
+        foreach (var mod in ModsInstalled)
+        {
+            if (mod.IsPAL)
+            {
+                CanChangeLang = true;
+                break;
+            }
+        }
+        if (CanChangeLang)
+        {
+            switch (TranslationServer.GetLocale())
+            {
+                default: break;
+                case "de_DE":
+                case "de-DE":
+                case "de":
+                    VoiceLang = VoiceLanguage.German;
+                break;
+                case "fr_FR":
+                case "fr-FR":
+                case "fr":
+                    VoiceLang = VoiceLanguage.French;
+                break;
+                case "it_IT":
+                case "it-IT":
+                case "it":
+                    VoiceLang = VoiceLanguage.Italian;
+                break;
+                case "es_ES":
+                case "es-ES":
+                case "es":
+                    VoiceLang = VoiceLanguage.Spanish;
+                break;
+                case "ja_JP":
+                case "ja-JP":
+                case "ja":
+                    VoiceLang = VoiceLanguage.Japanese;
+                break;
+            }
+        }
     }
 
     public static Dictionary<int, string> MusicPaths = new Dictionary<int, string>()
@@ -260,11 +308,12 @@ public static class RehabGame
 
     public enum VoiceLanguage
     {
+        Unknown = -1,
         English = 0,
-        German = 1,
-        Spanish = 2,
-        French = 3,
-        Italian = 4,
+        French = 1,
+        German = 2,
+        Italian = 3,
+        Spanish = 4,
         Japanese = 5,
     }
 

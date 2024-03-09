@@ -368,16 +368,14 @@ namespace RehabSetup
 
                 System.Numerics.Quaternion resquat = System.Numerics.Quaternion.CreateFromYawPitchRoll(ThisModel.WorldRotation.Y, ThisModel.WorldRotation.X, ThisModel.WorldRotation.Z);
 
-                ReStrpos.Append($"0, 1, {(-ThisModel.WorldPosition.X).ToText()}, {ThisModel.WorldPosition.Y.ToText()}, {ThisModel.WorldPosition.Z.ToText()}, ");
-                ReStrrot.Append($"0, 1, {resquat.X.ToText()}, {resquat.Y.ToText()}, {resquat.Z.ToText()}, {resquat.W.ToText()}, ");
-                ReStrpos.Remove(ReStrpos.Length - 2, 2);
-                ReStrrot.Remove(ReStrrot.Length - 2, 2);
-                ResetRes.Lines.Add($"tracks/0/type = \"position_3d\"");
-                ResetRes.Lines.Add($"tracks/0/path = NodePath(\".\")");
-                ResetRes.Lines.Add($"tracks/0/keys = PackedFloat32Array({ReStrpos.ToString()})");
-                ResetRes.Lines.Add($"tracks/1/type = \"rotation_3d\"");
-                ResetRes.Lines.Add($"tracks/1/path = NodePath(\".\")");
-                ResetRes.Lines.Add($"tracks/1/keys = PackedFloat32Array({ReStrrot.ToString()})");
+                ReStrpos.Append($"0,1,{(-ThisModel.WorldPosition.X).ToText()},{ThisModel.WorldPosition.Y.ToText()},{ThisModel.WorldPosition.Z.ToText()}");
+                ReStrrot.Append($"0,1,{resquat.X.ToText()},{resquat.Y.ToText()},{resquat.Z.ToText()},{resquat.W.ToText()}");
+                ResetRes.Lines.Add($"tracks/0/type=\"position_3d\"");
+                ResetRes.Lines.Add($"tracks/0/path=NodePath(\".\")");
+                ResetRes.Lines.Add($"tracks/0/keys=PackedFloat32Array({ReStrpos.ToString()})");
+                ResetRes.Lines.Add($"tracks/1/type=\"rotation_3d\"");
+                ResetRes.Lines.Add($"tracks/1/path=NodePath(\".\")");
+                ResetRes.Lines.Add($"tracks/1/keys=PackedFloat32Array({ReStrrot.ToString()})");
                 InternalResourceList.Add(ResetRes);
                 int ResetResID = InternalResourceList.Count;
 
@@ -391,9 +389,9 @@ namespace RehabSetup
                     timeStamps.Add(t * FrameStep);
                 }
                 AnimRes.Type = "Animation";
-                AnimRes.Lines.Add($"length = {(FrameStep * AllFrames).ToText()}");
-                AnimRes.Lines.Add($"step = {FrameStep.ToText()}");
-                AnimRes.Lines.Add($"loop_mode = 1");
+                AnimRes.Lines.Add($"length={(FrameStep * AllFrames).ToText()}");
+                AnimRes.Lines.Add($"step={FrameStep.ToText()}");
+                AnimRes.Lines.Add($"loop_mode=1");
                 StringBuilder Strpos = new();
                 StringBuilder Strrot = new();
                 Strpos.Append($"0, 1, {(-ThisModel.WorldPosition.X).ToText()}, {ThisModel.WorldPosition.Y.ToText()}, {ThisModel.WorldPosition.Z.ToText()}, ");
@@ -441,30 +439,30 @@ namespace RehabSetup
                 }
                 Strpos.Remove(Strpos.Length - 2, 2);
                 Strrot.Remove(Strrot.Length - 2, 2);
-                AnimRes.Lines.Add($"tracks/0/type = \"position_3d\"");
-                AnimRes.Lines.Add($"tracks/0/path = NodePath(\".\")");
-                AnimRes.Lines.Add($"tracks/0/keys = PackedFloat32Array({Strpos.ToString()})");
-                AnimRes.Lines.Add($"tracks/1/type = \"rotation_3d\"");
-                AnimRes.Lines.Add($"tracks/1/path = NodePath(\".\")");
-                AnimRes.Lines.Add($"tracks/1/keys = PackedFloat32Array({Strrot.ToString()})");
+                AnimRes.Lines.Add($"tracks/0/type=\"position_3d\"");
+                AnimRes.Lines.Add($"tracks/0/path=NodePath(\".\")");
+                AnimRes.Lines.Add($"tracks/0/keys=PackedFloat32Array({Strpos.ToString()})");
+                AnimRes.Lines.Add($"tracks/1/type=\"rotation_3d\"");
+                AnimRes.Lines.Add($"tracks/1/path=NodePath(\".\")");
+                AnimRes.Lines.Add($"tracks/1/keys=PackedFloat32Array({Strrot.ToString()})");
                 InternalResourceList.Add(AnimRes);
                 int AnimResID = InternalResourceList.Count;
 
                 InternalResource AnimLib = new InternalResource();
                 AnimLib.Type = "AnimationLibrary";
                 AnimLib.Lines.Add("_data = {");
-                AnimLib.Lines.Add($"\"RESET\": SubResource( {ResetResID} ),");
-                AnimLib.Lines.Add($"\"anim\": SubResource( {AnimResID} ),");
+                AnimLib.Lines.Add($"\"RESET\": SubResource({ResetResID}),");
+                AnimLib.Lines.Add($"\"anim\": SubResource({AnimResID}),");
                 AnimLib.Lines.Add("}");
                 InternalResourceList.Add(AnimLib);
 
                 Node AnimNode = new Node($"AnimationPlayer", "AnimationPlayer");
                 AnimNode.KeyValues.Add("parent", $"{RootNode.Name}/{ColNode.Name}");
-                AnimNode.Lines.Add($"root_node = NodePath(\"..\")");
-                AnimNode.Lines.Add($"autoplay = \"anim\"");
-                AnimNode.Lines.Add($"playback_process_mode = 0"); // physics
-                AnimNode.Lines.Add("libraries = {");
-                AnimNode.Lines.Add($"\"\": SubResource( {InternalResourceList.Count} )");
+                AnimNode.Lines.Add($"root_node=NodePath(\"..\")");
+                AnimNode.Lines.Add($"autoplay=\"anim\"");
+                AnimNode.Lines.Add($"playback_process_mode=0"); // physics
+                AnimNode.Lines.Add("libraries={");
+                AnimNode.Lines.Add($"\"\": SubResource({InternalResourceList.Count})");
                 AnimNode.Lines.Add("}");
                 Nodes.Add(AnimNode);
 
@@ -973,20 +971,20 @@ namespace RehabSetup
             ExternalResourceList.Add(AgentObjectCode);
             int AgentObjectCodeID = ExternalResourceList.Count;
             Nodes[0].Type = ExportGodot.RigidBody3D;
-            Nodes[0].Lines.Add($"script = ExtResource( {AgentObjectCodeID} )");
+            Nodes[0].Lines.Add($"script=ExtResource({AgentObjectCodeID})");
             if (AgentType == 0)
             {
                 Nodes[0].Type = ExportGodot.CharacterBody3D;
             }
             else
             {
-                Nodes[0].Lines.Add($"mode = 1"); // static
-                Nodes[0].Lines.Add($"freeze = true"); // static
+                Nodes[0].Lines.Add($"mode=1"); // static
+                Nodes[0].Lines.Add($"freeze=true"); // static
             }
-            Nodes[0].Lines.Add($"Type = {AgentType}");
-            Nodes[0].Lines.Add($"UnkTypeValue = {AgentUnkTypeValue}");
-            Nodes[0].Lines.Add($"JointIDCount = {AgentJointIDs}");
-            Nodes[0].Lines.Add($"ExitPointCount = {AgentExitPoints}");
+            Nodes[0].Lines.Add($"Type={AgentType}");
+            Nodes[0].Lines.Add($"UnkTypeValue={AgentUnkTypeValue}");
+            Nodes[0].Lines.Add($"JointIDCount={AgentJointIDs}");
+            Nodes[0].Lines.Add($"ExitPointCount={AgentExitPoints}");
 
             #region Template Resource
             
@@ -994,6 +992,7 @@ namespace RehabSetup
             //TemplateRes.Lines.Add($"script = ExtResource( { TemplateCodeID } )");
             //TemplateRes.Lines.Add($"Flags = { Agent.PUI32 }");
             //TemplateRes.Lines.Add($"Bitfield = { Agent.PHeader }");
+            /*
             if (Agent.instIntegerList.Count != 0)
             {
                 StringBuilder IntReg = new StringBuilder();
@@ -1027,6 +1026,7 @@ namespace RehabSetup
                 IntReg.Append($"{Agent.instFloatsList.Last().ToText()} ]");
                 //TemplateRes.Lines.Add(IntReg.ToString());
             }
+            */
             //InternalResourceList.Add(TemplateRes);
             //int TemplateResID = InternalResourceList.Count;
             
@@ -1111,9 +1111,9 @@ namespace RehabSetup
                     SubobjectList.Append($"SubActorsScenes = [ ");
                     for (int a = 0; a < ObjectList.Count - 1; a++)
                     {
-                        SubobjectList.Append($"ExtResource( {ObjectList[a]} ), ");
+                        SubobjectList.Append($"ExtResource({ObjectList[a]}), ");
                     }
-                    SubobjectList.Append($"ExtResource( {ObjectList.Last()} ) ]");
+                    SubobjectList.Append($"ExtResource({ObjectList.Last()}) ]");
                     Nodes[0].Lines.Add(SubobjectList.ToString());
                 }
                 
@@ -1183,8 +1183,8 @@ namespace RehabSetup
                         OGI_Index++;
                         if (i != 0)
                         {
-                            Nodes.Last().Lines.Add("visible = false");
-                            Nodes.Last().Lines.Add("process_mode = 4");
+                            Nodes.Last().Lines.Add("visible=false");
+                            Nodes.Last().Lines.Add("process_mode=4");
                         }
                         // adding animation clips to player (optional)
                         List<(ushort, ushort)> OGI_AnimAdd = new List<(ushort, ushort)>();
@@ -1531,9 +1531,9 @@ namespace RehabSetup
                 Node PosNode = new Node($"AI_Node_{SectionID}_{i}", ExportGodot.Marker3D);
                 PosNode.KeyValues.Add("parent", RootNodeName);
                 //PosNode.Lines.Add($"script = ExtResource( {CodeResourceID_Container_AIPathNode} )");
-                PosNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-Pos.Pos.X).ToText()}, {Pos.Pos.Y.ToText()}, {Pos.Pos.Z.ToText()} )");
-                PosNode.Lines.Add($"Weight = {Pos.Pos.W.ToText()}");
-                PosNode.Lines.Add($"Type = {(ushort)Pos.Node}");
+                PosNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Pos.Pos.X).ToText()},{Pos.Pos.Y.ToText()},{Pos.Pos.Z.ToText()})");
+                PosNode.Lines.Add($"Weight={Pos.Pos.W.ToText()}");
+                PosNode.Lines.Add($"Type={(ushort)Pos.Node}");
                 Nodes.Add(PosNode);
             }
         }
@@ -1549,20 +1549,20 @@ namespace RehabSetup
                 InternalResource Curve = new InternalResource();
                 Curve.CreateCurve3D();
                 Curve.Lines.Add("_data = {");
-                Curve.Lines.Add($"\"points\": PoolVector3Array( 0, 0, 0, 0, 0, 0, {(-Pos1.Pos.X).ToText()}, " +
-                    $"{Pos1.Pos.Y.ToText()}, {Pos1.Pos.Z.ToText()}, 0, 0, 0, 0, 0, 0, " +
-                    $"{(-Pos2.Pos.X).ToText()}, {Pos2.Pos.Y.ToText()}, {Pos2.Pos.Z.ToText()} ),");
-                Curve.Lines.Add("\"tilts\": PoolRealArray( 0, 0 )");
+                Curve.Lines.Add($"\"points\": PoolVector3Array(0,0,0,0,0,0,{(-Pos1.Pos.X).ToText()}," +
+                    $"{Pos1.Pos.Y.ToText()},{Pos1.Pos.Z.ToText()},0,0,0,0,0,0," +
+                    $"{(-Pos2.Pos.X).ToText()},{Pos2.Pos.Y.ToText()},{Pos2.Pos.Z.ToText()}),");
+                Curve.Lines.Add("\"tilts\": PoolRealArray(0,0)");
                 Curve.Lines.Add("}");
                 InternalResourceList.Add(Curve);
 
                 Node PosNode = new Node($"AI_Path_{SectionID}_{i}", ExportGodot.Path3D);
                 PosNode.KeyValues.Add("parent", RootNodeName);
                 //PosNode.Lines.Add($"script = ExtResource( {CodeResourceID_Container_AIPath} )");
-                PosNode.Lines.Add($"curve = SubResource( {InternalResourceList.Count} )");
-                PosNode.Lines.Add($"Param1 = {Pos.Arg[2]}");
-                PosNode.Lines.Add($"Param2 = {Pos.Arg[3]}");
-                PosNode.Lines.Add($"Param3 = {Pos.Arg[4]}");
+                PosNode.Lines.Add($"curve=SubResource({InternalResourceList.Count})");
+                PosNode.Lines.Add($"Param1={Pos.Arg[2]}");
+                PosNode.Lines.Add($"Param2={Pos.Arg[3]}");
+                PosNode.Lines.Add($"Param3={Pos.Arg[4]}");
                 Nodes.Add(PosNode);
             }
 
@@ -1575,7 +1575,7 @@ namespace RehabSetup
 
                 Node PosNode = new Node($"Point_{SectionID}_{i}", ExportGodot.Marker3D);
                 PosNode.KeyValues.Add("parent", RootNodeName);
-                PosNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-Pos.Pos.X).ToText()}, {Pos.Pos.Y.ToText()}, {Pos.Pos.Z.ToText()} )");
+                PosNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Pos.Pos.X).ToText()},{Pos.Pos.Y.ToText()},{Pos.Pos.Z.ToText()})");
                 Nodes.Add(PosNode);
             }
         }
@@ -1593,33 +1593,33 @@ namespace RehabSetup
                 string tilts = string.Empty;
                 for (int a = 0; a < Pos.Positions.Count - 1; a++)
                 {
-                    points += $"0, 0, 0, 0, 0, 0, {(-Pos.Positions[a].X).ToText()}, " +
-                        $"{Pos.Positions[a].Y.ToText()}, " +
-                        $"{Pos.Positions[a].Z.ToText()}, ";
-                    tilts += "0, ";
+                    points += $"0,0,0,0,0,0,{(-Pos.Positions[a].X).ToText()}," +
+                        $"{Pos.Positions[a].Y.ToText()}," +
+                        $"{Pos.Positions[a].Z.ToText()},";
+                    tilts += "0,";
                 }
-                points += $"0, 0, 0, 0, 0, 0, {(-Pos.Positions[Pos.Positions.Count - 1].X).ToText()}, " +
-                    $"{Pos.Positions[Pos.Positions.Count - 1].Y.ToText()}, " +
-                    $"{Pos.Positions[Pos.Positions.Count - 1].Z.ToText()} ";
-                Curve.Lines.Add($"\"points\": PoolVector3Array( {points}),");
-                Curve.Lines.Add($"\"tilts\": PoolRealArray( {tilts}0 )");
+                points += $"0,0,0,0,0,0,{(-Pos.Positions[Pos.Positions.Count - 1].X).ToText()}," +
+                    $"{Pos.Positions[Pos.Positions.Count - 1].Y.ToText()}," +
+                    $"{Pos.Positions[Pos.Positions.Count - 1].Z.ToText()}";
+                Curve.Lines.Add($"\"points\": PoolVector3Array({points}),");
+                Curve.Lines.Add($"\"tilts\": PoolRealArray({tilts}0)");
                 Curve.Lines.Add("}");
                 InternalResourceList.Add(Curve);
 
                 Node PosNode = new Node($"Path_{SectionID}_{i}", ExportGodot.Path3D);
                 PosNode.KeyValues.Add("parent", RootNodeName);
                 //PosNode.Lines.Add($"script = ExtResource( {CodeResourceID_Container_AgentPath} )");
-                PosNode.Lines.Add($"curve = SubResource( {InternalResourceList.Count} )");
+                PosNode.Lines.Add($"curve=SubResource({InternalResourceList.Count})");
 
                 if (Pos.Params.Count != 0)
                 {
                     StringBuilder PathParamList = new StringBuilder();
-                    PathParamList.Append($"Params = [ ");
+                    PathParamList.Append($"Params=[");
                     for (int a = 0; a < Pos.Params.Count - 1; a++)
                     {
-                        PathParamList.Append($"{Pos.Params[a].P1.ToText()}, {Pos.Params[a].P2.ToText()}, ");
+                        PathParamList.Append($"{Pos.Params[a].P1.ToText()},{Pos.Params[a].P2.ToText()},");
                     }
-                    PathParamList.Append($"{Pos.Params.Last().P1.ToText()}, {Pos.Params.Last().P2.ToText()} ] ");
+                    PathParamList.Append($"{Pos.Params.Last().P1.ToText()},{Pos.Params.Last().P2.ToText()}]");
                     PosNode.Lines.Add(PathParamList.ToString());
                 }
 
@@ -1831,7 +1831,7 @@ namespace RehabSetup
                     {
                         Camera.Camera_Point CamPoint = (Camera.Camera_Point)CamObject;
                         Node PointNode = new Node($"Cam{camID}_CameraPoint", ExportGodot.Marker3D);
-                        PointNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-CamPoint.unkVector.X).ToText()}, {CamPoint.unkVector.Y.ToText()}, {CamPoint.unkVector.Z.ToText()} )");
+                        PointNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-CamPoint.unkVector.X).ToText()},{CamPoint.unkVector.Y.ToText()},{CamPoint.unkVector.Z.ToText()})");
                         PointNode.KeyValues.Add("parent", $"{RootNodeName}");
                         Nodes.Add(PointNode);
                         break;
@@ -1840,7 +1840,7 @@ namespace RehabSetup
                     {
                         Camera.Camera_Point2 CamPoint = (Camera.Camera_Point2)CamObject;
                         Node PointNode = new Node($"Cam{camID}_CameraPoint2", ExportGodot.Marker3D);
-                        PointNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-CamPoint.unkVector.X).ToText()}, {CamPoint.unkVector.Y.ToText()}, {CamPoint.unkVector.Z.ToText()} )");
+                        PointNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-CamPoint.unkVector.X).ToText()},{CamPoint.unkVector.Y.ToText()},{CamPoint.unkVector.Z.ToText()})");
                         PointNode.KeyValues.Add("parent", $"{RootNodeName}");
                         Nodes.Add(PointNode);
                         break;
@@ -1851,16 +1851,16 @@ namespace RehabSetup
                         InternalResource Curve = new InternalResource();
                         Curve.CreateCurve3D();
                         Curve.Lines.Add("_data = {");
-                        Curve.Lines.Add($"\"points\": PoolVector3Array( 0, 0, 0, 0, 0, 0, {(-CamLine.unkBoundingBoxVector1.X).ToText()}, " +
-                            $"{CamLine.unkBoundingBoxVector1.Y.ToText()}, {CamLine.unkBoundingBoxVector1.Z.ToText()}, 0, 0, 0, 0, 0, 0, " +
-                            $"{(-CamLine.unkBoundingBoxVector2.X).ToText()}, {CamLine.unkBoundingBoxVector2.Y.ToText()}, {CamLine.unkBoundingBoxVector2.Z.ToText()} ),");
-                        Curve.Lines.Add("\"tilts\": PoolRealArray( 0, 0 )");
+                        Curve.Lines.Add($"\"points\": PoolVector3Array(0,0,0,0,0,0,{(-CamLine.unkBoundingBoxVector1.X).ToText()}," +
+                            $"{CamLine.unkBoundingBoxVector1.Y.ToText()},{CamLine.unkBoundingBoxVector1.Z.ToText()},0,0,0,0,0,0," +
+                            $"{(-CamLine.unkBoundingBoxVector2.X).ToText()},{CamLine.unkBoundingBoxVector2.Y.ToText()},{CamLine.unkBoundingBoxVector2.Z.ToText()}),");
+                        Curve.Lines.Add("\"tilts\": PoolRealArray(0,0)");
                         Curve.Lines.Add("}");
                         InternalResourceList.Add(Curve);
 
                         Node PosNode = new Node($"Cam{camID}_CameraLine", ExportGodot.Path3D);
                         PosNode.KeyValues.Add("parent", $"{RootNodeName}");
-                        PosNode.Lines.Add($"curve = SubResource( {InternalResourceList.Count} )");
+                        PosNode.Lines.Add($"curve=SubResource({InternalResourceList.Count})");
                         Nodes.Add(PosNode);
                         break;
                     }
@@ -1870,16 +1870,16 @@ namespace RehabSetup
                         InternalResource Curve = new InternalResource();
                         Curve.CreateCurve3D();
                         Curve.Lines.Add("_data = {");
-                        Curve.Lines.Add($"\"points\": PoolVector3Array( 0, 0, 0, 0, 0, 0, {(-CamLine.unkBoundingBoxVector1.X).ToText()}, " +
-                            $"{CamLine.unkBoundingBoxVector1.Y.ToText()}, {CamLine.unkBoundingBoxVector1.Z.ToText()}, 0, 0, 0, 0, 0, 0, " +
-                            $"{(-CamLine.unkBoundingBoxVector2.X).ToText()}, {CamLine.unkBoundingBoxVector2.Y.ToText()}, {CamLine.unkBoundingBoxVector2.Z.ToText()} ),");
-                        Curve.Lines.Add("\"tilts\": PoolRealArray( 0, 0 )");
+                        Curve.Lines.Add($"\"points\": PoolVector3Array(0,0,0,0,0,0,{(-CamLine.unkBoundingBoxVector1.X).ToText()}," +
+                            $"{CamLine.unkBoundingBoxVector1.Y.ToText()},{CamLine.unkBoundingBoxVector1.Z.ToText()},0,0,0,0,0,0," +
+                            $"{(-CamLine.unkBoundingBoxVector2.X).ToText()},{CamLine.unkBoundingBoxVector2.Y.ToText()},{CamLine.unkBoundingBoxVector2.Z.ToText()}),");
+                        Curve.Lines.Add("\"tilts\": PoolRealArray(0,0)");
                         Curve.Lines.Add("}");
                         InternalResourceList.Add(Curve);
 
                         Node PosNode = new Node($"Cam{camID}_CameraLine", ExportGodot.Path3D);
                         PosNode.KeyValues.Add("parent", $"{RootNodeName}");
-                        PosNode.Lines.Add($"curve = SubResource( {InternalResourceList.Count} )");
+                        PosNode.Lines.Add($"curve=SubResource({InternalResourceList.Count})");
                         Nodes.Add(PosNode);
                         break;
                     }
@@ -1895,22 +1895,22 @@ namespace RehabSetup
                         string tilts = string.Empty;
                         for (int a = 0; a < CamPath.unkVectors.Length - 1; a++)
                         {
-                            points += $"0, 0, 0, 0, 0, 0, {(-CamPath.unkVectors[a].X).ToText()}, " +
-                                $"{CamPath.unkVectors[a].Y.ToText()}, " +
-                                $"{CamPath.unkVectors[a].Z.ToText()}, ";
-                            tilts += "0, ";
+                            points += $"0,0,0,0,0,0,{(-CamPath.unkVectors[a].X).ToText()}," +
+                                $"{CamPath.unkVectors[a].Y.ToText()}," +
+                                $"{CamPath.unkVectors[a].Z.ToText()},";
+                            tilts += "0,";
                         }
-                        points += $"0, 0, 0, 0, 0, 0, {(-CamPath.unkVectors[CamPath.unkVectors.Length - 1].X).ToText()}, " +
-                            $"{CamPath.unkVectors[CamPath.unkVectors.Length - 1].Y.ToText()}, " +
+                        points += $"0,0,0,0,0,0,{(-CamPath.unkVectors[CamPath.unkVectors.Length - 1].X).ToText()}," +
+                            $"{CamPath.unkVectors[CamPath.unkVectors.Length - 1].Y.ToText()}," +
                             $"{CamPath.unkVectors[CamPath.unkVectors.Length - 1].Z.ToText()} ";
-                        Curve.Lines.Add($"\"points\": PoolVector3Array( {points}),");
-                        Curve.Lines.Add($"\"tilts\": PoolRealArray( {tilts}0 )");
+                        Curve.Lines.Add($"\"points\": PoolVector3Array({points}),");
+                        Curve.Lines.Add($"\"tilts\": PoolRealArray({tilts}0)");
                         Curve.Lines.Add("}");
                         InternalResourceList.Add(Curve);
 
                         Node PosNode = new Node($"Cam{camID}_CameraPath", ExportGodot.Path3D);
                         PosNode.KeyValues.Add("parent", $"{RootNodeName}");
-                        PosNode.Lines.Add($"curve = SubResource( {InternalResourceList.Count} )");
+                        PosNode.Lines.Add($"curve=SubResource({InternalResourceList.Count})");
                         Nodes.Add(PosNode);
                         break;
                     }
@@ -1929,23 +1929,23 @@ namespace RehabSetup
                         {
                             if (a % 2 == 0)
                             {
-                                points += $"0, 0, 0, 0, 0, 0, {(-CamPath.unkVectors[a].X).ToText()}, " +
-                                    $"{CamPath.unkVectors[a].Y.ToText()}, " +
-                                    $"{CamPath.unkVectors[a].Z.ToText()}, ";
-                                tilts += "0, ";
+                                points += $"0,0,0,0,0,0,{(-CamPath.unkVectors[a].X).ToText()}," +
+                                    $"{CamPath.unkVectors[a].Y.ToText()}," +
+                                    $"{CamPath.unkVectors[a].Z.ToText()},";
+                                tilts += "0,";
                             }
                         }
-                        points += $"0, 0, 0, 0, 0, 0, {(-CamPath.unkVectors[CamPath.unkVectors.Length - 2].X).ToText()}, " +
-                            $"{CamPath.unkVectors[CamPath.unkVectors.Length - 2].Y.ToText()}, " +
+                        points += $"0,0,0,0,0,0,{(-CamPath.unkVectors[CamPath.unkVectors.Length - 2].X).ToText()}," +
+                            $"{CamPath.unkVectors[CamPath.unkVectors.Length - 2].Y.ToText()}," +
                             $"{CamPath.unkVectors[CamPath.unkVectors.Length - 2].Z.ToText()} ";
-                        Curve.Lines.Add($"\"points\": PoolVector3Array( {points}),");
-                        Curve.Lines.Add($"\"tilts\": PoolRealArray( {tilts}0 )");
+                        Curve.Lines.Add($"\"points\": PoolVector3Array({points}),");
+                        Curve.Lines.Add($"\"tilts\": PoolRealArray({tilts}0)");
                         Curve.Lines.Add("}");
                         InternalResourceList.Add(Curve);
 
                         Node PosNode = new Node($"Cam{camID}_CameraSpline", ExportGodot.Path3D);
                         PosNode.KeyValues.Add("parent", $"{RootNodeName}");
-                        PosNode.Lines.Add($"curve = SubResource( {InternalResourceList.Count} )");
+                        PosNode.Lines.Add($"curve=SubResource({InternalResourceList.Count})");
                         Nodes.Add(PosNode);
                         break;
                     }
@@ -1972,7 +1972,7 @@ namespace RehabSetup
                 HolderNode.KeyValues.Add("parent", $"{RootNodeName}");
                 HolderNode.Groups.Add($"InstanceLayer{SectionID}");
 
-                HolderNode.Lines.Add($"script = ExtResource ( {CodeResourceID_Container_Instance} )");
+                HolderNode.Lines.Add($"script=ExtResource({CodeResourceID_Container_Instance})");
 
                 int PrefabResID = -1;
                 if (ImportedObjects.ContainsKey(Inst.ObjectID))
@@ -1987,11 +1987,11 @@ namespace RehabSetup
                     PrefabResID = ExternalResourceList.Count;
                     ImportedObjects.Add(Inst.ObjectID, PrefabResID);
                 }
-                HolderNode.Lines.Add($"Prefab = ExtResource ( {PrefabResID} )");
+                HolderNode.Lines.Add($"Prefab=ExtResource({PrefabResID})");
 
                 if (Inst.ScriptID != -1)
                 {
-                    HolderNode.Lines.Add($"OutlineCrate = true");
+                    HolderNode.Lines.Add($"OutlineCrate=true");
                     //ExternalResource ScriptRes = new ExternalResource($"../Scripts/{DefaultHashes.ToName(SectionType.Script, (uint)Inst.ScriptID)}.tres");
                     //ExternalResource ScriptRes = new ExternalResource($"../Scripts/{DefaultHashes.ToName(SectionType.Script, (uint)Inst.ScriptID)}.tres");
                     //ExternalResourceList.Add(ScriptRes);
@@ -2000,7 +2000,7 @@ namespace RehabSetup
 
                 if (Inst.RefList != -1)
                 {
-                    HolderNode.Lines.Add($"RefList = {Inst.RefList}");
+                    HolderNode.Lines.Add($"RefList={Inst.RefList}");
                 }
 
                 if (Inst.PathIDs.Count != 0)
@@ -2070,13 +2070,13 @@ namespace RehabSetup
                     HolderNode.Lines.Add(IntReg.ToString());
                 }
 
-                HolderNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-Inst.Pos.X).ToText()}, {Inst.Pos.Y.ToText()}, {Inst.Pos.Z.ToText()} )");
+                HolderNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Inst.Pos.X).ToText()},{Inst.Pos.Y.ToText()},{Inst.Pos.Z.ToText()})");
                 System.Numerics.Matrix4x4 mat = System.Numerics.Matrix4x4.Identity;
                 mat *= System.Numerics.Matrix4x4.CreateRotationX((Inst.RotX / 65536f) * (float)(2f * Math.PI));
                 mat *= System.Numerics.Matrix4x4.CreateRotationY((-Inst.RotY / 65536f) * (float)(2f * Math.PI));
                 mat *= System.Numerics.Matrix4x4.CreateRotationZ((-Inst.RotZ / 65536f) * (float)(2f * Math.PI));
                 System.Numerics.Matrix4x4.Decompose(mat, out var tscale, out var trot, out var tpos);
-                HolderNode.Lines.Add($"quaternion = Quaternion( {trot.X.ToText()}, {trot.Y.ToText()}, {trot.Z.ToText()}, {trot.W.ToText()} )");
+                HolderNode.Lines.Add($"quaternion=Quaternion({trot.X.ToText()},{trot.Y.ToText()},{trot.Z.ToText()},{trot.W.ToText()})");
                 //float RotX = (float)((Inst.RotX / 65535f) * (2f * Math.PI));
                 //float RotY = (float)((-Inst.RotY / 65535f) * (2f * Math.PI));
                 //float RotZ = (float)((-Inst.RotZ / 65535f) * (2f * Math.PI));

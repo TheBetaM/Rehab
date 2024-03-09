@@ -136,41 +136,41 @@ namespace RehabSetup
             }
             public void CreateStandardMaterial()
             {
-                Lines.Add($"vertex_color_use_as_albedo = true");
-                Lines.Add($"vertex_color_is_srgb = true");
-                Lines.Add($"{ExportGodot.materialCullMode} = 2");
-                Lines.Add($"backlight_enabled = true");
-                Lines.Add($"backlight = Color(1, 1, 1, 1)");
+                Lines.Add($"vertex_color_use_as_albedo=true");
+                Lines.Add($"vertex_color_is_srgb=true");
+                Lines.Add($"{ExportGodot.materialCullMode}=2");
+                Lines.Add($"backlight_enabled=true");
+                Lines.Add($"backlight=Color(1,1,1,1)");
             }
             public void CreateSolidMaterial(float R, float G, float B, float A)
             {
-                Lines.Add($"albedo_color = Color( {R.ToText()}, {G.ToText()}, {B.ToText()}, {A.ToText()} )");
-                Lines.Add($"{ExportGodot.materialCullMode} = 2");
+                Lines.Add($"albedo_color=Color({R.ToText()},{G.ToText()},{B.ToText()},{A.ToText()})");
+                Lines.Add($"{ExportGodot.materialCullMode}=2");
                 Lines.Add($"metallic_specular = 0.0");
             }
 
             public void CreateMaterialNoVColor()
             {
                 Type = ExportGodot.StandardMaterial3D;
-                Lines.Add($"{ExportGodot.materialCullMode} = 2");
-                Lines.Add($"metallic_specular = 0.0");
+                Lines.Add($"{ExportGodot.materialCullMode}=2");
+                Lines.Add($"metallic_specular=0.0");
             }
 
             public void CreateBoxShape()
             {
                 Type = ExportGodot.BoxShape3D;
-                Lines.Add("extents = Vector3( 1, 1, 1 )");
+                Lines.Add("extents=Vector3(1,1,1)");
             }
             public void CreateBoxShape(float X, float Y, float Z)
             {
                 Type = ExportGodot.BoxShape3D;
-                Lines.Add($"extents = Vector3( {X.ToText()}, {Y.ToText()}, {Z.ToText()} )");
+                Lines.Add($"extents=Vector3({X.ToText()},{Y.ToText()},{Z.ToText()})");
             }
 
             public void CreateWorldEnvironment()
             {
                 Type = "Environment";
-                Lines.Add("background_mode = 1");
+                Lines.Add("background_mode=1");
                 //Lines.Add(ExportGodot.ambientLightSource);
                 //Lines.Add("ambient_light_color = Color( 1, 1, 1, 1 )");
                 //Lines.Add("ambient_light_energy = 1.5");
@@ -178,22 +178,22 @@ namespace RehabSetup
             public void CreateWorldEnvironmentLight(float R, float G, float B, float Power)
             {
                 Lines.Add(ExportGodot.ambientLightSource);
-                Lines.Add($"ambient_light_color = Color( {R.ToText()}, {G.ToText()}, {B.ToText()}, 1 )");
-                Lines.Add($"ambient_light_energy = {Power.ToText()}");
+                Lines.Add($"ambient_light_color=Color({R.ToText()},{G.ToText()},{B.ToText()},1)");
+                Lines.Add($"ambient_light_energy={Power.ToText()}");
             }
             public void CreateWorldEnvironment(bool fog, float R, float G, float B)
             {
                 Type = "Environment";
-                Lines.Add("background_mode = 1");
+                Lines.Add("background_mode=1");
                 if (!fog) return;
                 /* looks ok, but doesn't work with skydome
                 Lines.Add($"fog_enabled = true");
                 Lines.Add($"fog_light_color = Color( {R.ToText()}, {G.ToText()}, {B.ToText()}, 1 )");
                 Lines.Add($"fog_density = 0.0005");
                 */
-                Lines.Add($"volumetric_fog_enabled = true");
-                Lines.Add($"volumetric_fog_emission = Color( {R.ToText()}, {G.ToText()}, {B.ToText()}, 1 )");
-                Lines.Add($"volumetric_fog_density = 0.005");
+                Lines.Add($"volumetric_fog_enabled=true");
+                Lines.Add($"volumetric_fog_emission=Color({R.ToText()},{G.ToText()},{B.ToText()},1)");
+                Lines.Add($"volumetric_fog_density=0.005");
             }
 
             public void CreateCurve3D()

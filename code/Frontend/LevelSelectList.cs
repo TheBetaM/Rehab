@@ -16,23 +16,60 @@ public partial class LevelSelectList : Control
 
     public void InitIcons()
     {
-        SetTexture(GetNode<Button>("SimpleList/Control/Button2"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub01.res", "#FE-LevelName-001");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button3"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level01.res", "#FE-LevelName-002");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button4"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level02.res", "#FE-LevelName-003");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button5"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level03.res", "#FE-LevelName-004");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button6"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub02.res", "#FE-LevelName-005");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button7"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level04.res", "#FE-LevelName-006");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button8"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level05.res", "#FE-LevelName-007");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button9"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level06.res", "#FE-LevelName-008");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button10"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub03.res", "#FE-LevelName-009");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button11"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level08.res", "#FE-LevelName-010");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button12"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level09.res", "#FE-LevelName-011");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button13"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level10.res", "#FE-LevelName-012");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button14"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub04.res", "#FE-LevelName-013");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button15"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level11.res", "#FE-LevelName-014");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button16"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level12.res", "#FE-LevelName-015");
-        SetTexture(GetNode<Button>("SimpleList/Control/Button17"), RehabGame.AssetsPath + "Textures/Language/Titles/English/Level13.res", "#FE-LevelName-016");
-        GetNode<ScrollContainer>("AdvList").GetVScrollBar().Scale = new Vector2(5f, 1f);
+        string langPath = "English";
+        bool CanChangeLang = false;
+        foreach (var mod in RehabGame.ModsInstalled)
+        {
+            if (mod.IsPAL)
+            {
+                CanChangeLang = true;
+                break;
+            }
+        }
+        if (CanChangeLang)
+        {
+            switch (TranslationServer.GetLocale())
+            {
+                default: break;
+                case "de_DE":
+                case "de-DE":
+                case "de":
+                    langPath = "German";
+                break;
+                case "fr_FR":
+                case "fr-FR":
+                case "fr":
+                    langPath = "French";
+                break;
+                case "it_IT":
+                case "it-IT":
+                case "it":
+                    langPath = "Italian";
+                break;
+                case "es_ES":
+                case "es-ES":
+                case "es":
+                    langPath = "Spanish";
+                break;
+            }
+        }
+        SetTexture(GetNode<Button>("SimpleList/Control/Button2"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub01.res", "#FE-LevelName-001");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button3"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level01.res", "#FE-LevelName-002");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button4"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level02.res", "#FE-LevelName-003");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button5"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level03.res", "#FE-LevelName-004");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button6"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub02.res", "#FE-LevelName-005");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button7"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level04.res", "#FE-LevelName-006");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button8"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level05.res", "#FE-LevelName-007");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button9"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level06.res", "#FE-LevelName-008");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button10"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub03.res", "#FE-LevelName-009");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button11"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level08.res", "#FE-LevelName-010");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button12"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level09.res", "#FE-LevelName-011");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button13"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level10.res", "#FE-LevelName-012");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button14"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub04.res", "#FE-LevelName-013");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button15"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level11.res", "#FE-LevelName-014");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button16"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level12.res", "#FE-LevelName-015");
+        SetTexture(GetNode<Button>("SimpleList/Control/Button17"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level13.res", "#FE-LevelName-016");
+        GetNode<ScrollContainer>("AdvList").GetVScrollBar().Scale = new Vector2(6f, 1f);
         GetNode<ScrollContainer>("AdvList").GetVScrollBar().PivotOffset = new Vector2(GetNode<ScrollContainer>("AdvList").GetVScrollBar().Size.X, GetNode<ScrollContainer>("AdvList").GetVScrollBar().PivotOffset.Y);
     }
 
@@ -149,6 +186,7 @@ public partial class LevelSelectList : Control
 
     public async void Activate()
     {
+        InitIcons();
         var SimpleList = GetNode<ScrollContainer>("SimpleList");
         GetNode<Control>("AdvList").Visible = false;
         SimpleList.Visible = false;

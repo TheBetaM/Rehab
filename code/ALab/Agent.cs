@@ -228,19 +228,16 @@ public partial class Agent : Node3D
     public void UpdateLayers(int layer)
     {
         //Updating collision and light layers in child nodes
-        if (this is AgentCharacter)
+        var agentcol = Call("get_collision_layer_value", 1);
+        if (!FirstSetup || (bool)agentcol == true)
         {
-            var agentcol = Call("get_collision_layer_value", 1);
-            if (!FirstSetup || (bool)agentcol == true)
+            for (int a = 1; a < 9; a++)
             {
-                for (int a = 1; a < 9; a++)
-                {
-                    Call("set_collision_mask_value", layer, false);
-                    Call("set_collision_layer_value", layer, false);
-                }
-                Call("set_collision_mask_value", layer, true);
-                Call("set_collision_layer_value", layer, true);
+                Call("set_collision_mask_value", a, false);
+                Call("set_collision_layer_value", a, false);
             }
+            Call("set_collision_mask_value", layer, true);
+            Call("set_collision_layer_value", layer, true);
         }
 	    UpdateLayersNested(this, layer);
 	    FirstSetup = false;
@@ -251,7 +248,9 @@ public partial class Agent : Node3D
         if (i is VisualInstance3D vis)
         {
             for (int a = 1; a < 9; a++)
-                vis.SetLayerMaskValue(1, false);
+            {
+                vis.SetLayerMaskValue(a, false);
+            }
             vis.SetLayerMaskValue(layer, true);
             if (i is Light3D light)
             {
@@ -265,8 +264,8 @@ public partial class Agent : Node3D
             {
                 for (int a = 1; a < 9; a++)
                 {
-                    col.SetCollisionMaskValue(layer, false);
-                    col.SetCollisionLayerValue(layer, false);
+                    col.SetCollisionMaskValue(a, false);
+                    col.SetCollisionLayerValue(a, false);
                 }
                 col.SetCollisionMaskValue(layer, true);
                 col.SetCollisionLayerValue(layer, true);

@@ -232,7 +232,7 @@ pad1_R2={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://assets/lang/frontend.en_US.translation", "res://assets/lang/frontend.de_DE.translation", "res://assets/lang/frontend.es_ES.translation", "res://assets/lang/frontend.fr_FR.translation", "res://assets/lang/frontend.it_IT.translation", "res://assets/lang/frontend.pl_PL.translation")
+locale/translations=PackedStringArray("res://assets/lang/frontend.en_US.translation", "res://assets/lang/frontend.fr_FR.translation", "res://assets/lang/frontend.de_DE.translation", "res://assets/lang/frontend.it_IT.translation", "res://assets/lang/frontend.es_ES.translation", "res://assets/lang/frontend.pl_PL.translation")
 
 [layer_names]
 

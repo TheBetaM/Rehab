@@ -522,7 +522,7 @@ public partial class FrontendMenu : Control
             }
         }
         if (!CanChangeLang) return;
-        if (RehabGame.VoiceLang < RehabGame.VoiceLanguage.Italian)
+        if (RehabGame.VoiceLang < RehabGame.VoiceLanguage.Spanish)
             RehabGame.VoiceLang++;
         else
             RehabGame.VoiceLang = RehabGame.VoiceLanguage.English;
@@ -578,6 +578,7 @@ public partial class FrontendMenu : Control
             iter = iter + 1;
         TranslationServer.SetLocale(dict[iter]);
         GetNode<Button>("WindowMainRound/MenuOptionsGame/Button4").Text = $"{Tr("#FE-Language")}: {Tr("#FE-LanguageName")}";
+        SetLevelIcon();
     }
 
     public void OptionsGame_ToExtras()
@@ -713,25 +714,63 @@ public partial class FrontendMenu : Control
     {
         var LevelID = RehabGame.LevelID;
         var IconPath = "";
+
+        string langPath = "English";
+        bool CanChangeLang = false;
+        foreach (var mod in RehabGame.ModsInstalled)
+        {
+            if (mod.IsPAL)
+            {
+                CanChangeLang = true;
+                break;
+            }
+        }
+        if (CanChangeLang)
+        {
+            switch (TranslationServer.GetLocale())
+            {
+                default: break;
+                case "de_DE":
+                case "de-DE":
+                case "de":
+                    langPath = "German";
+                break;
+                case "fr_FR":
+                case "fr-FR":
+                case "fr":
+                    langPath = "French";
+                break;
+                case "it_IT":
+                case "it-IT":
+                case "it":
+                    langPath = "Italian";
+                break;
+                case "es_ES":
+                case "es-ES":
+                case "es":
+                    langPath = "Spanish";
+                break;
+            }
+        }
         
         switch (LevelID)
         {
-            case 0: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub01.res";
-            break; case 1: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level01.res";
-            break; case 3: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level02.res";
-            break; case 4: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level03.res";
-            break; case 6: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub02.res";
-            break; case 7: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level04.res";
-            break; case 9: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level05.res";
-            break; case 10: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level06.res";
-            break; case 13: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub03.res";
-            break; case 15: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level08.res";
-            break; case 17: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level09.res";
-            break; case 18: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level10.res";
-            break; case 20: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub04.res";
-            break; case 21: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level11.res";
-            break; case 22: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level12.res";
-            break; case 23: IconPath = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level13.res";
+            case 0: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub01.res";
+            break; case 1: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level01.res";
+            break; case 3: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level02.res";
+            break; case 4: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level03.res";
+            break; case 6: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub02.res";
+            break; case 7: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level04.res";
+            break; case 9: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level05.res";
+            break; case 10: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level06.res";
+            break; case 13: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub03.res";
+            break; case 15: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level08.res";
+            break; case 17: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level09.res";
+            break; case 18: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level10.res";
+            break; case 20: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub04.res";
+            break; case 21: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level11.res";
+            break; case 22: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level12.res";
+            break; case 23: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level13.res";
             break; default: break;
         }
         
