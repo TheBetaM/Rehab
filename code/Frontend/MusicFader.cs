@@ -8,7 +8,7 @@ public partial class MusicFader : AudioStreamPlayer
     {
         if (!IsFadingOut) return;
         if (VolumeDb > -80.0)
-            VolumeDb -= (float)delta * 40f;
+            VolumeDb -= (float)delta * 20f;
         else
         {
             Stop();

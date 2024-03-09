@@ -199,19 +199,19 @@ public partial class FrontendHUD : Control
 	    LivesLabel.Text = RehabGame.Lives.ToString();
     }
 
-    public async void FlashMessage(string text)
+    public async void FlashMessage(string text, float fadeTime = 0.5f)
     {
         UpdateXR();
         BottomTextLabel.Visible = false;
         BottomTextLabel.Text = text;
         BottomTextLabel.Modulate = new Color(1f, 1f, 1f, 0f);
         var tTween1 = CreateTween();
-        tTween1.TweenProperty(BottomTextLabel, "modulate:a", 1.0f, 0.5f);
+        tTween1.TweenProperty(BottomTextLabel, "modulate:a", 1.0f, fadeTime);
         BottomTextLabel.Visible = true;
         await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
         var tTween2 = CreateTween();
-        tTween2.TweenProperty(BottomTextLabel, "modulate:a", 0f, 0.5f);
-        await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+        tTween2.TweenProperty(BottomTextLabel, "modulate:a", 0f, fadeTime);
+        await ToSignal(GetTree().CreateTimer(fadeTime), SceneTreeTimer.SignalName.Timeout);
         BottomTextLabel.Visible = false;
     }
 

@@ -15,8 +15,8 @@ public partial class ChunkLink : Node3D
     PackedScene LoadedScene;
     Area3D EnterTrigger;
     Area3D LoadTriggers; //todo array
-    public bool IsBuffered;
     bool IsLoading;
+    bool InUse;
 
     public override void _Ready()
     {
@@ -49,7 +49,7 @@ public partial class ChunkLink : Node3D
 
     public void DisableLink()
     {
-        CallDeferred("DisableLinkNow");
+        IsLoading = true;
     }
 
     public void DisableLinkNow()
@@ -61,6 +61,8 @@ public partial class ChunkLink : Node3D
     {
         if (string.IsNullOrWhiteSpace(ChunkPath)) return;
         ProcessMode = ProcessModeEnum.Inherit;
+        IsLoading = false;
+        InUse = false;
         if (ParentScene.ActiveScene && RehabScene.Root.ChunkNames.Contains(ChunkName))
         {
             int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
@@ -76,20 +78,20 @@ public partial class ChunkLink : Node3D
 
     public void TrigEnter(Node3D body)
     {
-        if (ProcessMode == ProcessModeEnum.Disabled) return;
-        if (!ParentScene.ActiveScene) return;
-        if (IsBuffered) return;
+
     }
 
     public void TrigExit(Node3D body)
     {
-        if (ProcessMode == ProcessModeEnum.Disabled) return;
+        if (InUse || ProcessMode == ProcessModeEnum.Disabled) return;
         if (!RehabScene.Root.ChunkNames.Contains(ChunkName)) return;
-        if (!ParentScene.ActiveScene) return;
+        if (!ParentScene.ActiveScene || IsLoading || InUse) return;
         if (body is AgentCharacter agent)
         {
             if (agent.GetParent() is Agent) return; // attached co-op character
-            DisableLinkNow(); // todo remove this?
+            //DisableLinkNow(); // todo remove this?
+            InUse = true;
+            agent.isSwitchingChunks = true;
             agent.isReparenting = true;
             int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
             agent.Reparent(RehabScene.Root.Chunks[ind]);
@@ -100,6 +102,7 @@ public partial class ChunkLink : Node3D
                 GD.Print("---");
                 GD.Print("[LINK] Entered from " + ParentScene.Name);
                 SwitchToChunk(RehabScene.Root.Chunks[ind]);
+                agent.isSwitchingChunks = false;
             }
         }
     }
@@ -108,7 +111,7 @@ public partial class ChunkLink : Node3D
     {
         if (ProcessMode == ProcessModeEnum.Disabled) return;
         if (RehabScene.Root.ChunkNames.Contains(ChunkName)) return;
-        if (!ParentScene.ActiveScene) return;
+        if (!ParentScene.ActiveScene || IsLoading || InUse) return;
         if (body is AgentCharacter agent && AgentCharacter.activeCharacter == agent)
             SpawnChunk();
     }
@@ -117,8 +120,8 @@ public partial class ChunkLink : Node3D
     {
         if (ProcessMode == ProcessModeEnum.Disabled) return;
         if (!RehabScene.Root.ChunkNames.Contains(ChunkName)) return;
-        if (!ParentScene.ActiveScene) return;
-        if (body is AgentCharacter agent && RehabScene.PlayerCam.Current && !RehabScene.GameMenu.Visible)
+        if (!ParentScene.ActiveScene || IsLoading || InUse) return;
+        if (body is AgentCharacter agent && RehabScene.PlayerCam.Current && !RehabScene.GameMenu.Visible && !agent.isSwitchingChunks)
         {
             if (AgentCharacter.activeCharacter == agent)
             {
@@ -139,6 +142,11 @@ public partial class ChunkLink : Node3D
                 if (OS.GetName() == "Android")
                 {
                     // bug: Android crashes trying to stream too many levels from a pack
+                    if (!RehabScene.Root.IsLoadingScene)
+                    {
+                        RehabScene.GameHUD.FlashMessage("#FE-Loading", 0.25f);
+                        await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
+                    }
                     LoadedScene = (PackedScene)ResourceLoader.Load(FullChunkPath);
                 }
                 else

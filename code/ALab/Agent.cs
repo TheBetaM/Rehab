@@ -120,17 +120,8 @@ public partial class Agent : Node3D
         if (ParentScene != null)
         {
             UpdateLayers(ParentScene.ChunkLayer);
-            ParentScene.OnChunkEnter += OnChunkEnter;
         }
         UpdateActiveModel();
-    }
-
-    public override void _ExitTree()
-    {
-        if (ParentScene != null)
-        {
-            ParentScene.OnChunkEnter -= OnChunkEnter;
-        }
     }
 
     public void DoAnimation(int slot, bool loop)

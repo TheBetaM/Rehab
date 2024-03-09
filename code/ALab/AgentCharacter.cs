@@ -82,6 +82,7 @@ public partial class AgentCharacter : Agent
     Vector3 char_velocity = Vector3.Zero;
     PlayerCamera physCam;
     public bool isReparenting;
+    public bool isSwitchingChunks;
     float headdirX;
     float headdirY;
     float footsteptimer;

@@ -161,6 +161,16 @@ public partial class LevelSelectList : Control
 
     public void StartLevel(string path)
     {
+        if ((path.Contains("(VR)") || path.Contains("(XR)")) && !RehabScene.Root.XR_Enabled)
+        {
+            RehabScene.Root.StartMessage("#FE-Explorer-VROnly");
+            return;
+        }
+        if ((path.Contains("(No VR)") || path.Contains("(No XR)")) && RehabScene.Root.XR_Enabled)
+        {
+            RehabScene.Root.StartMessage("#FE-Explorer-VRNotAllowed");
+            return;
+        }
         Visible = false;
         ProcessMode = ProcessModeEnum.Disabled;
         RehabScene.Root.LoadScene(ListPath + path);

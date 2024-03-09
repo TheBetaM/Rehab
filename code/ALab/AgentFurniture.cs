@@ -36,6 +36,10 @@ public partial class AgentFurniture : Agent
             Set("collision_layer", 0);
             Connect("body_entered", Callable.From<Node3D>(OnDoorTouch));
         }
+        if (ParentScene != null)
+        {
+            ParentScene.OnChunkEnter += OnChunkEnter;
+        }
     }
 
     public override void OnChunkEnter(object a, System.EventArgs e)

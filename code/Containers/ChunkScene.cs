@@ -75,8 +75,12 @@ public partial class ChunkScene : Node3D
         }
     }
 
-    public void ShadowToggle(bool val)
+    public async void ShadowToggle(bool val)
     {
+        if (val)
+            await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+        else
+            await ToSignal(GetTree().CreateTimer(0.15f), SceneTreeTimer.SignalName.Timeout);
         DirShadowCount = 0;
         ShadowToggleNested(GetNode("Lights"), val);
     }

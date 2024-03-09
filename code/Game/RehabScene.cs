@@ -36,6 +36,7 @@ public partial class RehabScene : Node3D
     public RehabXROrigin XR_Origin;
     public SubViewport FE_XR_Viewport;
     public bool IsLoadingXR;
+    public bool IsLoadingScene;
     
 
     public RehabScene()
@@ -169,6 +170,7 @@ public partial class RehabScene : Node3D
     public async void LoadScene(string path)
     {
         GD.Print($"[ROOT] Loading {path}");
+        IsLoadingScene = true;
         if (XR_Enabled) IsLoadingXR = true;
         UnloadAllChunks();
         LoadingChunkName = path.Split("/").Last().Replace(".tscn","");
@@ -240,20 +242,24 @@ public partial class RehabScene : Node3D
             XR_Origin.ToggleHands(true);
         }
         IsLoadingXR = false;
+        IsLoadingScene = false;
     }
 
     public Node3D LoadChunk(PackedScene chunk, string chunkName, Node3D holder)
     {
         if (ChunkNames.Contains(chunkName)) return null;
+        lock (ChunkNames)
+        {
+		    ChunkNames.Add(chunkName);
+        }
         GD.Print("[ROOT] Spawning " + chunkName);
 		var LoadedChunk = chunk.Instantiate();
 		holder.AddChild(LoadedChunk);
 		LoadedChunk.Reparent(this);
         var scene = (ChunkScene)LoadedChunk;
-        lock (ChunkNames)
+        lock (Chunks)
         {
             Chunks.Add(scene);
-		    ChunkNames.Add(chunkName);
         }
         lock (ChunkLayers)
         {
@@ -275,6 +281,9 @@ public partial class RehabScene : Node3D
         if (chunk == ActiveChunk) return;
         
         var OldChunk = ActiveChunk;
+        // Disabling links of chunk that we're exiting
+        foreach (var i in OldChunk.Links)
+            i.DisableLink();
         OldChunk.ActiveScene = false;
         OldChunk.ChunkExit();
         OldChunk.ShadowToggle(false);
@@ -282,9 +291,8 @@ public partial class RehabScene : Node3D
         GD.Print("[ROOT] Entering " + chunk.Name);
         
         // Updating World Environment and Lights
-        chunk.WorldEnv.TonemapMode = Environment.ToneMapper.Reinhardt;
         chunk.ShadowToggle(true);
-        GetNode<WorldEnvironment>("WorldEnv").Environment = chunk.WorldEnv;
+        UpdateWorldEnv(chunk.WorldEnv);
 
         // Updating Skydome
         string skypath = RehabGame.AssetsPath + chunk.SkydomePath;
@@ -306,19 +314,18 @@ public partial class RehabScene : Node3D
         var ChunkOffset = chunk.GlobalPosition;
         foreach (var c in Chunks)
             c.GlobalPosition += -ChunkOffset;
+        if (XR_Enabled)
+        {
+            XR_Origin.GlobalPosition += -ChunkOffset;
+        }
         PlayerCam.pivot += -ChunkOffset;
         PlayerCam.GlobalPosition += -ChunkOffset;
-        
-        // Disabling links of chunk that we're exiting
-        foreach (var i in OldChunk.Links)
-            i.DisableLink();
         
         // Activating and starting links of entered chunk
         foreach (var i in chunk.Links)
         {
             if (i.ChunkName == OldChunk.Name)
             {
-                i.IsBuffered = true;
                 int ind = ChunkNames.IndexOf(i.ChunkName);
                 Chunks[ind].Position = i.GetNode<Node3D>("ChunkHolder").GlobalPosition;
                 Chunks[ind].Rotation = i.GetNode<Node3D>("ChunkHolder").GlobalRotation;
@@ -332,11 +339,12 @@ public partial class RehabScene : Node3D
                     Chunks[ind].Rotation = i.GetNode<Node3D>("ChunkHolder").GlobalRotation;
                 }
             }
-            i.ActivateLink();
         }
+        ActivateLinks(chunk);
         
         // Disposing of unlinked chunks
         var NameCopy = new List<StringName>(ChunkNames);
+        var NameQueue = new List<StringName>();
         foreach (var cn in NameCopy)
         {
             var found = false;
@@ -349,8 +357,14 @@ public partial class RehabScene : Node3D
                 }
             }
             if (!found && cn != chunk.Name)
-                UnloadChunk(cn);
+            {
+                int ind = ChunkNames.IndexOf(cn);
+                Chunks[ind].Visible = false;
+                Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
+                NameQueue.Add(cn);
+            }
         }
+        QueueUnload(NameQueue);
         
         ActiveChunk = chunk;
         chunk.Visible = true;
@@ -358,8 +372,26 @@ public partial class RehabScene : Node3D
         chunk.ChunkEnter();
     }
 
+    async void UpdateWorldEnv(Environment Env)
+    {
+        await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
+        Env.TonemapMode = Environment.ToneMapper.Reinhardt;
+        GetNode<WorldEnvironment>("WorldEnv").Environment = Env;
+    }
+
+    async void QueueUnload(List<StringName> chunks)
+    {
+        await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
+        foreach (var a in chunks)
+        {
+            UnloadChunk(a);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+    }
+
     async void SpawnSkydome(string path)
     {
+        await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
         if (OS.GetName() == "Android")
         {
             var sky = (PackedScene)ResourceLoader.Load(path);
@@ -375,6 +407,29 @@ public partial class RehabScene : Node3D
         }
         AddChild(Skydome);
         SkydomePath = path;
+    }
+
+    async void ActivateLinks(ChunkScene chunk)
+    {
+        await ToSignal(GetTree().CreateTimer(0.6f), SceneTreeTimer.SignalName.Timeout);
+        foreach (var i in chunk.Links)
+        {
+            i.ActivateLink();
+            await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
+        }
+    }
+
+    async void CenterWorld(Vector3 ChunkOffset)
+    {
+        await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout);
+        foreach (var c in Chunks)
+            c.GlobalPosition += -ChunkOffset;
+        if (XR_Enabled)
+        {
+            XR_Origin.GlobalPosition += -ChunkOffset;
+        }
+        PlayerCam.pivot += -ChunkOffset;
+        PlayerCam.GlobalPosition += -ChunkOffset;
     }
 
     public void UnloadChunk(string chunk)
@@ -489,6 +544,7 @@ public partial class RehabScene : Node3D
             musicFader = (MusicFader)AudioMusic;
             musicFader.IsFadingOut = false;
         }
+        await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
         if (OS.GetName() == "Android")
         {
             var loadedTrack = (AudioStream)ResourceLoader.Load(path);
@@ -533,6 +589,7 @@ public partial class RehabScene : Node3D
             musicFader = (MusicFader)AudioAmbience;
             musicFader.IsFadingOut = false;
         }
+        await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
         if (OS.GetName() == "Android")
         {
             var loadedTrack = (AudioStream)ResourceLoader.Load(path);

@@ -22,6 +22,8 @@ namespace RehabSetup
         public int CodeResourceID_Container_Camera = 0;
         public int CodeResourceID_Scene = 0;
         public int WorldEnvResourceID = 0;
+        Dictionary<uint, uint> GameObjectTypes;
+        public static Dictionary<uint, uint> DefaultGameObjectTypes = new();
 
         public void AddLights(SceneryData Scene)
         {
@@ -84,17 +86,17 @@ namespace RehabSetup
 
                     Node LightNode = new Node($"DirectionalLight{i}", "DirectionalLight3D");
                     LightNode.KeyValues.Add("parent", $"{LightsNode.Name}/{LightsHolderNode.Name}");
-                    LightNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-Light.Position.X).ToText()}, {Light.Position.Y.ToText()}, {Light.Position.Z.ToText()} )");
-                    LightNode.Lines.Add($"rotation = Vector3( {(-Light.Vector3.X).ToText()}, {(-Light.Vector3.Y).ToText()}, {(-Light.Vector3.Z).ToText()} )");
-                    LightNode.Lines.Add($"light_cull_mask = 0");
-                    LightNode.Lines.Add($"light_color = Color( {Light.Color_R.ToText()}, {Light.Color_G.ToText()}, {Light.Color_B.ToText()}, 1 )");
-                    LightNode.Lines.Add($"light_energy = {(Light.Radius * 1f).ToText()}");
-                    LightNode.Lines.Add($"light_specular = 0");
+                    LightNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Light.Position.X).ToText()},{Light.Position.Y.ToText()},{Light.Position.Z.ToText()})");
+                    LightNode.Lines.Add($"rotation=Vector3({(-Light.Vector3.X).ToText()},{(-Light.Vector3.Y).ToText()},{(-Light.Vector3.Z).ToText()})");
+                    LightNode.Lines.Add($"light_cull_mask=0");
+                    LightNode.Lines.Add($"light_color=Color( {Light.Color_R.ToText()},{Light.Color_G.ToText()},{Light.Color_B.ToText()},1)");
+                    LightNode.Lines.Add($"light_energy={(Light.Radius * 1f).ToText()}");
+                    LightNode.Lines.Add($"light_specular=0");
                     //LightNode.Lines.Add($"spot_angle = 180");
-                    LightNode.Lines.Add($"light_bake_mode = 0");
+                    LightNode.Lines.Add($"light_bake_mode=0");
                     //LightNode.Lines.Add($"shadow_enabled = true");
-                    LightNode.Lines.Add($"shadow_normal_bias = 0"); // remove when normals are done?
-                    LightNode.Lines.Add($"layers = 0");
+                    LightNode.Lines.Add($"shadow_normal_bias=0"); // remove when normals are done?
+                    LightNode.Lines.Add($"layers=0");
                     Nodes.Add(LightNode);
                 }
             }
@@ -111,20 +113,20 @@ namespace RehabSetup
 
                     Node LightNode = new Node($"SpotLight{i}", "SpotLight3D");
                     LightNode.KeyValues.Add("parent", $"{LightsNode.Name}/{LightsHolderNode.Name}");
-                    LightNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-Light.Position.X).ToText()}, {Light.Position.Y.ToText()}, {Light.Position.Z.ToText()} )");
-                    LightNode.Lines.Add($"rotation = Vector3( {(-Light.Vector3.X).ToText()}, {(-Light.Vector3.Y).ToText()}, {(-Light.Vector3.Z).ToText()} )");
-                    LightNode.Lines.Add($"light_cull_mask = 0");
-                    LightNode.Lines.Add($"light_color = Color( {Light.Color_R.ToText()}, {Light.Color_G.ToText()}, {Light.Color_B.ToText()}, 1 )");
-                    LightNode.Lines.Add($"light_energy = {(Light.Radius * 5f).ToText()}");
-                    LightNode.Lines.Add($"light_specular = 0");
+                    LightNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Light.Position.X).ToText()},{Light.Position.Y.ToText()},{Light.Position.Z.ToText()})");
+                    LightNode.Lines.Add($"rotation=Vector3({(-Light.Vector3.X).ToText()},{(-Light.Vector3.Y).ToText()},{(-Light.Vector3.Z).ToText()})");
+                    LightNode.Lines.Add($"light_cull_mask=0");
+                    LightNode.Lines.Add($"light_color=Color( {Light.Color_R.ToText()},{Light.Color_G.ToText()},{Light.Color_B.ToText()},1)");
+                    LightNode.Lines.Add($"light_energy={(Light.Radius * 5f).ToText()}");
+                    LightNode.Lines.Add($"light_specular=0");
                     //LightNode.Lines.Add($"light_negative = true");
-                    LightNode.Lines.Add($"spot_range = {(Light.Radius * 5f).ToText()}");
-                    LightNode.Lines.Add($"spot_attenuation = 0.5");
-                    LightNode.Lines.Add($"spot_angle_attenuation = 0.5");
-                    LightNode.Lines.Add($"light_bake_mode = 0");
+                    LightNode.Lines.Add($"spot_range={(Light.Radius * 5f).ToText()}");
+                    LightNode.Lines.Add($"spot_attenuation=0.5");
+                    LightNode.Lines.Add($"spot_angle_attenuation=0.5");
+                    LightNode.Lines.Add($"light_bake_mode=0");
                     //LightNode.Lines.Add($"shadow_enabled = true");
-                    LightNode.Lines.Add($"shadow_normal_bias = 0"); // remove when normals are done?
-                    LightNode.Lines.Add($"layers = 0");
+                    LightNode.Lines.Add($"shadow_normal_bias=0"); // remove when normals are done?
+                    LightNode.Lines.Add($"layers=0");
                     Nodes.Add(LightNode);
                 }
             }
@@ -141,17 +143,17 @@ namespace RehabSetup
 
                     Node LightNode = new Node($"PointLight{i}", "OmniLight3D");
                     LightNode.KeyValues.Add("parent", $"{LightsNode.Name}/{LightsHolderNode.Name}");
-                    LightNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-Light.Position.X).ToText()}, {Light.Position.Y.ToText()}, {Light.Position.Z.ToText()} )");
-                    LightNode.Lines.Add($"light_cull_mask = 0");
-                    LightNode.Lines.Add($"light_color = Color( {Light.Color_R.ToText()}, {Light.Color_G.ToText()}, {Light.Color_B.ToText()}, 1 )");
-                    LightNode.Lines.Add($"light_energy = {(Light.Radius * 0.021f).ToText()}");
-                    LightNode.Lines.Add($"light_specular = 0");
-                    LightNode.Lines.Add($"omni_range = {(Light.Radius * 0.0938f).ToText()}");
-                    LightNode.Lines.Add($"omni_attenuation = -1");
-                    LightNode.Lines.Add($"light_bake_mode = 0");
+                    LightNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Light.Position.X).ToText()},{Light.Position.Y.ToText()},{Light.Position.Z.ToText()})");
+                    LightNode.Lines.Add($"light_cull_mask=0");
+                    LightNode.Lines.Add($"light_color=Color({Light.Color_R.ToText()},{Light.Color_G.ToText()},{Light.Color_B.ToText()},1)");
+                    LightNode.Lines.Add($"light_energy={(Light.Radius * 0.021f).ToText()}");
+                    LightNode.Lines.Add($"light_specular=0");
+                    LightNode.Lines.Add($"omni_range={(Light.Radius * 0.0938f).ToText()}");
+                    LightNode.Lines.Add($"omni_attenuation=-1");
+                    LightNode.Lines.Add($"light_bake_mode=0");
                     //LightNode.Lines.Add($"shadow_enabled = true");
-                    LightNode.Lines.Add($"shadow_normal_bias = 0"); // remove when normals are done?
-                    LightNode.Lines.Add($"layers = 0");
+                    LightNode.Lines.Add($"shadow_normal_bias=0"); // remove when normals are done?
+                    LightNode.Lines.Add($"layers=0");
                     Nodes.Add(LightNode);
                 }
             }
@@ -185,14 +187,14 @@ namespace RehabSetup
 
                 Node LinkNode = new Node($"Link{i}-{Link.Path.Replace('\\', '_')}", ExportGodot.Node3D);
                 LinkNode.KeyValues.Add("parent", LinksNode.Name);
-                LinkNode.Lines.Add($"script = ExtResource( {LinkCode} )");
+                LinkNode.Lines.Add($"script=ExtResource({LinkCode})");
                 //LinkNode.Lines.Add($"Chunk = ExtResource( {LinkChunkID} )");
-                LinkNode.Lines.Add($"ChunkPath = \"Levels/{Link.Path.Replace('\\', '_')}.tscn\"");
-                LinkNode.Lines.Add($"ChunkName = \"{Link.Path.Replace('\\', '_')}\"");
-                if (!Link.WallIsEnabled) LinkNode.Lines.Add($"IsDisabled = true");
+                LinkNode.Lines.Add($"ChunkPath=\"Levels/{Link.Path.Replace('\\', '_')}.tscn\"");
+                LinkNode.Lines.Add($"ChunkName=\"{Link.Path.Replace('\\', '_')}\"");
+                if (!Link.WallIsEnabled) LinkNode.Lines.Add($"IsDisabled=true");
                 if (!Link.IsVisible) 
                 {
-                    LinkNode.Lines.Add($"SpawnInvisible = true");
+                    LinkNode.Lines.Add($"SpawnInvisible=true");
                     //LinkNode.Lines.Add($"visible = false");
                 }
                 //LinkNode.Lines.Add($"Flags = {Link.Flags}");
@@ -200,7 +202,7 @@ namespace RehabSetup
 
                 Node ChunkHolder = new Node("ChunkHolder", ExportGodot.Node3D);
                 ChunkHolder.KeyValues.Add("parent", $"{LinksNode.Name}/{LinkNode.Name}");
-                ChunkHolder.Lines.Add($"transform = {MatrixToTransform(Link.ChunkMatrix)}");
+                ChunkHolder.Lines.Add($"transform={MatrixToTransform(Link.ChunkMatrix)}");
                 Nodes.Add(ChunkHolder);
 
                 //Node ChunkNode = new Node($"{Link.Path.Replace('\\', '_')}", ExportGodot.Node3D);
@@ -241,7 +243,7 @@ namespace RehabSetup
                     Nodes.Add(LinkAreaNode);
                     Node LinkColNode = new Node($"EnterTriggerShape", ExportGodot.CollisionShape3D);
                     LinkColNode.KeyValues.Add("parent", $"{LinksNode.Name}/{LinkNode.Name}/{LinkAreaNode.Name}");
-                    LinkColNode.Lines.Add($"shape = SubResource( {LinkShapeID} )");
+                    LinkColNode.Lines.Add($"shape=SubResource({LinkShapeID})");
                     Nodes.Add(LinkColNode);
                 }
 
@@ -281,7 +283,7 @@ namespace RehabSetup
                         Nodes.Add(LinkLeafNode);
                         Node LinkLeafColNode = new Node($"LoadTriggerCollision", ExportGodot.CollisionShape3D);
                         LinkLeafColNode.KeyValues.Add("parent", $"{LinksNode.Name}/{LinkNode.Name}/{LoadTriggerHolder.Name}/{LinkLeafNode.Name}");
-                        LinkLeafColNode.Lines.Add($"shape = SubResource( {InternalResourceList.Count} )");
+                        LinkLeafColNode.Lines.Add($"shape=SubResource({InternalResourceList.Count})");
                         Nodes.Add(LinkLeafColNode);
 
                         Leaf = Leaf.Next;
@@ -717,13 +719,13 @@ namespace RehabSetup
 
                 Node PosNode = new Node($"{Inst.Name}_{i}", ExportGodot.Node3D);
                 PosNode.KeyValues.Add("parent", RootNode.Name);
-                PosNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-Inst.Position.X).ToText()}, {Inst.Position.Y.ToText()}, {Inst.Position.Z.ToText()} )");
+                PosNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Inst.Position.X).ToText()},{Inst.Position.Y.ToText()},{Inst.Position.Z.ToText()})");
                 System.Numerics.Matrix4x4 mat = System.Numerics.Matrix4x4.Identity;
                 mat *= System.Numerics.Matrix4x4.CreateRotationX((Inst.Rot_X / 65536f) * (float)(2f * Math.PI));
                 mat *= System.Numerics.Matrix4x4.CreateRotationY((-Inst.Rot_Y / 65536f) * (float)(2f * Math.PI));
                 mat *= System.Numerics.Matrix4x4.CreateRotationZ((-Inst.Rot_Z / 65536f) * (float)(2f * Math.PI));
                 System.Numerics.Matrix4x4.Decompose(mat, out var tscale, out var trot, out var tpos);
-                PosNode.Lines.Add($"quaternion = Quaternion( {trot.X.ToText()}, {trot.Y.ToText()}, {trot.Z.ToText()}, {trot.W.ToText()} )");
+                PosNode.Lines.Add($"quaternion=Quaternion({trot.X.ToText()},{trot.Y.ToText()},{trot.Z.ToText()},{trot.W.ToText()})");
                 //float RotX = (float)((Inst.Rot_X / 65535f) * (2f * Math.PI));
                 //float RotY = (float)((-Inst.Rot_Y / 65535f) * (2f * Math.PI));
                 //float RotZ = (float)((-Inst.Rot_Z / 65535f) * (2f * Math.PI));
@@ -1970,7 +1972,7 @@ namespace RehabSetup
 
                 Node HolderNode = new Node($"Instance_{SectionID}_{i}", ExportGodot.Marker3D);
                 HolderNode.KeyValues.Add("parent", $"{RootNodeName}");
-                HolderNode.Groups.Add($"InstanceLayer{SectionID}");
+                //HolderNode.Groups.Add($"InstanceLayer{SectionID}");
 
                 HolderNode.Lines.Add($"script=ExtResource({CodeResourceID_Container_Instance})");
 
@@ -2006,68 +2008,107 @@ namespace RehabSetup
                 if (Inst.PathIDs.Count != 0)
                 {
                     StringBuilder InstRefs = new StringBuilder();
-                    InstRefs.Append($"LinkPath = [ ");
+                    InstRefs.Append($"LinkPath=[");
                     for (int a = 0; a < Inst.PathIDs.Count - 1; a++)
                     {
-                        InstRefs.Append($"NodePath(\"../../Locators/Paths/Path_{SectionID}_{Inst.PathIDs[a]}\"), ");
+                        InstRefs.Append($"NodePath(\"../../Locators/Paths/Path_{SectionID}_{Inst.PathIDs[a]}\"),");
                     }
-                    InstRefs.Append($"NodePath(\"../../Locators/Paths/Path_{SectionID}_{Inst.PathIDs.Last()}\") ]");
+                    InstRefs.Append($"NodePath(\"../../Locators/Paths/Path_{SectionID}_{Inst.PathIDs.Last()}\")]");
                     HolderNode.Lines.Add(InstRefs.ToString());
                 }
                 if (Inst.PositionIDs.Count != 0)
                 {
                     StringBuilder InstRefs = new StringBuilder();
-                    InstRefs.Append($"LinkPoint = [ ");
+                    InstRefs.Append($"LinkPoint=[");
                     for (int a = 0; a < Inst.PositionIDs.Count - 1; a++)
                     {
-                        InstRefs.Append($"NodePath(\"../../Locators/Points/Point_{SectionID}_{Inst.PositionIDs[a]}\"), ");
+                        InstRefs.Append($"NodePath(\"../../Locators/Points/Point_{SectionID}_{Inst.PositionIDs[a]}\"),");
                     }
-                    InstRefs.Append($"NodePath(\"../../Locators/Points/Point_{SectionID}_{Inst.PositionIDs.Last()}\") ]");
+                    InstRefs.Append($"NodePath(\"../../Locators/Points/Point_{SectionID}_{Inst.PositionIDs.Last()}\")]");
                     HolderNode.Lines.Add(InstRefs.ToString());
                 }
                 if (Inst.InstanceIDs.Count != 0)
                 {
                     StringBuilder InstRefs = new StringBuilder();
-                    InstRefs.Append($"LinkInstance = [ ");
+                    InstRefs.Append($"LinkInstance=[");
                     for (int a = 0; a < Inst.InstanceIDs.Count - 1; a++)
                     {
-                        InstRefs.Append($"NodePath(\"../Instance_{SectionID}_{Inst.InstanceIDs[a]}\"), ");
+                        InstRefs.Append($"NodePath(\"../Instance_{SectionID}_{Inst.InstanceIDs[a]}\"),");
                     }
-                    InstRefs.Append($"NodePath(\"../Instance_{SectionID}_{Inst.InstanceIDs.Last()}\") ]");
+                    InstRefs.Append($"NodePath(\"../Instance_{SectionID}_{Inst.InstanceIDs.Last()}\")]");
                     HolderNode.Lines.Add(InstRefs.ToString());
                 }
-                if (Inst.UnkI321.Count != 0)
+
+                bool ExportInstValues = true;
+                if (GameObjectTypes.ContainsKey(Inst.ObjectID))
                 {
-                    StringBuilder AngleReg = new StringBuilder();
-                    AngleReg.Append($"RegAngle = [ ");
-                    for (int a = 0; a < Inst.UnkI321.Count - 1; a++)
+                    // Skipping instance data for types where they're not needed
+                    switch (GameObjectTypes[Inst.ObjectID])
                     {
-                        AngleReg.Append($"{Inst.UnkI321[a]}, ");
+                        default: break;
+                        //case 0: // Character
+                        case 1: // Crate
+                        case 2: // Pickup
+                        case 5: // Chi Chi Grass
+                        case 6: // Not in any levels
+                        case 7: // Not in any levels
+                        case 8: // Not in any levels
+                            ExportInstValues = false;
+                        break;
                     }
-                    AngleReg.Append($"{Inst.UnkI321.Last()} ]");
-                    HolderNode.Lines.Add(AngleReg.ToString());
                 }
-                if (Inst.UnkI322.Count != 0)
+                if (DefaultGameObjectTypes.ContainsKey(Inst.ObjectID))
                 {
-                    StringBuilder FloatReg = new StringBuilder();
-                    FloatReg.Append($"RegFloat = [ ");
-                    for (int a = 0; a < Inst.UnkI322.Count - 1; a++)
+                    // Skipping instance data for types where they're not needed
+                    switch (DefaultGameObjectTypes[Inst.ObjectID])
                     {
-                        FloatReg.Append($"{Inst.UnkI322[a].ToText()}, ");
+                        default: break;
+                        //case 0: // Character
+                        case 1: // Crate
+                        case 2: // Pickup
+                        case 5: // Chi Chi Grass
+                        case 6: // Not in any levels
+                        case 7: // Not in any levels
+                        case 8: // Not in any levels
+                            ExportInstValues = false;
+                        break;
                     }
-                    FloatReg.Append($"{Inst.UnkI322.Last().ToText()} ]");
-                    HolderNode.Lines.Add(FloatReg.ToString());
                 }
-                if (Inst.UnkI323.Count != 0)
+                if (ExportInstValues)
                 {
-                    StringBuilder IntReg = new StringBuilder();
-                    IntReg.Append($"RegInt = [ ");
-                    for (int a = 0; a < Inst.UnkI323.Count - 1; a++)
+                    if (Inst.UnkI321.Count != 0)
                     {
-                        IntReg.Append($"{Inst.UnkI323[a]}, ");
+                        StringBuilder AngleReg = new StringBuilder();
+                        AngleReg.Append($"RegAngle=[");
+                        for (int a = 0; a < Inst.UnkI321.Count - 1; a++)
+                        {
+                            AngleReg.Append($"{Inst.UnkI321[a]},");
+                        }
+                        AngleReg.Append($"{Inst.UnkI321.Last()}]");
+                        HolderNode.Lines.Add(AngleReg.ToString());
                     }
-                    IntReg.Append($"{Inst.UnkI323.Last()} ]");
-                    HolderNode.Lines.Add(IntReg.ToString());
+                    if (Inst.UnkI322.Count != 0)
+                    {
+                        StringBuilder FloatReg = new StringBuilder();
+                        FloatReg.Append($"RegFloat=[");
+                        for (int a = 0; a < Inst.UnkI322.Count - 1; a++)
+                        {
+                            FloatReg.Append($"{Inst.UnkI322[a].ToText()},");
+                        }
+                        FloatReg.Append($"{Inst.UnkI322.Last().ToText()}]");
+                        HolderNode.Lines.Add(FloatReg.ToString());
+                    }
+                    if (Inst.UnkI323.Count != 0)
+                    {
+                        StringBuilder IntReg = new StringBuilder();
+                        IntReg.Append($"RegInt=[");
+                        for (int a = 0; a < Inst.UnkI323.Count - 1; a++)
+                        {
+                            IntReg.Append($"{Inst.UnkI323[a]},");
+                        }
+                        IntReg.Append($"{Inst.UnkI323.Last()}]");
+                        HolderNode.Lines.Add(IntReg.ToString());
+                    }
                 }
 
                 HolderNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Inst.Pos.X).ToText()},{Inst.Pos.Y.ToText()},{Inst.Pos.Z.ToText()})");
@@ -2220,11 +2261,18 @@ namespace RehabSetup
             #region Export Resources
             // Export GameObjects / OGIs
             TwinsSection obj_sec = Cont.GetItem<TwinsSection>(10).GetItem<TwinsSection>(0);
+            GameObjectTypes = new Dictionary<uint, uint>();
             for (int i = 0; i < obj_sec.Records.Count; i++)
             {
                 uint ObjectID = obj_sec.Records[i].ID;
-                string ObjectName = $"{DefaultHashes.ToName(SectionType.Object, ObjectID)}";
                 ExportGodot.ExportGameObject(obj_sec.GetItem<GameObject>(ObjectID), path, SceneOnly);
+                var agent = (GameObject)obj_sec.Records[i];
+                byte AgentType = (byte)(agent.UnkBitfield >> 0x14 & 0xFF);
+                GameObjectTypes[ObjectID] = AgentType;
+                if (obj_sec.ParentFile.FileName.ToLower().Contains("default.rm"))
+                {
+                    DefaultGameObjectTypes[ObjectID] = AgentType;
+                }
             }
 
             // Export Scripts
