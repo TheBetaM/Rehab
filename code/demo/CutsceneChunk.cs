@@ -51,7 +51,7 @@ public partial class CutsceneChunk : ChunkScene
             return;
         }
         if (!RehabScene.Root.XR_Enabled) return;
-        if (LastCamPos.DistanceTo(AnimCamera.Position) > 16f)
+        if (LastCamPos.DistanceTo(AnimCamera.Position) > 4f)
         {
             ReorientXRCam();
         }

@@ -236,6 +236,10 @@ public partial class FrontendInstaller : Control
         Button1.GrabFocus();
         GetWindow().RequestAttention();
         Input.StartJoyVibration(0, 0.5f, 0f, 0.5f);
+        if (RehabScene.Root.XR_Enabled)
+        {
+            RehabScene.Root.XR_Origin.XR_HandR.TriggerHapticPulse("haptic", 150, 0.5d, 0.5d, 0);
+        }
         Exporter = null;
         GC.Collect();
         GC.WaitForPendingFinalizers();

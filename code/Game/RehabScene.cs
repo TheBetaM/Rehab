@@ -35,6 +35,7 @@ public partial class RehabScene : Node3D
     public bool XR_Enabled = false;
     public RehabXROrigin XR_Origin;
     public SubViewport FE_XR_Viewport;
+    public bool IsLoadingXR;
     
 
     public RehabScene()
@@ -168,6 +169,7 @@ public partial class RehabScene : Node3D
     public async void LoadScene(string path)
     {
         GD.Print($"[ROOT] Loading {path}");
+        if (XR_Enabled) IsLoadingXR = true;
         UnloadAllChunks();
         LoadingChunkName = path.Split("/").Last().Replace(".tscn","");
         PlayerCam.FullReset();
@@ -229,10 +231,15 @@ public partial class RehabScene : Node3D
         if (XR_Enabled) 
         {
             loadedScene.Visible = true;
+            foreach (var link in loadedScene.Links)
+            {
+                link.UpdateVisibility();
+            }
             if (!string.IsNullOrWhiteSpace(SkydomePath))
                 Skydome.Visible = true;
             XR_Origin.ToggleHands(true);
         }
+        IsLoadingXR = false;
     }
 
     public Node3D LoadChunk(PackedScene chunk, string chunkName, Node3D holder)
@@ -353,11 +360,19 @@ public partial class RehabScene : Node3D
 
     async void SpawnSkydome(string path)
     {
-        ResourceLoader.LoadThreadedRequest(path);
-        while (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.InProgress)
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        var sky = (PackedScene)ResourceLoader.LoadThreadedGet(path);
-        Skydome = (Node3D)sky.Instantiate();
+        if (OS.GetName() == "Android")
+        {
+            var sky = (PackedScene)ResourceLoader.Load(path);
+            Skydome = (Node3D)sky.Instantiate();
+        }
+        else
+        {
+            ResourceLoader.LoadThreadedRequest(path);
+            while (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.InProgress)
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            var sky = (PackedScene)ResourceLoader.LoadThreadedGet(path);
+            Skydome = (Node3D)sky.Instantiate();
+        }
         AddChild(Skydome);
         SkydomePath = path;
     }
@@ -474,15 +489,25 @@ public partial class RehabScene : Node3D
             musicFader = (MusicFader)AudioMusic;
             musicFader.IsFadingOut = false;
         }
-        ResourceLoader.LoadThreadedRequest(path);
-        while (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.InProgress)
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        if (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.Loaded)
+        if (OS.GetName() == "Android")
         {
-            var loadedTrack = (AudioStream)ResourceLoader.LoadThreadedGet(path);
+            var loadedTrack = (AudioStream)ResourceLoader.Load(path);
             AudioMusic.Stream = loadedTrack;
             AudioMusic.VolumeDb = 0.0f;
             AudioMusic.Play();
+        }
+        else
+        {
+            ResourceLoader.LoadThreadedRequest(path);
+            while (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.InProgress)
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.Loaded)
+            {
+                var loadedTrack = (AudioStream)ResourceLoader.LoadThreadedGet(path);
+                AudioMusic.Stream = loadedTrack;
+                AudioMusic.VolumeDb = 0.0f;
+                AudioMusic.Play();
+            }
         }
         MusicSwitching = false;
     }
@@ -508,15 +533,25 @@ public partial class RehabScene : Node3D
             musicFader = (MusicFader)AudioAmbience;
             musicFader.IsFadingOut = false;
         }
-        ResourceLoader.LoadThreadedRequest(path);
-        while (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.InProgress)
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        if (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.Loaded)
+        if (OS.GetName() == "Android")
         {
-            var loadedTrack = ResourceLoader.LoadThreadedGet(path);
-            AudioAmbience.Stream = (AudioStream)loadedTrack;
+            var loadedTrack = (AudioStream)ResourceLoader.Load(path);
+            AudioAmbience.Stream = loadedTrack;
             AudioAmbience.VolumeDb = -10.0f;
             AudioAmbience.Play();
+        }
+        else
+        {
+            ResourceLoader.LoadThreadedRequest(path);
+            while (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.InProgress)
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.Loaded)
+            {
+                var loadedTrack = (AudioStream)ResourceLoader.LoadThreadedGet(path);
+                AudioAmbience.Stream = loadedTrack;
+                AudioAmbience.VolumeDb = -10.0f;
+                AudioAmbience.Play();
+            }
         }
         AmbSwitching = false;
     }

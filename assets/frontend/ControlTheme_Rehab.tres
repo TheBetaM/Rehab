@@ -1,8 +1,39 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://b06yjyl4s3uf6"]
+[gd_resource type="Theme" load_steps=17 format=3 uid="uid://b06yjyl4s3uf6"]
 
 [ext_resource type="FontVariation" uid="uid://b0d28n0ldq4v0" path="res://assets/frontend/TwinsFont.tres" id="1_6fysd"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dj7vc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uumga"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_24144"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l31vd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tmed8"]
+content_margin_left = 0.0
+content_margin_top = 4.0
+content_margin_right = 0.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.501961)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rdchy"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xofbv"]
 bg_color = Color(0, 0, 0, 0.25098)
@@ -65,6 +96,11 @@ Button/constants/outline_size = 16
 Button/font_sizes/font_size = 32
 Button/fonts/font = ExtResource("1_6fysd")
 Button/styles/focus = SubResource("StyleBoxEmpty_dj7vc")
+HScrollBar/styles/grabber = SubResource("StyleBoxFlat_uumga")
+HScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_24144")
+HScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_l31vd")
+HScrollBar/styles/scroll = SubResource("StyleBoxFlat_tmed8")
+HScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_rdchy")
 Label/colors/font_color = Color(1, 0, 0, 1)
 Label/colors/font_outline_color = Color(0, 1, 0, 1)
 Label/colors/font_shadow_color = Color(0, 0, 1, 1)

@@ -123,8 +123,9 @@ offset_right = 100.0
 offset_bottom = 185.0
 grow_vertical = 2
 rotation = 0.174533
+theme = ExtResource("1")
 follow_focus = true
-horizontal_scroll_mode = 3
+horizontal_scroll_mode = 2
 vertical_scroll_mode = 0
 
 [node name="Control" type="Control" parent="SimpleList"]

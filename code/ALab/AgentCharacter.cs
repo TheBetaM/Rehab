@@ -523,7 +523,7 @@ public partial class AgentCharacter : Agent
     {
         RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
         RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 0.75f);
-        RehabScene.Root.XR_Origin.GlobalRotation = GlobalRotation;
+        RehabScene.Root.XR_Origin.GlobalRotationDegrees = new Vector3(GlobalRotationDegrees.X, GlobalRotationDegrees.Y + 180f, GlobalRotationDegrees.Z);
         XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
         Visible = false;
         string RHandPath = "res://assets/scenes/xr/XRHand_Crash.tscn";

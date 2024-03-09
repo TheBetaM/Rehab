@@ -71,6 +71,8 @@ public partial class LevelSelectList : Control
         SetTexture(GetNode<Button>("SimpleList/Control/Button17"), $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level13.res", "#FE-LevelName-016");
         GetNode<ScrollContainer>("AdvList").GetVScrollBar().Scale = new Vector2(6f, 1f);
         GetNode<ScrollContainer>("AdvList").GetVScrollBar().PivotOffset = new Vector2(GetNode<ScrollContainer>("AdvList").GetVScrollBar().Size.X, GetNode<ScrollContainer>("AdvList").GetVScrollBar().PivotOffset.Y);
+        GetNode<ScrollContainer>("SimpleList").GetHScrollBar().Scale = new Vector2(1f, 4f);
+        GetNode<ScrollContainer>("SimpleList").GetHScrollBar().PivotOffset = new Vector2(GetNode<ScrollContainer>("SimpleList").GetVScrollBar().Size.X, 8f);
     }
 
     public void GenerateLevels()

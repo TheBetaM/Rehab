@@ -159,7 +159,7 @@ public partial class ChunkLink : Node3D
             }
         }
         RehabScene.Root.LoadChunk(LoadedScene, ChunkName, GetNode<Node3D>("ChunkHolder"));
-        if (RehabScene.Root.ChunkNames.Contains(ChunkName) && SpawnInvisible)
+        if (RehabScene.Root.ChunkNames.Contains(ChunkName) && (SpawnInvisible || RehabScene.Root.IsLoadingXR))
         {
             int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
             RehabScene.Root.Chunks[ind].Visible = false;
@@ -176,5 +176,23 @@ public partial class ChunkLink : Node3D
     public void SwitchToChunk(ChunkScene chunk)
     {
         RehabScene.Root.SwitchToChunk(chunk);
+    }
+
+    public void UpdateVisibility()
+    {
+        if (RehabScene.Root.ChunkNames.Contains(ChunkName))
+        {
+            int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
+            if (SpawnInvisible)
+            {
+                RehabScene.Root.Chunks[ind].Visible = false;
+                RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
+            }
+            else
+            {
+                RehabScene.Root.Chunks[ind].Visible = true;
+                RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Inherit;
+            }
+        }
     }
 }

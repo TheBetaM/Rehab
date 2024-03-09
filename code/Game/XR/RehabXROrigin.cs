@@ -109,7 +109,7 @@ public partial class RehabXROrigin : XROrigin3D
         }
 
         if (TurnCooldown > 0f) TurnCooldown -= delta;
-        if (Math.Abs(camdirX) > 0.95f && TurnCooldown <= 0f)
+        if (Math.Abs(camdirX) > 0.45f && TurnCooldown <= 0f)
         {
             var camPos = XR_Camera.GlobalPosition;
             if (camdirX > 0f)

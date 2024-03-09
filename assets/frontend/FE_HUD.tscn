@@ -91,7 +91,7 @@ offset_bottom = 150.0
 
 [node name="CountWumpa" type="Label" parent="Wumpa"]
 material = SubResource("ShaderMaterial_n5075")
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -137,7 +137,7 @@ grow_horizontal = 0
 
 [node name="CountLives" type="Label" parent="Lives"]
 material = SubResource("ShaderMaterial_f861j")
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
