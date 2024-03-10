@@ -15,6 +15,7 @@ public partial class CutsceneChunk : ChunkScene
     public override void _Ready()
     {
         RehabScene.Root.StopMusic();
+        RehabScene.GameHUD.OnUnPause();
         if (RehabGame.VoiceLang != RehabGame.VoiceLanguage.English)
         {
             NestedAudioUpdate(this);

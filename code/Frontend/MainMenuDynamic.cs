@@ -49,8 +49,6 @@ public partial class MainMenuDynamic : Control
         if (!ActorsExist)
         {
             LoadActors();
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         }
         if (ActorsExist)
         {
@@ -58,8 +56,8 @@ public partial class MainMenuDynamic : Control
             {
                 GetNode<AudioStreamPlayer>("AudioStreamPlayer").Stream = (AudioStream)ResourceLoader.Load(AudioPath);
                 GetNode<AudioStreamPlayer>("AudioStreamPlayer").Play();
-                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             }
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             if (ResourceLoader.Exists(DemoCheck))
             {
                 ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Play("scene/menu_start");
@@ -70,6 +68,7 @@ public partial class MainMenuDynamic : Control
             }
         }
         GetNode<AnimationPlayer>("AnimationPlayer").Play("menu_start");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         Visible = true;
     }
 

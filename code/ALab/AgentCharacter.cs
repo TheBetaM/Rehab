@@ -91,6 +91,7 @@ public partial class AgentCharacter : Agent
     public float spinTimer;
     bool isCrouched;
     float slideTimer;
+    float coyoteTimer;
 
     AudioStream FS_Dirt_1;
     AudioStream FS_Dirt_2 ;
@@ -353,15 +354,25 @@ public partial class AgentCharacter : Agent
             }
         }
             
-        if (!isJumping && !onFloor && spinTimer <= 0.0 && slideTimer <= 0.0)
-            DoAnimation(27, false);
+        if (!isJumping && !onFloor)
+        {
+            coyoteTimer -= delta;
+            if (coyoteTimer <= 0f && spinTimer <= 0.0 && slideTimer <= 0.0)
+            {
+                DoAnimation(27, false);
+            }
+        }
         
         if (!onFloor)
         {
-            if (gravityOn)
+            if (gravityOn && (coyoteTimer <= 0f || isJumping))
                 char_velocity.Y -= RegFloat[(int)CharFSlot.AirGravity] * delta;
             else
                 char_velocity.Y = 0f;
+        }
+        else
+        {
+            coyoteTimer = 0.1f;
         }
         
         Set("velocity", char_velocity);

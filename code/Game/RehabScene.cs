@@ -344,7 +344,6 @@ public partial class RehabScene : Node3D
         
         // Disposing of unlinked chunks
         var NameCopy = new List<StringName>(ChunkNames);
-        var NameQueue = new List<StringName>();
         foreach (var cn in NameCopy)
         {
             var found = false;
@@ -358,13 +357,9 @@ public partial class RehabScene : Node3D
             }
             if (!found && cn != chunk.Name)
             {
-                int ind = ChunkNames.IndexOf(cn);
-                Chunks[ind].Visible = false;
-                Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
-                NameQueue.Add(cn);
+                UnloadChunk(cn);
             }
         }
-        QueueUnload(NameQueue);
         
         ActiveChunk = chunk;
         chunk.Visible = true;

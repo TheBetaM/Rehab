@@ -17,6 +17,8 @@ public partial class ChunkLink : Node3D
     Area3D LoadTriggers; //todo array
     bool IsLoading;
     bool InUse;
+    bool AllowSpawn;
+    public static bool AndroidStall = false;
 
     public override void _Ready()
     {
@@ -40,11 +42,20 @@ public partial class ChunkLink : Node3D
         }
         else if (ParentScene.ActiveScene)
         {
-            SpawnChunk();
+            AllowSpawn = true;
         }
 
         if (!ParentScene.ActiveScene)
             DisableLinkNow();
+    }
+
+    public override void _Process(double delta)
+    {
+        // Android crashing bug workaround Part 1
+        if (AllowSpawn && !IsLoading && !InUse && !RehabScene.Root.ChunkNames.Contains(ChunkName))
+        {
+            SpawnChunk();
+        }
     }
 
     public void DisableLink()
@@ -89,7 +100,6 @@ public partial class ChunkLink : Node3D
         if (body is AgentCharacter agent)
         {
             if (agent.GetParent() is Agent) return; // attached co-op character
-            //DisableLinkNow(); // todo remove this?
             InUse = true;
             agent.isSwitchingChunks = true;
             agent.isReparenting = true;
@@ -113,7 +123,7 @@ public partial class ChunkLink : Node3D
         if (RehabScene.Root.ChunkNames.Contains(ChunkName)) return;
         if (!ParentScene.ActiveScene || IsLoading || InUse) return;
         if (body is AgentCharacter agent && AgentCharacter.activeCharacter == agent)
-            SpawnChunk();
+            AllowSpawn = true;
     }
 
     public void LoadTrigExit(Node3D body)
@@ -125,6 +135,7 @@ public partial class ChunkLink : Node3D
         {
             if (AgentCharacter.activeCharacter == agent)
             {
+                AllowSpawn = false;
                 DespawnChunk();
             }
         }
@@ -141,24 +152,19 @@ public partial class ChunkLink : Node3D
             {
                 if (OS.GetName() == "Android")
                 {
-                    // bug: Android crashes trying to stream too many levels from a pack
-                    if (!RehabScene.Root.IsLoadingScene)
-                    {
-                        RehabScene.GameHUD.FlashMessage("#FE-Loading", 0.25f);
-                        await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
-                    }
-                    LoadedScene = (PackedScene)ResourceLoader.Load(FullChunkPath);
-                }
-                else
-                {
-                    ResourceLoader.LoadThreadedRequest(FullChunkPath);
-                    while (ResourceLoader.LoadThreadedGetStatus(FullChunkPath) == ResourceLoader.ThreadLoadStatus.InProgress)
+                    // Android crashing bug workaround Part 2
+                    while (AndroidStall)
                         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-                    if (ResourceLoader.LoadThreadedGetStatus(FullChunkPath) == ResourceLoader.ThreadLoadStatus.Loaded)
-                        LoadedScene = (PackedScene)ResourceLoader.LoadThreadedGet(FullChunkPath);
-                    else
-                        GD.PrintErr("[ChunkLink] FAILED TO LOAD SCENE AT " + FullChunkPath);
+                    AndroidStall = true;
                 }
+                ResourceLoader.LoadThreadedRequest(FullChunkPath);
+                while (ResourceLoader.LoadThreadedGetStatus(FullChunkPath) == ResourceLoader.ThreadLoadStatus.InProgress)
+                    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                if (ResourceLoader.LoadThreadedGetStatus(FullChunkPath) == ResourceLoader.ThreadLoadStatus.Loaded)
+                    LoadedScene = (PackedScene)ResourceLoader.LoadThreadedGet(FullChunkPath);
+                else
+                    GD.PrintErr("[ChunkLink] FAILED TO LOAD SCENE AT " + FullChunkPath);
+                AndroidStall = false;
             }
             else
             {
