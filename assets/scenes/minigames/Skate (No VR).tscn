@@ -1,0 +1,914 @@
+[gd_scene load_steps=183 format=3 uid="uid://dnbcshsjcsjdx"]
+
+[ext_resource type="Script" path="res://code/demo/MinigameChunk.cs" id="1_2gitm"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_ice_slipslide_l05start-Collision.tscn" id="2_qgnyc"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_ice_slipslide_l05start-Scenery.tscn" id="3_iahhd"]
+[ext_resource type="Script" path="res://code/Containers/ChunkLink.cs" id="4_jxkvk"]
+[ext_resource type="PackedScene" path="res://import/Actors/Ice_CortexDoorCockBlocker.tscn" id="5_n1rxu"]
+[ext_resource type="AudioStream" path="res://import/Sounds/GlobalVO/English/DRC185_P.res" id="6_6gcws"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Rig_Crash.tscn" id="6_wvyf2"]
+[ext_resource type="Animation" path="res://import/Rigs/RigRESET_Crash.res" id="7_f4hmo"]
+[ext_resource type="AudioStream" path="res://import/Sounds/SlipSlide_Cutscene_SFX.res" id="7_j3hw6"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Rig_Cortex.tscn" id="7_l33s5"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_DeathGeneric.res" id="8_ce2c2"]
+[ext_resource type="AudioStream" path="res://import/Sounds/Music/1_1_Nsanity_Island.res" id="8_j4twt"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_DeathDrown.res" id="9_dsh2r"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Idle.res" id="10_ba1tp"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_ShuffleFeet.res" id="11_uhpyq"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Walk.res" id="12_5mhvt"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Run.res" id="13_gstft"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SpinRecover.res" id="14_o0ux0"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SpinRecoverFall.res" id="15_rahg0"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Punch.res" id="16_gal3f"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_PunchToStand.res" id="17_dfxgv"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_JumpStart.res" id="18_a6h6w"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_JumpApex.res" id="19_344fq"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_DoubleJumpFlip.res" id="20_qrt0a"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_DoubleJumpFistUp.res" id="21_6sj3x"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_JumpToBodyslam.res" id="22_updkk"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_BodyslamHang.res" id="23_b7pks"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_BodyslamToStand.res" id="24_rnu5m"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_JumpFall.res" id="25_gq80l"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_JumpLand.res" id="26_jelrs"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_LandToRun.res" id="27_22w8u"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_FallDamage.res" id="28_qsmt2"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_CrouchIdle.res" id="29_c45bl"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_CrouchToCrawl.res" id="30_5m63k"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Crawl.res" id="31_j8qtv"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_CrawlToIdle.res" id="32_xcq3g"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SlidePose.res" id="33_tu0ew"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SlideToStand.res" id="34_s77fl"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_WalkRoll.res" id="35_ond0v"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_RunRoll.res" id="36_j7s8j"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_TwinSlam.res" id="37_4s06g"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SlideJump.res" id="38_2ype3"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_IdleYawn.res" id="39_b3pom"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_IdleScratch.res" id="40_ikwgj"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_OnEdge.res" id="41_a3ccl"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_OnEdgeIdle.res" id="42_fllsh"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Brawl1.res" id="43_wocmb"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_FlyingKickPose.res" id="44_wa4yx"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_StompKick.res" id="45_ewmpp"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Brawl2.res" id="46_0ajth"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_BrawlGetSpanked.res" id="47_3fxi2"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_BrawlStrangle.res" id="48_o6qmd"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_BrawlStretch.res" id="49_4bo3n"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkatePose.res" id="50_7yv4v"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_BrawlHeadbutt.res" id="51_4lf2c"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateBoostPose.res" id="52_11ckc"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateIdleFront.res" id="53_h2750"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateLeanLeftFront.res" id="54_jkbta"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateLeanRightFront.res" id="55_suq2g"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateIdleBack.res" id="56_xn3c4"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateLeanLeftBack.res" id="57_ld4c8"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateLeanRightBack.res" id="58_cahkg"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateKickflip.res" id="59_clucs"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateBoostBack.res" id="60_xw0ty"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateBoostFront.res" id="61_6u4ta"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateBoostRight.res" id="62_oymv1"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateBoostLeft.res" id="63_3ap2x"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateJump.res" id="64_tisty"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateGrindFront.res" id="65_v60rm"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateGrindBack.res" id="66_7daro"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_BallPose.res" id="67_p27p0"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_BallUncurl.res" id="68_5een7"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_DeathFalloff.res" id="69_p7swi"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Damaged.res" id="70_d4ahu"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_TwinThrow.res" id="71_hylmm"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SpinThrow.res" id="72_mmpdn"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_UnkPelvisSpin.res" id="73_vk1c1"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_GroundPullOut.res" id="74_jvrya"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_UnkFlap.res" id="75_gv63g"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateFallPose.res" id="76_xwf7f"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateFall.res" id="77_yhay1"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_SkateWobble.res" id="78_mrwbq"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_IdleLookBehindLeft.res" id="79_jmrls"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_IdleLookBehindRight.res" id="80_k46bu"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_IdleLookAround.res" id="81_t5wea"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_IdleScratchHead.res" id="82_mlm05"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_IdleEarPick.res" id="83_rii20"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_IdleButtScratch.res" id="84_evdkn"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_IdleFingerGuns.res" id="85_7q2hv"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_IdleBoxing.res" id="86_fyx4f"]
+[ext_resource type="Animation" path="res://import/Rigs/RigRESET_Cortex.res" id="88_i6cgs"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_DeathGeneric.res" id="89_626gx"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Idle.res" id="90_ew3es"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Cutscene_SlipSlide_Look1.res" id="90_s0yof"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_ShuffleFeet.res" id="91_sf5qw"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Cutscene_SlipSlide_Look2.res" id="91_w064b"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Cutscene_SlipSlide_Look3.res" id="92_nwcav"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Walk.res" id="92_o5s67"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Run.res" id="93_7mbi5"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Cutscene_SlipSlide_Move.res" id="93_yxybk"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Cutscene_SlipSlide_Kick.res" id="94_ac6j1"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_StrafeLeftTool.res" id="94_islul"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_StrafeRightTool.res" id="95_bttai"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Cutscene_SlipSlide_KickEnd.res" id="95_dfaiv"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SpinRecover.res" id="96_tqayw"]
+[ext_resource type="Animation" path="res://import/Animations/Crash_Cutscene_SlipSlide_Move2.res" id="96_vbw65"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_JumpTool.res" id="97_v5yne"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_RunToJumpTool.res" id="98_cgfud"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_LandTool.res" id="99_cl176"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_LandToRunTool.res" id="100_c3kpq"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Crouch.res" id="101_k0yqe"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_CrouchToCrawl.res" id="102_rva4e"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Crawl.res" id="103_lymsa"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_RunToSlide.res" id="104_obxj6"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Slide.res" id="105_c1rxo"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SlideRecover.res" id="106_ixf2i"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_FireTool.res" id="107_ywx5n"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_IdleTool.res" id="108_cvs48"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_WalkTool.res" id="109_rcplh"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_RunTool.res" id="110_cx4ib"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_JumpToDownblast.res" id="111_e1svl"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_TwinSlam.res" id="112_g3s4u"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SpinThrown.res" id="113_yvs3a"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_TwinThrown.res" id="114_vd38l"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_ThrownToFall.res" id="115_ojos2"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_FireTool2.res" id="116_54lpk"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_FireTool3.res" id="117_usysu"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_FireTool4.res" id="118_7du32"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_CoOpDragged.res" id="119_dv8hv"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_CoOpStrafe.res" id="120_bnh2n"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_CoOpStrafeCrouched.res" id="121_mcsxq"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Brawl1.res" id="122_dxfua"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Brawl2.res" id="123_ogrp4"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_BrawlSpank.res" id="124_ejphs"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_BrawlStrangle.res" id="125_6mluu"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_BrawlStretch.res" id="126_lu86y"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkatePose.res" id="127_aq3rv"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Cutscene_RollerBrawlIntroJump.res" id="128_3f3r7"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_BrawlHeadbutt.res" id="129_2la2u"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_ShuffleFeetTool.res" id="130_44dtn"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateIdleFront.res" id="131_0ahk3"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateIdle2Front.res" id="132_kqlwq"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateIdle3Front.res" id="133_x20j4"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateIdle1Back.res" id="134_sgrrp"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateIdle2Back.res" id="135_3iv5f"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateIdle3Back.res" id="136_ak07j"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateFlatPose.res" id="137_74ry0"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateBackward.res" id="138_o5bcy"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateGrindFront.res" id="139_wab7d"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateGrindBack.res" id="140_jchi5"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_BallPose.res" id="141_6usgt"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_BallUncurl.res" id="142_p571o"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_DeathFalloff.res" id="143_mdskm"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_RunDocAmokBeeHive.res" id="144_cd0u5"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_RunDocAmok.res" id="145_od6kr"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_CoOpJump.res" id="146_6eebu"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Cutscene_DocAmokBeeHive.res" id="147_2iau0"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_DocAmokBeeHiveStart.res" id="148_b1lv7"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_IdleStretch.res" id="149_4pgx6"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_TeleportStart.res" id="150_7f0ow"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Holler.res" id="151_g2wgu"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_RunScared.res" id="152_p1r7r"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_IdleScared.res" id="153_ucsmp"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_WalkScared.res" id="154_b68ge"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateFall.res" id="155_5bh04"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_IdleThink.res" id="156_mqndb"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_IdleScratchBack.res" id="157_1ccp1"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_IdleDance.res" id="158_y81lu"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_IdleHug.res" id="159_atv20"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_IdleYawn.res" id="160_cjkoi"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_DamageGeneric.res" id="161_1jny8"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Cutscene_SlipSlide.res" id="172_ofaw4"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Cutscene_SlipSlide_Idle.res" id="173_0oacs"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Cutscene_SlipSlide_Kicked.res" id="174_d71wy"]
+[ext_resource type="Animation" path="res://import/Animations/Cortex_Cutscene_SlipSlide_KickedEnd.res" id="175_ylkk3"]
+
+[sub_resource type="Environment" id="1"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.333333, 0.333333, 0.333333, 1)
+ambient_light_energy = 4.5
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.005
+volumetric_fog_emission = Color(0.5, 0.5, 1, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="2"]
+points = PackedVector3Array(-160.835, -168.162, 150.487, -160.835, -168.162, 180.47, -160.835, -138.179, 180.47, -160.835, -138.179, 150.487)
+
+[sub_resource type="Animation" id="Animation_3wdrs"]
+resource_name = "cutscene"
+length = 12.0
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Actors/MinigameCrash/Rig_Crash/AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("Crash_Idle", "Crash_Idle", "Crash_Idle", "Crash_Idle", "Crash_Idle", "Crash_Idle", "Crash_Idle"),
+"times": PackedFloat32Array(0, 1.5, 3, 4.5, 6, 7.5, 9)
+}
+tracks/1/type = "animation"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Actors/MinigameCortex/Rig_Cortex/AnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": PackedStringArray("Cortex_Cutscene_SlipSlide"),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Cutscene/VoiceAudio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_nb6vw"]
+resource_name = "RESET"
+length = 0.1
+step = 0.01
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Actors/MinigameCrash/Rig_Crash/AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("RESET"),
+"times": PackedFloat32Array(0.02)
+}
+tracks/1/type = "animation"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Actors/MinigameCortex/Rig_Cortex/AnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": PackedStringArray("RESET"),
+"times": PackedFloat32Array(0.02)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gdcrx"]
+_data = {
+"RESET": SubResource("Animation_nb6vw"),
+"cutscene": SubResource("Animation_3wdrs")
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_euk0q"]
+_data = {
+"Crash_BallPose": ExtResource("67_p27p0"),
+"Crash_BallUncurl": ExtResource("68_5een7"),
+"Crash_BodyslamHang": ExtResource("23_b7pks"),
+"Crash_BodyslamToStand": ExtResource("24_rnu5m"),
+"Crash_Brawl1": ExtResource("43_wocmb"),
+"Crash_Brawl2": ExtResource("46_0ajth"),
+"Crash_BrawlGetSpanked": ExtResource("47_3fxi2"),
+"Crash_BrawlHeadbutt": ExtResource("51_4lf2c"),
+"Crash_BrawlStrangle": ExtResource("48_o6qmd"),
+"Crash_BrawlStretch": ExtResource("49_4bo3n"),
+"Crash_Crawl": ExtResource("31_j8qtv"),
+"Crash_CrawlToIdle": ExtResource("32_xcq3g"),
+"Crash_CrouchIdle": ExtResource("29_c45bl"),
+"Crash_CrouchToCrawl": ExtResource("30_5m63k"),
+"Crash_Cutscene_SlipSlide_Kick": ExtResource("94_ac6j1"),
+"Crash_Cutscene_SlipSlide_KickEnd": ExtResource("95_dfaiv"),
+"Crash_Cutscene_SlipSlide_Look1": ExtResource("90_s0yof"),
+"Crash_Cutscene_SlipSlide_Look2": ExtResource("91_w064b"),
+"Crash_Cutscene_SlipSlide_Look3": ExtResource("92_nwcav"),
+"Crash_Cutscene_SlipSlide_Move": ExtResource("93_yxybk"),
+"Crash_Cutscene_SlipSlide_Move2": ExtResource("96_vbw65"),
+"Crash_Damaged": ExtResource("70_d4ahu"),
+"Crash_DeathDrown": ExtResource("9_dsh2r"),
+"Crash_DeathFalloff": ExtResource("69_p7swi"),
+"Crash_DeathGeneric": ExtResource("8_ce2c2"),
+"Crash_DoubleJumpFistUp": ExtResource("21_6sj3x"),
+"Crash_DoubleJumpFlip": ExtResource("20_qrt0a"),
+"Crash_FallDamage": ExtResource("28_qsmt2"),
+"Crash_FlyingKickPose": ExtResource("44_wa4yx"),
+"Crash_GroundPullOut": ExtResource("74_jvrya"),
+"Crash_Idle": ExtResource("10_ba1tp"),
+"Crash_IdleBoxing": ExtResource("86_fyx4f"),
+"Crash_IdleButtScratch": ExtResource("84_evdkn"),
+"Crash_IdleEarPick": ExtResource("83_rii20"),
+"Crash_IdleFingerGuns": ExtResource("85_7q2hv"),
+"Crash_IdleLookAround": ExtResource("81_t5wea"),
+"Crash_IdleLookBehindLeft": ExtResource("79_jmrls"),
+"Crash_IdleLookBehindRight": ExtResource("80_k46bu"),
+"Crash_IdleScratch": ExtResource("40_ikwgj"),
+"Crash_IdleScratchHead": ExtResource("82_mlm05"),
+"Crash_IdleYawn": ExtResource("39_b3pom"),
+"Crash_JumpApex": ExtResource("19_344fq"),
+"Crash_JumpFall": ExtResource("25_gq80l"),
+"Crash_JumpLand": ExtResource("26_jelrs"),
+"Crash_JumpStart": ExtResource("18_a6h6w"),
+"Crash_JumpToBodyslam": ExtResource("22_updkk"),
+"Crash_LandToRun": ExtResource("27_22w8u"),
+"Crash_OnEdge": ExtResource("41_a3ccl"),
+"Crash_OnEdgeIdle": ExtResource("42_fllsh"),
+"Crash_Punch": ExtResource("16_gal3f"),
+"Crash_PunchToStand": ExtResource("17_dfxgv"),
+"Crash_Run": ExtResource("13_gstft"),
+"Crash_RunRoll": ExtResource("36_j7s8j"),
+"Crash_ShuffleFeet": ExtResource("11_uhpyq"),
+"Crash_SkateBoostBack": ExtResource("60_xw0ty"),
+"Crash_SkateBoostFront": ExtResource("61_6u4ta"),
+"Crash_SkateBoostLeft": ExtResource("63_3ap2x"),
+"Crash_SkateBoostPose": ExtResource("52_11ckc"),
+"Crash_SkateBoostRight": ExtResource("62_oymv1"),
+"Crash_SkateFall": ExtResource("77_yhay1"),
+"Crash_SkateFallPose": ExtResource("76_xwf7f"),
+"Crash_SkateGrindBack": ExtResource("66_7daro"),
+"Crash_SkateGrindFront": ExtResource("65_v60rm"),
+"Crash_SkateIdleBack": ExtResource("56_xn3c4"),
+"Crash_SkateIdleFront": ExtResource("53_h2750"),
+"Crash_SkateJump": ExtResource("64_tisty"),
+"Crash_SkateKickflip": ExtResource("59_clucs"),
+"Crash_SkateLeanLeftBack": ExtResource("57_ld4c8"),
+"Crash_SkateLeanLeftFront": ExtResource("54_jkbta"),
+"Crash_SkateLeanRightBack": ExtResource("58_cahkg"),
+"Crash_SkateLeanRightFront": ExtResource("55_suq2g"),
+"Crash_SkatePose": ExtResource("50_7yv4v"),
+"Crash_SkateWobble": ExtResource("78_mrwbq"),
+"Crash_SlideJump": ExtResource("38_2ype3"),
+"Crash_SlidePose": ExtResource("33_tu0ew"),
+"Crash_SlideToStand": ExtResource("34_s77fl"),
+"Crash_SpinRecover": ExtResource("14_o0ux0"),
+"Crash_SpinRecoverFall": ExtResource("15_rahg0"),
+"Crash_SpinThrow": ExtResource("72_mmpdn"),
+"Crash_StompKick": ExtResource("45_ewmpp"),
+"Crash_TwinSlam": ExtResource("37_4s06g"),
+"Crash_TwinThrow": ExtResource("71_hylmm"),
+"Crash_UnkFlap": ExtResource("75_gv63g"),
+"Crash_UnkPelvisSpin": ExtResource("73_vk1c1"),
+"Crash_Walk": ExtResource("12_5mhvt"),
+"Crash_WalkRoll": ExtResource("35_ond0v"),
+"RESET": ExtResource("7_f4hmo")
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2dxdn"]
+_data = {
+"Cortex_BallPose": ExtResource("141_6usgt"),
+"Cortex_BallUncurl": ExtResource("142_p571o"),
+"Cortex_Brawl1": ExtResource("122_dxfua"),
+"Cortex_Brawl2": ExtResource("123_ogrp4"),
+"Cortex_BrawlHeadbutt": ExtResource("129_2la2u"),
+"Cortex_BrawlSpank": ExtResource("124_ejphs"),
+"Cortex_BrawlStrangle": ExtResource("125_6mluu"),
+"Cortex_BrawlStretch": ExtResource("126_lu86y"),
+"Cortex_CoOpDragged": ExtResource("119_dv8hv"),
+"Cortex_CoOpJump": ExtResource("146_6eebu"),
+"Cortex_CoOpStrafe": ExtResource("120_bnh2n"),
+"Cortex_CoOpStrafeCrouched": ExtResource("121_mcsxq"),
+"Cortex_Crawl": ExtResource("103_lymsa"),
+"Cortex_Crouch": ExtResource("101_k0yqe"),
+"Cortex_CrouchToCrawl": ExtResource("102_rva4e"),
+"Cortex_Cutscene_DocAmokBeeHive": ExtResource("147_2iau0"),
+"Cortex_Cutscene_RollerBrawlIntroJump": ExtResource("128_3f3r7"),
+"Cortex_Cutscene_SlipSlide": ExtResource("172_ofaw4"),
+"Cortex_Cutscene_SlipSlide_Idle": ExtResource("173_0oacs"),
+"Cortex_Cutscene_SlipSlide_Kicked": ExtResource("174_d71wy"),
+"Cortex_Cutscene_SlipSlide_KickedEnd": ExtResource("175_ylkk3"),
+"Cortex_DamageGeneric": ExtResource("161_1jny8"),
+"Cortex_DeathFalloff": ExtResource("143_mdskm"),
+"Cortex_DeathGeneric": ExtResource("89_626gx"),
+"Cortex_DocAmokBeeHiveStart": ExtResource("148_b1lv7"),
+"Cortex_FireTool": ExtResource("107_ywx5n"),
+"Cortex_FireTool2": ExtResource("116_54lpk"),
+"Cortex_FireTool3": ExtResource("117_usysu"),
+"Cortex_FireTool4": ExtResource("118_7du32"),
+"Cortex_Holler": ExtResource("151_g2wgu"),
+"Cortex_Idle": ExtResource("90_ew3es"),
+"Cortex_IdleDance": ExtResource("158_y81lu"),
+"Cortex_IdleHug": ExtResource("159_atv20"),
+"Cortex_IdleScared": ExtResource("153_ucsmp"),
+"Cortex_IdleScratchBack": ExtResource("157_1ccp1"),
+"Cortex_IdleStretch": ExtResource("149_4pgx6"),
+"Cortex_IdleThink": ExtResource("156_mqndb"),
+"Cortex_IdleTool": ExtResource("108_cvs48"),
+"Cortex_IdleYawn": ExtResource("160_cjkoi"),
+"Cortex_JumpToDownblast": ExtResource("111_e1svl"),
+"Cortex_JumpTool": ExtResource("97_v5yne"),
+"Cortex_LandToRunTool": ExtResource("100_c3kpq"),
+"Cortex_LandTool": ExtResource("99_cl176"),
+"Cortex_Run": ExtResource("93_7mbi5"),
+"Cortex_RunDocAmok": ExtResource("145_od6kr"),
+"Cortex_RunDocAmokBeeHive": ExtResource("144_cd0u5"),
+"Cortex_RunScared": ExtResource("152_p1r7r"),
+"Cortex_RunToJumpTool": ExtResource("98_cgfud"),
+"Cortex_RunToSlide": ExtResource("104_obxj6"),
+"Cortex_RunTool": ExtResource("110_cx4ib"),
+"Cortex_ShuffleFeet": ExtResource("91_sf5qw"),
+"Cortex_ShuffleFeetTool": ExtResource("130_44dtn"),
+"Cortex_SkateBackward": ExtResource("138_o5bcy"),
+"Cortex_SkateFall": ExtResource("155_5bh04"),
+"Cortex_SkateFlatPose": ExtResource("137_74ry0"),
+"Cortex_SkateGrindBack": ExtResource("140_jchi5"),
+"Cortex_SkateGrindFront": ExtResource("139_wab7d"),
+"Cortex_SkateIdle1Back": ExtResource("134_sgrrp"),
+"Cortex_SkateIdle2Back": ExtResource("135_3iv5f"),
+"Cortex_SkateIdle2Front": ExtResource("132_kqlwq"),
+"Cortex_SkateIdle3Back": ExtResource("136_ak07j"),
+"Cortex_SkateIdle3Front": ExtResource("133_x20j4"),
+"Cortex_SkateIdleFront": ExtResource("131_0ahk3"),
+"Cortex_SkatePose": ExtResource("127_aq3rv"),
+"Cortex_Slide": ExtResource("105_c1rxo"),
+"Cortex_SlideRecover": ExtResource("106_ixf2i"),
+"Cortex_SpinRecover": ExtResource("96_tqayw"),
+"Cortex_SpinThrown": ExtResource("113_yvs3a"),
+"Cortex_StrafeLeftTool": ExtResource("94_islul"),
+"Cortex_StrafeRightTool": ExtResource("95_bttai"),
+"Cortex_TeleportStart": ExtResource("150_7f0ow"),
+"Cortex_ThrownToFall": ExtResource("115_ojos2"),
+"Cortex_TwinSlam": ExtResource("112_g3s4u"),
+"Cortex_TwinThrown": ExtResource("114_vd38l"),
+"Cortex_Walk": ExtResource("92_o5s67"),
+"Cortex_WalkScared": ExtResource("154_b68ge"),
+"Cortex_WalkTool": ExtResource("109_rcplh"),
+"RESET": ExtResource("88_i6cgs")
+}
+
+[node name="MinigameSkate_Start" type="Node3D"]
+script = ExtResource("1_2gitm")
+PortraitMode = true
+AnimPlayerPath = NodePath("AnimationPlayer")
+AnimCameraPath = NodePath("CutsceneCamera")
+SkydomePath = "Skydomes/Skydome_Ice.tscn"
+WorldEnv = SubResource("1")
+
+[node name="levels_ice_slipslide_l05start-Collision" parent="." instance=ExtResource("2_qgnyc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 160.8, 150, -166)
+visible = false
+
+[node name="levels_ice_slipslide_l05start-Scenery" parent="." instance=ExtResource("3_iahhd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 160.8, 150, -166)
+metadata/_edit_lock_ = true
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="Directional" type="Node3D" parent="Lights"]
+
+[node name="DirectionalLight0" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.540302, -1.19971e-16, 0.841471, 2.22045e-16, 1, 0, -0.841471, 1.86844e-16, 0.540302, 301.565, -514.267, 647.191)
+layers = 0
+light_color = Color(0.0180558, 0.337094, 0.64485, 1)
+light_energy = 1.55075
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight1" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.540302, -1.19971e-16, -0.841471, 2.22045e-16, 1, 0, 0.841471, -1.86844e-16, 0.540302, 301.565, -514.267, 647.191)
+layers = 0
+light_color = Color(0.265871, 0.368753, 0.365375, 1)
+light_energy = 2.71184
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="Links" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 160.8, 150, -166)
+
+[node name="Link0-levels_ice_slipslide_l05roids" type="Node3D" parent="Links"]
+script = ExtResource("4_jxkvk")
+ChunkPath = "Levels/levels_ice_slipslide_l05roids.tscn"
+ChunkName = "levels_ice_slipslide_l05roids"
+
+[node name="ChunkHolder" type="Node3D" parent="Links/Link0-levels_ice_slipslide_l05roids"]
+transform = Transform3D(1, -4.15263e-17, -1.92855e-16, 4.15263e-17, 1, 5.32907e-15, 1.92855e-16, 1.77636e-15, 1, -308.274, -355.915, 408.492)
+
+[node name="EnterTrigger" type="Area3D" parent="Links/Link0-levels_ice_slipslide_l05roids"]
+
+[node name="EnterTriggerShape" type="CollisionShape3D" parent="Links/Link0-levels_ice_slipslide_l05roids/EnterTrigger"]
+shape = SubResource("2")
+
+[node name="Locators" type="Node3D" parent="."]
+
+[node name="Paths" type="Node3D" parent="Locators"]
+
+[node name="PathsAI" type="Node3D" parent="Locators"]
+
+[node name="Points" type="Node3D" parent="Locators"]
+
+[node name="PointsAI" type="Node3D" parent="Locators"]
+
+[node name="Volumes" type="Node3D" parent="."]
+
+[node name="Triggers" type="Node3D" parent="Volumes"]
+
+[node name="CameraTriggers" type="Node3D" parent="Volumes"]
+
+[node name="Instances" type="Node3D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Instances")
+libraries = {
+"": SubResource("AnimationLibrary_gdcrx")
+}
+
+[node name="CutsceneCamera" type="Camera3D" parent="."]
+transform = Transform3D(0.785155, 0, 0.6193, 0, 1, 0, -0.6193, 0, 0.785155, 244.562, 250.171, -320.918)
+current = true
+far = 90000.0
+
+[node name="Cutscene" type="Node3D" parent="."]
+
+[node name="Ice_CortexDoorCockBlocker" parent="Cutscene" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_n1rxu")]
+transform = Transform3D(-8.30516e-08, -0.0578979, 0.827978, 0, 0.827978, 0.0578979, -1.9, 2.5308e-09, -3.61921e-08, 256.121, 249.018, -334.782)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="VoiceAudio" type="AudioStreamPlayer" parent="Cutscene"]
+stream = ExtResource("6_6gcws")
+bus = &"Voice"
+
+[node name="SFXAudio" type="AudioStreamPlayer" parent="Cutscene"]
+stream = ExtResource("7_j3hw6")
+bus = &"SFX"
+
+[node name="MusicAudio" type="AudioStreamPlayer" parent="Cutscene"]
+stream = ExtResource("8_j4twt")
+bus = &"Music"
+
+[node name="Actors" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 160.8, 150, -166)
+
+[node name="MinigameCrash" type="Node3D" parent="Actors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 82.6933, 99.0064, -170.568)
+
+[node name="Rig_Crash" parent="Actors/MinigameCrash" instance=ExtResource("6_wvyf2")]
+
+[node name="Armature" parent="Actors/MinigameCrash/Rig_Crash/RigidBody" index="0"]
+bones/0/enabled = true
+bones/1/enabled = true
+bones/2/enabled = true
+bones/2/rotation = Quaternion(0.99454, -0.0843827, -0.00317437, 0.0613115)
+bones/3/enabled = true
+bones/3/rotation = Quaternion(0.169019, -0.00510691, -0.00579773, 0.985583)
+bones/4/enabled = true
+bones/5/enabled = true
+bones/5/rotation = Quaternion(0.961262, 0, 0, 0.275637)
+bones/6/enabled = true
+bones/7/enabled = true
+bones/8/enabled = true
+bones/9/enabled = true
+bones/10/enabled = true
+bones/11/enabled = true
+bones/11/rotation = Quaternion(0.0610485, 0, 0, 0.998135)
+bones/12/enabled = true
+bones/12/rotation = Quaternion(0.113203, 0, 0, 0.993572)
+bones/13/enabled = true
+bones/14/enabled = true
+bones/15/enabled = true
+bones/16/enabled = true
+bones/17/enabled = true
+bones/17/rotation = Quaternion(0.939686, -0.227897, 0.226463, 0.117331)
+bones/18/enabled = true
+bones/19/enabled = true
+bones/20/enabled = true
+bones/21/enabled = true
+bones/21/rotation = Quaternion(-0.024053, 0, 0, 0.999711)
+bones/22/enabled = true
+bones/23/enabled = true
+bones/24/enabled = true
+bones/25/enabled = true
+bones/25/rotation = Quaternion(0.00197787, -0.113186, 0.0693083, 0.991152)
+bones/26/enabled = true
+bones/27/enabled = true
+bones/27/rotation = Quaternion(-0.00362856, 0.017071, 0.20788, 0.977999)
+bones/28/enabled = true
+bones/29/enabled = true
+bones/30/enabled = true
+bones/31/enabled = true
+bones/32/enabled = true
+bones/32/rotation = Quaternion(0.000867723, -0.0523288, 0.0165571, 0.998492)
+bones/33/enabled = true
+bones/33/rotation = Quaternion(-0.0289357, 0.136132, 0.205888, 0.968628)
+bones/34/enabled = true
+bones/34/rotation = Quaternion(0.00130084, -0.0784483, 0.0165288, 0.99678)
+bones/35/enabled = true
+bones/35/rotation = Quaternion(0.0258201, -0.158089, -0.182319, 0.970104)
+bones/36/enabled = true
+bones/36/rotation = Quaternion(0.00502414, 0.0530753, 0.0273855, 0.998202)
+bones/37/enabled = true
+bones/37/rotation = Quaternion(-0.153697, -0.0291366, -0.183961, 0.970405)
+bones/38/enabled = true
+bones/38/rotation = Quaternion(0.0270832, 0.142601, -0.452529, 0.879857)
+bones/39/enabled = true
+bones/39/rotation = Quaternion(0.00197787, -0.113186, 0.0693083, 0.991152)
+bones/40/enabled = true
+bones/41/enabled = true
+bones/41/rotation = Quaternion(-0.00362856, 0.017071, 0.20788, 0.977999)
+bones/42/enabled = true
+bones/42/rotation = Quaternion(-0.0112895, 0.0421331, 0.258573, 0.965007)
+bones/43/enabled = true
+bones/43/rotation = Quaternion(-0.0126927, 0.0597145, 0.207524, 0.976323)
+bones/44/enabled = true
+bones/45/enabled = true
+bones/46/enabled = true
+bones/46/rotation = Quaternion(0.000867723, -0.0523288, 0.0165571, 0.998492)
+bones/47/enabled = true
+bones/48/enabled = true
+bones/48/rotation = Quaternion(0.00130084, -0.0784483, 0.0165288, 0.99678)
+bones/49/enabled = true
+bones/49/rotation = Quaternion(0.18076, 0.969796, 0.0354049, 0.159899)
+bones/50/enabled = true
+
+[node name="BlendSkin" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="0"]
+blend_shapes/morph_0 = 0.0
+blend_shapes/morph_1 = 0.0
+blend_shapes/morph_10 = 0.0
+blend_shapes/morph_11 = 0.0
+blend_shapes/morph_12 = 0.0
+blend_shapes/morph_13 = 0.0
+blend_shapes/morph_14 = 0.0
+blend_shapes/morph_2 = 0.0
+blend_shapes/morph_3 = 0.0
+blend_shapes/morph_4 = 0.0
+blend_shapes/morph_5 = 0.0
+blend_shapes/morph_6 = 0.0
+blend_shapes/morph_7 = 0.0
+blend_shapes/morph_8 = 0.0
+blend_shapes/morph_9 = 0.0
+
+[node name="attach14" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="2"]
+transform = Transform3D(1, 0, 0, 0, 0.956305, -0.292372, 0, 0.292372, 0.956305, -4.34997e-06, 1.52993, 0.0918362)
+
+[node name="attach26" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="3"]
+transform = Transform3D(0.219775, 0.961278, -0.166266, 0.974311, -0.224874, -0.0122531, -0.0491676, -0.159302, -0.986005, -0.495515, 0.771, 0.0244226)
+
+[node name="attach40" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="4"]
+transform = Transform3D(0.20839, 0.963488, -0.168124, -0.976788, 0.213741, 0.0141792, 0.0495963, 0.161266, 0.985664, 0.489046, 0.766397, 0.0252293)
+
+[node name="attach1" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.855951, 0.0353)
+
+[node name="attach4" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="6"]
+transform = Transform3D(0.986225, 0.094279, 0.135909, 0.00134826, -0.826213, 0.563356, 0.165402, -0.555412, -0.814959, -0.205552, 0.141123, 0.0314561)
+
+[node name="attach8" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="7"]
+transform = Transform3D(0.986263, 0.0935661, 0.13613, -0.000247875, 0.824945, -0.565213, -0.165184, 0.557415, 0.813635, 0.205999, 0.141506, 0.0316905)
+
+[node name="attach25" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="8"]
+transform = Transform3D(0.390752, 0.917529, 0.0738426, 0.915188, -0.378644, -0.138058, -0.0987124, 0.121526, -0.987667, -0.383511, 1.04012, -0.00706456)
+
+[node name="attach2" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="9"]
+transform = Transform3D(0.985739, -0.167455, -0.0166613, -0.168233, -0.978241, -0.121418, 0.00403319, 0.122489, -0.992461, -0.0995158, 0.791298, 0.0684339)
+
+[node name="attach3" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="10"]
+transform = Transform3D(0.987689, -0.153864, 0.0282167, -0.156329, -0.964375, 0.213406, -0.00562419, -0.21519, -0.976556, -0.147052, 0.501824, 0.104353)
+
+[node name="attach5" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="11"]
+transform = Transform3D(0.986225, -0.00793258, -0.165217, 0.00134826, 0.999202, -0.0399266, 0.165402, 0.0391537, 0.985448, -0.239204, 0.0502566, 0.237679)
+
+[node name="attach6" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="12"]
+transform = Transform3D(0.985617, -0.16804, -0.0179426, 0.16896, 0.977673, 0.124936, -0.00345219, -0.12617, 0.992003, 0.0995158, 0.791298, 0.0684339)
+
+[node name="attach7" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="13"]
+transform = Transform3D(0.987576, -0.1546, 0.0281525, 0.15702, 0.963746, -0.21573, 0.00622002, 0.21747, 0.976047, 0.147225, 0.501989, 0.10544)
+
+[node name="attach9" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="14"]
+transform = Transform3D(0.986263, 0.00721071, 0.165027, -0.000247875, 0.99911, -0.0421739, -0.165184, 0.0415536, 0.985387, 0.239671, 0.0501691, 0.237702)
+
+[node name="attach10" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="15"]
+transform = Transform3D(1, 0, 0, 0, 0.978148, 0.207912, 0, -0.207912, 0.978148, -4.34997e-06, 0.889461, 0.0360062)
+
+[node name="attach11" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="16"]
+transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871557, 0, -0.0871557, 0.996195, -4.34997e-06, 1.05426, -0.0100344)
+
+[node name="attach12" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="17"]
+transform = Transform3D(1, 0, 0, 0, 0.990268, -0.139173, 0, 0.139173, 0.990268, -4.34997e-06, 1.23042, -0.043288)
+
+[node name="attach13" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="18"]
+transform = Transform3D(1, 0, 0, 0, 0.615661, -0.788011, 0, 0.788011, 0.615661, -4.34997e-06, 1.44183, -0.0204375)
+
+[node name="attach15" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="19"]
+transform = Transform3D(1, 0, 0, 0, 0.956305, -0.292372, 0, 0.292372, 0.956305, -4.34997e-06, 1.54651, 0.338582)
+
+[node name="attach17" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="20"]
+transform = Transform3D(0.793554, -0.481446, 0.37213, -0.498841, -0.864931, -0.0552509, 0.348467, -0.141789, -0.926535, -0.205634, 1.63937, 0.0669698)
+
+[node name="attach19" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="21"]
+transform = Transform3D(0.793554, -0.481446, 0.37213, 0.498841, 0.864931, 0.0552509, -0.348467, 0.141789, 0.926535, 0.205636, 1.63937, 0.0669698)
+
+[node name="attach21" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="22"]
+transform = Transform3D(1, 0, 0, 0, 0.969259, -0.246043, 0, 0.246043, 0.969259, 0, 1.76347, 0.201321)
+
+[node name="attach22" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="23"]
+transform = Transform3D(1, 0, 0, 0, 0.858475, 0.512855, 0, -0.512855, 0.858475, 0, 1.73761, 0.0650157)
+
+[node name="attach23" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="24"]
+transform = Transform3D(0.934853, 0.355035, 7.45058e-09, 0.349641, -0.920651, -0.173648, -0.0616511, 0.162336, -0.984808, -0.0943244, 1.33217, 0.0477496)
+
+[node name="attach24" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="25"]
+transform = Transform3D(0.233969, 0.96077, 0.148932, 0.966076, -0.246968, 0.0755267, 0.109345, 0.126208, -0.985959, -0.283479, 1.39317, 0.0365191)
+
+[node name="attach29" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="26"]
+transform = Transform3D(0.604763, 0.78878, -0.109941, 0.796232, -0.60172, 0.0628231, -0.0166, -0.125531, -0.991951, -0.591869, 0.582765, 0.0454068)
+
+[node name="attach37" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="27"]
+transform = Transform3D(0.930619, 0.365991, 0, -0.360431, 0.91648, 0.173648, 0.0635536, -0.1616, 0.984808, 0.0943256, 1.33217, 0.0477496)
+
+[node name="attach38" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="28"]
+transform = Transform3D(0.223001, 0.963817, 0.146037, -0.968718, 0.235839, -0.0772405, -0.108887, -0.124244, 0.986259, 0.284196, 1.39098, 0.0369056)
+
+[node name="attach39" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="29"]
+transform = Transform3D(0.379939, 0.922093, 0.0734202, -0.919646, 0.368006, 0.137199, 0.0994908, -0.119648, 0.987819, 0.380226, 1.03679, -0.00648095)
+
+[node name="attach43" parent="Actors/MinigameCrash/Rig_Crash/RigidBody/Armature" index="30"]
+transform = Transform3D(0.598408, 0.79543, -0.0959109, -0.801128, 0.592557, -0.0840805, -0.0100475, 0.127151, 0.991832, 0.591869, 0.582765, 0.0454067)
+
+[node name="AnimationPlayer" parent="Actors/MinigameCrash/Rig_Crash" index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_euk0q")
+}
+
+[node name="MinigameCortex" type="Node3D" parent="Actors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 82.587, 99.0523, -156.889)
+
+[node name="Rig_Cortex" parent="Actors/MinigameCortex" instance=ExtResource("7_l33s5")]
+
+[node name="Armature" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody" index="0"]
+bones/0/enabled = true
+bones/1/enabled = true
+bones/2/enabled = true
+bones/3/enabled = true
+bones/4/enabled = true
+bones/5/enabled = true
+bones/6/enabled = true
+bones/7/enabled = true
+bones/8/enabled = true
+bones/8/rotation = Quaternion(0.685168, 0.725632, -0.042598, -0.046776)
+bones/9/enabled = true
+bones/9/rotation = Quaternion(-0.00012797, -7.57585e-05, -0.00281812, 0.999996)
+bones/10/enabled = true
+bones/10/rotation = Quaternion(-0.00012797, -7.57585e-05, -0.00281812, 0.999996)
+bones/11/enabled = true
+bones/11/rotation = Quaternion(-0.00012797, -7.57585e-05, -0.00281812, 0.999996)
+bones/12/enabled = true
+bones/12/rotation = Quaternion(-0.00012797, -7.57585e-05, -0.00281812, 0.999996)
+bones/13/enabled = true
+bones/13/rotation = Quaternion(-0.00012797, -7.57585e-05, -0.00281812, 0.999996)
+bones/14/enabled = true
+bones/14/rotation = Quaternion(0.937088, -0.080099, 0.10321, 0.323723)
+bones/15/enabled = true
+bones/16/enabled = true
+bones/17/enabled = true
+bones/18/enabled = true
+bones/18/rotation = Quaternion(0.0935796, -2.31407e-05, 0.0265073, 0.995259)
+bones/19/enabled = true
+bones/19/rotation = Quaternion(-0.018926, 0.0127313, -0.00569087, 0.999724)
+bones/20/enabled = true
+bones/21/enabled = true
+bones/21/rotation = Quaternion(0.0083819, 0.0119905, -0.0405293, 0.999071)
+bones/22/enabled = true
+bones/23/enabled = true
+bones/24/enabled = true
+bones/25/enabled = true
+bones/25/rotation = Quaternion(-0.00774276, 0.0438503, -0.0570329, 0.997379)
+bones/26/enabled = true
+bones/27/enabled = true
+bones/28/enabled = true
+bones/28/rotation = Quaternion(-0.323718, 0.103271, 0.0801199, 0.937082)
+bones/29/enabled = true
+bones/30/enabled = true
+bones/31/enabled = true
+bones/32/enabled = true
+bones/32/rotation = Quaternion(0.0935796, -2.31407e-05, 0.0265073, 0.995259)
+bones/33/enabled = true
+bones/34/enabled = true
+bones/35/enabled = true
+bones/35/rotation = Quaternion(0.0083819, 0.0119905, -0.0405293, 0.999071)
+bones/36/enabled = true
+bones/37/enabled = true
+bones/38/enabled = true
+bones/39/enabled = true
+bones/39/rotation = Quaternion(-0.00774276, 0.0438503, -0.0570329, 0.997379)
+bones/40/enabled = true
+bones/41/enabled = true
+bones/42/enabled = true
+bones/43/enabled = true
+bones/43/rotation = Quaternion(0.12119, -0.0207161, 0.00584831, 0.992396)
+bones/44/enabled = true
+bones/45/enabled = true
+bones/46/enabled = true
+bones/47/enabled = true
+bones/47/rotation = Quaternion(0.12119, -0.0207161, 0.00584831, 0.992396)
+bones/48/enabled = true
+bones/49/enabled = true
+
+[node name="BlendSkin" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="0"]
+blend_shapes/morph_0 = 0.0
+blend_shapes/morph_1 = 0.0
+blend_shapes/morph_10 = 0.0
+blend_shapes/morph_11 = 0.0
+blend_shapes/morph_12 = 0.0
+blend_shapes/morph_2 = 0.0
+blend_shapes/morph_3 = 0.0
+blend_shapes/morph_4 = 0.0
+blend_shapes/morph_5 = 0.0
+blend_shapes/morph_6 = 0.0
+blend_shapes/morph_7 = 0.0
+blend_shapes/morph_8 = 0.0
+blend_shapes/morph_9 = 0.0
+
+[node name="attach12" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="2"]
+transform = Transform3D(0.999984, 0.00563622, -0.000150794, -0.00563618, 0.999984, 0.000258631, 0.000152249, -0.000257896, 1, 0.00408732, 1.44631, 0.121469)
+
+[node name="attach13" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="3"]
+transform = Transform3D(0.999984, 0.00563622, -0.000150794, -0.00563618, 0.999984, 0.000258631, 0.000152249, -0.000257896, 1, 0.00408732, 1.44631, 0.121469)
+
+[node name="attach6" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="4"]
+transform = Transform3D(1, -7.28728e-09, 9.19625e-10, 7.1559e-09, 1, 2.26498e-06, -1.86628e-09, -2.38419e-06, 1, -3.54962e-09, 1.21953, 0.154363)
+
+[node name="attach17" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="5"]
+transform = Transform3D(0.058089, 0.937258, 0.343763, 0.997773, -0.0432019, -0.050815, -0.0327756, 0.345949, -0.93768, -0.270997, 0.529599, 0.0618015)
+
+[node name="attach31" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="6"]
+transform = Transform3D(0.058089, 0.937258, 0.343763, -0.997773, 0.0432019, 0.050815, 0.0327756, -0.345949, 0.937681, 0.270986, 0.529599, 0.0618015)
+
+[node name="attach1" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="7"]
+transform = Transform3D(1, -0.000128351, 0.000301124, 1.91882e-05, 0.941323, 0.337508, -0.000326774, -0.337508, 0.941323, 0, 0.684894, 0.0383853)
+
+[node name="attach44" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="8"]
+transform = Transform3D(0.993923, 0.0387736, 0.103021, 0.00755225, -0.957723, 0.287593, 0.109816, -0.285067, -0.952196, -0.201417, 0.0911486, 0.0281698)
+
+[node name="attach48" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="9"]
+transform = Transform3D(0.993923, 0.0387736, 0.103021, -0.00755219, 0.957723, -0.287593, -0.109816, 0.285067, 0.952196, 0.201417, 0.0911487, 0.0281697)
+
+[node name="attach16" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="10"]
+transform = Transform3D(0.261474, 0.965179, 0.00774623, 0.959412, -0.259016, -0.111532, -0.105642, 0.0365946, -0.99373, -0.204142, 0.774909, 0.0347899)
+
+[node name="attach2" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="11"]
+transform = Transform3D(0.999995, -3.56156e-06, 0.00307547, -0.000916273, 0.954242, 0.299033, -0.00293581, -0.299035, 0.954238, -4.5908e-06, 0.718563, 0.0263135)
+
+[node name="attach3" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="12"]
+transform = Transform3D(1, -3.40486e-06, 1.04448e-06, 3.39875e-06, 0.999984, 0.00567505, -1.06473e-06, -0.00567511, 0.999984, -5.12177e-06, 0.860825, -0.018268)
+
+[node name="attach4" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="13"]
+transform = Transform3D(1, -5.23414e-09, -6.43939e-05, -3.90717e-05, 0.794837, -0.606823, 5.11848e-05, 0.606823, 0.794837, -2.04636e-09, 0.99142, -0.0186033)
+
+[node name="attach5" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="14"]
+transform = Transform3D(1, -5.26427e-09, 5.12227e-09, 7.1559e-09, 0.798382, -0.602152, -1.86628e-09, 0.602152, 0.798382, -2.70253e-09, 1.09106, 0.0574689)
+
+[node name="attach7" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="15"]
+transform = Transform3D(-0.0567137, 0.990375, -0.126258, -0.998345, -0.0574601, -0.00227562, -0.00950839, 0.12592, 0.991995, 0.321135, 1.55094, 0.0886982)
+
+[node name="attach8" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="16"]
+transform = Transform3D(-0.0567136, 0.990375, -0.126258, 0.998345, 0.0574601, 0.0022756, 0.00950836, -0.12592, -0.991995, -0.32284, 1.55094, 0.0886982)
+
+[node name="attach9" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="17"]
+transform = Transform3D(0.999984, 0.00563622, -0.000150794, -0.00563618, 0.999984, 0.000258631, 0.000152249, -0.000257896, 1, 0.00293973, 1.24701, 0.280799)
+
+[node name="attach11" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="18"]
+transform = Transform3D(0.999984, 0.00563622, -0.000150794, -0.00563618, 0.999984, 0.000258631, 0.000152249, -0.000257896, 1, 0.136922, 1.44222, 0.425779)
+
+[node name="attach14" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="19"]
+transform = Transform3D(0.965848, -0.216981, 0.141624, -0.215095, -0.976172, -0.028678, 0.144472, -0.00276411, -0.989505, -0.0642974, 1.03828, 0.0601729)
+
+[node name="attach15" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="20"]
+transform = Transform3D(0.093701, 0.994532, 0.0461009, 0.995166, -0.0949278, 0.0251784, 0.0294169, 0.0435189, -0.998619, -0.176987, 1.06338, 0.0433166)
+
+[node name="attach20" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="21"]
+transform = Transform3D(0.145667, 0.948906, 0.279926, 0.986698, -0.159981, 0.0288542, 0.0721626, 0.271999, -0.959588, -0.280159, 0.372284, 0.0669689)
+
+[node name="attach28" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="22"]
+transform = Transform3D(0.965848, -0.216981, 0.141624, 0.215095, 0.976172, 0.0286779, -0.144472, 0.00276414, 0.989505, 0.0642863, 1.03828, 0.0601729)
+
+[node name="attach29" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="23"]
+transform = Transform3D(0.093701, 0.994532, 0.046101, -0.995165, 0.0949277, -0.0251784, -0.0294169, -0.0435188, 0.998619, 0.176976, 1.06338, 0.0433166)
+
+[node name="attach30" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="24"]
+transform = Transform3D(0.261474, 0.965179, 0.00774627, -0.959412, 0.259016, 0.111532, 0.105642, -0.0365946, 0.993731, 0.204131, 0.774909, 0.0347898)
+
+[node name="attach34" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="25"]
+transform = Transform3D(0.145667, 0.948906, 0.279926, -0.986698, 0.159981, -0.0288542, -0.0721626, -0.271999, 0.959588, 0.280148, 0.372284, 0.0669689)
+
+[node name="attach42" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="26"]
+transform = Transform3D(0.977707, -0.181975, 0.104755, -0.172904, -0.980813, -0.0900561, 0.119133, 0.0699359, -0.990412, -0.0975651, 0.647344, 0.0604056)
+
+[node name="attach43" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="27"]
+transform = Transform3D(0.980058, -0.167703, 0.106589, -0.183035, -0.9707, 0.15569, 0.0773565, -0.172095, -0.982038, -0.143446, 0.400056, 0.0780382)
+
+[node name="attach45" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="28"]
+transform = Transform3D(0.994673, -0.032901, 0.0976848, -0.0330591, -0.999453, 0, 0.0976314, -0.00322929, -0.995218, -0.224439, 0.0268788, 0.240961)
+
+[node name="attach46" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="29"]
+transform = Transform3D(0.977707, -0.181975, 0.104755, 0.172904, 0.980813, 0.090056, -0.119133, -0.0699358, 0.990412, 0.0975651, 0.647344, 0.0604056)
+
+[node name="attach47" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="30"]
+transform = Transform3D(0.980058, -0.167703, 0.106589, 0.183035, 0.9707, -0.15569, -0.0773565, 0.172095, 0.982038, 0.143446, 0.400056, 0.0780382)
+
+[node name="attach49" parent="Actors/MinigameCortex/Rig_Cortex/RigidBody/Armature" index="31"]
+transform = Transform3D(0.994673, -0.032901, 0.0976848, 0.0330592, 0.999453, -1.19209e-07, -0.0976314, 0.00322941, 0.995218, 0.224439, 0.0268789, 0.240961)
+
+[node name="AnimationPlayer" parent="Actors/MinigameCortex/Rig_Cortex" index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_2dxdn")
+}
+
+[editable path="Actors/MinigameCrash/Rig_Crash"]
+[editable path="Actors/MinigameCortex/Rig_Cortex"]

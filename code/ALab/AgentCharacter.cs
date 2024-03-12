@@ -564,8 +564,8 @@ public partial class AgentCharacter : Agent
                 LHandPath = "res://assets/scenes/xr/XRHand_Mecha_Rocket.tscn";
             break;
         }
-        RehabScene.Root.XR_Origin.XR_HandL.SpawnHand(LHandPath);
-        RehabScene.Root.XR_Origin.XR_HandR.SpawnHand(RHandPath);
+        RehabScene.Root.XR_Origin.XR_HandL.SpawnHand(LHandPath, this);
+        RehabScene.Root.XR_Origin.XR_HandR.SpawnHand(RHandPath, this);
     }
 
 }

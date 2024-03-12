@@ -156,6 +156,11 @@ public partial class FrontendMenu : Control
             var button = (Control)holder.GetChild(holder.GetChildCount() - 1);
             button.GrabFocus();
         }
+        if (RehabScene.Root.XR_Enabled)
+        {
+            GetNode<Control>("WindowMainRound/MenuOptionsGraphics/Button1").Visible = false;
+            GetNode<Control>("WindowMainRound/MenuOptionsGraphics/Button3").Visible = false;
+        }
     }
 
     public void Start_Message(string text)

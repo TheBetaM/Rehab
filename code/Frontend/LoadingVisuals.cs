@@ -48,6 +48,18 @@ public partial class LoadingVisuals : Control
             ActorNode = (Node3D)ActorScene.Instantiate();
             Root3D.AddChild(ActorNode);
             UpdateActorMat(ActorNode);
+            var list = ActorNode.GetNode("Rig_Crash").GetNode<AnimationPlayer>("AnimationPlayer").GetAnimationLibrary("actor1");
+            foreach (var item in list.GetAnimationList())
+            {
+                var anim = list.GetAnimation(item);
+                anim.LoopMode = Animation.LoopModeEnum.Linear;
+            }
+            list = ActorNode.GetNode("Rig_Cortex").GetNode<AnimationPlayer>("AnimationPlayer").GetAnimationLibrary("actor2");
+            foreach (var item in list.GetAnimationList())
+            {
+                var anim = list.GetAnimation(item);
+                anim.LoopMode = Animation.LoopModeEnum.Linear;
+            }
         }
     }
 

@@ -8,9 +8,12 @@ public partial class CutsceneChunk : ChunkScene
     public NodePath AnimCameraPath;
     [Export]
     public string AnimName = "cutscene";
-    AnimationPlayer AnimPlayer;
-    Camera3D AnimCamera;
-    Vector3 LastCamPos;
+    [Export]
+    public bool XR_CameraFollow = false;
+    public AnimationPlayer AnimPlayer;
+    public Camera3D AnimCamera;
+    public Vector3 LastCamPos;
+    public bool CutsceneActive = false;
 
     public override void _Ready()
     {
@@ -22,7 +25,6 @@ public partial class CutsceneChunk : ChunkScene
         }
         AnimPlayer = GetNode<AnimationPlayer>(AnimPlayerPath);
         AnimCamera = GetNode<Camera3D>(AnimCameraPath);
-        AnimPlayer.AnimationFinished += AnimDone;
         AnimCamera.Current = true;
         if (RehabScene.Root.XR_Enabled)
         {
@@ -35,13 +37,22 @@ public partial class CutsceneChunk : ChunkScene
         StartCutscene();
     }
 
-    async void StartCutscene()
+    public async void StartCutscene()
     {
+        CutsceneActive = true;
         if (RehabScene.Root.XR_Enabled)
         {
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         }
-        AnimPlayer.Play(AnimName);
+        if (AnimPlayer is AnimationPlayerXR xr)
+        {
+            xr.XR_StartSequence(0);
+        }
+        else
+        {
+            AnimPlayer.AnimationFinished += AnimDone;
+            AnimPlayer.Play(AnimName);
+        }
     }
 
     public override void _Process(double delta)
@@ -52,15 +63,23 @@ public partial class CutsceneChunk : ChunkScene
             return;
         }
         if (!RehabScene.Root.XR_Enabled) return;
-        if (LastCamPos.DistanceTo(AnimCamera.Position) > 4f)
+        if (XR_CameraFollow && CutsceneActive)
         {
-            ReorientXRCam();
+            RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
         }
-        LastCamPos = AnimCamera.Position;
+        else
+        {
+            if (LastCamPos.DistanceTo(AnimCamera.Position) > 4f)
+            {
+                ReorientXRCam();
+            }
+            LastCamPos = AnimCamera.Position;
+        }
     }
 
-    async void ReorientXRCam()
+    public async void ReorientXRCam()
     {
+        LastCamPos = AnimCamera.GlobalPosition;
         RehabScene.Root.Visible = false;
         ProcessMode = ProcessModeEnum.Disabled;
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -73,8 +92,18 @@ public partial class CutsceneChunk : ChunkScene
         ProcessMode = ProcessModeEnum.Inherit;
     }
 
-    void AnimDone(StringName anim)
+    public void ReorientXRCamInstant()
     {
+        LastCamPos = AnimCamera.GlobalPosition;
+        RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
+        RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
+        RehabScene.Root.XR_Origin.GlobalRotation = AnimCamera.GlobalRotation;
+        XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
+    }
+
+    public virtual void AnimDone(StringName anim)
+    {
+        CutsceneActive = false;
         RehabScene.Root.Visible = true;
         RehabScene.Root.ExitLevel(false);
     }

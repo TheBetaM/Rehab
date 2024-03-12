@@ -132,6 +132,13 @@ public partial class LevelSelectList : Control
                 CreateItem("Doc-Amok.tscn", ItemCount);
                 ItemCount = ItemCount + 1;
             }
+            else if (ListPath.Contains("minigames"))
+            {
+                CreateItem("Rooftops (VR).tscn", ItemCount);
+                ItemCount = ItemCount + 1;
+                CreateItem("Skate (No VR).tscn", ItemCount);
+                ItemCount = ItemCount + 1;
+            }
             //GD.Print("[LEVEL SELECT] Cannot open " + ListPath);
             //GetNode<Label>("TitleLabel").Text = "#FE-Explorer-ImportNotFound";
         }

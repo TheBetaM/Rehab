@@ -389,19 +389,26 @@ public partial class RehabScene : Node3D
         await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
         if (OS.GetName() == "Android")
         {
-            var sky = (PackedScene)ResourceLoader.Load(path);
-            Skydome = (Node3D)sky.Instantiate();
-        }
-        else
-        {
-            ResourceLoader.LoadThreadedRequest(path);
-            while (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.InProgress)
+            lock (ChunkLink.AndroidQueue)
+            {
+                ChunkLink.AndroidQueue.Add(this);
+            }
+            while (ChunkLink.AndroidStall || ChunkLink.AndroidQueue[0] != this)
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            var sky = (PackedScene)ResourceLoader.LoadThreadedGet(path);
-            Skydome = (Node3D)sky.Instantiate();
+            ChunkLink.AndroidStall = true;
+            lock (ChunkLink.AndroidQueue)
+            {
+                ChunkLink.AndroidQueue.RemoveAt(0);
+            }
         }
+        ResourceLoader.LoadThreadedRequest(path);
+        while (ResourceLoader.LoadThreadedGetStatus(path) == ResourceLoader.ThreadLoadStatus.InProgress)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var sky = (PackedScene)ResourceLoader.LoadThreadedGet(path);
+        Skydome = (Node3D)sky.Instantiate();
         AddChild(Skydome);
         SkydomePath = path;
+        ChunkLink.AndroidStall = false;
     }
 
     async void ActivateLinks(ChunkScene chunk)
@@ -456,6 +463,8 @@ public partial class RehabScene : Node3D
         if (!string.IsNullOrWhiteSpace(SkydomePath))
             Skydome.QueueFree();
         SkydomePath = "";
+        ChunkLink.AndroidStall = false;
+        ChunkLink.AndroidQueue.Clear();
         if (XR_Enabled)
         {
             XR_Origin.ClearHands();

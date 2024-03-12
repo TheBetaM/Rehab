@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 namespace Rehab;
 public partial class ChunkLink : Node3D
 {
@@ -19,6 +20,7 @@ public partial class ChunkLink : Node3D
     bool InUse;
     bool AllowSpawn;
     public static bool AndroidStall = false;
+    public static List<object> AndroidQueue = new();
 
     public override void _Ready()
     {
@@ -153,9 +155,17 @@ public partial class ChunkLink : Node3D
                 if (OS.GetName() == "Android")
                 {
                     // Android crashing bug workaround Part 2
-                    while (AndroidStall)
+                    lock (AndroidQueue)
+                    {
+                        AndroidQueue.Add(this);
+                    }
+                    while (AndroidStall || AndroidQueue[0] != this)
                         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
                     AndroidStall = true;
+                    lock (AndroidQueue)
+                    {
+                        AndroidQueue.RemoveAt(0);
+                    }
                 }
                 ResourceLoader.LoadThreadedRequest(FullChunkPath);
                 while (ResourceLoader.LoadThreadedGetStatus(FullChunkPath) == ResourceLoader.ThreadLoadStatus.InProgress)

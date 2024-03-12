@@ -180,7 +180,7 @@ public partial class RehabXRController : XRController3D
             Hand.OnFloat(name, pos, Tracker == "right_hand");
     }
 
-    public void SpawnHand(string path)
+    public void SpawnHand(string path, Node body)
     {
         if (HasHand)
         {
@@ -201,6 +201,10 @@ public partial class RehabXRController : XRController3D
         {
             Hand = ahand;
             HandModelDynamic = true;
+            if (body is PhysicsBody3D phys)
+            {
+                ahand.PlayerBody = phys;
+            }
         }
         HandModel = hand;
         HasHand = true;
@@ -214,6 +218,22 @@ public partial class RehabXRController : XRController3D
         {
             HandModel.QueueFree();
             HasHand = false;
+        }
+    }
+
+    public void FE_Active()
+    {
+        if (HasHand)
+        {
+            HandModel.ProcessMode = ProcessModeEnum.Disabled;
+        }
+    }
+
+    public void FE_Inactive()
+    {
+        if (HasHand)
+        {
+            HandModel.ProcessMode = ProcessModeEnum.Inherit;
         }
     }
 }
