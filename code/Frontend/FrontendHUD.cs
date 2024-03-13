@@ -124,6 +124,7 @@ public partial class FrontendHUD : Control
 
     public void UpdateLives()
     {
+        UpdateXR();
         LivesLabel.Text = RehabGame.Lives.ToString();
         if (LivesHolder.Visible)
         {
@@ -154,6 +155,7 @@ public partial class FrontendHUD : Control
 
     public async void AnimateGem(int gem)
     {
+        UpdateXR();
         if (ResourceLoader.Exists(GemIconPaths[gem]))
             GemIcon.Texture = (Texture2D)ResourceLoader.Load(GemIconPaths[gem]);
         
@@ -176,6 +178,7 @@ public partial class FrontendHUD : Control
 
     public async void AnimateCrystal()
     {
+        UpdateXR();
         CrystalIcon.Scale = Vector2.Zero;
         CrystalIcon.Modulate = new Color(1f, 1f, 1f, 0f);
         var holder = (Control)CrystalIcon.GetParent();

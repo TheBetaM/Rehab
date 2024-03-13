@@ -33,6 +33,7 @@ public partial class CutsceneChunk : ChunkScene
             RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
             RehabScene.Root.XR_Origin.GlobalRotation = AnimCamera.GlobalRotation;
             XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
+            RehabScene.Root.XR_Origin.ResetOrientation();
         }
         StartCutscene();
     }
@@ -79,17 +80,32 @@ public partial class CutsceneChunk : ChunkScene
 
     public async void ReorientXRCam()
     {
-        LastCamPos = AnimCamera.GlobalPosition;
         RehabScene.Root.Visible = false;
+        LastCamPos = AnimCamera.GlobalPosition;
         ProcessMode = ProcessModeEnum.Disabled;
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
         RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
         RehabScene.Root.XR_Origin.GlobalRotation = AnimCamera.GlobalRotation;
         XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
+        RehabScene.Root.XR_Origin.ResetOrientation();
         await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
         RehabScene.Root.Visible = true;
         ProcessMode = ProcessModeEnum.Inherit;
+    }
+
+    public async void ReorientXRCamNode(Node3D node)
+    {
+        RehabScene.Root.Visible = false;
+        LastCamPos = AnimCamera.GlobalPosition;
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
+        RehabScene.Root.XR_Origin.GlobalPosition = node.GlobalPosition + (Vector3.Up * 0.75f);
+        RehabScene.Root.XR_Origin.GlobalRotationDegrees = new Vector3(node.GlobalRotationDegrees.X, node.GlobalRotationDegrees.Y + 180f, node.GlobalRotationDegrees.Z);
+        XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
+        RehabScene.Root.XR_Origin.ResetOrientation();
+        await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
+        RehabScene.Root.Visible = true;
     }
 
     public void ReorientXRCamInstant()
@@ -99,6 +115,7 @@ public partial class CutsceneChunk : ChunkScene
         RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
         RehabScene.Root.XR_Origin.GlobalRotation = AnimCamera.GlobalRotation;
         XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
+        RehabScene.Root.XR_Origin.ResetOrientation();
     }
 
     public virtual void AnimDone(StringName anim)

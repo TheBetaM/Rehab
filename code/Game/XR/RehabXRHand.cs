@@ -8,7 +8,8 @@ public partial class RehabXRHand : Node3D
     public RehabXRController HandCont;
     public PhysicsBody3D PlayerBody;
     bool HasAnim;
-    List<PhysicsBody3D> HandCol = new();
+    public bool IsDetached;
+    Vector3 OrigScale;
 
     [Signal]
     public delegate void OnBodyEnteredEventHandler(Node body);
@@ -22,44 +23,7 @@ public partial class RehabXRHand : Node3D
             HasAnim = true;
             HandAnim = GetNode<AnimationPlayer>("HandAnim");
         }
-        NestedCollisionStart(this);
         HandCont = (RehabXRController)GetParent();
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
-        foreach (var i in HandCol)
-        {
-            i.Position = Vector3.Zero;
-            i.RotationDegrees = Vector3.Zero;
-        }
-    }
-
-    void NestedCollisionStart(Node parent)
-    {
-        foreach (var i in parent.GetChildren())
-        {
-            if (i is RigidBody3D body)
-            {
-                //body.AddCollisionExceptionWith(PlayerBody);
-                //PlayerBody.AddCollisionExceptionWith(body);
-                string name = (string)body.Name;
-                if (name.Contains("Hand"))
-                {
-                    body.BodyEntered += CollisionEnter;
-                    body.BodyExited += CollisionExit;
-                }
-                if (body.Name != "RigidBody")
-                {
-                    HandCol.Add(body);
-                }
-            }
-            else if (i is StaticBody3D sbody)
-            {
-                HandCol.Add(sbody);
-            }
-            NestedCollisionStart(i);
-        }
     }
 
     public void OnButtonDown(string name, bool isRightHand)
@@ -84,6 +48,10 @@ public partial class RehabXRHand : Node3D
             default: break;
             case "grip_click":
                 HandAnim.Play(name + "_release");
+                if (IsDetached)
+                {
+                    Reattach();
+                }
             break;
         }
     }
@@ -98,21 +66,52 @@ public partial class RehabXRHand : Node3D
 
     }
 
-    void CollisionEnter(Node body)
+    public void Attach(Node3D target)
     {
-        EmitSignal(SignalName.OnBodyEntered, body);
+        OrigScale = Scale;
+        IsDetached = true;
+        Reparent(target);
+        Position = Vector3.Zero;
+        RotationDegrees = Vector3.Zero;
+        Scale = Scale * OrigScale;
+    }
+    public void AttachPos(Node3D target)
+    {
+        OrigScale = Scale;
+        IsDetached = true;
+        Reparent(RehabScene.Root);
+        GlobalPosition = target.GlobalPosition;
+        GlobalRotationDegrees = target.GlobalRotationDegrees;
+        Scale = Scale *  OrigScale;
     }
 
-    void CollisionExit(Node body)
+    public void Reattach()
     {
-        EmitSignal(SignalName.OnBodyExited, body);
+        if (!IsDetached) return;
+        IsDetached = false;
+        Reparent(HandCont);
+        Position = Vector3.Zero;
+        RotationDegrees = Vector3.Zero;
+        Scale = OrigScale;
     }
 
-    public void ToggleHandCollisions(bool val)
+    public void UpdateLayers(int layer)
     {
-        foreach (var i in HandCol)
+	    UpdateLayersNested(this, layer);
+    }
+
+    void UpdateLayersNested(Node i, int layer)
+    {
+        if (i is VisualInstance3D vis)
         {
-            i.ProcessMode = val ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
+            for (int a = 1; a < 9; a++)
+            {
+                vis.SetLayerMaskValue(a, false);
+            }
+            vis.SetLayerMaskValue(layer, true);
         }
+        foreach (var id in i.GetChildren())
+            UpdateLayersNested(id, layer);
     }
+
 }

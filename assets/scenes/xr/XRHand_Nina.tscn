@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c77u2gvl3be2"]
+[gd_scene load_steps=18 format=3 uid="uid://c77u2gvl3be2"]
 
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_NinaHand.tscn" id="1_i2vld"]
 [ext_resource type="Script" path="res://code/Game/XR/RehabXRHand.cs" id="1_t0s41"]
@@ -22,12 +22,6 @@ _data = {
 "NinaHand_Shrink": ExtResource("5_ch8ls"),
 "RESET": ExtResource("6_20n23")
 }
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_p8huk"]
-size = Vector3(0.313496, 0.160527, 0.508003)
-
-[sub_resource type="BoxMesh" id="BoxMesh_jujvl"]
-size = Vector3(0.295, 0.14, 0.51)
 
 [sub_resource type="Animation" id="Animation_8lg4h"]
 length = 0.02
@@ -131,23 +125,6 @@ libraries = {
 "": SubResource("AnimationLibrary_siyt4")
 }
 playback_default_blend_time = 0.5
-
-[node name="Hand" type="RigidBody3D" parent="."]
-process_mode = 4
-collision_layer = 511
-collision_mask = 511
-freeze = true
-freeze_mode = 1
-max_contacts_reported = 40
-contact_monitor = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hand"]
-transform = Transform3D(4.37114e-08, 1, -8.74228e-08, 1, -4.37114e-08, 0, -3.82137e-15, -8.74228e-08, -1, 0.0122168, 0.0011621, -0.0637217)
-shape = SubResource("BoxShape3D_p8huk")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hand/CollisionShape3D"]
-mesh = SubResource("BoxMesh_jujvl")
-visible = false
 
 [node name="HandAnim" type="AnimationPlayer" parent="."]
 libraries = {

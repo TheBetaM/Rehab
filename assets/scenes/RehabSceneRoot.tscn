@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://by5ieljhkskx8"]
+[gd_scene load_steps=25 format=3 uid="uid://by5ieljhkskx8"]
 
 [ext_resource type="Script" path="res://code/Game/RehabScene.cs" id="1_nokr2"]
 [ext_resource type="Script" path="res://code/Game/XR/RehabXROrigin.cs" id="2_3q0m5"]
@@ -21,6 +21,12 @@
 [sub_resource type="Environment" id="Environment_3bekd"]
 background_mode = 1
 tonemap_mode = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_so88d"]
+size = Vector3(0.313496, 0.160527, 0.508003)
+
+[sub_resource type="BoxMesh" id="BoxMesh_o678c"]
+size = Vector3(0.295, 0.14, 0.51)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h4xuf"]
 render_priority = 127
@@ -55,9 +61,43 @@ far = 90000.0
 tracker = &"left_hand"
 script = ExtResource("14_23l16")
 
+[node name="Hand" type="RigidBody3D" parent="XROrigin3D/HandL"]
+process_mode = 4
+collision_layer = 511
+collision_mask = 511
+freeze = true
+freeze_mode = 1
+max_contacts_reported = 40
+contact_monitor = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/HandL/Hand"]
+transform = Transform3D(4.37114e-08, 1, -8.74228e-08, 1, -4.37114e-08, 0, -3.82137e-15, -8.74228e-08, -1, 0.0122168, 0.0011621, -0.0637217)
+shape = SubResource("BoxShape3D_so88d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/HandL/Hand/CollisionShape3D"]
+visible = false
+mesh = SubResource("BoxMesh_o678c")
+
 [node name="HandR" type="XRController3D" parent="XROrigin3D"]
 tracker = &"right_hand"
 script = ExtResource("14_23l16")
+
+[node name="Hand" type="RigidBody3D" parent="XROrigin3D/HandR"]
+process_mode = 4
+collision_layer = 511
+collision_mask = 511
+freeze = true
+freeze_mode = 1
+max_contacts_reported = 40
+contact_monitor = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/HandR/Hand"]
+transform = Transform3D(4.37114e-08, 1, -8.74228e-08, 1, -4.37114e-08, 0, -3.82137e-15, -8.74228e-08, -1, 0.0122168, 0.0011621, -0.0637217)
+shape = SubResource("BoxShape3D_so88d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/HandR/Hand/CollisionShape3D"]
+visible = false
+mesh = SubResource("BoxMesh_o678c")
 
 [node name="FE_Pivot" type="Node3D" parent="XROrigin3D"]
 

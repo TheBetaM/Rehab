@@ -203,6 +203,10 @@ public partial class FrontendMenu : Control
             if (RehabScene.Root.XR_Enabled) RehabScene.Root.XR_Origin.FE_Inactive();
             RehabScene.GameHUD.OnUnPause();
         }
+        if (RehabScene.FE.GetNode<Control>("LevelSelect").Visible)
+        {
+            RehabScene.FE.GetNode<Control>("LevelSelect/AdvList/VBoxContainer").GetChild<Control>(0).GrabFocus();
+        }
     }
 
     public void Pause_Resume()

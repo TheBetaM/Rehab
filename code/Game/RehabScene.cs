@@ -240,6 +240,8 @@ public partial class RehabScene : Node3D
             if (!string.IsNullOrWhiteSpace(SkydomePath))
                 Skydome.Visible = true;
             XR_Origin.ToggleHands(true);
+            XR_Origin.XR_HandL.HandModel.UpdateLayers(loadedScene.ChunkLayer);
+            XR_Origin.XR_HandR.HandModel.UpdateLayers(loadedScene.ChunkLayer);
         }
         IsLoadingXR = false;
         IsLoadingScene = false;
@@ -293,6 +295,11 @@ public partial class RehabScene : Node3D
         // Updating World Environment and Lights
         chunk.ShadowToggle(true);
         UpdateWorldEnv(chunk.WorldEnv);
+        if (XR_Enabled)
+        {
+            XR_Origin.XR_HandL.HandModel.UpdateLayers(chunk.ChunkLayer);
+            XR_Origin.XR_HandR.HandModel.UpdateLayers(chunk.ChunkLayer);
+        }
 
         // Updating Skydome
         string skypath = RehabGame.AssetsPath + chunk.SkydomePath;

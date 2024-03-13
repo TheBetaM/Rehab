@@ -11,31 +11,38 @@ public partial class MinigameChunkXR : MinigameChunk
     async void HandCol()
     {
         await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
-        var handL = (RehabXRHand)RehabScene.Root.XR_Origin.XR_HandL.HandModel;
-        var handR = (RehabXRHand)RehabScene.Root.XR_Origin.XR_HandR.HandModel;
-        handL.ToggleHandCollisions(true);
-        handR.ToggleHandCollisions(true);
+        var handL = RehabScene.Root.XR_Origin.XR_HandL;
+        var handR = RehabScene.Root.XR_Origin.XR_HandR;
+        handL.ToggleHandCollision(true);
+        handR.ToggleHandCollision(true);
     }
 
     public override void AnimDone(StringName anim)
     {
+        if (!CutsceneActive) return;
         CutsceneActive = false;
-        var handL = (RehabXRHand)RehabScene.Root.XR_Origin.XR_HandL.HandModel;
-        var handR = (RehabXRHand)RehabScene.Root.XR_Origin.XR_HandR.HandModel;
-        handL.ToggleHandCollisions(false);
-        handR.ToggleHandCollisions(false);
-        ReorientXRCam();
+        ReorientXRCamNode(AgentCharacter.activeCharacter);
+        AnimPlayer.Play(EndAnimName);
+        var handL = RehabScene.Root.XR_Origin.XR_HandL.HandModel;
+        var handR = RehabScene.Root.XR_Origin.XR_HandR.HandModel;
+        var handLcol = RehabScene.Root.XR_Origin.XR_HandL;
+        var handRcol = RehabScene.Root.XR_Origin.XR_HandR;
+        handLcol.ToggleHandCollision(false);
+        handRcol.ToggleHandCollision(false);
+        handL.Reattach();
+        handR.Reattach();
+        RehabScene.Root.PlayMusic(MinigameMusicID);
     }
 
     public void PauseAnim(string path)
     {
         //GetNode<AnimationPlayer>(path).Pause();
-        GetNode<AnimationPlayerXR>(path).XR_Pause();
+        GetNode<AnimationPlayerXR>(path).PauseCutscene();
     }
 
     public void PlayAnim(string path, float pos)
     {
         //GetNode<AnimationPlayer>(path).Play(anim);
-        GetNode<AnimationPlayerXR>(path).XR_UnPause(pos);
+        GetNode<AnimationPlayerXR>(path).UnPauseCutscene(pos);
     }
 }

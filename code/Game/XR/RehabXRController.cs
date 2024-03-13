@@ -5,12 +5,13 @@ namespace Rehab;
 public partial class RehabXRController : XRController3D
 {
     public bool HasHand = false;
-    public Node3D HandModel;
+    public RehabXRHand HandModel;
     public bool ActiveCursor = false;
     public RehabXROrigin Origin;
     public RehabXRHand Hand;
     public bool HandModelDynamic;
     public bool IsGripping;
+    public RigidBody3D HandCol;
 
     public override void _Ready()
     {
@@ -18,6 +19,13 @@ public partial class RehabXRController : XRController3D
         ButtonReleased += OnButtonRelease;
         InputVector2Changed += OnVector;
         InputFloatChanged += OnFloat;
+        HandCol = GetChild<RigidBody3D>(0);
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        HandCol.Position = Vector3.Zero;
+        HandCol.RotationDegrees = Vector3.Zero;
     }
 
     void OnButtonDown(string name)
@@ -196,7 +204,6 @@ public partial class RehabXRController : XRController3D
         {
             hand.Scale = new Vector3(-hand.Scale.X, hand.Scale.Y, hand.Scale.Z);
         }
-        hand.Scale *= 0.65f;
         if (hand is RehabXRHand ahand)
         {
             Hand = ahand;
@@ -206,7 +213,7 @@ public partial class RehabXRController : XRController3D
                 ahand.PlayerBody = phys;
             }
         }
-        HandModel = hand;
+        HandModel = (RehabXRHand)hand;
         HasHand = true;
         AddChild(hand);
     }
@@ -236,4 +243,15 @@ public partial class RehabXRController : XRController3D
             HandModel.ProcessMode = ProcessModeEnum.Inherit;
         }
     }
+
+    public void ToggleHandCollision(bool val)
+    {
+        HandCol.ProcessMode = val ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
+    }
+
+    public void Vibrate(double power, double duration, double delay = 0)
+    {
+        TriggerHapticPulse("haptic", 150, power, duration, delay);
+    }
+
 }

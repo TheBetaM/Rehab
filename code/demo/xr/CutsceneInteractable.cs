@@ -6,12 +6,18 @@ public partial class CutsceneInteractable : Node3D
 {
     [Export]
     bool LockHand;
-    List<RehabXRHand> HandInRange = new();
+    [Export]
+    bool LockGrip;
+    List<RehabXRController> HandInRange = new();
 
     [Signal]
     public delegate void OnGripEventHandler();
     [Signal]
     public delegate void OnTouchEventHandler();
+    [Signal]
+    public delegate void OnHandEnterEventHandler();
+    [Signal]
+    public delegate void OnHandExitEventHandler();
 
     public override void _Ready()
     {
@@ -23,10 +29,16 @@ public partial class CutsceneInteractable : Node3D
     {
         foreach (var i in HandInRange)
         {
+            if ((LockHand || LockGrip) && !i.HandModel.IsDetached && !i.IsGripping)
+            {
+                i.HandModel.AttachPos(this);
+            }
             EmitSignal(SignalName.OnTouch);
-            if (i.HandCont.IsGripping)
+            i.Vibrate(0.1d, 0.2d);
+            if (i.IsGripping && (!LockGrip || i.HandModel.IsDetached))
             {
                 EmitSignal(SignalName.OnGrip);
+                i.Vibrate(1.0d, 1.0d);
             }
         }
     }
@@ -38,9 +50,14 @@ public partial class CutsceneInteractable : Node3D
             var parent = c.GetParent();
             while (parent != null)
             {
-                if (parent is RehabXRHand hand)
+                if (parent is RehabXRController hand)
                 {
                     HandInRange.Add(hand);
+                    EmitSignal(SignalName.OnHandEnter);
+                    if (LockHand && !hand.HandModel.IsDetached && !hand.IsGripping)
+                    {
+                        hand.HandModel.AttachPos(this);
+                    }
                     break;
                 }
                 parent = parent.GetParent();
@@ -55,9 +72,14 @@ public partial class CutsceneInteractable : Node3D
             var parent = c.GetParent();
             while (parent != null)
             {
-                if (parent is RehabXRHand hand)
+                if (parent is RehabXRController hand)
                 {
                     HandInRange.Remove(hand);
+                    EmitSignal(SignalName.OnHandExit);
+                    if (hand.HandModel.IsDetached && (!LockGrip || !hand.IsGripping))
+                    {
+                        hand.HandModel.Reattach();
+                    }
                     break;
                 }
                 parent = parent.GetParent();

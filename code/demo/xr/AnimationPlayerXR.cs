@@ -1,28 +1,13 @@
 using Godot;
 namespace Rehab;
-public partial class AnimationPlayerXR : AnimationPlayer
+public partial class AnimationPlayerXR : AnimationPlayerCutscene
 {
     [Export]
     public string[] AnimSequences;
     [Export]
     public string EndAnimName = "cutscene_end";
-    public CutsceneChunk ParentScene;
-    int AnimSequenceID = 0;
-    bool IsBusy;
-
-    public override void _Ready()
-    {
-        var parent = GetParent();
-        while (ParentScene == null && parent != null)
-        {
-            if (parent is CutsceneChunk chunk)
-                ParentScene = chunk;
-            else
-                parent = parent.GetParent();
-        }
-        
-        AnimSequenceID = 0;
-    }
+    public int AnimSequenceID = 0;
+    public bool IsBusy;
 
     public void XR_StartSequence(int id)
     {
@@ -42,27 +27,14 @@ public partial class AnimationPlayerXR : AnimationPlayer
         UnBusy();
     }
 
-    async void UnBusy()
+    public void XR_End()
+    {
+        ParentScene.AnimDone("cutscene");
+    }
+
+    public async void UnBusy()
     {
         await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
         IsBusy = false;
-    }
-
-    public void XR_Pause()
-    {
-        Pause();
-    }
-    public void XR_UnPause(float pos)
-    {
-        // unpausing an animation is currently bugged
-        Play();
-        Advance(pos);//Advance(13.74d);
-        Active = true;
-    }
-
-    public void XR_End()
-    {
-        Play("cutscene_end");
-        ParentScene.AnimDone("cutscene");
     }
 }
