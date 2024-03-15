@@ -145,6 +145,7 @@ public partial class ChunkLink : Node3D
 
     public async void SpawnChunk()
     {
+        //return;
         if (RehabScene.Root.ChunkNames.Contains(ChunkName) || IsLoading) return;
         IsLoading = true;
         if (LoadedScene == null)

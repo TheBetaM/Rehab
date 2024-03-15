@@ -15,7 +15,7 @@ public partial class CutsceneChunk : ChunkScene
     public Vector3 LastCamPos;
     public bool CutsceneActive = false;
 
-    public override void _Ready()
+    public override void InitGame()
     {
         RehabScene.Root.StopMusic();
         RehabScene.GameHUD.OnUnPause();
@@ -58,13 +58,14 @@ public partial class CutsceneChunk : ChunkScene
 
     public override void _Process(double delta)
     {
+        if (!CutsceneActive) return;
         if (Input.IsActionJustPressed("pad1_start"))
         {
             RehabScene.Root.StartPauseMenu(false);
             return;
         }
         if (!RehabScene.Root.XR_Enabled) return;
-        if (XR_CameraFollow && CutsceneActive)
+        if (XR_CameraFollow)
         {
             RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
         }

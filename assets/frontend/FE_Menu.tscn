@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://csc3ocq55uwbc"]
+[gd_scene load_steps=15 format=3 uid="uid://csc3ocq55uwbc"]
 
 [ext_resource type="PackedScene" uid="uid://bvnasa3s1tj38" path="res://assets/frontend/windows/WindowMainRound.tscn" id="1_cbs7t"]
 [ext_resource type="Script" path="res://code/Frontend/FrontendMenu.cs" id="1_w3elq"]
@@ -7,7 +7,21 @@
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="5_c5h6c"]
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="6_1cstp"]
 [ext_resource type="PackedScene" uid="uid://do0s11ctvcqp1" path="res://assets/frontend/windows/RehabMenuButton.tscn" id="6_2mxrl"]
+[ext_resource type="Shader" path="res://shaders/FontGradient.gdshader" id="6_mhqpa"]
 [ext_resource type="Script" path="res://code/Frontend/TextureRectWobble.cs" id="7_te4ee"]
+
+[sub_resource type="Gradient" id="Gradient_6e6ww"]
+colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0.0196078, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fmcm4"]
+gradient = SubResource("Gradient_6e6ww")
+width = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eyg1k"]
+shader = ExtResource("6_mhqpa")
+shader_parameter/gradient_offset = 0.0
+shader_parameter/multiline = true
+shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [sub_resource type="Gradient" id="Gradient_yoo12"]
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0)
@@ -42,6 +56,7 @@ offset_bottom = 180.0
 
 [node name="RehabLabel" parent="WindowMainRound" instance=ExtResource("3_d138b")]
 z_index = 2
+material = SubResource("ShaderMaterial_eyg1k")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -49,14 +64,15 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -347.0
-offset_top = -182.0
+offset_top = -30.0
 offset_right = 347.0
-offset_bottom = 182.0
+offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.75, 0.75)
-pivot_offset = Vector2(350, 182)
+pivot_offset = Vector2(350, 0)
 text = "label"
+vertical_alignment = 0
 
 [node name="MenuOptionsMain" type="VBoxContainer" parent="WindowMainRound"]
 visible = false

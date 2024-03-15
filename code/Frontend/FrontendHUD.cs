@@ -135,7 +135,7 @@ public partial class FrontendHUD : Control
         {
             int iconID = 0;
             if (AgentCharacter.activeCharacter != null)
-                iconID = AgentCharacter.activeCharacter.RegInt[0];
+                iconID = (int)AgentCharacter.activeCharacter.CharType;
             if (ResourceLoader.Exists(LivesIconPaths[iconID]))
                 LivesIcon.Texture = (Texture2D)ResourceLoader.Load(LivesIconPaths[iconID]);
         }
@@ -245,5 +245,24 @@ public partial class FrontendHUD : Control
     {
         if (RehabScene.Root.XR_Enabled)
             RehabScene.Root.XR_Origin.ResetOrientation();
+    }
+
+    public void DisplayMessage(string text, float fadeTime = 0.5f)
+    {
+        UpdateXR();
+        BottomTextLabel.Visible = false;
+        BottomTextLabel.Text = text;
+        BottomTextLabel.Modulate = new Color(1f, 1f, 1f, 0f);
+        var tTween1 = CreateTween();
+        tTween1.TweenProperty(BottomTextLabel, "modulate:a", 1.0f, fadeTime);
+        BottomTextLabel.Visible = true;
+    }
+
+    public async void ClearMessage(float fadeTime = 0.5f)
+    {
+        var tTween2 = CreateTween();
+        tTween2.TweenProperty(BottomTextLabel, "modulate:a", 0f, fadeTime);
+        await ToSignal(GetTree().CreateTimer(fadeTime), SceneTreeTimer.SignalName.Timeout);
+        BottomTextLabel.Visible = false;
     }
 }

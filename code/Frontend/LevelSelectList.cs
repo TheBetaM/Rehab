@@ -139,8 +139,6 @@ public partial class LevelSelectList : Control
                 CreateItem("Skate (No VR).tscn", ItemCount);
                 ItemCount = ItemCount + 1;
             }
-            //GD.Print("[LEVEL SELECT] Cannot open " + ListPath);
-            //GetNode<Label>("TitleLabel").Text = "#FE-Explorer-ImportNotFound";
         }
     }
 

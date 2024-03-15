@@ -90,6 +90,7 @@ albedo_color = Color(1, 1, 1, 0)
 
 [node name="XRHand" type="Node3D"]
 script = ExtResource("1_t0s41")
+IsNinaHand = true
 
 [node name="Rig_NinaHand" parent="." instance=ExtResource("1_i2vld")]
 transform = Transform3D(4.37114e-08, 1, 3.82137e-15, 1, -4.37114e-08, 8.74228e-08, 8.74228e-08, 0, -1, 0, 0, 0.220292)
@@ -130,6 +131,7 @@ playback_default_blend_time = 0.5
 libraries = {
 "": SubResource("AnimationLibrary_7hwpf")
 }
+playback_default_blend_time = 0.5
 
 [node name="NinaHandFired" parent="." instance=ExtResource("1_i2vld")]
 transform = Transform3D(4.37114e-08, 1, 3.82137e-15, 1, -4.37114e-08, 8.74228e-08, 8.74228e-08, 0, -1, 0, 0, 0.220292)

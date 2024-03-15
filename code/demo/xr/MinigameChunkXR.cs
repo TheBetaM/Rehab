@@ -2,9 +2,9 @@ using Godot;
 namespace Rehab;
 public partial class MinigameChunkXR : MinigameChunk
 {
-    public override void _Ready()
+    public override void InitGame()
     {
-        base._Ready();
+        base.InitGame();
         HandCol();
     }
 
@@ -15,6 +15,8 @@ public partial class MinigameChunkXR : MinigameChunk
         var handR = RehabScene.Root.XR_Origin.XR_HandR;
         handL.ToggleHandCollision(true);
         handR.ToggleHandCollision(true);
+        handL.HandModel.IsRestricted = true;
+        handR.HandModel.IsRestricted = true;
     }
 
     public override void AnimDone(StringName anim)
@@ -23,14 +25,14 @@ public partial class MinigameChunkXR : MinigameChunk
         CutsceneActive = false;
         ReorientXRCamNode(AgentCharacter.activeCharacter);
         AnimPlayer.Play(EndAnimName);
-        var handL = RehabScene.Root.XR_Origin.XR_HandL.HandModel;
-        var handR = RehabScene.Root.XR_Origin.XR_HandR.HandModel;
-        var handLcol = RehabScene.Root.XR_Origin.XR_HandL;
-        var handRcol = RehabScene.Root.XR_Origin.XR_HandR;
-        handLcol.ToggleHandCollision(false);
-        handRcol.ToggleHandCollision(false);
-        handL.Reattach();
-        handR.Reattach();
+        var handL = RehabScene.Root.XR_Origin.XR_HandL;
+        var handR = RehabScene.Root.XR_Origin.XR_HandR;
+        handL.ToggleHandCollision(false);
+        handR.ToggleHandCollision(false);
+        handL.HandModel.Reattach();
+        handR.HandModel.Reattach();
+        handL.HandModel.IsRestricted = false;
+        handR.HandModel.IsRestricted = false;
         RehabScene.Root.PlayMusic(MinigameMusicID);
     }
 

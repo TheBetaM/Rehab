@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://deku1jgir0rrr"]
+[gd_scene load_steps=19 format=3 uid="uid://deku1jgir0rrr"]
 
 [ext_resource type="Script" path="res://code/Frontend/FrontendHUD.cs" id="1_yrfyt"]
 [ext_resource type="Shader" path="res://shaders/FontGradient.gdshader" id="2_n118i"]
@@ -15,7 +15,7 @@ gradient = SubResource("Gradient_6e6ww")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n5075"]
 shader = ExtResource("2_n118i")
 shader_parameter/gradient_offset = 47.0
-shader_parameter/gradient_lines = 1
+shader_parameter/multiline = false
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vbfre"]
@@ -23,7 +23,7 @@ shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f861j"]
 shader = ExtResource("2_n118i")
 shader_parameter/gradient_offset = 47.0
-shader_parameter/gradient_lines = 1
+shader_parameter/multiline = false
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wbc15"]
@@ -31,6 +31,19 @@ size = Vector2(100, 50)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dj3aa"]
 radius = 64.0
+
+[sub_resource type="Gradient" id="Gradient_c00ef"]
+colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0.0196078, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gi2ny"]
+gradient = SubResource("Gradient_c00ef")
+width = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i0ouu"]
+shader = ExtResource("2_n118i")
+shader_parameter/gradient_offset = 0.0
+shader_parameter/multiline = true
+shader_parameter/gradient = SubResource("GradientTexture1D_gi2ny")
 
 [sub_resource type="Animation" id="Animation_b4efc"]
 resource_name = "LifeIconANim"
@@ -312,6 +325,7 @@ visibility_mode = 1
 
 [node name="LabelBottom" parent="." instance=ExtResource("4_w5x18")]
 visible = false
+material = SubResource("ShaderMaterial_i0ouu")
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 1
 anchors_preset = 12
@@ -322,7 +336,9 @@ offset_top = -100.0
 offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "this is a long label for bottom text"
+text = "label
+"
+vertical_alignment = 0
 
 [node name="LabelTimer" type="Label" parent="."]
 visible = false

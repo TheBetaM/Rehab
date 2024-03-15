@@ -485,6 +485,7 @@ namespace RehabSetup
                 uint Hash = ExportGodot.ExportModelResource(RigidModelCont, path, ExportedTextures);
                 Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(Scene.ModelIDs[i], Hash)}", $".");
                 Nodes[i + 1].Lines.Add($"cast_shadow=0"); // no need for skydome to cast shadows? can always tune for clouds or sth afterwards
+                Nodes[i + 1].Lines.Add($"ignore_occlusion_culling=true");
             }
         }
 
@@ -525,19 +526,48 @@ namespace RehabSetup
             RootNode.KeyValues.Add("parent", ".");
             Nodes.Add(RootNode);
 
+            Node OccluderNode = new Node($"SceneryOccluder", "OccluderInstance3D");
+            OccluderNode.KeyValues.Add("parent", ".");
+            InternalResource OccludeShape = new InternalResource();
+            OccludeShape.Type = "ArrayOccluder3D";
+            InternalResourceList.Add(OccludeShape);
+            OccluderNode.Lines.Add($"occluder=SubResource({InternalResourceList.Count})");
+            List<int> Indices = new List<int>();
+            List<Pos> Vertices = new List<Pos>();
+            int vertexcount = 0;
+
             uint NodeID = 0;
             Dictionary<uint, (int, uint)> ExportedModels = new Dictionary<uint, (int, uint)>();
             Dictionary<uint, int> ExportedLODs = new Dictionary<uint, int>();
-            ParseSceneryTree(Scene.SceneryRoot, scene_rigid_sec, scene_lod_sec, path, false, ref NodeID, "SceneryRoot", ExportedModels, ExportedLODs, ExportedTextures);
+            ParseSceneryTree(Scene.SceneryRoot, scene_rigid_sec, scene_lod_sec, path, false, ref NodeID, "SceneryRoot", ExportedModels, ExportedLODs, ExportedTextures, Indices, Vertices, ref vertexcount);
+
+            StringBuilder IndArray = new StringBuilder();
+            StringBuilder VertArray = new StringBuilder();
+            IndArray.Append($"indices=PackedInt32Array(");
+            for (int i = 0; i < Indices.Count - 1; i++)
+            {
+                IndArray.Append($"{Indices[i]},");
+            }
+            IndArray.Append($"{Indices[Indices.Count - 1]})");
+            VertArray.Append($"vertices=PackedVector3Array(");
+            for (int i = 0; i < Vertices.Count - 1; i++)
+            {
+                VertArray.Append($"{Vertices[i].X.ToText()},{Vertices[i].Y.ToText()},{Vertices[i].Z.ToText()},");
+            }
+            VertArray.Append($"{Vertices[Vertices.Count - 1].X.ToText()},{Vertices[Vertices.Count - 1].Y.ToText()},{Vertices[Vertices.Count - 1].Z.ToText()})");
+
+            OccludeShape.Lines.Add(VertArray.ToString());
+            OccludeShape.Lines.Add(IndArray.ToString());
+            Nodes.Add(OccluderNode);
         }
 
         public void ParseSceneryTree(SceneryData.SceneryStruct Node, TwinsSection ModelSection, TwinsSection LODSection, 
             string path, bool SceneOnly, ref uint NodeID, string ParentNodeName, Dictionary<uint, (int, uint)> ExportedModels, Dictionary<uint, int> ExportedLODs,
-            Dictionary<uint, string> ExportedTextures)
+            Dictionary<uint, string> ExportedTextures, List<int> Indices, List<Pos> Vertices, ref int vertexcount)
         {
             for (int a = 0; a < Node.Model.Models.Count; a++)
             {
-                Add_InstancedSceneryModel(Node.Model.Models[a], path, ParentNodeName, ref NodeID, ModelSection, LODSection, ExportedModels, ExportedLODs, ExportedTextures);
+                Add_InstancedSceneryModel(Node.Model.Models[a], path, ParentNodeName, ref NodeID, ModelSection, LODSection, ExportedModels, ExportedLODs, ExportedTextures, Indices, Vertices, ref vertexcount);
             }
 
             uint ParentNodeID = NodeID;
@@ -550,13 +580,13 @@ namespace RehabSetup
             {
                 if (Node.Links[i] is SceneryData.SceneryStruct n)
                 {
-                    ParseSceneryTree(n, ModelSection, LODSection, path, SceneOnly, ref NodeID, $"{ParentNodeName}/node_{ParentNodeID}", ExportedModels, ExportedLODs, ExportedTextures);
+                    ParseSceneryTree(n, ModelSection, LODSection, path, SceneOnly, ref NodeID, $"{ParentNodeName}/node_{ParentNodeID}", ExportedModels, ExportedLODs, ExportedTextures, Indices, Vertices, ref vertexcount);
                 }
                 else if (Node.Links[i] is SceneryData.SceneryModelStruct Model)
                 {
                     for (int a = 0; a < Model.Models.Count; a++)
                     {
-                        Add_InstancedSceneryModel(Model.Models[a], path, ParentNodeName, ref NodeID, ModelSection, LODSection, ExportedModels, ExportedLODs, ExportedTextures);
+                        Add_InstancedSceneryModel(Model.Models[a], path, ParentNodeName, ref NodeID, ModelSection, LODSection, ExportedModels, ExportedLODs, ExportedTextures, Indices, Vertices, ref vertexcount);
                     }
                 }
             }
@@ -956,6 +986,14 @@ namespace RehabSetup
             "Foofie",
             "Projectile",
         };
+        static Dictionary<uint, int> AgentCharacterTypes = new Dictionary<uint, int>()
+        {
+            [(uint)DefaultEnums.ObjectID.CRASH] = 0,
+            [(uint)DefaultEnums.ObjectID.CORTEX] = 1,
+            [(uint)DefaultEnums.ObjectID.NINA] = 3,
+            [(uint)DefaultEnums.ObjectID.DUMMY_FRONTEND_CHARACTER] = 4,
+            [(uint)DefaultEnums.ObjectID.MECHABANDICOOT] = 5,
+        };
 
         public void AddGameObject(GameObject Agent, string path, bool SceneOnly = false)
         {
@@ -977,6 +1015,7 @@ namespace RehabSetup
             if (AgentType == 0)
             {
                 Nodes[0].Type = ExportGodot.CharacterBody3D;
+                Nodes[0].Lines.Add($"CharType={AgentCharacterTypes[Agent.ID]}");
             }
             else
             {
@@ -2046,7 +2085,7 @@ namespace RehabSetup
                     switch (GameObjectTypes[Inst.ObjectID])
                     {
                         default: break;
-                        //case 0: // Character
+                        case 0: // Character
                         case 1: // Crate
                         case 2: // Pickup
                         case 5: // Chi Chi Grass
@@ -3030,55 +3069,148 @@ namespace RehabSetup
             Nodes.Add(ModelNode);
         }
 
-        void Add_InstancedSceneryModel(SceneryData.ScenerySubModel Model, string path, string ParentNodeName, 
+        void Add_InstancedSceneryModel(SceneryData.ScenerySubModel Model, string path, string AttachName, 
             ref uint NodeID, TwinsSection ModelSection, TwinsSection LODSection, Dictionary<uint, (int, uint)> ExportedModels, Dictionary<uint, int> ExportedLODs,
-            Dictionary<uint, string> ExportedTextures)
+            Dictionary<uint, string> ExportedTextures, List<int> Indices, List<Pos> Vertices, ref int vertexcount)
         {
-            if (Model.isSpecial && ExportGodot.ExportLODs)
+            string ParentNodeName = AttachName;
+            uint ModelID = Model.ModelID;
+            if (Model.isSpecial && !ExportGodot.ExportLODs)
             {
-                if (ExportedLODs.ContainsKey(Model.ModelID))
-                {
-                    Node ModelNode = new Node($"LODModel_{Model.ModelID.ToString("X8")}_{NodeID}");
-                    ModelNode.InstanceID = ExportedLODs[Model.ModelID];
-                    ModelNode.KeyValues.Add("parent", ParentNodeName);
-                    Nodes.Add(ModelNode);
-                }
-                else
-                {
-                    string ModelName = $"LODModel_{Model.ModelID.ToString("X8")}";
-                    LodModel LODCont = LODSection.GetItem<LodModel>(Model.ModelID);
-                    string Hash = ExportGodot.ExportLODModel(LODCont, path, ExportedTextures);
-                    Add_InstancedScene($"../LODs/{ModelName}_{Hash}", ParentNodeName);
-                    ExportedLODs.Add(Model.ModelID, ExternalResourceList.Count);
-                }
+                LodModel LODCont = LODSection.GetItem<LodModel>(Model.ModelID);
+                ModelID = LODCont.LODModelIDs[0];
+            }
+
+            RigidModel RigidCont = ModelSection.GetItem<RigidModel>(ModelID);
+            if (ExportedModels.ContainsKey(ModelID))
+            {
+                string outName = DefaultHashes.RigidToName(ModelID, ExportedModels[ModelID].Item2);
+                Node ModelNode = new Node($"{outName}_{NodeID}");
+                ModelNode.InstanceID = ExportedModels[ModelID].Item1;
+                ModelNode.KeyValues.Add("parent", ParentNodeName);
+                Nodes.Add(ModelNode);
             }
             else
             {
-                uint ModelID = Model.ModelID;
-                if (Model.isSpecial && !ExportGodot.ExportLODs)
-                {
-                    LodModel LODCont = LODSection.GetItem<LodModel>(Model.ModelID);
-                    ModelID = LODCont.LODModelIDs[0];
-                }
+                uint Hash = ExportGodot.ExportModelResource(RigidCont, path, ExportedTextures);
+                Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(ModelID, Hash)}", ParentNodeName);
+                ExportedModels.Add(ModelID, (ExternalResourceList.Count, Hash));
+            }
 
-                if (ExportedModels.ContainsKey(ModelID))
+            bool HasOpaque = false;
+            List<bool> OpaqueSurf = new List<bool>();
+            foreach (var matID in RigidCont.MaterialIDs)
+            {
+                bool ThisOpaque = false;
+                Material mat = ModelSection.Parent.GetItem<TwinsSection>(1).GetItem<Material>(matID);
+                foreach (var shader in mat.Shaders)
                 {
-                    string outName = DefaultHashes.RigidToName(ModelID, ExportedModels[ModelID].Item2);
-                    Node ModelNode = new Node($"{outName}_{NodeID}");
-                    ModelNode.InstanceID = ExportedModels[ModelID].Item1;
-                    ModelNode.KeyValues.Add("parent", ParentNodeName);
-                    Nodes.Add(ModelNode);
+                    if (shader.ABlending == TwinsShader.AlphaBlending.OFF && shader.ATest == TwinsShader.AlphaTest.OFF)
+                    {
+                        HasOpaque = true;
+                        ThisOpaque = true;
+                        break;
+                    }
+                }
+                OpaqueSurf.Add(ThisOpaque);
+            }
+
+            if (HasOpaque)
+            {
+                System.Numerics.Matrix4x4 matrix = System.Numerics.Matrix4x4.Identity;
+                matrix.M11 = -Model.ModelMatrix[0].X;
+                matrix.M12 = Model.ModelMatrix[1].X;
+                matrix.M13 = Model.ModelMatrix[2].X;
+                matrix.M21 = -Model.ModelMatrix[0].Y;
+                matrix.M22 = Model.ModelMatrix[1].Y;
+                matrix.M23 = Model.ModelMatrix[2].Y;
+                matrix.M31 = -Model.ModelMatrix[0].Z;
+                matrix.M32 = Model.ModelMatrix[1].Z;
+                matrix.M33 = Model.ModelMatrix[2].Z;
+                matrix.M14 = Model.ModelMatrix[0].W;
+                matrix.M24 = Model.ModelMatrix[1].W;
+                matrix.M34 = Model.ModelMatrix[2].W;
+                matrix.M41 = Model.ModelMatrix[3].X;
+                matrix.M42 = Model.ModelMatrix[3].Y;
+                matrix.M43 = Model.ModelMatrix[3].Z;
+                matrix.M44 = Model.ModelMatrix[3].W;
+                matrix *= System.Numerics.Matrix4x4.CreateScale(-1f, 1f, 1f);
+
+                if (ModelSection.Parent.Type == SectionType.GraphicsX)
+                {
+                    ModelX mesh = ModelSection.Parent.GetItem<TwinsSection>(2).GetItem<ModelX>(RigidCont.MeshID);
+                    int sub = 0;
+                    foreach (var s in mesh.SubModels)
+                    {
+                        if (!OpaqueSurf[sub])
+                        {
+                            sub++;
+                            continue;
+                        }
+                        foreach (var v in s.VData)
+                        {
+                            var vpos = new System.Numerics.Vector4(-v.X,v.Y, v.Z, 1f);
+                            var pos = System.Numerics.Vector4.Transform(vpos, matrix);
+                            Vertices.Add(new Pos(pos.X, pos.Y, pos.Z, 1f));
+                        }
+                        for (int g = 0; g < s.GroupList.Count; g++)
+                        {
+                            for (int a = 0; a < s.GroupList[g] - 2; ++a)
+                            {
+                                Indices.Add(vertexcount + ((a & 0x1) == 0x1 ? a + 1 : a + 0));
+                                Indices.Add(vertexcount + ((a & 0x1) == 0x1 ? a + 0 : a + 1));
+                                Indices.Add(vertexcount + ((a & 0x1) == 0x1 ? a + 2 : a + 2));
+                            }
+                            vertexcount += (int)s.GroupList[g];
+                        }
+                        sub++;
+                    }
                 }
                 else
                 {
-                    RigidModel RigidCont = ModelSection.GetItem<RigidModel>(ModelID);
-                    uint Hash = ExportGodot.ExportModelResource(RigidCont, path, ExportedTextures);
-                    Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(ModelID, Hash)}", ParentNodeName);
-                    ExportedModels.Add(ModelID, (ExternalResourceList.Count, Hash));
+                    Model mesh = ModelSection.Parent.GetItem<TwinsSection>(2).GetItem<Model>(RigidCont.MeshID);
+                    int sub = 0;
+                    foreach (var s in mesh.SubModels)
+                    {
+                        if (!OpaqueSurf[sub])
+                        {
+                            sub++;
+                            continue;
+                        }
+                        foreach (var v in s.Vertexes)
+                        {
+                            var vpos = new System.Numerics.Vector4(-v.X,v.Y, v.Z, 1f);
+                            var pos = System.Numerics.Vector4.Transform(vpos, matrix);
+                            Vertices.Add(new Pos(pos.X, pos.Y, pos.Z, 1f));
+                        }
+                        for (var j = 0; j < s.Vertexes.Count; ++j)
+                        {
+                            if (j < s.Vertexes.Count - 2)
+                            {
+                                if (s.Vertexes[j + 2].Conn)
+                                {
+                                    if ((/*offset +*/ j) % 2 == 0)
+                                    {
+                                        Indices.Add(vertexcount);
+                                        Indices.Add(vertexcount + 1);
+                                        Indices.Add(vertexcount + 2);
+                                    }
+                                    else
+                                    {
+                                        Indices.Add(vertexcount + 1);
+                                        Indices.Add(vertexcount);
+                                        Indices.Add(vertexcount + 2);
+                                    }
+                                }
+                                ++vertexcount;
+                            }
+                        }
+                        sub++;
+                    }
                 }
             }
 
-            Nodes.Last().Name += $"_{NodeID}";
+            //Nodes.Last().Name += $"_{NodeID}";
             Nodes.Last().Lines.Add($"transform={MatrixToTransform(Model.ModelMatrix)}");
             Nodes.Last().Lines.Add($"cast_shadow=0"); // original game doesn't cast shadows, remove if needed
 

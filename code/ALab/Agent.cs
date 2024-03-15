@@ -35,27 +35,6 @@ public partial class Agent : Node3D
     [Export] public Godot.Collections.Array<float> RegFloat;
     [Export] public Godot.Collections.Array<int> RegInt;
 
-    enum FSlot{
-        UnkFloat = 0,
-    }
-    enum ISlot{
-        AgentType = 0,
-        UnkInt = 1,
-    }
-    enum ScriptSlot{
-        Spawn = 0,
-        Trigger = 1,
-        Damaged = 2,
-        Touched = 3,
-        Headbutted = 4,
-        LandedOn = 5,
-        SpinAttacked = 6,
-        Bodyslammed = 7,
-        SlideAttacked = 8,
-        PhysicsCollision = 9,
-        Unk10 = 10,
-    }
-
     string[] ShadowPaths = [
         "res://assets/textures/shadow/clin.png",
         "res://assets/textures/shadow/cube.png",
@@ -86,7 +65,7 @@ public partial class Agent : Node3D
                 {
                     if (a is CollisionShape3D col)
                     {
-                        if (SubModels.Count != 0)
+                        if (SubModels.Count != 0 || this is AgentCharacter)
                         {
                             col.Disabled = true;
                             col.ProcessMode = ProcessModeEnum.Disabled;
@@ -151,7 +130,7 @@ public partial class Agent : Node3D
             ActiveAnim = -1;
             SubModels[ogi].Visible = true;
             SubModels[ogi].ProcessMode = ProcessModeEnum.Inherit;
-            if (ColShapes.ContainsKey(ogi))
+            if (this is not AgentCharacter && ColShapes.ContainsKey(ogi))
             {
                 foreach (var i in ColShapes[ogi])
                 {
@@ -241,11 +220,19 @@ public partial class Agent : Node3D
             Call("set_collision_mask_value", layer, true);
             Call("set_collision_layer_value", layer, true);
         }
-	    UpdateLayersNested(this, layer);
+        bool LimitDrawDistance = false;
+        if (OS.GetName() == "Android")
+        {
+            if (this is AgentPickup || this is AgentCrate || this is AgentCreature)
+            {
+                LimitDrawDistance = true;
+            }
+        }
+	    UpdateLayersNested(this, layer, LimitDrawDistance);
 	    FirstSetup = false;
     }
 
-    void UpdateLayersNested(Node i, int layer)
+    void UpdateLayersNested(Node i, int layer, bool LimitDrawDistance)
     {
         if (i is VisualInstance3D vis)
         {
@@ -258,6 +245,10 @@ public partial class Agent : Node3D
             {
                 var mask = (int)light.LightCullMask | (1 << (layer - 1));
                 light.LightCullMask = (uint)mask;
+            }
+            if (vis is MeshInstance3D geom && LimitDrawDistance)
+            {
+                geom.VisibilityRangeEnd = 60f;
             }
         }
         else if (i is CollisionObject3D col)
@@ -274,7 +265,7 @@ public partial class Agent : Node3D
             }
         }
         foreach (var id in i.GetChildren())
-            UpdateLayersNested(id, layer);
+            UpdateLayersNested(id, layer, LimitDrawDistance);
     }
 
     public void UpdateActiveModel()

@@ -9,14 +9,18 @@ public partial class MinigameChunk : CutsceneChunk
     public string EndAnimName = "cutscene_end";
     [Export]
     public int MinigameMusicID = 54;
+    [Export]
+    public int MinigameAmbID = 112;
 
-    public override void _Ready()
+    public override void InitGame()
     {
-        base._Ready();
+        base.InitGame();
+        RehabGame.ResetGame();
         if (PortraitMode && OS.GetName() == "Android" && !RehabScene.Root.XR_Enabled)
         {
             DisplayServer.ScreenSetOrientation(DisplayServer.ScreenOrientation.SensorPortrait);
         }
+        RehabScene.Root.PlayAmbience(MinigameAmbID);
     }
 
     public override void AnimDone(StringName anim)
@@ -30,6 +34,7 @@ public partial class MinigameChunk : CutsceneChunk
 
     public override void _Process(double delta)
     {
+        if (!CutsceneActive) return;
         if (Input.IsActionJustPressed("pad1_start"))
         {
             RehabScene.Root.StartPauseMenu(false);
@@ -40,10 +45,20 @@ public partial class MinigameChunk : CutsceneChunk
             AnimDone("");
             return;
         }
-        if (XR_CameraFollow && CutsceneActive)
+        if (XR_CameraFollow)
         {
             RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
         }
+    }
+
+    public void DisplayMessage(string text)
+    {
+        RehabScene.GameHUD.DisplayMessage(text);
+    }
+
+    public void ClearMessage()
+    {
+        RehabScene.GameHUD.ClearMessage();
     }
 
 }

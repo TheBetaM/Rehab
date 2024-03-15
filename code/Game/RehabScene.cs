@@ -221,11 +221,10 @@ public partial class RehabScene : Node3D
         }
         await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
         loadedScene.ProcessMode = ProcessModeEnum.Inherit;
-        loadedScene.ChunkEnter();
-        loadedScene.ShadowToggle(true);
+        loadedScene.InitGame();
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         FE.GetNode<LoadingVisuals>("Loading").AnimOut();
-        if (RehabGame.UseMouseCamera)
-            Input.MouseMode = Input.MouseModeEnum.Captured;
+        if (RehabGame.UseMouseCamera) Input.MouseMode = Input.MouseModeEnum.Captured;
         if (XR_Enabled) XR_Origin.FE_Inactive();
         await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
         FE.GetNode<LoadingVisuals>("Loading").Visible = false;
@@ -240,8 +239,10 @@ public partial class RehabScene : Node3D
             if (!string.IsNullOrWhiteSpace(SkydomePath))
                 Skydome.Visible = true;
             XR_Origin.ToggleHands(true);
-            XR_Origin.XR_HandL.HandModel.UpdateLayers(loadedScene.ChunkLayer);
-            XR_Origin.XR_HandR.HandModel.UpdateLayers(loadedScene.ChunkLayer);
+            if (XR_Origin.XR_HandL.HasHand)
+                XR_Origin.XR_HandL.HandModel.UpdateLayers(loadedScene.ChunkLayer);
+            if (XR_Origin.XR_HandR.HasHand) 
+                XR_Origin.XR_HandR.HandModel.UpdateLayers(loadedScene.ChunkLayer);
         }
         IsLoadingXR = false;
         IsLoadingScene = false;
@@ -297,8 +298,10 @@ public partial class RehabScene : Node3D
         UpdateWorldEnv(chunk.WorldEnv);
         if (XR_Enabled)
         {
-            XR_Origin.XR_HandL.HandModel.UpdateLayers(chunk.ChunkLayer);
-            XR_Origin.XR_HandR.HandModel.UpdateLayers(chunk.ChunkLayer);
+            if (XR_Origin.XR_HandL.HasHand)
+                XR_Origin.XR_HandL.HandModel.UpdateLayers(chunk.ChunkLayer);
+            if (XR_Origin.XR_HandR.HasHand)
+                XR_Origin.XR_HandR.HandModel.UpdateLayers(chunk.ChunkLayer);
         }
 
         // Updating Skydome

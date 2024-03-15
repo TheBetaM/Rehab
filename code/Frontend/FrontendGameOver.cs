@@ -24,7 +24,7 @@ public partial class FrontendGameOver : Control
         RehabScene.Root.ProcessMode = ProcessModeEnum.Disabled;
         int iconID = 0;
         if (AgentCharacter.activeCharacter != null)
-            iconID = AgentCharacter.activeCharacter.RegInt[0];
+            iconID = (int)AgentCharacter.activeCharacter.CharType;
         if (ResourceLoader.Exists(IconPaths[iconID]))
             Icon.Texture = (Texture2D)ResourceLoader.Load(IconPaths[iconID]);
         Modulate = new Color(Modulate.R, Modulate.G, Modulate.B, 0.0f);

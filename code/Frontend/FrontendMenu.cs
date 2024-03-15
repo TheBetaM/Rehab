@@ -799,7 +799,7 @@ public partial class FrontendMenu : Control
     {
         var iconID = 0;
         if (AgentCharacter.activeCharacter != null)
-            iconID = AgentCharacter.activeCharacter.RegInt[0];
+            iconID = (int)AgentCharacter.activeCharacter.CharType;
         if (ResourceLoader.Exists(LivesIconPaths[iconID]))
             LivesIcon.Texture = (Texture2D)ResourceLoader.Load(LivesIconPaths[iconID]);
         

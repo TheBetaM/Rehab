@@ -709,6 +709,7 @@ radius = 0.05
 [node name="MinigameRooftops_Start" type="Node3D"]
 script = ExtResource("1_x7c48")
 MinigameMusicID = 8
+MinigameAmbID = -1
 AnimPlayerPath = NodePath("AnimationPlayer")
 AnimCameraPath = NodePath("CutsceneCamera")
 XR_CameraFollow = true
@@ -806,9 +807,6 @@ visible = false
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
-RegAngle = [65536, 131072, 131072, 0, 0, 0, 131072, 0, 0]
-RegFloat = [1, 50, 5.2, 15, 50, 0, 2.5, 7, 0, 7, 0.7, 0, 0, 0, 1, 7, 13, 37.556, 57.874, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.05, 0.05, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-RegInt = [3, 255, 2]
 
 [node name="Door1" parent="Actors" instance=ExtResource("9_725t3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.2469, 0, -11.76)

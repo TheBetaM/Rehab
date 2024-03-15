@@ -10,6 +10,11 @@ public partial class RehabXRHand : Node3D
     bool HasAnim;
     public bool IsDetached;
     Vector3 OrigScale;
+    
+    [Export]
+    public bool IsNinaHand;
+    public bool IsRestricted;
+    public bool IsFired;
 
     [Signal]
     public delegate void OnBodyEnteredEventHandler(Node body);
@@ -28,7 +33,7 @@ public partial class RehabXRHand : Node3D
 
     public void OnButtonDown(string name, bool isRightHand)
     {
-        if (!HasAnim) return;
+        if (!HasAnim || IsFired) return;
         if (ProcessMode == ProcessModeEnum.Disabled) return;
         switch (name)
         {
@@ -41,7 +46,7 @@ public partial class RehabXRHand : Node3D
 
     public void OnButtonRelease(string name, bool isRightHand)
     {
-        if (!HasAnim) return;
+        if (!HasAnim || IsFired) return;
         if (ProcessMode == ProcessModeEnum.Disabled) return;
         switch (name)
         {

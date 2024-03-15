@@ -18,15 +18,18 @@ public partial class ChunkScene : Node3D
     public event EventHandler OnChunkEnter;
     public event EventHandler OnChunkExit;
 
-    public override void _Ready()
+    public virtual void InitGame()
     {
         RehabScene.PlayerCam.Current = true;
         RehabScene.GameHUD.OnUnPause();
+        ShadowToggle(true);
         PlayerCheck();
     }
 
     async void PlayerCheck()
     { 
+        await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+        ChunkEnter();
         await ToSignal(GetTree().CreateTimer(3.5f), SceneTreeTimer.SignalName.Timeout);
         if (AgentCharacter.activeCharacter == null && !RehabScene.FE.GetNode<Control>("LevelSelect").Visible &&
         !RehabScene.FE.GetNode<Control>("Loading").Visible && !RehabScene.FE.GetNode<Control>("FE_MainMenuDynamic").Visible && 

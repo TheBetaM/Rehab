@@ -1,84 +1,21 @@
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using Godot;
 namespace Rehab;
 public partial class AgentCharacter : Agent
 {
-    public enum CharASlot {
-        UnkAngle1 = 0,
-        UnkAngle2 = 1,
-        UnkAngle3 = 2,
-        UnkAngle4 = 3,
-        UnkAngle5 = 4,
-        UnkAngle6 = 5,
-        UnkAngle7 = 6,
-        UnkAngle8 = 7,
-        UnkAngle9 = 8,
-    }
-    public enum CharFSlot {
-        UnkFloat01 = 0,
-        AirGravity = 1,
-        UnkFloat03 = 2,
-        BaseGravity = 3,
-        WalkSpeedPercentage = 4,
-        UnkFloat06 = 5,
-        WalkSpeed = 6,
-        RunSpeed = 7,
-        StrafingSpeed = 8,
-        SpinThrowForwardForce = 9,
-        SpinLength = 10,
-        SpinDelay = 11,
-        UnkFloat13 = 12,
-        UnkFloat14 = 13,
-        Static15 = 14,
-        JumpAirSpeed = 15,
-        JumpHeight = 16,
-        UnkFloat17Jump = 17,
-        UnkFloat18Jump = 18,
-        JumpEdgeSpeed = 19,
-        DoubleJumpHeight = 20,
-        UnkFloat21DoubleJump = 21,
-        UnkFloat22DoubleJump = 22,
-        UnkFloat23SlideJump = 23,
-        UnkFloat24SlideJump = 24,
-        UnkFloat25SlideJump = 25,
-        UnkFloat26SlideJump = 26,
-        UnkFloat27 = 27,
-        UnkFloat28 = 28,
-        UnkFloat29 = 29,
-        UnkFloat30 = 30,
-        BodyslamHangTime = 31,
-        BodyslamUpwardForce = 32,
-        BodyslamGravityForce = 33,
-        FlyingKickHangTime = 34,
-        FlyingKickForwardSpeed = 35,
-        FlyingKickGravity = 36,
-        RadialBlastTimeToStart = 37,
-        UnkFloat38RadialBlast = 38,
-        UnkFloat39RadialBlast = 39,
-        CrawlSpeed = 40,
-        CrawlTimeFromStand = 41,
-        CrawlTimeToStand = 42,
-        CrawlTimeToRun = 43,
-        SlideSpeed = 44,
-        UnkFloat45Slide = 45,
-        UnkFloat46Slide = 46,
-        UnkFloat47Slide = 47,
-        UnkFloat48Slide = 48,
-        UnkFloat49Slide = 49,
-        GunButtonHoldTimeToStartCharging = 50,
-        GunChargeTime = 51,
-        GunTimeBetweenChargedShots = 52,
-        GunTimeBetweenShots = 53,
-        UnkFloat54 = 54,
-        RadialBlastChargeTime = 55,
-    }
-    public enum CharISlot {
-        AgentType = 0,
-        UnkInt = 1,
-        Health = 2,
+    public enum CharacterType {
+        Crash = 0,
+        Cortex = 1,
+        Coco = 2,
+        Nina = 3,
+        EvilCrash = 4,
+        MechaBandicoot = 5,
     }
 
+    [Export]
+    public CharacterType CharType = CharacterType.Crash;
     Vector3 char_velocity = Vector3.Zero;
     PlayerCamera physCam;
     public bool isReparenting;
@@ -92,6 +29,8 @@ public partial class AgentCharacter : Agent
     bool isCrouched;
     float slideTimer;
     float coyoteTimer;
+    CollisionShape3D DynamicCol;
+    //MeshInstance3D DynamicColVis;
 
     AudioStream FS_Dirt_1;
     AudioStream FS_Dirt_2 ;
@@ -111,6 +50,13 @@ public partial class AgentCharacter : Agent
     AudioStream FS_Tile_2;
     AudioStream FS_Slippy;
 
+    const float AirGravity = 50f;
+    static float[] WalkSpeed = [2.5f, 2.5f, 2.5f, 2.5f, 2.5f, 12f];
+    static float[] RunSpeed = [9f, 7f, 9f, 7f, 7f, 12f];
+    static float[] SpinLength = [0.4f, 0f, 0f, 0.7f, 0f, 0f];
+    static float[] CrawlSpeed = [1.75f, 1.75f, 0f, 0f, 0f, 0f];
+    static float[] SlideSpeed = [18f, 10f, 0f, 0f, 0f, 0f];
+
     public static AgentCharacter activeCharacter;
     public static Dictionary<int, string> ActiveActorTypes = new();
 
@@ -118,8 +64,8 @@ public partial class AgentCharacter : Agent
     {
         base._Ready();
 
-        if (!ActiveActorTypes.ContainsKey(RegInt[(int)CharISlot.AgentType]))
-            ActiveActorTypes[RegInt[(int)CharISlot.AgentType]] = GetPath();
+        if (!ActiveActorTypes.ContainsKey((int)CharType))
+            ActiveActorTypes[(int)CharType] = GetPath();
         else
         {
             Visible = false;
@@ -127,8 +73,20 @@ public partial class AgentCharacter : Agent
         }
         
         CreateShadow(0, Vector2.One, 0);
+
+        DynamicCol = new CollisionShape3D();
+        var box = new BoxShape3D();
+        DynamicCol.Shape = box;
+        DynamicCol.Name = "DynamicCol";
+        AddChild(DynamicCol);
+        //DynamicColVis = new MeshInstance3D();
+        //var boxmesh = new BoxMesh();
+        //DynamicColVis.Mesh = boxmesh;
+        //AddChild(DynamicColVis);
         
         if (activeCharacter != null)
+            return;
+        if (!ParentScene.ActiveScene)
             return;
         
         activeCharacter = this;
@@ -165,10 +123,10 @@ public partial class AgentCharacter : Agent
             isReparenting = false;
             return;
         }
-        if (ActiveActorTypes.ContainsKey(RegInt[(int)CharISlot.AgentType]))
+        if (ActiveActorTypes.ContainsKey((int)CharType))
         {
-            if (ActiveActorTypes[RegInt[(int)CharISlot.AgentType]] == GetPath())
-                ActiveActorTypes.Remove(RegInt[(int)CharISlot.AgentType]);
+            if (ActiveActorTypes[(int)CharType] == GetPath())
+                ActiveActorTypes.Remove((int)CharType);
         }
         if (activeCharacter == this)
             activeCharacter = null;
@@ -176,8 +134,9 @@ public partial class AgentCharacter : Agent
 
     public override void _PhysicsProcess(double delta)
     {
-        ActiveActorTypes[RegInt[(int)CharISlot.AgentType]] = GetPath();
+        ActiveActorTypes[(int)CharType] = GetPath();
         if (ProcessMode == ProcessModeEnum.Disabled) return;
+        UpdateDynamicCollision();
         if (activeCharacter != this) return;
         if (Input.IsActionJustPressed("pad1_start"))
         {
@@ -260,9 +219,9 @@ public partial class AgentCharacter : Agent
             else
                 RehabGame.DisplayMessage("GRAVITY " + Tr("#FE-Off"));
         }
-        if (Input.IsActionJustPressed("pad1_square") && spinTimer <= 0f && RegFloat[(int)CharFSlot.SpinLength] > 0f && !isCrouched)
+        if (Input.IsActionJustPressed("pad1_square") && spinTimer <= 0f && SpinLength[(int)CharType] > 0f && !isCrouched)
         {
-            spinTimer = RegFloat[(int)CharFSlot.SpinLength];
+            spinTimer = SpinLength[(int)CharType];
             DoAnimation(14, true);
             if (System.Random.Shared.Next(0, 2) == 0)
                 DoSound(2, 1f, 0f);
@@ -271,7 +230,7 @@ public partial class AgentCharacter : Agent
         }
         if (Input.IsActionJustPressed("pad1_circle"))
         {
-            if (pressed && slideTimer <= 0f && onFloor && RegFloat[(int)CharFSlot.SlideSpeed] > 0f)
+            if (pressed && slideTimer <= 0f && onFloor && SlideSpeed[(int)CharType] > 0f)
             {
                 slideTimer = 0.4f;
                 DoAnimation(36, true);
@@ -280,7 +239,7 @@ public partial class AgentCharacter : Agent
         }
         if (Input.IsActionPressed("pad1_circle"))
         {
-            if (!isCrouched && RegFloat[(int)CharFSlot.CrawlSpeed] > 0f && onFloor && slideTimer <= 0f)
+            if (!isCrouched && CrawlSpeed[(int)CharType] > 0f && onFloor && slideTimer <= 0f)
             {
                 isCrouched = true;
                 DoAnimation(32, true);
@@ -292,15 +251,15 @@ public partial class AgentCharacter : Agent
                 isCrouched = false;
         }
         
-        var speed = RegFloat[(int)CharFSlot.RunSpeed];
+        var speed = RunSpeed[(int)CharType];
         if (dirLength < 0.3f)
             speed = 0;
         else if (dirLength < 0.8f)
-            speed = RegFloat[(int)CharFSlot.WalkSpeed];
+            speed = WalkSpeed[(int)CharType];
         if (isCrouched && pressed)
-            speed = RegFloat[(int)CharFSlot.CrawlSpeed];
+            speed = CrawlSpeed[(int)CharType];
         if (slideTimer > 0f)
-            speed = RegFloat[(int)CharFSlot.SlideSpeed];
+            speed = SlideSpeed[(int)CharType];
         direction = direction.Normalized();
         
         if (pressed)
@@ -327,7 +286,7 @@ public partial class AgentCharacter : Agent
                 }
                 else if (speed == 0)
                     DoAnimation(9, true);
-                else if (speed == RegFloat[(int)CharFSlot.WalkSpeed])
+                else if (speed == WalkSpeed[(int)CharType])
                     DoAnimation(10, true);
                 else
                     DoAnimation(11, true);
@@ -366,7 +325,7 @@ public partial class AgentCharacter : Agent
         if (!onFloor)
         {
             if (gravityOn && (coyoteTimer <= 0f || isJumping))
-                char_velocity.Y -= RegFloat[(int)CharFSlot.AirGravity] * delta;
+                char_velocity.Y -= AirGravity * delta;
             else
                 char_velocity.Y = 0f;
         }
@@ -531,6 +490,28 @@ public partial class AgentCharacter : Agent
            
     }
 
+    void UpdateDynamicCollision()
+    {
+        Aabb box = new Aabb();
+        UpdateDynamicColNested(SubModels[ActiveModel], ref box);
+        DynamicCol.Position = box.Position + box.Size / 2f;
+        DynamicCol.Shape.Set("size", box.Size);
+        //DynamicColVis.Position = DynamicCol.Position;
+        //DynamicColVis.Mesh.Set("size", box.Size);
+    }
+
+    void UpdateDynamicColNested(Node parent, ref Aabb inBox)
+    {
+        if (parent is MeshInstance3D mesh)
+        {
+            inBox = inBox.Merge(mesh.Mesh.GetAabb());
+        }
+        foreach (var i in parent.GetChildren())
+        {
+            UpdateDynamicColNested(i, ref inBox);
+        }
+    }
+
     void XR_Setup()
     {
         RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
@@ -540,26 +521,26 @@ public partial class AgentCharacter : Agent
         Visible = false;
         string RHandPath = "res://assets/scenes/xr/XRHand_Crash.tscn";
         string LHandPath = "res://assets/scenes/xr/XRHand_Crash.tscn";
-        switch (RegInt[(int)CharISlot.AgentType])
+        switch (CharType)
         {
             default: break;
-            case 1:
+            case CharacterType.Cortex:
                 RHandPath = "res://assets/scenes/xr/XRHand_Cortex.tscn";
                 LHandPath = "res://assets/scenes/xr/XRHand_Cortex.tscn";
             break;
-            case 2:
+            case CharacterType.Coco:
                 RHandPath = "res://assets/scenes/xr/XRHand_Crunch_Metal.tscn";
                 LHandPath = "res://assets/scenes/xr/XRHand_Crunch.tscn";
             break;
-            case 3:
+            case CharacterType.Nina:
                 RHandPath = "res://assets/scenes/xr/XRHand_Nina.tscn";
                 LHandPath = "res://assets/scenes/xr/XRHand_Nina.tscn";
             break;
-            case 4:
+            case CharacterType.EvilCrash:
                 RHandPath = "res://assets/scenes/xr/XRHand_EvilCrash.tscn";
                 LHandPath = "res://assets/scenes/xr/XRHand_EvilCrash.tscn";
             break;
-            case 5:
+            case CharacterType.MechaBandicoot:
                 RHandPath = "res://assets/scenes/xr/XRHand_Mecha_Chainsaw.tscn";
                 LHandPath = "res://assets/scenes/xr/XRHand_Mecha_Rocket.tscn";
             break;
