@@ -16,7 +16,7 @@ public partial class AgentCharacter : Agent
 
     [Export]
     public CharacterType CharType = CharacterType.Crash;
-    Vector3 char_velocity = Vector3.Zero;
+    public Vector3 char_velocity = Vector3.Zero;
     PlayerCamera physCam;
     public bool isReparenting;
     public bool isSwitchingChunks;
@@ -28,7 +28,8 @@ public partial class AgentCharacter : Agent
     public float spinTimer;
     bool isCrouched;
     float slideTimer;
-    float coyoteTimer;
+    public float coyoteTimer;
+    public bool BlockMovement;
     CollisionShape3D DynamicCol;
     //MeshInstance3D DynamicColVis;
 
@@ -50,12 +51,12 @@ public partial class AgentCharacter : Agent
     AudioStream FS_Tile_2;
     AudioStream FS_Slippy;
 
-    const float AirGravity = 50f;
-    static float[] WalkSpeed = [2.5f, 2.5f, 2.5f, 2.5f, 2.5f, 12f];
-    static float[] RunSpeed = [9f, 7f, 9f, 7f, 7f, 12f];
-    static float[] SpinLength = [0.4f, 0f, 0f, 0.7f, 0f, 0f];
-    static float[] CrawlSpeed = [1.75f, 1.75f, 0f, 0f, 0f, 0f];
-    static float[] SlideSpeed = [18f, 10f, 0f, 0f, 0f, 0f];
+    public const float AirGravity = 50f;
+    public static float[] WalkSpeed = [2.5f, 2.5f, 2.5f, 2.5f, 2.5f, 12f];
+    public static float[] RunSpeed = [9f, 7f, 9f, 7f, 7f, 12f];
+    public static float[] SpinLength = [0.4f, 0f, 0f, 0.7f, 0f, 0f];
+    public static float[] CrawlSpeed = [1.75f, 1.75f, 0f, 0f, 0f, 0f];
+    public static float[] SlideSpeed = [18f, 10f, 0f, 0f, 0f, 0f];
 
     public static AgentCharacter activeCharacter;
     public static Dictionary<int, string> ActiveActorTypes = new();
@@ -155,6 +156,7 @@ public partial class AgentCharacter : Agent
 
     void UpdateMovement(float delta)
     {
+        if (BlockMovement) return;
         Vector3 direction = Vector3.Zero;
         bool isJumping = false;
         bool onFloor = (bool)Call("is_on_floor");
@@ -406,7 +408,7 @@ public partial class AgentCharacter : Agent
         }
     }
     
-    void UpdateFootStep(float delta)
+    public void UpdateFootStep(float delta)
     {
         if (ActiveAnim != 11 && ActiveAnim != 10) return;
         
@@ -490,7 +492,7 @@ public partial class AgentCharacter : Agent
            
     }
 
-    void UpdateDynamicCollision()
+    public void UpdateDynamicCollision()
     {
         Aabb box = new Aabb();
         UpdateDynamicColNested(SubModels[ActiveModel], ref box);
@@ -547,6 +549,7 @@ public partial class AgentCharacter : Agent
         }
         RehabScene.Root.XR_Origin.XR_HandL.SpawnHand(LHandPath, this);
         RehabScene.Root.XR_Origin.XR_HandR.SpawnHand(RHandPath, this);
+        //AudioSource.AttenuationModel = AudioStreamPlayer3D.AttenuationModelEnum.Disabled;
     }
 
 }

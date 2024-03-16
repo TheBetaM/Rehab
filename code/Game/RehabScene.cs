@@ -66,6 +66,7 @@ public partial class RehabScene : Node3D
             FE.Reparent(FE_XR_Viewport);
             XR_Origin.Visible = true;
             XR_Enabled = true;
+            Input.MouseMode = Input.MouseModeEnum.Captured;
         }
         else
         {
@@ -257,8 +258,6 @@ public partial class RehabScene : Node3D
         }
         GD.Print("[ROOT] Spawning " + chunkName);
 		var LoadedChunk = chunk.Instantiate();
-		holder.AddChild(LoadedChunk);
-		LoadedChunk.Reparent(this);
         var scene = (ChunkScene)LoadedChunk;
         lock (Chunks)
         {
@@ -276,6 +275,8 @@ public partial class RehabScene : Node3D
                 }
             }
         }
+		holder.AddChild(LoadedChunk);
+		LoadedChunk.Reparent(this);
 		return scene;
     }
 
@@ -462,6 +463,8 @@ public partial class RehabScene : Node3D
     {
         for (int i = 0; i < Chunks.Count; i++)
         {
+            foreach (var a in Chunks[i].Links)
+                a.DisableLink();
             Chunks[i].QueueFree();
         }
         Chunks.Clear();
@@ -503,19 +506,24 @@ public partial class RehabScene : Node3D
         {
             StartMainMenu();
         }
+        if (XR_Enabled)
+        {
+            XR_Origin.XR_HandL.ToggleHandCollision(false);
+            XR_Origin.XR_HandR.ToggleHandCollision(false);
+        }
     }
 
     public void StartLevelSelect()
     {
         if (XR_Enabled) XR_Origin.FE_Active();
-        Input.MouseMode = Input.MouseModeEnum.Visible;
+        if (!XR_Enabled) Input.MouseMode = Input.MouseModeEnum.Visible;
 	    FE.GetNode<LevelSelectList>("LevelSelect").Activate();
     }
 
     public void StartMainMenu()
     {
         if (XR_Enabled) XR_Origin.FE_Active();
-        Input.MouseMode = Input.MouseModeEnum.Visible;
+        if (!XR_Enabled) Input.MouseMode = Input.MouseModeEnum.Visible;
 	    FE.GetNode<MainMenuDynamic>("FE_MainMenuDynamic").Activate();
     }
 
@@ -523,7 +531,7 @@ public partial class RehabScene : Node3D
     {
         ProcessMode = ProcessModeEnum.Disabled;
         if (XR_Enabled) XR_Origin.FE_Active();
-        Input.MouseMode = Input.MouseModeEnum.Visible;
+        if (!XR_Enabled) Input.MouseMode = Input.MouseModeEnum.Visible;
         GameHUD.OnPause();
         GameMenu.Start_PauseMenu(optionsOnly);
     }
@@ -532,7 +540,7 @@ public partial class RehabScene : Node3D
     {
         ProcessMode = ProcessModeEnum.Disabled;
         if (XR_Enabled) XR_Origin.FE_Active();
-        Input.MouseMode = Input.MouseModeEnum.Visible;
+        if (!XR_Enabled) Input.MouseMode = Input.MouseModeEnum.Visible;
         GameHUD.OnPause();
         GameMenu.Start_Message(text);
     }
@@ -692,6 +700,14 @@ public partial class RehabScene : Node3D
         {
             FixMobileFE(i);
         }
+    }
+
+    public async void XR_CameraCut(float length)
+    {
+        Visible = false;;
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        await ToSignal(GetTree().CreateTimer(length), SceneTreeTimer.SignalName.Timeout);
+        Visible = true;
     }
 
 

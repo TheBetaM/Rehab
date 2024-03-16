@@ -11,6 +11,7 @@ public partial class MinigameChunkXR : MinigameChunk
     async void HandCol()
     {
         await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
+        if (!CutsceneActive) return;
         var handL = RehabScene.Root.XR_Origin.XR_HandL;
         var handR = RehabScene.Root.XR_Origin.XR_HandR;
         handL.ToggleHandCollision(true);

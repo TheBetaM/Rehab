@@ -214,7 +214,9 @@ public partial class LoadingVisuals : Control
             Root3D.Visible = true;
             Root3D.ProcessMode = ProcessModeEnum.Inherit;
             ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Play("RESET");
+            ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Advance(0.1f);
             ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Queue($"scene/loading_{randAnim}");
+            ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Advance(0.1f);
         }
         EndAnimIn();
     }

@@ -268,6 +268,11 @@ public partial class Agent : Node3D
             UpdateLayersNested(id, layer, LimitDrawDistance);
     }
 
+    void UpdateLayersChunk(object a, System.EventArgs e)
+    {
+        UpdateLayers(ParentScene.ChunkLayer);
+    }
+
     public void UpdateActiveModel()
     {
         for (int i = 0; i < JointIDCount; i++)

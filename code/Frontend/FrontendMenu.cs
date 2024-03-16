@@ -86,7 +86,7 @@ public partial class FrontendMenu : Control
         anim.TweenProperty(this, "scale", TargetScale, FadeTime);
         var anim1 = CreateTween();
         anim1.TweenProperty(this, "modulate:a", 1f, FadeTime);
-        Input.MouseMode = Input.MouseModeEnum.Visible;
+        if (!RehabScene.Root.XR_Enabled) Input.MouseMode = Input.MouseModeEnum.Visible;
         if (RehabScene.Root.XR_Enabled) RehabScene.Root.XR_Origin.FE_Active();
     }
 
@@ -156,8 +156,9 @@ public partial class FrontendMenu : Control
             var button = (Control)holder.GetChild(holder.GetChildCount() - 1);
             button.GrabFocus();
         }
-        if (RehabScene.Root.XR_Enabled)
+        if (OS.HasFeature("mobile"))
         {
+            // No fullscreen switch on mobile, VSync switching doesn't work
             GetNode<Control>("WindowMainRound/MenuOptionsGraphics/Button1").Visible = false;
             GetNode<Control>("WindowMainRound/MenuOptionsGraphics/Button3").Visible = false;
         }
@@ -290,7 +291,14 @@ public partial class FrontendMenu : Control
         
         GetNode<Control>("WindowMainRound/MenuOptionsMain").Visible = false;
         GetNode<Control>("WindowMainRound/MenuOptionsGraphics").Visible = true;
-        GetNode<Control>("WindowMainRound/MenuOptionsGraphics").GetChild<Control>(0).GrabFocus();
+        if (OS.HasFeature("mobile"))
+        {
+            GetNode<Control>("WindowMainRound/MenuOptionsGraphics").GetChild<Control>(1).GrabFocus();
+        }
+        else
+        {
+            GetNode<Control>("WindowMainRound/MenuOptionsGraphics").GetChild<Control>(0).GrabFocus();
+        }
     }
 
     public void OptionsMain_ToGame()

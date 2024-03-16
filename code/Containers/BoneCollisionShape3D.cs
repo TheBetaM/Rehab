@@ -11,10 +11,19 @@ public partial class BoneCollisionShape3D : CollisionShape3D{
     {
         skeleton = GetParent().GetNode<Skeleton3D>("Armature");
         if (bone == 255) bone = 0;
+        UpdateBone();
     }
 
+    async void UpdateBone()
+    {
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        Transform = skeleton.GetBonePose(bone);
+    }
+
+    /*
     public override void _PhysicsProcess(double delta)
     {
         Transform = skeleton.GetBonePose(bone);
     }
+    */
 }

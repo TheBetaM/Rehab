@@ -57,6 +57,9 @@ script = ExtResource("2_3q0m5")
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 far = 90000.0
 
+[node name="AudioListener3D" type="AudioListener3D" parent="XROrigin3D/XRCamera3D"]
+current = true
+
 [node name="HandL" type="XRController3D" parent="XROrigin3D"]
 tracker = &"left_hand"
 script = ExtResource("14_23l16")

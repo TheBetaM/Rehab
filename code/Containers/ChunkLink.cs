@@ -11,6 +11,8 @@ public partial class ChunkLink : Node3D
     public bool IsDisabled;
     [Export]
     public bool SpawnInvisible;
+    [Export]
+    public bool CustomLink;
 
     ChunkScene ParentScene;
     PackedScene LoadedScene;
@@ -145,12 +147,15 @@ public partial class ChunkLink : Node3D
 
     public async void SpawnChunk()
     {
-        //return;
         if (RehabScene.Root.ChunkNames.Contains(ChunkName) || IsLoading) return;
         IsLoading = true;
         if (LoadedScene == null)
         {
             string FullChunkPath = RehabGame.AssetsPath + ChunkPath;
+            if (CustomLink)
+            {
+                FullChunkPath = ChunkPath;
+            }
             if (FileAccess.FileExists(FullChunkPath))
             {
                 if (OS.GetName() == "Android")

@@ -26,4 +26,22 @@ public partial class AgentCreature : Agent
         DoAnimation(1, true);
 	    CreateShadow(0, Vector2.One, 0);
     }
+
+    public async void ForceDeath()
+    {
+        DoAnimation(8, true);
+        await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
+        DoAnimation(9, false);
+        await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
+        ProcessMode = ProcessModeEnum.Disabled;
+        Visible = false;
+    }
+
+    public void ForcePanic()
+    {
+        DoAnimation(8, true);
+        ProcessMode = ProcessModeEnum.Disabled;
+        Visible = false;
+    }
+    
 }

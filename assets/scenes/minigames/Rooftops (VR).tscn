@@ -1,12 +1,14 @@
-[gd_scene load_steps=102 format=3 uid="uid://x4maom05g0mt"]
+[gd_scene load_steps=105 format=3 uid="uid://x4maom05g0mt"]
 
 [ext_resource type="Script" path="res://code/demo/xr/MinigameChunkXR.cs" id="1_x7c48"]
 [ext_resource type="PackedScene" path="res://import/Scenery/levels_school_cortex_cogpa08-Collision.tscn" id="2_bvwat"]
 [ext_resource type="PackedScene" path="res://import/Scenery/levels_school_cortex_cogpa08-Scenery.tscn" id="3_1jrlf"]
+[ext_resource type="Script" path="res://code/Containers/ChunkLink.cs" id="4_vwdhs"]
 [ext_resource type="Script" path="res://code/demo/xr/AnimationPlayerXR.cs" id="5_7nsrq"]
 [ext_resource type="AudioStream" path="res://import/Sounds/GlobalVO/English/DRC265.res" id="5_w7lf6"]
 [ext_resource type="AudioStream" path="res://import/Sounds/DormRoomCutscene_SFX.res" id="6_ksii0"]
 [ext_resource type="PackedScene" path="res://import/Actors/Nina.tscn" id="7_iexjk"]
+[ext_resource type="Script" path="res://code/demo/xr/AgentCharacterXR.cs" id="7_ps7l1"]
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_School_ClassroomDoor.tscn" id="9_725t3"]
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_NinaDollHead.tscn" id="10_q7ibl"]
 [ext_resource type="Animation" path="res://import/Rigs/RigRESET_NinaDollHead.res" id="11_eqlge"]
@@ -96,6 +98,9 @@ background_mode = 1
 ambient_light_source = 2
 ambient_light_color = Color(0.333333, 0.333333, 0.333333, 1)
 ambient_light_energy = 3.0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_t0d7d"]
+points = PackedVector3Array(-35.1997, -8.21255, -2.49951, -35.1997, -8.21255, 2.50049, -35.1997, -3.21255, 2.50049, -35.1997, -3.21255, -2.49951)
 
 [sub_resource type="Animation" id="Animation_nb6vw"]
 resource_name = "RESET"
@@ -364,7 +369,7 @@ tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.9),
-"transitions": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
 "method": &"stop"
@@ -766,6 +771,20 @@ shadow_normal_bias = 0.0
 [node name="Links" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.2, 8, 0)
 
+[node name="Link1-Part1" type="Node3D" parent="Links"]
+script = ExtResource("4_vwdhs")
+ChunkPath = "res://assets/scenes/minigames/chunks/MinigameRooftops_Part1.tscn"
+ChunkName = "MinigameRooftops_Part1"
+CustomLink = true
+
+[node name="ChunkHolder" type="Node3D" parent="Links/Link1-Part1"]
+transform = Transform3D(-4.37114e-08, -6.82719e-24, 1, -1.56188e-16, 1, 1.77322e-31, -1, -1.56188e-16, -4.37114e-08, -74.163, -4, 37.274)
+
+[node name="EnterTrigger" type="Area3D" parent="Links/Link1-Part1"]
+
+[node name="EnterTriggerShape" type="CollisionShape3D" parent="Links/Link1-Part1/EnterTrigger"]
+shape = SubResource("ConvexPolygonShape3D_t0d7d")
+
 [node name="Locators" type="Node3D" parent="."]
 
 [node name="Paths" type="Node3D" parent="Locators"]
@@ -804,6 +823,7 @@ far = 90000.0
 [node name="Nina" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("7_iexjk")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 37.5161, 0, -0.346702)
 visible = false
+script = ExtResource("7_ps7l1")
 LinkInstance = []
 LinkPath = []
 LinkPoint = []

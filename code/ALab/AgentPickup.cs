@@ -3,7 +3,7 @@ namespace Rehab;
 public partial class AgentPickup : Agent
 {
     bool isPickedUp;
-    bool isSpunAway;
+    public bool isSpunAway;
     Vector3 SpinDirection = Vector3.One;
     float SpunTimer;
     Node3D pickupTarget = null;
@@ -19,7 +19,8 @@ public partial class AgentPickup : Agent
         Set("collision_layer", 0);
         Set("freeze_mode", (int) RigidBody3D.FreezeModeEnum.Kinematic);
         Connect("body_entered", Callable.From<Node3D>(OnPickup));
-        if (Name != "Pickup_Wumpa")
+        string name = (string)Name;
+        if (!name.Contains("Pickup_Wumpa"))
             IsWumpa = false;
         else
             CreateShadow(0, Vector2.One * 0.5f, 0);
@@ -64,24 +65,40 @@ public partial class AgentPickup : Agent
         if (isPickedUp) return;
         bool check = body is AgentCharacter;
         if (!check) return;
-        AgentCharacter agent = (AgentCharacter)body;
-        Set("collision_layer", 0);
-        Set("collision_mask", 0);
-        pickupTarget = body;
-        isPickedUp = true;
-        if (IsWumpa)
+        if (IsWumpa && body is AgentCharacter agent)
         {
             if (agent.spinTimer > 0f)
             {
-                SpinDirection = GlobalPosition - body.GlobalPosition;
-                SpinDirection = SpinDirection.Normalized();
-                SpunTimer = 1f;
-                isSpunAway = true;
-                DoSound(2, (GD.Randf() / 5f) + 0.9f, 0f);
+                ForceSpun(body);
+                return;
             }
-            return;
         }
+        ForcePickup(body);
+    }
+
+    public void ForceSpun(Node3D node)
+    {
+        if (!IsWumpa)
+            ForcePickup(node);
+        Set("collision_layer", 0);
+        Set("collision_mask", 0);
+        pickupTarget = node;
+        isPickedUp = true;
+        SpinDirection = GlobalPosition - node.GlobalPosition;
+        SpinDirection = SpinDirection.Normalized();
+        SpunTimer = 1f;
+        isSpunAway = true;
+        DoSound(2, (GD.Randf() / 5f) + 0.9f, 0f);
+    }
+
+    public void ForcePickup(Node3D node)
+    {
+        Set("collision_layer", 0);
+        Set("collision_mask", 0);
+        pickupTarget = node;
+        isPickedUp = true;
         DoSound(1, 1f, 0f);
+        if (IsWumpa) return;
         Visible = false;
         switch (Name)
         {

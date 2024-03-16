@@ -36,6 +36,18 @@ public partial class AgentFurniture : Agent
             Set("collision_layer", 0);
             Connect("body_entered", Callable.From<Node3D>(OnDoorTouch));
         }
+        switch (Name)
+        {
+            default: break;
+            case "GargoyleSmall":
+                var hook = (AgentChiChiGrass)SubActorsScenes[0].Instantiate();
+                hook.Visible = false;
+                hook.Name = "ChiChiGrass_Ceiling";
+                hook.LinkPoint = LinkPoint;
+                AddChild(hook);
+            break;
+        }
+
         if (ParentScene != null)
         {
             ParentScene.OnChunkEnter += OnChunkEnter;

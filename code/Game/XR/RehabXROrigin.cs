@@ -15,6 +15,7 @@ public partial class RehabXROrigin : XROrigin3D
     public bool FE_XR_Active = false;
     public Node3D FE_XR_Pivot;
     double TurnCooldown = 0f;
+    StaticBody3D FE_Collider;
 
     public override void _Ready()
     {
@@ -25,6 +26,7 @@ public partial class RehabXROrigin : XROrigin3D
         XR_CursorR = FE_XR_Mesh.GetNode<Sprite3D>("CursorR");
         XR_HandL = GetNode<RehabXRController>("HandL");
         XR_HandR = GetNode<RehabXRController>("HandR");
+        FE_Collider = GetNode<StaticBody3D>("FE_Pivot/FE_Display/FE_Collider");
         XR_HandL.Origin = this;
         XR_HandR.Origin = this;
         XR_HandR.ActiveCursor = true;
@@ -154,10 +156,12 @@ public partial class RehabXROrigin : XROrigin3D
         XR_CursorL.Visible = true;
         XR_CursorR.Visible = true;
         FE_XR_Pivot.Transform = XR_Camera.Transform;
+        FE_Collider.ProcessMode = ProcessModeEnum.Inherit;
     }
 
     public void FE_Inactive()
     {
+        FE_Collider.ProcessMode = ProcessModeEnum.Disabled;
         FE_XR_Active = false;
         XR_CursorL.Visible = false;
         XR_CursorR.Visible = false;

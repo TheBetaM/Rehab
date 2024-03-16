@@ -265,4 +265,11 @@ public partial class FrontendHUD : Control
         await ToSignal(GetTree().CreateTimer(fadeTime), SceneTreeTimer.SignalName.Timeout);
         BottomTextLabel.Visible = false;
     }
+
+    public void SetMessage(string text)
+    {
+        BottomTextLabel.Visible = true;
+        BottomTextLabel.Text = text;
+        BottomTextLabel.Modulate = new Color(1f, 1f, 1f, 1f);
+    }
 }
