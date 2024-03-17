@@ -1,0 +1,602 @@
+[gd_scene load_steps=24 format=3 uid="uid://xdk2aiikggtd"]
+
+[ext_resource type="Script" path="res://code/Containers/ChunkScene.cs" id="1_f7haw"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_school_cortex_cogpa04-Collision.tscn" id="2_ekw3r"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_school_cortex_cogpa04-Scenery.tscn" id="3_ocygp"]
+[ext_resource type="Script" path="res://code/Containers/ChunkLink.cs" id="4_sgyk5"]
+[ext_resource type="Script" path="res://code/demo/PlayerOnlyTrigger.cs" id="5_uv2qw"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Rig_School_ClassroomDoor.tscn" id="6_605o5"]
+[ext_resource type="PackedScene" path="res://import/Actors/Pickup_Gem_Yellow.tscn" id="7_mrhpq"]
+[ext_resource type="PackedScene" path="res://import/Actors/Pickup_Wumpa.tscn" id="8_5y2n1"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_CheckPoint.tscn" id="8_6ll7n"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_IronSwitch.tscn" id="9_vhxtv"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_Iron.tscn" id="10_cayp6"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_Basic.tscn" id="12_woti0"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_ExtraLifeNina.tscn" id="13_mdlcw"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_Surprise.tscn" id="14_hmco3"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_Nitro.tscn" id="15_wk5u8"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_TNT.tscn" id="16_0spdu"]
+
+[sub_resource type="Environment" id="1"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.333333, 0.333333, 0.333333, 1)
+ambient_light_energy = 3.0
+volumetric_fog_density = 0.005
+volumetric_fog_emission = Color(0.5, 0.5, 0, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="2"]
+points = PackedVector3Array(-2.5, -1.00185, 23.103, 2.5, -1.00185, 23.103, 2.5, 3.99815, 23.103, -2.5, 3.99815, 23.103)
+
+[sub_resource type="ConvexPolygonShape3D" id="3"]
+points = PackedVector3Array(2.50049, -1.00185, -21.697, -2.49951, -1.00185, -21.697, -2.49951, 3.99815, -21.697, 2.50049, 3.99815, -21.697)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_873hd"]
+size = Vector3(10, 10, 10)
+
+[sub_resource type="Animation" id="Animation_1tqoc"]
+resource_name = "RESET"
+length = 0.1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../../Actors/Rig_School_ClassroomDoor")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.707107, 0, 0.707107)
+
+[sub_resource type="Animation" id="Animation_cb8is"]
+resource_name = "door"
+length = 0.2
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../../Actors/Rig_School_ClassroomDoor")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.707107, 0, 0.707107, 0.2, 1, 0, 1, 0, -4.37114e-08)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer:process_mode")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yqs8p"]
+_data = {
+"RESET": SubResource("Animation_1tqoc"),
+"door": SubResource("Animation_cb8is")
+}
+
+[node name="MinigameRooftops_Part4" type="Node3D"]
+script = ExtResource("1_f7haw")
+SkydomePath = "res://import/Skydomes/Skydome_School.tscn"
+WorldEnv = SubResource("1")
+
+[node name="levels_school_cortex_cogpa04-Collision" parent="." instance=ExtResource("2_ekw3r")]
+visible = false
+
+[node name="levels_school_cortex_cogpa04-Scenery" parent="." instance=ExtResource("3_ocygp")]
+metadata/_edit_lock_ = true
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="Directional" type="Node3D" parent="Lights"]
+
+[node name="DirectionalLight0" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.839966, -0.396435, -0.370537, 7.58106e-17, 0.682841, -0.730567, 0.54264, 0.613651, 0.573563, 0, 0, 0)
+layers = 0
+light_color = Color(0.17047, 0.259395, 0.570134, 1)
+light_energy = 2.10477
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight1" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.573563, 0.613651, -0.54264, -0.730567, 0.682841, 7.02405e-17, 0.370537, 0.396435, 0.839966, 0, 0, 0)
+layers = 0
+light_color = Color(0.655394, 0.308559, 0.0360467, 1)
+light_energy = 1.83096
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight2" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.573563, -0.613651, -0.54264, 0.730567, 0.682841, 0, 0.370537, -0.396435, 0.839966, 0, 0, 0)
+layers = 0
+light_color = Color(0.324646, 0.175462, 0.499892, 1)
+light_energy = 2.00043
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight3" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.839966, 0.396435, -0.370537, 7.58106e-17, 0.682841, 0.730567, 0.54264, -0.613651, 0.573563, 0, 0, 0)
+layers = 0
+light_color = Color(0.465171, 0.40179, 0.133039, 1)
+light_energy = 2.4017
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="Point" type="Node3D" parent="Lights"]
+
+[node name="PointLight0" type="OmniLight3D" parent="Lights/Point"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00012207, 2.2581, -2.4973)
+layers = 0
+light_color = Color(0.0401536, 0.959846, 0, 1)
+light_energy = 1.75028
+light_specular = 0.0
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+omni_range = 7.81792
+omni_attenuation = -1.0
+
+[node name="Links" type="Node3D" parent="."]
+
+[node name="Link0-Finale" type="Node3D" parent="Links"]
+script = ExtResource("4_sgyk5")
+ChunkPath = "res://assets/scenes/minigames/chunks/MinigameRooftops_Finale.tscn"
+ChunkName = "MinigameRooftops_Finale"
+CustomLink = true
+
+[node name="ChunkHolder" type="Node3D" parent="Links/Link0-Finale"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.174, 5.388, -120.193)
+
+[node name="EnterTrigger" type="Area3D" parent="Links/Link0-Finale"]
+
+[node name="EnterTriggerShape" type="CollisionShape3D" parent="Links/Link0-Finale/EnterTrigger"]
+shape = SubResource("2")
+
+[node name="Link1-Part3" type="Node3D" parent="Links"]
+script = ExtResource("4_sgyk5")
+ChunkPath = "res://assets/scenes/minigames/chunks/MinigameRooftops_Part3.tscn"
+ChunkName = "MinigameRooftops_Part3"
+CustomLink = true
+
+[node name="ChunkHolder" type="Node3D" parent="Links/Link1-Part3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -163.295, -15.299, 89.405)
+
+[node name="EnterTrigger" type="Area3D" parent="Links/Link1-Part3"]
+
+[node name="EnterTriggerShape" type="CollisionShape3D" parent="Links/Link1-Part3/EnterTrigger"]
+shape = SubResource("3")
+
+[node name="Particles" type="Node3D" parent="."]
+
+[node name="Locators" type="Node3D" parent="."]
+
+[node name="Paths" type="Node3D" parent="Locators"]
+
+[node name="PathsAI" type="Node3D" parent="Locators"]
+
+[node name="Points" type="Node3D" parent="Locators"]
+
+[node name="PointsAI" type="Node3D" parent="Locators"]
+
+[node name="Volumes" type="Node3D" parent="."]
+
+[node name="Triggers" type="Node3D" parent="Volumes"]
+
+[node name="DoorClose" type="Area3D" parent="Volumes/Triggers"]
+script = ExtResource("5_uv2qw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Volumes/Triggers/DoorClose"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48839, -10.4129)
+shape = SubResource("BoxShape3D_873hd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Volumes/Triggers/DoorClose"]
+libraries = {
+"": SubResource("AnimationLibrary_yqs8p")
+}
+
+[node name="CameraTriggers" type="Node3D" parent="Volumes"]
+
+[node name="Instances" type="Node3D" parent="."]
+
+[node name="Actors" type="Node3D" parent="."]
+
+[node name="Rig_School_ClassroomDoor" parent="Actors" instance=ExtResource("6_605o5")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.79211, -0.844851, -20.4393)
+
+[node name="Pickup_Gem_Yellow" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("7_mrhpq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.17281, -0.880399, -20.1887)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Models" parent="Actors/Pickup_Gem_Yellow" index="1"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.0932429, 0, 0)
+
+[node name="Pickup_Wumpa" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, -11.107)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa2" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, -8.29907)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa3" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, -5.97997)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa4" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, -3.693)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa5" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, -1.34691)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa6" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 1.11406)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa7" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 3.72008)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa8" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 7.46261)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa9" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 10.9143)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa10" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 14.5201)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa11" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 17.76)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa12" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_5y2n1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 20.6725)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crates" type="Node3D" parent="."]
+
+[node name="Crate_CheckPoint" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("8_6ll7n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0876074, -0.880399, -13.5934)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_IronSwitch" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_vhxtv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.89129, 0.879458, -5.60596)
+LinkInstance = [NodePath("../Crate_Iron"), NodePath("../Crate_Iron2")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, -9.45374)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron3")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron2" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, -9.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron4")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron3" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, -8.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron5")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron4" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, -8.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron6")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron5" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, -7.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron7")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron6" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, -7.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron8")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron7" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, -6.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron9")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron8" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, -6.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron10")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron9" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, -5.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron11")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron10" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, -5.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron12")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron11" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, -4.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron13")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron12" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, -4.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron14")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron13" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, -3.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron15")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron14" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, -3.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron16")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron15" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, -2.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron17")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron16" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, -2.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron18")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron17" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, -1.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron19")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron18" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, -1.45337)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron20")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron19" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, -0.453372)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron21")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron20" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, -0.453372)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron22")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron21" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, 0.546628)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron23")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron22" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, 0.546628)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron24")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron23" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, 1.54663)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron25")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron24" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, 1.54663)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron26")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron25" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, 2.54663)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron27")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron26" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, 2.54663)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron28")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron27" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, 3.54663)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron29")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron28" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, 3.54663)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = [NodePath("../Crate_Iron30")]
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron29" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.471896, -1.8083, 4.54663)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron30" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47, -1.8082, 4.54663)
+ModelActions = []
+OutlineCrate = true
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron31" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.891, -0.121, -5.606)
+ModelActions = []
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron32" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_cayp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.891, -1.121, -5.606)
+ModelActions = []
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Basic" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("12_woti0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.60656, -0.880399, 7.403)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_ExtraLifeNina" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("13_mdlcw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6382, 3.25602, -2.46993)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Surprise" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("14_hmco3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.59126, 0.119601, 7.40825)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Nitro" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("15_wk5u8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.66482, 3.29315, -0.453518)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Nitro2" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("15_wk5u8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.66488, 3.26443, -4.48934)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_ExtraLifeNina2" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("13_mdlcw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.94367, -0.880399, 10.5937)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_TNT" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("16_0spdu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.98106, 0.119601, 10.555)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[connection signal="OnTriggerEnter" from="Volumes/Triggers/DoorClose" to="Volumes/Triggers/DoorClose/AnimationPlayer" method="play" binds= ["door"]]
+
+[editable path="Actors/Pickup_Gem_Yellow"]

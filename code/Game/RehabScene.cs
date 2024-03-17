@@ -56,22 +56,11 @@ public partial class RehabScene : Node3D
         AudioMenu = GetNode<AudioStreamPlayer>("Audio/AudioMenu");
         var env = GetNode<WorldEnvironment>("WorldEnv");
         env.Environment = DefaultEnv;
-        XR_Interface = XRServer.FindInterface("OpenXR");
         XR_Origin = GetNode<RehabXROrigin>("XROrigin3D");
         FE_XR_Viewport = GetNode<SubViewport>("XR_FE");
-        if (XR_Interface != null && XR_Interface.IsInitialized())
+        if (OS.HasFeature("mobile"))
         {
-            DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Disabled);
-            GetViewport().UseXR = true;
-            FE.Reparent(FE_XR_Viewport);
-            XR_Origin.Visible = true;
-            XR_Enabled = true;
-            Input.MouseMode = Input.MouseModeEnum.Captured;
-        }
-        else
-        {
-            XR_Origin.QueueFree();
-            FE_XR_Viewport.QueueFree();
+            InitXR(false);
         }
         if (OS.HasFeature("mobile") ||
             (string)ProjectSettings.GetSetting("rendering/renderer/rendering_method") == "mobile")
@@ -101,6 +90,7 @@ public partial class RehabScene : Node3D
         var dir = DirAccess.Open(RehabGame.AssetsPath + "Levels/");
         if (dir != null)
         {
+            InitXR(true);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             GameHUD.Setup();
@@ -126,6 +116,31 @@ public partial class RehabScene : Node3D
             {
                 XR_Origin.FE_Active();
             }
+        }
+    }
+
+    void InitXR(bool lastTry)
+    {
+        if (XR_Enabled) return;
+        XR_Interface = XRServer.FindInterface("OpenXR");
+        if (XR_Interface != null && XR_Interface.IsInitialized())
+        {
+            DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Disabled);
+            GetViewport().UseXR = true;
+            FE.Reparent(FE_XR_Viewport);
+            XR_Origin.Visible = true;
+            FE_XR_Viewport.ProcessMode = ProcessModeEnum.Inherit;
+            XR_Enabled = true;
+            Input.MouseMode = Input.MouseModeEnum.Captured;
+        }
+        else if (lastTry)
+        {
+            XR_Origin.QueueFree();
+            FE_XR_Viewport.QueueFree();
+        }
+        else
+        {
+            FE_XR_Viewport.ProcessMode = ProcessModeEnum.Disabled;
         }
     }
 
@@ -662,6 +677,11 @@ public partial class RehabScene : Node3D
 		if (AudioMenu.Playing && AudioMenu.Stream != SoundFE_Select) return;
 		AudioMenu.Stream = SoundFE_Select;
 		AudioMenu.Play();
+    }
+
+    public void ChunkRestart()
+    {
+
     }
 
     public void ForceGameOver()

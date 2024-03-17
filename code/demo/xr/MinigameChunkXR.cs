@@ -35,6 +35,7 @@ public partial class MinigameChunkXR : MinigameChunk
         handL.HandModel.IsRestricted = false;
         handR.HandModel.IsRestricted = false;
         RehabScene.Root.PlayMusic(MinigameMusicID);
+        ChunkEnter();
     }
 
     public void PauseAnim(string path)

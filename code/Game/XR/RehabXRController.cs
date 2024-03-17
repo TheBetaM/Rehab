@@ -12,6 +12,7 @@ public partial class RehabXRController : XRController3D
     public bool HandModelDynamic;
     public bool IsGripping;
     public RigidBody3D HandCol;
+    bool IsFEActive;
 
     public override void _Ready()
     {
@@ -86,7 +87,7 @@ public partial class RehabXRController : XRController3D
                 IsGripping = true;
             break;
         }
-        if (HandModelDynamic)
+        if (HandModelDynamic && !IsFEActive)
             Hand.OnButtonDown(name, Tracker == "right_hand");
     }
 
@@ -152,7 +153,7 @@ public partial class RehabXRController : XRController3D
                 IsGripping = false;
             break;
         }
-        if (HandModelDynamic)
+        if (HandModelDynamic && !IsFEActive)
             Hand.OnButtonRelease(name, Tracker == "right_hand");
     }
 
@@ -178,13 +179,13 @@ public partial class RehabXRController : XRController3D
                 Input.ParseInputEvent(YEvent);
             break;
         }
-        if (HandModelDynamic)
+        if (HandModelDynamic && !IsFEActive)
             Hand.OnVector(name, pos, Tracker == "right_hand");
     }
 
     void OnFloat(string name, double pos)
     {
-        if (HandModelDynamic)
+        if (HandModelDynamic && !IsFEActive)
             Hand.OnFloat(name, pos, Tracker == "right_hand");
     }
 
@@ -234,6 +235,7 @@ public partial class RehabXRController : XRController3D
         {
             HandModel.ProcessMode = ProcessModeEnum.Disabled;
         }
+        IsFEActive = true;
     }
 
     public void FE_Inactive()
@@ -242,6 +244,7 @@ public partial class RehabXRController : XRController3D
         {
             HandModel.ProcessMode = ProcessModeEnum.Inherit;
         }
+        IsFEActive = false;
     }
 
     public void ToggleHandCollision(bool val)

@@ -66,7 +66,9 @@ public partial class MainMenuDynamic : Control
             {
                 ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Play("scene/menu_start1");
             }
-            ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Advance(0.001f);
+            ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Advance(0.1f);
+            ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Stop();
+            ActorNode.GetNode<AnimationPlayer>("AnimationPlayer").Play(null, 0d);
         }
         GetNode<AnimationPlayer>("AnimationPlayer").Play("menu_start");
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);

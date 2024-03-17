@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c77u2gvl3be2"]
+[gd_scene load_steps=33 format=3 uid="uid://c77u2gvl3be2"]
 
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_NinaHand.tscn" id="1_i2vld"]
 [ext_resource type="Script" path="res://code/Game/XR/RehabXRHand.cs" id="1_t0s41"]
@@ -8,6 +8,7 @@
 [ext_resource type="Animation" path="res://import/Animations/NinaHand_Shrink.res" id="5_ch8ls"]
 [ext_resource type="Animation" path="res://import/Rigs/RigRESET_NinaHand.res" id="6_20n23"]
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_Nina_GrabTarget.tscn" id="8_ffp15"]
+[ext_resource type="Texture2D" path="res://import/Textures/C4CDECF1.res" id="8_xcpeu"]
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_MultiTool_Target.tscn" id="9_2qpf3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yur3k"]
@@ -498,7 +499,7 @@ tracks/0/path = NodePath("Rig_NinaHand/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"clips": PackedStringArray("Index_Close"),
+"clips": PackedStringArray("Little_Close"),
 "times": PackedFloat32Array(0)
 }
 
@@ -512,7 +513,7 @@ tracks/0/path = NodePath("Rig_NinaHand/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"clips": PackedStringArray("Index_Open"),
+"clips": PackedStringArray("Little_Open"),
 "times": PackedFloat32Array(0)
 }
 
@@ -535,6 +536,17 @@ albedo_color = Color(1, 1, 1, 0)
 size = Vector3(0.3, 0.1, 0.45)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_2j67c"]
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enhjr"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("8_xcpeu")
+metallic = 1.0
+uv1_scale = Vector3(50, 50, 1)
 
 [node name="XRHand" type="Node3D"]
 script = ExtResource("1_t0s41")
@@ -625,12 +637,16 @@ libraries = {
 }
 autoplay = "NinaHand_FistClosed"
 
+[node name="GrappleAttach" type="Node3D" parent="NinaHandFired"]
+transform = Transform3D(0.00349103, 0.983405, 0.181395, 0.99688, 0.0108813, -0.0781772, -0.0788531, 0.181102, -0.980298, -0.171719, -0.10093, 0.230706)
+
 [node name="NinaHandSpring" type="Node3D" parent="."]
 visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NinaHandSpring"]
-transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0, 0, -0.1)
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-08, -0.1, 0, 1, -4.37114e-09, 0, 0, 0)
 mesh = SubResource("CylinderMesh_2j67c")
+surface_material_override/0 = SubResource("StandardMaterial3D_enhjr")
 
 [node name="NinaGrabTarget" parent="." instance=ExtResource("8_ffp15")]
 visible = false

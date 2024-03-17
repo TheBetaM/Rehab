@@ -41,7 +41,9 @@ public partial class ChunkScene : Node3D
             while (RehabScene.GameMenu.Visible)
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             RehabScene.Root.ExitLevel(false);
+            return;
         }
+        RehabGame.SetCheckPoint(AgentCharacter.activeCharacter.SpawnPos, AgentCharacter.activeCharacter.SpawnRot, Name, true);
     }
 
     public void UpdateLayers(int layer)

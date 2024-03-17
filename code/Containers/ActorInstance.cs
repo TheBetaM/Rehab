@@ -13,7 +13,7 @@ public partial class ActorInstance : Marker3D
     [Export] Array<int> RegAngle;
     [Export] Array<float> RegFloat;
     [Export] Array<int> RegInt;
-    Agent Actor;
+    public Agent Actor;
 
     public override async void _Ready()
     {
@@ -67,7 +67,7 @@ public partial class ActorInstance : Marker3D
             foreach (var i in LinkInstance)
             {
                 if (GetNodeOrNull(i) != null)
-                    Actor.LinkInstance.Add((Marker3D)GetNodeOrNull(i));
+                    Actor.LinkInstance.Add((Node3D)GetNodeOrNull(i));
             }
         }
         if (LinkPath != null)

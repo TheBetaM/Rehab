@@ -8,6 +8,7 @@ public partial class AgentPickup : Agent
     float SpunTimer;
     Node3D pickupTarget = null;
     bool IsWumpa = true;
+    public double CrateTimer;
 
     public override void _Ready()
     {
@@ -15,20 +16,34 @@ public partial class AgentPickup : Agent
 
         RotationDegrees = new Vector3(0f, (GD.Randf() - 0.5f) * 360f, 0f);
         Set("contact_monitor", true);
-        Set("max_contacts_reported", 256);
+        Set("max_contacts_reported", 1);
         Set("collision_layer", 0);
-        Set("freeze_mode", (int) RigidBody3D.FreezeModeEnum.Kinematic);
+        Set("freeze_mode", (int) RigidBody3D.FreezeModeEnum.Static);
         Connect("body_entered", Callable.From<Node3D>(OnPickup));
+        var shapeNode = new CollisionShape3D();
+        var shape = new SphereShape3D();
+        shape.Radius = 0.6f;
+        shapeNode.Shape = shape;
+        var zone = new Area3D();
+        zone.Connect("body_entered", Callable.From<Node3D>(OnPickup));
+        zone.AddChild(shapeNode);
+        zone.CollisionLayer = (uint)Get("collision_layer");
+        zone.CollisionMask = (uint)Get("collision_mask");
+        AddChild(zone);
         string name = (string)Name;
         if (!name.Contains("Pickup_Wumpa"))
             IsWumpa = false;
         else
+        {
+            zone.Position += Vector3.Up;
             CreateShadow(0, Vector2.One * 0.5f, 0);
+        }
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        RotateY(3f * (float)delta);
+        SubModels[ActiveModel].RotateY(3f * (float)delta);
+        if (CrateTimer > 0) CrateTimer -= delta;
         if (!Visible) ProcessMode = ProcessModeEnum.Disabled;
         if (isPickedUp)
         {
@@ -49,7 +64,7 @@ public partial class AgentPickup : Agent
                 Visible = false;
                 return;
             }
-            GlobalPosition = GlobalPosition.MoveToward(pickupTarget.GlobalPosition, 15f * (float)delta);
+            GlobalPosition = GlobalPosition.MoveToward(pickupTarget.GlobalPosition, 20f * (float)delta);
             if (GlobalPosition.DistanceTo(pickupTarget.GlobalPosition) < 0.1f)
             {
                 RehabGame.AddWumpa(1);
@@ -67,19 +82,22 @@ public partial class AgentPickup : Agent
         if (!check) return;
         if (IsWumpa && body is AgentCharacter agent)
         {
-            if (agent.spinTimer > 0f)
+            if (agent.spinTimer > 0f && CrateTimer <= 0)
             {
-                ForceSpun(body);
+                ForceSpun(body, false);
                 return;
             }
         }
         ForcePickup(body);
     }
 
-    public void ForceSpun(Node3D node)
+    public void ForceSpun(Node3D node, bool IsEnemy)
     {
         if (!IsWumpa)
+        {
+            if (IsEnemy) return;
             ForcePickup(node);
+        }
         Set("collision_layer", 0);
         Set("collision_mask", 0);
         pickupTarget = node;

@@ -169,4 +169,24 @@ public partial class CutsceneChunk : ChunkScene
             NestedAudioUpdate(a);
         }
     }
+
+    public void DisplayMessage(string text)
+    {
+        RehabScene.GameHUD.DisplayMessage(text);
+    }
+
+    public void ClearMessage()
+    {
+        RehabScene.GameHUD.ClearMessage();
+    }
+
+    public void SetMessage(string text)
+    {
+        RehabScene.GameHUD.SetMessage(text);
+    }
+
+    public void ClearMessageInstant()
+    {
+        RehabScene.GameHUD.ClearMessageInstant();
+    }
 }

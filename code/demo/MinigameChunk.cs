@@ -30,6 +30,7 @@ public partial class MinigameChunk : CutsceneChunk
         AnimPlayer.Play(EndAnimName);
         RehabScene.PlayerCam.Current = true;
         RehabScene.Root.PlayMusic(MinigameMusicID);
+        ChunkEnter();
     }
 
     public override void _Process(double delta)
@@ -49,16 +50,6 @@ public partial class MinigameChunk : CutsceneChunk
         {
             RehabScene.Root.XR_Origin.GlobalPosition = AnimCamera.GlobalPosition;
         }
-    }
-
-    public void DisplayMessage(string text)
-    {
-        RehabScene.GameHUD.DisplayMessage(text);
-    }
-
-    public void ClearMessage()
-    {
-        RehabScene.GameHUD.ClearMessage();
     }
 
 }

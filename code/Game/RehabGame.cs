@@ -18,11 +18,11 @@ public static class RehabGame
     public static int PlayerMode = 0;
     public static int PlayerCharacterType = 0;
     public static string SavePointChunk;
-    public static Vector3 SavePointPos;
-    public static Vector3 SavePointRot;
+    public static Vector3 SavePointPos = Vector3.Zero;
+    public static Vector3 SavePointRot = Vector3.Zero;
     public static string CheckPointChunk;
-    public static Vector3 CheckPointPos;
-    public static Vector3 CheckPointRot;
+    public static Vector3 CheckPointPos = Vector3.Zero;
+    public static Vector3 CheckPointRot = Vector3.Zero;
     public static bool InvertCameraX = false;
     public static bool InvertCameraY = false;
     public static bool UseMouseCamera = true;
@@ -32,6 +32,9 @@ public static class RehabGame
     public static string DataPath = OS.GetExecutablePath();
     public static string PacksPath = OS.GetExecutablePath();
     public static List<ModInfo> ModsInstalled = new List<ModInfo>();
+    public static bool NoHUDMode = false;
+    public static bool InvisibleTargetingMode = false;
+    public static bool XR_Comfort_HookTeleport = false;
 
     public static void Init()
     {
@@ -76,6 +79,8 @@ public static class RehabGame
         Progress = 0;
         Crystals = 0;
         LevelID = -1;
+        Gems.Clear();
+        ChunkData.Clear();
     }
 
     public static void AddWumpa(int amount)
@@ -132,8 +137,26 @@ public static class RehabGame
             RehabScene.Root.XR_Origin.ResetOrientation();
     }
 
-    public static void DisplayMessage(string text){
+    public static void DisplayMessage(string text)
+    {
         RehabScene.GameHUD.FlashMessage(text);
+    }
+    
+    public static void SetCheckPoint(Vector3 pos, Vector3 rot, string chunkName, bool IsLevelCrate)
+    {
+        CheckPointPos = pos;
+        CheckPointRot = rot;
+        CheckPointChunk = chunkName;
+        if (IsLevelCrate)
+        {
+            SavePointPos = pos;
+            SavePointRot = rot;
+            SavePointChunk = chunkName;
+        }
+        if (AgentCharacter.activeCharacter != null)
+        {
+            PlayerCharacterType = (int)AgentCharacter.activeCharacter.CharType;
+        }
     }
 
     public static void SetLevelID(int id)

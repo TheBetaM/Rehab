@@ -1417,7 +1417,7 @@ namespace RehabSetup
             }
             */
 
-            if (Agent.OGIs.Count != 0 && Agent.Anims.Count != 0 && AnimList.Count != 0 && ModelList.Count != 0)
+            if (Agent.OGIs.Count != 0 && ModelList.Count != 0)
             {
                 
                 Nodes[0].Lines.Add("ModelActions = [ { ");

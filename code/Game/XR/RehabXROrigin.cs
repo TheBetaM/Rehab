@@ -157,6 +157,8 @@ public partial class RehabXROrigin : XROrigin3D
         XR_CursorR.Visible = true;
         FE_XR_Pivot.Transform = XR_Camera.Transform;
         FE_Collider.ProcessMode = ProcessModeEnum.Inherit;
+        XR_HandL.FE_Active();
+        XR_HandR.FE_Active();
     }
 
     public void FE_Inactive()
@@ -165,6 +167,8 @@ public partial class RehabXROrigin : XROrigin3D
         FE_XR_Active = false;
         XR_CursorL.Visible = false;
         XR_CursorR.Visible = false;
+        XR_HandL.FE_Inactive();
+        XR_HandR.FE_Inactive();
     }
 
     public void ResetOrientation()

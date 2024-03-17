@@ -1,153 +1,128 @@
-[gd_scene load_steps=9 format=3 uid="uid://csfbhri4k37o6"]
+[gd_scene load_steps=16 format=3 uid="uid://bmokup8sxsb6a"]
 
-[ext_resource type="Script" path="res://code/Containers/ChunkScene.cs" id="1_ca2j0"]
-[ext_resource type="PackedScene" path="res://import/Scenery/levels_school_rooftop_roof01-Collision.tscn" id="2_n8hpa"]
-[ext_resource type="PackedScene" path="res://import/Scenery/levels_school_rooftop_roof01-Scenery.tscn" id="3_t2kos"]
-[ext_resource type="Script" path="res://code/Containers/ChunkLink.cs" id="4_eno1p"]
+[ext_resource type="Script" path="res://code/Containers/ChunkScene.cs" id="1_gkh3h"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_school_crash_crgpa07-Collision.tscn" id="2_0jv2u"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_school_crash_crgpa07-Scenery.tscn" id="3_hheii"]
+[ext_resource type="Script" path="res://code/Containers/ChunkLink.cs" id="4_yc4wg"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_Iron.tscn" id="5_dl3gp"]
+[ext_resource type="PackedScene" path="res://import/Actors/Pickup_Gem_Green.tscn" id="6_syiff"]
+[ext_resource type="PackedScene" path="res://import/Actors/ChiChiGrass_Wall.tscn" id="7_gsidc"]
+[ext_resource type="PackedScene" path="res://import/Actors/Pickup_Wumpa.tscn" id="9_4bnap"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_Basic.tscn" id="10_35q3s"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_ExtraLifeNina.tscn" id="11_xpaq3"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_Surprise.tscn" id="12_f2vaw"]
+[ext_resource type="PackedScene" path="res://import/Actors/Crate_Nitro.tscn" id="13_g6y8c"]
 
 [sub_resource type="Environment" id="1"]
 background_mode = 1
 ambient_light_source = 2
-ambient_light_color = Color(0.197556, 0.383892, 0.418552, 1)
-ambient_light_energy = 2.38919
+ambient_light_color = Color(0.333333, 0.333333, 0.333333, 1)
+ambient_light_energy = 3.0
+volumetric_fog_density = 0.005
+volumetric_fog_emission = Color(0.5, 0, 1, 1)
 
 [sub_resource type="ConvexPolygonShape3D" id="2"]
-points = PackedVector3Array(-159.247, 12.7786, -66.9351, -167.247, 12.7786, -66.9351, -167.247, 20.7786, -66.9351, -159.247, 20.7786, -66.9351)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_3etyp"]
-size = Vector3(50, 25, 60)
+points = PackedVector3Array(-2.24658, 0.00440598, 27.6624, 2.24658, 0.00440598, 27.6624, 2.24658, 5.55391, 27.6624, -2.24658, 5.55391, 27.6624)
 
 [sub_resource type="ConvexPolygonShape3D" id="3"]
-points = PackedVector3Array(-15, 12.7786, 176.8, -15, 12.7786, 168.8, -15, 20.7786, 168.8, -15, 20.7786, 176.8)
+points = PackedVector3Array(2.24658, 0.00440598, -29.9375, -2.24658, 0.00440598, -29.9375, -2.24658, 5.55391, -29.9375, 2.24658, 5.55391, -29.9375)
 
 [node name="MinigameRooftops_Part2" type="Node3D"]
-script = ExtResource("1_ca2j0")
+script = ExtResource("1_gkh3h")
 SkydomePath = "Skydomes/Skydome_School.tscn"
 WorldEnv = SubResource("1")
 
-[node name="levels_school_rooftop_roof01-Collision" parent="." instance=ExtResource("2_n8hpa")]
+[node name="levels_school_crash_crgpa07-Collision" parent="." instance=ExtResource("2_0jv2u")]
 visible = false
 
-[node name="levels_school_rooftop_roof01-Scenery" parent="." instance=ExtResource("3_t2kos")]
+[node name="levels_school_crash_crgpa07-Scenery" parent="." instance=ExtResource("3_hheii")]
 metadata/_edit_lock_ = true
-
-[node name="Model4ED0426C_73F456B3_130" parent="levels_school_rooftop_roof01-Scenery/SceneryRoot/node_0/node_6/node_13/node_118" index="11"]
-visible = false
-
-[node name="Model4ED0426C_73F456B3_131" parent="levels_school_rooftop_roof01-Scenery/SceneryRoot/node_0/node_6/node_13/node_118" index="12"]
-visible = false
-
-[node name="Model71BE749B_CF808CEE_140" parent="levels_school_rooftop_roof01-Scenery/SceneryRoot/node_0/node_6/node_13/node_118" index="21"]
-visible = false
-
-[node name="Model71BE749B_CF808CEE_141" parent="levels_school_rooftop_roof01-Scenery/SceneryRoot/node_0/node_6/node_13/node_118" index="22"]
-visible = false
-
-[node name="Model4ED0426C_73F456B3_1159" parent="levels_school_rooftop_roof01-Scenery/SceneryRoot/node_0/node_1155/node_1156/node_1157" index="1"]
-visible = false
-
-[node name="Model4ED0426C_73F456B3_1160" parent="levels_school_rooftop_roof01-Scenery/SceneryRoot/node_0/node_1155/node_1156/node_1157" index="2"]
-visible = false
-
-[node name="Model71BE749B_CF808CEE_1166" parent="levels_school_rooftop_roof01-Scenery/SceneryRoot/node_0/node_1155/node_1156/node_1157" index="8"]
-visible = false
-
-[node name="Model71BE749B_CF808CEE_1167" parent="levels_school_rooftop_roof01-Scenery/SceneryRoot/node_0/node_1155/node_1156/node_1157" index="9"]
-visible = false
 
 [node name="Lights" type="Node3D" parent="."]
 
 [node name="Directional" type="Node3D" parent="Lights"]
 
 [node name="DirectionalLight0" type="DirectionalLight3D" parent="Lights/Directional"]
-transform = Transform3D(0.741461, -0.29538, -0.602484, 0.566322, 0.757058, 0.325795, 0.359882, -0.582765, 0.728609, 0.946288, 35.3968, -15.8278)
+transform = Transform3D(1, -2.22045e-16, 0, 1.19971e-16, 0.540302, -0.841471, 1.86844e-16, 0.841471, 0.540302, -7.379, -0.14394, 6.20129)
 layers = 0
-light_color = Color(0.248942, 0.253174, 0.497884, 1)
-light_energy = 2.0085
+light_color = Color(0.372184, 0.262762, 0.365054, 1)
+light_energy = 1.78621
 light_bake_mode = 0
 light_cull_mask = 0
 shadow_normal_bias = 0.0
 
 [node name="DirectionalLight1" type="DirectionalLight3D" parent="Lights/Directional"]
-transform = Transform3D(0.512918, 0.759667, 0.399777, -0.62059, 0.649904, -0.43874, -0.593112, -0.0230596, 0.804789, 0.946288, 35.3968, -15.8278)
+transform = Transform3D(0.54257, 0.00747383, 0.839978, 0.0441109, 0.998327, -0.0373755, -0.838852, 0.0573309, 0.541333, -7.379, -0.14394, 6.20129)
 layers = 0
-light_color = Color(0.214896, 0.241063, 0.544041, 1)
-light_energy = 2.20572
+light_color = Color(0.407368, 0.329472, 0.26316, 1)
+light_energy = 2.45478
 light_bake_mode = 0
 light_cull_mask = 0
 shadow_normal_bias = 0.0
 
 [node name="DirectionalLight2" type="DirectionalLight3D" parent="Lights/Directional"]
-transform = Transform3D(0.892745, -0.092793, 0.440903, 0.371644, 0.704895, -0.604156, -0.254729, 0.703216, 0.663778, 0.946288, 35.3968, -15.8278)
+transform = Transform3D(0.515978, 0.704994, -0.48657, -0.50374, 0.709151, 0.493306, 0.692829, -0.0094299, 0.72104, -7.379, -0.14394, 6.20129)
 layers = 0
-light_color = Color(0.283021, 0.285544, 0.431435, 1)
-light_energy = 2.78142
+light_color = Color(0.512014, 0.294444, 0.193541, 1)
+light_energy = 2.34368
 light_bake_mode = 0
 light_cull_mask = 0
 shadow_normal_bias = 0.0
 
 [node name="DirectionalLight3" type="DirectionalLight3D" parent="Lights/Directional"]
-transform = Transform3D(0.886293, 0.417179, -0.201111, -0.0979291, 0.593246, 0.799043, 0.452652, -0.688491, 0.566644, 0.946288, 35.3968, -15.8278)
+transform = Transform3D(0.57752, -0.532443, -0.61885, 0.677831, 0.735218, 0, 0.45499, -0.419476, 0.785509, -7.379, -0.14394, 6.20129)
 layers = 0
-light_color = Color(0.178418, 0.369891, 0.451691, 1)
-light_energy = 2.87807
+light_color = Color(0.250523, 0.327721, 0.421756, 1)
+light_energy = 1.57627
 light_bake_mode = 0
 light_cull_mask = 0
 shadow_normal_bias = 0.0
 
-[node name="DirectionalLight4" type="DirectionalLight3D" parent="Lights/Directional"]
-transform = Transform3D(0.850043, -0.36279, -0.381851, -0.0307268, 0.689578, -0.723559, 0.525816, 0.626789, 0.575024, 2.50265, 31.9204, -15.8278)
+[node name="Point" type="Node3D" parent="Lights"]
+
+[node name="PointLight0" type="OmniLight3D" parent="Lights/Point"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000198364, 3.53605, -4.3374)
 layers = 0
-light_color = Color(0.261231, 0.0901571, 0.648612, 1)
-light_energy = 1.54175
+light_color = Color(0.0401536, 0.959846, 0, 1)
+light_energy = 1.75028
+light_specular = 0.0
 light_bake_mode = 0
 light_cull_mask = 0
 shadow_normal_bias = 0.0
+omni_range = 7.81792
+omni_attenuation = -1.0
 
 [node name="Links" type="Node3D" parent="."]
 
-[node name="Link0-Part3" type="Node3D" parent="Links"]
-script = ExtResource("4_eno1p")
-ChunkName = "MinigameRooftops_Part3"
-CustomLink = true
-
-[node name="ChunkHolder" type="Node3D" parent="Links/Link0-Part3"]
-transform = Transform3D(1, 2.22467e-21, 6.10352e-05, 2.22467e-21, 1, -6.10352e-05, -6.10352e-05, 6.10352e-05, 1, -183.211, 14.6458, -78.9761)
-
-[node name="EnterTrigger" type="Area3D" parent="Links/Link0-Part3"]
-
-[node name="EnterTriggerShape" type="CollisionShape3D" parent="Links/Link0-Part3/EnterTrigger"]
-shape = SubResource("2")
-
-[node name="LoadTriggers" type="Node3D" parent="Links/Link0-Part3"]
-
-[node name="LoadTrigger_0" type="Area3D" parent="Links/Link0-Part3/LoadTriggers"]
-
-[node name="LoadTriggerCollision" type="CollisionShape3D" parent="Links/Link0-Part3/LoadTriggers/LoadTrigger_0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -163.332, 22.1815, -12.9584)
-shape = SubResource("BoxShape3D_3etyp")
-
-[node name="Link1-Part1" type="Node3D" parent="Links"]
-script = ExtResource("4_eno1p")
+[node name="Link0-Part1" type="Node3D" parent="Links"]
+script = ExtResource("4_yc4wg")
 ChunkPath = "res://assets/scenes/minigames/chunks/MinigameRooftops_Part1.tscn"
 ChunkName = "MinigameRooftops_Part1"
 CustomLink = true
 
-[node name="ChunkHolder" type="Node3D" parent="Links/Link1-Part1"]
-transform = Transform3D(-5.96046e-08, 6.61744e-24, -1, 1.56188e-16, 1, -1.14181e-31, 1, -1.56188e-16, -5.96046e-08, -31.037, 18.465, 209.019)
+[node name="ChunkHolder" type="Node3D" parent="Links/Link0-Part1"]
+transform = Transform3D(-1, -5.83001e-08, 8.74228e-08, 5.83001e-08, 1, 1.61413e-16, -8.74228e-08, -4.93535e-15, -1, -36.32, 4.451, 11.682)
 
-[node name="EnterTrigger" type="Area3D" parent="Links/Link1-Part1"]
+[node name="EnterTrigger" type="Area3D" parent="Links/Link0-Part1"]
 
-[node name="EnterTriggerShape" type="CollisionShape3D" parent="Links/Link1-Part1/EnterTrigger"]
+[node name="EnterTriggerShape" type="CollisionShape3D" parent="Links/Link0-Part1/EnterTrigger"]
+shape = SubResource("2")
+
+[node name="Link1-Part3" type="Node3D" parent="Links"]
+script = ExtResource("4_yc4wg")
+ChunkPath = "res://assets/scenes/minigames/chunks/MinigameRooftops_Part3.tscn"
+ChunkName = "MinigameRooftops_Part3"
+CustomLink = true
+
+[node name="ChunkHolder" type="Node3D" parent="Links/Link1-Part3"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -172.772, -14.004, -14.778)
+
+[node name="EnterTrigger" type="Area3D" parent="Links/Link1-Part3"]
+
+[node name="EnterTriggerShape" type="CollisionShape3D" parent="Links/Link1-Part3/EnterTrigger"]
 shape = SubResource("3")
 
-[node name="LoadTriggers" type="Node3D" parent="Links/Link1-Part1"]
-
-[node name="LoadTrigger_0" type="Area3D" parent="Links/Link1-Part1/LoadTriggers"]
-
-[node name="LoadTriggerCollision" type="CollisionShape3D" parent="Links/Link1-Part1/LoadTriggers/LoadTrigger_0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.2162, 20.7857, 161.251)
-shape = SubResource("BoxShape3D_3etyp")
+[node name="Particles" type="Node3D" parent="."]
 
 [node name="Locators" type="Node3D" parent="."]
 
@@ -157,10 +132,222 @@ shape = SubResource("BoxShape3D_3etyp")
 
 [node name="Points" type="Node3D" parent="Locators"]
 
+[node name="Landing1" type="Marker3D" parent="Locators/Points"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, -19.25)
+
 [node name="PointsAI" type="Node3D" parent="Locators"]
 
 [node name="Volumes" type="Node3D" parent="."]
 
+[node name="Triggers" type="Node3D" parent="Volumes"]
+
+[node name="CameraTriggers" type="Node3D" parent="Volumes"]
+
 [node name="Instances" type="Node3D" parent="."]
 
-[editable path="levels_school_rooftop_roof01-Scenery"]
+[node name="Crates" type="Node3D" parent="."]
+
+[node name="Crate_Iron" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_dl3gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.13967, 0, 2.35194)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron2" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_dl3gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.14014, 1, 2.352)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron3" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_dl3gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.14014, 2, 2.352)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron8" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_dl3gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.13967, 0, -12.198)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron9" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_dl3gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.14014, 1, -12.198)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron10" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_dl3gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.14014, 2, -12.198)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron4" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_dl3gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.24248, 2, -3.8992)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron7" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_dl3gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.242, 3, -3.899)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron5" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_dl3gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.24271, 1, -3.899)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Iron6" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_dl3gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.24271, 0, -3.899)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Basic" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_35q3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.94643, 0.400822, 16.749)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Basic2" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("10_35q3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.14, 3, -12.198)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_ExtraLifeNina" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("11_xpaq3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.94368, 1.40082, 16.7871)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Surprise" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("12_f2vaw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.13895, 0.400822, 25.7319)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Crate_Nitro" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("13_g6y8c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.89038, 2.40082, 16.7798)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Actors" type="Node3D" parent="."]
+
+[node name="Pickup_Gem_Green" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("6_syiff")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.59461, 6.31276, -2.47277)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Models" parent="Actors/Pickup_Gem_Green" index="1"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="ChiChiGrass_Wall" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("7_gsidc")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.535, 2.5, 2.328)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="ChiChiGrass_Wall3" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("7_gsidc")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.535, 2.5, -12.2119)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="ChiChiGrass_Wall2" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("7_gsidc")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -1.661, 3.5, -3.878)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="ChiChiGrass_Ceiling" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("7_gsidc")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -2.43933, 3.98858, -18.7388)
+LinkInstance = []
+LinkPath = []
+LinkPoint = [NodePath("../../Locators/Points/Landing1")]
+
+[node name="Pickup_Wumpa" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.8, 13.623)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa5" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.594546, 1.76843, -1.01615)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa6" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.102963, 0.528013, -10.1574)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa10" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.12241, 4.73638, -10.1574)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa11" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.12241, 4.73638, -11.779)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa12" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.12241, 4.73638, -13.469)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa7" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.17962, 1.56354, -17.437)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa8" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.085, 0.8, -23.158)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa9" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.085, 0.8, -25.902)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa2" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.8, 16.75)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa3" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.8, 10.518)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa4" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.8, 22.545)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Pickup_Wumpa13" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("9_4bnap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.8, 19.677)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[editable path="Actors/Pickup_Gem_Green"]

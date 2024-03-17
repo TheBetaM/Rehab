@@ -38,6 +38,11 @@ public partial class RehabXRHand : Node3D
     bool IsNinaHandGrappling;
     double ShakyHandTimer;
     bool NinaHandColBuffer;
+    Node3D NinaHandGrappleAttach;
+    bool IsNinaHandHoldingObject;
+    Node3D NinaHandGrappledObject;
+    public bool InvisibleSpring;
+    bool NinaHandIsDetached;
 
     public override void _Ready()
     {
@@ -58,18 +63,24 @@ public partial class RehabXRHand : Node3D
             NinaHandFiredAnim = GetNode<AnimationPlayer>("NinaHandFired/AnimationPlayer");
             NinaHandFiredBody = GetNode<RigidBody3D>("NinaHandFired/RigidBody");
             NinaHandFiredBody.Connect("body_entered", Callable.From<Node3D>(NinaFiredHand_BodyEntered));
+            NinaHandGrappleAttach = GetNode<Node3D>("NinaHandFired/GrappleAttach");
+            if (RehabGame.InvisibleTargetingMode)
+            {
+                GrabTarget.GetChild<Node3D>(0).Visible = false;
+                MultiToolTarget.GetChild<Node3D>(0).Visible = false;
+            }
         }
     }
 
     public override void _PhysicsProcess(double delta)
     {
         if (!IsNinaHand) return;
-        if (IsNinaHandFired) 
+        if (IsNinaHandFired)
         {
             UpdateFiredNinaHand((float)delta);
             return;
         }
-        if (HandCont.IsGripping) return;
+        if (HandCont.IsGripping || IsNinaHandHoldingObject) return;
         Nina_UpdateTarget(delta);
     }
 
@@ -101,7 +112,20 @@ public partial class RehabXRHand : Node3D
             case "trigger_click":
                 if (IsDetached || IsRestricted || IsNinaHandFired) return;
                 if (IsNinaHand)
-                    Nina_FireFist();
+                {
+                    if (IsNinaHandHoldingObject)
+                    {
+                        // todo
+                        IsNinaHandHoldingObject = false;
+                        NinaHandGrappledObject.Reparent(RehabScene.Root.ActiveChunk);
+                        NinaHandGrappledObject.Visible = false;
+                        NinaHandGrappledObject.ProcessMode = ProcessModeEnum.Disabled;
+                    }
+                    else
+                    {
+                        Nina_FireFist();
+                    }
+                }
             break;
         }
     }
@@ -254,8 +278,10 @@ public partial class RehabXRHand : Node3D
                 if (node == HandTarget) return;
                 if (node is AgentCreature || node is AgentChiChiGrass)
                 {
+                    if (node is AgentMinigameCreature mc && !mc.CanBeGrappled) continue;
                     var rPos = (Vector3)result["position"];
                     Nina_AttachTarget(node, rPos);
+                    ShakyHandTimer = 0f;
                     return;
                 }
             }
@@ -264,7 +290,7 @@ public partial class RehabXRHand : Node3D
         {
             if (ShakyHandTimer <= 0f) 
             {
-                ShakyHandTimer = 0.2f;
+                ShakyHandTimer = 0.3f;
                 return;
             }
             ShakyHandTimer -= delta;
@@ -302,15 +328,17 @@ public partial class RehabXRHand : Node3D
         if (HandCont.IsGripping)
             NinaHandFiredAnim.Play("FullGrip");
         else
-            NinaHandFiredAnim.PlayBackwards("FullGrip");
+            NinaHandFiredAnim.Play("Grip_Open");
         NinaHandFiredAnim.Advance(0.25f);
         NinaHandMain.Visible = false;
         NinaHandFired.Visible = true;
+        if (!InvisibleSpring) NinaHandSpring.Visible = true;
         string SoundPath = RehabGame.AssetsPath + "Sounds/Nina_SFX_2.res";
-        if (HandCont.Tracker == "right_hand") SoundPath = RehabGame.AssetsPath + "Sounds/Nina_SFX_3.res";
+        if (System.Random.Shared.Next(2) == 0) SoundPath = RehabGame.AssetsPath + "Sounds/Nina_SFX_3.res";
         HandAudio.Stream = (AudioStream)ResourceLoader.Load(SoundPath);
         HandAudio.Play();
         NinaHandFired.Reparent(RehabScene.Root);
+        NinaHandSpring.Reparent(RehabScene.Root);
         IsNinaHandFired = true;
         IsNinaHandRetracting = false;
         IsNinaHandGrappling = !HandCont.IsGripping;
@@ -329,11 +357,17 @@ public partial class RehabXRHand : Node3D
 
     public void Nina_ResetFist()
     {
+        if (IsNinaHandHoldingObject)
+        {
+            NinaHandGrappledObject.Reparent(this);
+        }
         IsNinaHandFired = false;
         IsNinaHandRetracting = false;
         NinaHandMain.Visible = true;
         NinaHandFired.Visible = false;
+        NinaHandSpring.Visible = false;
         NinaHandFired.Reparent(this);
+        NinaHandSpring.Reparent(this);
         NinaHandFired.GlobalPosition = NinaHandMain.GlobalPosition;
         NinaHandFired.GlobalRotationDegrees = NinaHandMain.GlobalRotationDegrees;
     }
@@ -353,8 +387,15 @@ public partial class RehabXRHand : Node3D
                     }
                     else
                     {
-                        pickup.ForceSpun(this);
+                        pickup.ForceSpun(this, false);
                     }
+                    HandCont.Vibrate(0.5f, 0.25f);
+                    return;
+                }
+                else if (body is AgentCrate cratep)
+                {
+                    cratep.CallDeferred("ForceBreak");
+                    HandCont.Vibrate(0.5f, 0.25f);
                     return;
                 }
                 NinaFiredHand_TargetReached(body);
@@ -388,6 +429,11 @@ public partial class RehabXRHand : Node3D
             if (IsNinaHandGrappling)
             {
                 enemy.ForcePanic();
+                enemy.Reparent(NinaHandGrappleAttach);
+                IsNinaHandHoldingObject = true;
+                NinaHandGrappledObject = enemy;
+                enemy.Position = Vector3.Zero;
+                enemy.RotationDegrees = Vector3.Zero;
             }
             else
             {
@@ -402,9 +448,14 @@ public partial class RehabXRHand : Node3D
             }
             else
             {
-                pickup.ForceSpun(this);
+                pickup.ForceSpun(this, false);
             }
         }
+        else if (body is AgentCrate cratep)
+        {
+            cratep.CallDeferred("ForceBreak");
+        }
+        HandCont.Vibrate(0.75f, 0.5f);
         Nina_RemoveTarget();
         CallDeferred("DisableFiredHandCol");
     }
@@ -416,7 +467,14 @@ public partial class RehabXRHand : Node3D
 
     void UpdateFiredNinaHand(float delta)
     {
-        if (NinaHandFired.GlobalPosition.DistanceTo(GlobalPosition) > 20f)
+        float dist = NinaHandFired.GlobalPosition.DistanceTo(GlobalPosition);
+        NinaHandSpring.GlobalPosition = (GlobalPosition + NinaHandFired.GlobalPosition) / 2;
+        NinaHandSpring.LookAt(NinaHandFired.GlobalPosition);
+        NinaHandSpring.Scale = new Vector3(1f, 1f, dist / 2f);
+        NinaHandFired.GetChild<RigidBody3D>(0).Position = Vector3.Zero;
+        NinaHandFired.GetChild<RigidBody3D>(0).RotationDegrees = Vector3.Zero;
+        if (NinaHandIsDetached) return;
+        if (dist > 20f)
         {
             IsNinaHandRetracting = true;
         }
@@ -441,13 +499,15 @@ public partial class RehabXRHand : Node3D
             }
             else
             {
-                NinaHandFired.Translate(-GlobalTransform.Basis.Z * delta * 20f);
+                NinaHandFired.GlobalRotationDegrees = NinaHandMain.GlobalRotationDegrees;
+                NinaHandFired.GlobalPosition += NinaHandMain.GlobalTransform.Basis.Z * delta * 20f;
             }
         }
     }
 
     async void Nina_CeilingHookTravel(AgentChiChiGrass hook)
     {
+        Nina_ReleaseOffHand();
         AgentCharacter.activeCharacter.BlockMovement = true;
         AgentCharacter.activeCharacter.ProcessMode = ProcessModeEnum.Disabled;
         AgentCharacter.activeCharacter.GlobalPosition = hook.LinkPoint[0].GlobalPosition;
@@ -464,10 +524,32 @@ public partial class RehabXRHand : Node3D
 
     void Nina_WallHookTravel(AgentChiChiGrass hook)
     {
+        Nina_ReleaseOffHand();
         AgentCharacter.activeCharacter.BlockMovement = true;
         AgentCharacter.activeCharacter.GlobalPosition = hook.GlobalPosition + (hook.GlobalTransform.Basis.Z * 2f);
         RehabScene.Root.XR_CameraCut(0.25f);
-        CallDeferred("Nina_ResetFist");
+        NinaHandIsDetached = true;
+        NinaHandFiredAnim.Play("FullGrip");
+        //CallDeferred("Nina_ResetFist");
+    }
+
+    void Nina_ReleaseOffHand()
+    {
+        var Origin = RehabScene.Root.XR_Origin;
+        RehabXRHand hand;
+        if (HandCont.Tracker == "right_hand")
+        {
+            hand = Origin.XR_HandL.HandModel;
+        }
+        else
+        {
+            hand = Origin.XR_HandR.HandModel;
+        }
+        if (hand.NinaHandIsDetached)
+        {
+            hand.NinaHandIsDetached = false;
+            hand.NinaHandFiredAnim.Play("Grip_Open");
+        }
     }
 
 }

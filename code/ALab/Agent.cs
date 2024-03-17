@@ -28,7 +28,7 @@ public partial class Agent : Node3D
     // Instance data
     [Export] public bool OutlineCrate;
     [Export] public int RefList;
-    [Export] public Godot.Collections.Array<Marker3D> LinkInstance;
+    [Export] public Godot.Collections.Array<Node3D> LinkInstance;
     [Export] public Godot.Collections.Array<Path3D> LinkPath;
     [Export] public Godot.Collections.Array<Marker3D> LinkPoint;
     [Export] public Godot.Collections.Array<int> RegAngle;
@@ -61,7 +61,10 @@ public partial class Agent : Node3D
         {
             foreach (var i in GetNode("Models").GetChildren())
             {
-                foreach (var a in i.GetChild(0).GetChildren())
+                var body = (RigidBody3D)i.GetChild(0);
+                //body.FreezeMode = RigidBody3D.FreezeModeEnum.Static;
+                //body.ProcessMode = ProcessModeEnum.Disabled;
+                foreach (var a in body.GetChildren())
                 {
                     if (a is CollisionShape3D col)
                     {
@@ -120,13 +123,16 @@ public partial class Agent : Node3D
                 i.ProcessMode = ProcessModeEnum.Disabled;
             }
             var animPlayer = (AnimationPlayer)SubModels[ogi].GetNode("AnimationPlayer");
-            animPlayer.Play("RESET");
-            var oMode = animPlayer.CallbackModeProcess;
-            animPlayer.CallbackModeProcess = AnimationPlayer.AnimationCallbackModeProcess.Manual; 
-            animPlayer.Advance(0.1);
-            animPlayer.Stop();
-            animPlayer.CallbackModeProcess = oMode;
-            animPlayer.Stop();
+            if (animPlayer.HasAnimation("RESET"))
+            {
+                animPlayer.Play("RESET");
+                var oMode = animPlayer.CallbackModeProcess;
+                animPlayer.CallbackModeProcess = AnimationPlayer.AnimationCallbackModeProcess.Manual; 
+                animPlayer.Advance(0.1);
+                animPlayer.Stop();
+                animPlayer.CallbackModeProcess = oMode;
+                animPlayer.Stop();
+            }
             ActiveAnim = -1;
             SubModels[ogi].Visible = true;
             SubModels[ogi].ProcessMode = ProcessModeEnum.Inherit;
@@ -168,7 +174,7 @@ public partial class Agent : Node3D
 
     public void DoSound(int slot, float pitch, float volume)
     {
-        if (slot >= Sounds.Count)
+        if (slot >= Sounds.Count || slot < 0)
             return;
         if (Sounds[slot] != null)
         {

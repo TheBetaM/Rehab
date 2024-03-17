@@ -1,0 +1,157 @@
+[gd_scene load_steps=11 format=3 uid="uid://dj7ingbaeunqo"]
+
+[ext_resource type="Script" path="res://code/Containers/ChunkScene.cs" id="1_ca2j0"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_school_rooftop_roof01-Collision.tscn" id="2_n8hpa"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_school_rooftop_roof01-Scenery.tscn" id="3_t2kos"]
+[ext_resource type="Script" path="res://code/Containers/ChunkLink.cs" id="4_eno1p"]
+[ext_resource type="PackedScene" path="res://import/Actors/DJ.tscn" id="5_kcigf"]
+[ext_resource type="PackedScene" path="res://import/Actors/Global_Ambient_Sound.tscn" id="6_2lpxa"]
+
+[sub_resource type="Environment" id="1"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.197556, 0.383892, 0.418552, 1)
+ambient_light_energy = 2.38919
+
+[sub_resource type="ConvexPolygonShape3D" id="2"]
+points = PackedVector3Array(159.247, 12.779, -66.935, 167.247, 12.779, -66.935, 167.247, 20.779, -66.935, 159.247, 20.779, -66.935)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3etyp"]
+size = Vector3(50, 25, 60)
+
+[sub_resource type="ConvexPolygonShape3D" id="3"]
+points = PackedVector3Array(15, 12.779, 176.8, 15, 12.779, 168.8, 15, 20.779, 168.8, 15, 20.779, 176.8)
+
+[node name="MinigameRooftops_Part3" type="Node3D"]
+script = ExtResource("1_ca2j0")
+SkydomePath = "Skydomes/Skydome_School.tscn"
+WorldEnv = SubResource("1")
+
+[node name="levels_school_rooftop_roof01-Collision" parent="." instance=ExtResource("2_n8hpa")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+
+[node name="levels_school_rooftop_roof01-Scenery" parent="." instance=ExtResource("3_t2kos")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="Directional" type="Node3D" parent="Lights"]
+
+[node name="DirectionalLight0" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.741461, -0.29538, -0.602484, 0.566322, 0.757058, 0.325795, 0.359882, -0.582765, 0.728609, 0.946288, 35.3968, -15.8278)
+layers = 0
+light_color = Color(0.248942, 0.253174, 0.497884, 1)
+light_energy = 2.0085
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight1" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.512918, 0.759667, 0.399777, -0.62059, 0.649904, -0.43874, -0.593112, -0.0230596, 0.804789, 0.946288, 35.3968, -15.8278)
+layers = 0
+light_color = Color(0.214896, 0.241063, 0.544041, 1)
+light_energy = 2.20572
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight2" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.892745, -0.092793, 0.440903, 0.371644, 0.704895, -0.604156, -0.254729, 0.703216, 0.663778, 0.946288, 35.3968, -15.8278)
+layers = 0
+light_color = Color(0.283021, 0.285544, 0.431435, 1)
+light_energy = 2.78142
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight3" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.886293, 0.417179, -0.201111, -0.0979291, 0.593246, 0.799043, 0.452652, -0.688491, 0.566644, 0.946288, 35.3968, -15.8278)
+layers = 0
+light_color = Color(0.178418, 0.369891, 0.451691, 1)
+light_energy = 2.87807
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight4" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.850043, -0.36279, -0.381851, -0.0307268, 0.689578, -0.723559, 0.525816, 0.626789, 0.575024, 2.50265, 31.9204, -15.8278)
+layers = 0
+light_color = Color(0.261231, 0.0901571, 0.648612, 1)
+light_energy = 1.54175
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="Links" type="Node3D" parent="."]
+
+[node name="Link0-Part4" type="Node3D" parent="Links"]
+script = ExtResource("4_eno1p")
+ChunkPath = "res://assets/scenes/minigames/chunks/MinigameRooftops_Part4.tscn"
+ChunkName = "MinigameRooftops_Part4"
+CustomLink = true
+
+[node name="ChunkHolder" type="Node3D" parent="Links/Link0-Part4"]
+transform = Transform3D(1, 2.22467e-21, 6.10352e-05, 2.22467e-21, 1, -6.10352e-05, -6.10352e-05, 6.10352e-05, 1, 163.297, 15.291, -89.423)
+
+[node name="EnterTrigger" type="Area3D" parent="Links/Link0-Part4"]
+
+[node name="EnterTriggerShape" type="CollisionShape3D" parent="Links/Link0-Part4/EnterTrigger"]
+shape = SubResource("2")
+
+[node name="LoadTriggers" type="Node3D" parent="Links/Link0-Part4"]
+
+[node name="LoadTrigger_0" type="Area3D" parent="Links/Link0-Part4/LoadTriggers"]
+
+[node name="LoadTriggerCollision" type="CollisionShape3D" parent="Links/Link0-Part4/LoadTriggers/LoadTrigger_0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 163.332, 22.181, -12.958)
+shape = SubResource("BoxShape3D_3etyp")
+
+[node name="Link1-Part2" type="Node3D" parent="Links"]
+script = ExtResource("4_eno1p")
+ChunkPath = "res://assets/scenes/minigames/chunks/MinigameRooftops_Part2.tscn"
+ChunkName = "MinigameRooftops_Part2"
+CustomLink = true
+
+[node name="ChunkHolder" type="Node3D" parent="Links/Link1-Part2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -14.735, 14.007, 172.806)
+
+[node name="EnterTrigger" type="Area3D" parent="Links/Link1-Part2"]
+
+[node name="EnterTriggerShape" type="CollisionShape3D" parent="Links/Link1-Part2/EnterTrigger"]
+shape = SubResource("3")
+
+[node name="LoadTriggers" type="Node3D" parent="Links/Link1-Part2"]
+
+[node name="LoadTrigger_0" type="Area3D" parent="Links/Link1-Part2/LoadTriggers"]
+
+[node name="LoadTriggerCollision" type="CollisionShape3D" parent="Links/Link1-Part2/LoadTriggers/LoadTrigger_0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.216, 20.786, 161.251)
+shape = SubResource("BoxShape3D_3etyp")
+
+[node name="Locators" type="Node3D" parent="."]
+
+[node name="Paths" type="Node3D" parent="Locators"]
+
+[node name="PathsAI" type="Node3D" parent="Locators"]
+
+[node name="Points" type="Node3D" parent="Locators"]
+
+[node name="PointsAI" type="Node3D" parent="Locators"]
+
+[node name="Volumes" type="Node3D" parent="."]
+
+[node name="Instances" type="Node3D" parent="."]
+
+[node name="DJ" parent="." node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("5_kcigf")]
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+RegInt = Array[int]([41, 255, 18])
+
+[node name="Global_Ambient_Sound" parent="." node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("6_2lpxa")]
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+RegInt = Array[int]([8, 255, 111])

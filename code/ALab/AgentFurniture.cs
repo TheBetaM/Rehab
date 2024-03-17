@@ -20,6 +20,7 @@ public partial class AgentFurniture : Agent
         "Boiler_Glass_Panel",
         "Boiler_Steam_Hazard",
     ];
+    bool IsDoor;
 
     public override void _Ready()
     {
@@ -28,12 +29,14 @@ public partial class AgentFurniture : Agent
         DoAnimation(0, true);
 	
         // temp to make exploring in explorer easier
+        Set("freeze_mode", (int)RigidBody3D.FreezeModeEnum.Static);
         if (Doors.Contains(Name))
         {
+            IsDoor = true;
             Set("contact_monitor", true);
-            Set("max_contacts_reported", 256);
-            Set("freeze_mode", (int)RigidBody3D.FreezeModeEnum.Kinematic);
-            Set("collision_layer", 0);
+            Set("max_contacts_reported", 1);
+            Set("freeze_mode", (int)RigidBody3D.FreezeModeEnum.Static);
+            //Set("collision_layer", 0);
             Connect("body_entered", Callable.From<Node3D>(OnDoorTouch));
         }
         switch (Name)
@@ -87,6 +90,7 @@ public partial class AgentFurniture : Agent
 
     public void OnDoorTouch(Node3D body)
     {
+        if (!IsDoor) return;
         if (body is AgentCharacter)
         {
             if (AgentCharacter.activeCharacter == body)

@@ -27,9 +27,11 @@ public partial class AgentCharacter : Agent
     bool gravityOn = true;
     public float spinTimer;
     bool isCrouched;
-    float slideTimer;
+    public float slideTimer;
     public float coyoteTimer;
     public bool BlockMovement;
+    public Vector3 SpawnPos;
+    public Vector3 SpawnRot;
     CollisionShape3D DynamicCol;
     //MeshInstance3D DynamicColVis;
 
@@ -57,6 +59,7 @@ public partial class AgentCharacter : Agent
     public static float[] SpinLength = [0.4f, 0f, 0f, 0.7f, 0f, 0f];
     public static float[] CrawlSpeed = [1.75f, 1.75f, 0f, 0f, 0f, 0f];
     public static float[] SlideSpeed = [18f, 10f, 0f, 0f, 0f, 0f];
+    public static float[] SlideTime = [0.4f, 1.2f, 0f, 0f, 0f, 0f];
 
     public static AgentCharacter activeCharacter;
     public static Dictionary<int, string> ActiveActorTypes = new();
@@ -85,6 +88,8 @@ public partial class AgentCharacter : Agent
         //DynamicColVis.Mesh = boxmesh;
         //AddChild(DynamicColVis);
         
+        SpawnPos = GlobalPosition;
+        SpawnRot = GlobalRotationDegrees;
         if (activeCharacter != null)
             return;
         if (!ParentScene.ActiveScene)
@@ -115,6 +120,7 @@ public partial class AgentCharacter : Agent
         FS_Tile_1 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/L09_Cortex_boots_tile_2.res");
         FS_Tile_2 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/L09_Cortex_boots_tile_7.res");
         FS_Slippy = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/L03_TotemHokum/L03_Tribesmn_fs.res");
+        RehabGame.SetCheckPoint(SpawnPos, SpawnRot, ParentScene.Name, true);
     }
 
     public override void _ExitTree()
@@ -234,7 +240,7 @@ public partial class AgentCharacter : Agent
         {
             if (pressed && slideTimer <= 0f && onFloor && SlideSpeed[(int)CharType] > 0f)
             {
-                slideTimer = 0.4f;
+                slideTimer = SlideTime[(int)CharType];
                 DoAnimation(36, true);
                 DoSound(6, 1f, 0f);
             }
@@ -338,6 +344,28 @@ public partial class AgentCharacter : Agent
         
         Set("velocity", char_velocity);
         Call("move_and_slide");
+        var colCount1 = (int)Call("get_slide_collision_count");
+        if (colCount1 == 0) return;
+        for (int i = 0; i < colCount1; i++)
+        {
+            var colData = (KinematicCollision3D)Call("get_slide_collision", i);
+            if (colData == null) continue;
+            var colCount = colData.GetCollisionCount();
+            if (colCount == 0) continue;
+            for (int a = 0; a < colCount; a++)
+            {
+                var hit = colData.GetCollider(a);
+                if (hit is AgentCrate crate)
+                {
+                    crate.OnBodyEntered(this);
+                }
+                else if (hit is AgentFurniture furn)
+                {
+                    furn.OnDoorTouch(this);
+                }
+            }
+        }
+        
     }
 
     void UpdateHeadAnim(float delta)

@@ -137,6 +137,22 @@ public partial class AgentCharacterXR : AgentCharacter
         
         Set("velocity", char_velocity);
         Call("move_and_slide");
+        var colData = (KinematicCollision3D)Call("get_last_slide_collision");
+        if (colData == null) return;
+        var colCount = colData.GetCollisionCount();
+        if (colCount == 0) return;
+        for (int i = 0; i < colCount; i++)
+        {
+            var hit = colData.GetCollider(i);
+            if (hit is AgentCrate crate)
+            {
+                crate.OnBodyEntered(this);
+            }
+            else if (hit is AgentFurniture furn)
+            {
+                furn.OnDoorTouch(this);
+            }
+        }
     }
 
 }

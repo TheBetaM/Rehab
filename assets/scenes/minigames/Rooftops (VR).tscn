@@ -1,4 +1,4 @@
-[gd_scene load_steps=105 format=3 uid="uid://x4maom05g0mt"]
+[gd_scene load_steps=108 format=3 uid="uid://x4maom05g0mt"]
 
 [ext_resource type="Script" path="res://code/demo/xr/MinigameChunkXR.cs" id="1_x7c48"]
 [ext_resource type="PackedScene" path="res://import/Scenery/levels_school_cortex_cogpa08-Collision.tscn" id="2_bvwat"]
@@ -92,6 +92,9 @@
 [ext_resource type="Animation" path="res://import/Animations/Cortex_Cutscene_DormRoom_Shot2.res" id="89_mdf44"]
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_Nina_GrabTarget.tscn" id="89_miami"]
 [ext_resource type="Script" path="res://code/demo/xr/CutsceneInteractable.cs" id="90_avowe"]
+[ext_resource type="PackedScene" path="res://import/Actors/DJ.tscn" id="93_43hdf"]
+[ext_resource type="PackedScene" path="res://import/Actors/Pickup_Gem_Blue.tscn" id="94_n4q0b"]
+[ext_resource type="PackedScene" path="res://import/Actors/Global_Ambient_Sound.tscn" id="95_rmwpr"]
 
 [sub_resource type="Environment" id="Environment_usfmn"]
 background_mode = 1
@@ -709,12 +712,12 @@ _data = {
 radius = 0.45
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mrhda"]
-radius = 0.05
+radius = 0.03
 
 [node name="MinigameRooftops_Start" type="Node3D"]
 script = ExtResource("1_x7c48")
 MinigameMusicID = 8
-MinigameAmbID = -1
+MinigameAmbID = 137
 AnimPlayerPath = NodePath("AnimationPlayer")
 AnimCameraPath = NodePath("CutsceneCamera")
 XR_CameraFollow = true
@@ -832,7 +835,7 @@ LinkPoint = []
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.2469, 0, -11.76)
 
 [node name="Door2" parent="Actors" instance=ExtResource("9_725t3")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 26.5941, 0, -1.85485)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 26.5941, 0, -1.82334)
 
 [node name="Rig_NinaDollHead" parent="Actors" instance=ExtResource("10_q7ibl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.2089, 0.0734922, 3.91248)
@@ -1103,6 +1106,27 @@ bones/0/enabled = true
 [node name="CollisionShape0" parent="Actors/InteractionHint2/Target/RigidBody" index="1"]
 disabled = true
 
+[node name="DJ" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("93_43hdf")]
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+RegInt = Array[int]([8, 255, 18])
+
+[node name="Pickup_Gem_Blue" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("94_n4q0b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.4853, 3.37988, 11.3219)
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+
+[node name="Models" parent="Actors/Pickup_Gem_Blue" index="1"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="Global_Ambient_Sound" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("95_rmwpr")]
+LinkInstance = []
+LinkPath = []
+LinkPoint = []
+RegInt = Array[int]([0, 255, 137])
+
 [connection signal="OnTouch" from="Actors/InteractionHint1" to="AnimationPlayer" method="XR_Next"]
 [connection signal="OnGrip" from="Actors/InteractionHint2" to="AnimationPlayer" method="XR_Next"]
 
@@ -1110,3 +1134,4 @@ disabled = true
 [editable path="Actors/MinigameCortex/Rig_Cortex"]
 [editable path="Actors/InteractionHint1/Target"]
 [editable path="Actors/InteractionHint2/Target"]
+[editable path="Actors/Pickup_Gem_Blue"]

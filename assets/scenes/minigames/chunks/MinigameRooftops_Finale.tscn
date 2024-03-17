@@ -1,0 +1,193 @@
+[gd_scene load_steps=15 format=3 uid="uid://cpt2t42fgc4pj"]
+
+[ext_resource type="Script" path="res://code/Containers/ChunkScene.cs" id="1_otlfv"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_school_rooftop_buschase-Collision.tscn" id="2_3x0bh"]
+[ext_resource type="PackedScene" path="res://import/Scenery/levels_school_rooftop_buschase-Scenery.tscn" id="3_b1uq1"]
+[ext_resource type="Script" path="res://code/Containers/ChunkLink.cs" id="4_1d8bn"]
+[ext_resource type="Script" path="res://code/demo/PlayerOnlyTrigger.cs" id="5_sr8jn"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Rig_Rooftop_Bus.tscn" id="6_jhfp6"]
+[ext_resource type="Animation" path="res://import/Rigs/RigRESET_Rooftop_Bus.res" id="7_mbtv3"]
+[ext_resource type="Animation" path="res://import/Animations/RooftopBus_Swing.res" id="8_3pgq2"]
+
+[sub_resource type="Environment" id="1"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.197556, 0.383892, 0.418552, 1)
+ambient_light_energy = 2.38919
+
+[sub_resource type="ConvexPolygonShape3D" id="2"]
+points = PackedVector3Array(2.83789, -7.34189, -99.0806, -5.16211, -7.34189, -99.0806, -5.16211, 0.658108, -99.0806, 2.83789, 0.658108, -99.0806)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_daw44"]
+size = Vector3(10, 10, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f8p1i"]
+size = Vector3(8, 8, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tq0ib"]
+size = Vector3(8, 4, 5)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jaoop"]
+_data = {
+"RigRESET_Rooftop_Bus": ExtResource("7_mbtv3"),
+"RooftopBus_Swing": ExtResource("8_3pgq2")
+}
+
+[node name="MinigameRooftops_Finale" type="Node3D"]
+script = ExtResource("1_otlfv")
+SkydomePath = "Skydomes/Skydome_School.tscn"
+WorldEnv = SubResource("1")
+
+[node name="levels_school_rooftop_buschase-Collision" parent="." instance=ExtResource("2_3x0bh")]
+visible = false
+
+[node name="levels_school_rooftop_buschase-Scenery" parent="." instance=ExtResource("3_b1uq1")]
+metadata/_edit_lock_ = true
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="Directional" type="Node3D" parent="Lights"]
+
+[node name="DirectionalLight0" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.741461, -0.29538, -0.602484, 0.566322, 0.757058, 0.325795, 0.359882, -0.582765, 0.728609, -63.933, 22.6924, -266.908)
+layers = 0
+light_color = Color(0.248942, 0.253174, 0.497884, 1)
+light_energy = 2.0085
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight1" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.512918, 0.759667, 0.399777, -0.62059, 0.649904, -0.43874, -0.593112, -0.0230596, 0.804789, -63.933, 22.6924, -266.908)
+layers = 0
+light_color = Color(0.214896, 0.241063, 0.544041, 1)
+light_energy = 2.20572
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight2" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.892745, -0.092793, 0.440903, 0.371644, 0.704895, -0.604156, -0.254729, 0.703216, 0.663778, -63.933, 22.6924, -266.908)
+layers = 0
+light_color = Color(0.283021, 0.285544, 0.431435, 1)
+light_energy = 2.78142
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight3" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.886293, 0.417179, -0.201111, -0.0979291, 0.593246, 0.799043, 0.452652, -0.688491, 0.566644, -63.933, 22.6924, -266.908)
+layers = 0
+light_color = Color(0.178418, 0.369891, 0.451691, 1)
+light_energy = 2.87807
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="DirectionalLight4" type="DirectionalLight3D" parent="Lights/Directional"]
+transform = Transform3D(0.850043, -0.36279, -0.381851, -0.0307268, 0.689578, -0.723559, 0.525816, 0.626789, 0.575024, -62.3766, 19.216, -266.908)
+layers = 0
+light_color = Color(0.261231, 0.0901571, 0.648612, 1)
+light_energy = 1.54175
+light_bake_mode = 0
+light_cull_mask = 0
+shadow_normal_bias = 0.0
+
+[node name="Links" type="Node3D" parent="."]
+
+[node name="Link0-Part4" type="Node3D" parent="Links"]
+script = ExtResource("4_1d8bn")
+ChunkPath = "res://assets/scenes/minigames/chunks/MinigameRooftops_Part4.tscn"
+ChunkName = "MinigameRooftops_Part4"
+IsDisabled = true
+CustomLink = true
+
+[node name="ChunkHolder" type="Node3D" parent="Links/Link0-Part4"]
+transform = Transform3D(-1, -1.19209e-07, 8.74228e-08, -1.19209e-07, 1, -4.41328e-17, -8.74228e-08, -1.04657e-14, -1, -1.173, -5.417, -120.191)
+
+[node name="EnterTrigger" type="Area3D" parent="Links/Link0-Part4"]
+
+[node name="EnterTriggerShape" type="CollisionShape3D" parent="Links/Link0-Part4/EnterTrigger"]
+shape = SubResource("2")
+
+[node name="Locators" type="Node3D" parent="."]
+
+[node name="Paths" type="Node3D" parent="Locators"]
+
+[node name="PathsAI" type="Node3D" parent="Locators"]
+
+[node name="Points" type="Node3D" parent="Locators"]
+
+[node name="PointsAI" type="Node3D" parent="Locators"]
+
+[node name="Volumes" type="Node3D" parent="."]
+
+[node name="Triggers" type="Node3D" parent="Volumes"]
+
+[node name="CutsceneTrigger" type="Area3D" parent="Volumes/Triggers"]
+script = ExtResource("5_sr8jn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Volumes/Triggers/CutsceneTrigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.48982, -6.08, -93.591)
+shape = SubResource("BoxShape3D_daw44")
+
+[node name="CameraTriggers" type="Node3D" parent="Volumes"]
+
+[node name="BacktrackBlock" type="StaticBody3D" parent="Volumes"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Volumes/BacktrackBlock"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.918403, -4.42527, -102.949)
+shape = SubResource("BoxShape3D_f8p1i")
+
+[node name="SafetyBlock" type="StaticBody3D" parent="Volumes"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Volumes/SafetyBlock"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -6.72561, -4.92377, -94.1587)
+shape = SubResource("BoxShape3D_tq0ib")
+
+[node name="SafetyBlock2" type="StaticBody3D" parent="Volumes"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Volumes/SafetyBlock2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.37785, -4.92377, -94.1587)
+shape = SubResource("BoxShape3D_tq0ib")
+
+[node name="Instances" type="Node3D" parent="."]
+
+[node name="Actors" type="Node3D" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Actors"]
+
+[node name="Rig_Rooftop_Bus" parent="Actors" instance=ExtResource("6_jhfp6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.4012, -80.657)
+
+[node name="Armature" parent="Actors/Rig_Rooftop_Bus/RigidBody" index="0"]
+bones/0/enabled = true
+bones/1/enabled = true
+bones/1/rotation = Quaternion(0, 0, 0.0113393, 0.999936)
+bones/2/enabled = true
+bones/3/enabled = true
+bones/4/enabled = true
+bones/4/rotation = Quaternion(-0.00239636, 0.0210325, 0.113178, 0.993349)
+bones/5/enabled = true
+
+[node name="attach1" parent="Actors/Rig_Rooftop_Bus/RigidBody/Armature" index="0"]
+transform = Transform3D(0.999743, -0.0226772, 0, 0.0226772, 0.999743, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="attach2" parent="Actors/Rig_Rooftop_Bus/RigidBody/Armature" index="1"]
+transform = Transform3D(0.994937, -0.100504, 0, 0.100504, 0.994937, 0, 0, 0, 1, 0.145134, -6.39835, 0)
+
+[node name="attach3" parent="Actors/Rig_Rooftop_Bus/RigidBody/Armature" index="2"]
+transform = Transform3D(0.972091, -0.234604, 0, 0.234604, 0.972091, 0, 0, 0, 1, 0.78836, -12.7659, 0)
+
+[node name="attach4" parent="Actors/Rig_Rooftop_Bus/RigidBody/Armature" index="3"]
+transform = Transform3D(0.8936, -0.447265, 0.0378579, 0.446864, 0.894401, 0.0189317, -0.0423276, 0, 0.999104, 2.28983, -18.9873, 0)
+
+[node name="attach5" parent="Actors/Rig_Rooftop_Bus/RigidBody/Armature" index="4"]
+transform = Transform3D(0.99993, 0.0117995, -0.000122764, -0.0118001, 0.999876, -0.0104029, -7.27596e-12, 0.0104036, 0.999946, 0, -0.000974321, 0)
+
+[node name="AnimationPlayer" parent="Actors/Rig_Rooftop_Bus" index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_jaoop")
+}
+
+[editable path="Actors/Rig_Rooftop_Bus"]

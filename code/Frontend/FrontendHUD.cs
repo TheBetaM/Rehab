@@ -45,6 +45,7 @@ public partial class FrontendHUD : Control
         LivesIcon = GetNode<TextureRect>("Lives/IconLives");
         GemIcon = GetNode<TextureRect>("Gem/IconGem");
         CrystalIcon = GetNode<TextureRect>("Crystal/IconCrystal");
+        if (RehabGame.NoHUDMode) Visible = false;
     }
 
     public void Setup()
@@ -271,5 +272,10 @@ public partial class FrontendHUD : Control
         BottomTextLabel.Visible = true;
         BottomTextLabel.Text = text;
         BottomTextLabel.Modulate = new Color(1f, 1f, 1f, 1f);
+    }
+
+    public void ClearMessageInstant()
+    {
+        BottomTextLabel.Visible = false;
     }
 }
