@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://c77u2gvl3be2"]
+[gd_scene load_steps=32 format=3 uid="uid://c77u2gvl3be2"]
 
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_NinaHand.tscn" id="1_i2vld"]
 [ext_resource type="Script" path="res://code/Game/XR/RehabXRHand.cs" id="1_t0s41"]
@@ -7,8 +7,8 @@
 [ext_resource type="Animation" path="res://import/Animations/NinaHand_Grow.res" id="4_kgpxp"]
 [ext_resource type="Animation" path="res://import/Animations/NinaHand_Shrink.res" id="5_ch8ls"]
 [ext_resource type="Animation" path="res://import/Rigs/RigRESET_NinaHand.res" id="6_20n23"]
+[ext_resource type="PackedScene" path="res://import/Skins/Skin_NinaHand.tscn" id="8_7y0lk"]
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_Nina_GrabTarget.tscn" id="8_ffp15"]
-[ext_resource type="Texture2D" path="res://import/Textures/C4CDECF1.res" id="8_xcpeu"]
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_MultiTool_Target.tscn" id="9_2qpf3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yur3k"]
@@ -533,20 +533,13 @@ transparency = 1
 albedo_color = Color(1, 1, 1, 0)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_oobph"]
-size = Vector3(0.3, 0.1, 0.45)
+size = Vector3(0.3, 0.1, 0.55)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_2j67c"]
-cap_top = false
-cap_bottom = false
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enhjr"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mfctk"]
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
-cull_mode = 2
-albedo_texture = ExtResource("8_xcpeu")
-metallic = 1.0
-uv1_scale = Vector3(50, 50, 1)
+albedo_color = Color(1, 1, 1, 0)
 
 [node name="XRHand" type="Node3D"]
 script = ExtResource("1_t0s41")
@@ -592,11 +585,13 @@ libraries = {
 "": SubResource("AnimationLibrary_7hwpf")
 }
 
-[node name="NinaHandFired" parent="." instance=ExtResource("1_i2vld")]
-transform = Transform3D(-0.00683116, 0.99863, 0.0518883, 0.991445, -4.33374e-08, 0.130526, 0.130347, 0.052336, -0.990086, -0.01, -0.015, 0.22)
+[node name="NinaHandFired" type="Node3D" parent="."]
 visible = false
 
-[node name="RigidBody" parent="NinaHandFired" index="0"]
+[node name="NinaHandFiredModel" parent="NinaHandFired" instance=ExtResource("1_i2vld")]
+transform = Transform3D(-0.00683116, 0.99863, 0.0518883, 0.991445, -4.33374e-08, 0.130526, 0.130347, 0.052336, -0.990086, -0.01, -0.015, 0.22)
+
+[node name="RigidBody" parent="NinaHandFired/NinaHandFiredModel" index="0"]
 process_mode = 4
 collision_layer = 255
 collision_mask = 255
@@ -604,7 +599,7 @@ freeze_mode = 1
 max_contacts_reported = 30
 contact_monitor = true
 
-[node name="Armature" parent="NinaHandFired/RigidBody" index="0"]
+[node name="Armature" parent="NinaHandFired/NinaHandFiredModel/RigidBody" index="0"]
 bones/0/enabled = true
 bones/1/enabled = true
 bones/2/enabled = true
@@ -618,35 +613,37 @@ bones/8/enabled = true
 bones/9/enabled = true
 bones/9/rotation = Quaternion(-0.121821, -0.0442226, -0.00269279, 0.991563)
 
-[node name="Skin_NinaHand" parent="NinaHandFired/RigidBody/Armature" index="0"]
+[node name="Skin_NinaHand" parent="NinaHandFired/NinaHandFiredModel/RigidBody/Armature" index="0"]
 surface_material_override/1 = SubResource("StandardMaterial3D_0vxs3")
 
-[node name="attach3" parent="NinaHandFired/RigidBody/Armature" index="1"]
+[node name="attach3" parent="NinaHandFired/NinaHandFiredModel/RigidBody/Armature" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.42354e-17, -1.8735e-16, 0.04)
 
-[node name="attach2" parent="NinaHandFired/RigidBody/Armature" index="3"]
+[node name="attach2" parent="NinaHandFired/NinaHandFiredModel/RigidBody/Armature" index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03)
 
-[node name="CollisionShape0" parent="NinaHandFired/RigidBody" index="1"]
-transform = Transform3D(0.985098, 0.00882301, -0.171767, -0.00902634, 0.999959, -0.00040273, 0.171757, 0.00194716, 0.985137, 0.0104883, -0.0130165, 0.251894)
+[node name="CollisionShape0" parent="NinaHandFired/NinaHandFiredModel/RigidBody" index="1"]
+transform = Transform3D(0.985098, 0.00882301, -0.171767, -0.00902634, 0.999959, -0.00040273, 0.171757, 0.00194716, 0.985137, 0.01, -0.013, 0.287)
 shape = SubResource("BoxShape3D_oobph")
 
-[node name="AnimationPlayer" parent="NinaHandFired" index="1"]
+[node name="AnimationPlayer" parent="NinaHandFired/NinaHandFiredModel" index="1"]
 libraries = {
 "": SubResource("AnimationLibrary_siyt4")
 }
 autoplay = "NinaHand_FistClosed"
 
 [node name="GrappleAttach" type="Node3D" parent="NinaHandFired"]
-transform = Transform3D(0.00349103, 0.983405, 0.181395, 0.99688, 0.0108813, -0.0781772, -0.0788531, 0.181102, -0.980298, -0.171719, -0.10093, 0.230706)
+transform = Transform3D(0.991399, 0.0135457, -0.130175, -0.00683126, 0.998631, 0.0518888, 0.130699, -0.0505532, 0.990132, -0.0976477, -0.155137, -0.0360841)
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="NinaHandFired"]
+bus = &"SFX"
 
 [node name="NinaHandSpring" type="Node3D" parent="."]
 visible = false
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NinaHandSpring"]
-transform = Transform3D(0.1, 0, 0, 0, -4.37114e-08, -0.1, 0, 1, -4.37114e-09, 0, 0, 0)
-mesh = SubResource("CylinderMesh_2j67c")
-surface_material_override/0 = SubResource("StandardMaterial3D_enhjr")
+[node name="Skin_NinaHand" parent="NinaHandSpring" instance=ExtResource("8_7y0lk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 54.5, -0.014, 0, 0.394)
+surface_material_override/0 = SubResource("StandardMaterial3D_mfctk")
 
 [node name="NinaGrabTarget" parent="." instance=ExtResource("8_ffp15")]
 visible = false
@@ -671,6 +668,6 @@ disabled = true
 bus = &"SFX"
 
 [editable path="Rig_NinaHand"]
-[editable path="NinaHandFired"]
+[editable path="NinaHandFired/NinaHandFiredModel"]
 [editable path="NinaGrabTarget"]
 [editable path="MultiToolTarget"]

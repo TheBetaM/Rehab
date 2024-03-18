@@ -18,7 +18,7 @@ public partial class AgentCharacterXR : AgentCharacter
         
         UpdateMovement((float)delta);
         UpdateFootStep((float)delta);
-        RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 0.75f);
+        RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * RehabGame.XR_Height);
     }
 
     void UpdateMovement(float delta)

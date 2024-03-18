@@ -493,6 +493,7 @@ public partial class RehabScene : Node3D
         SkydomePath = "";
         ChunkLink.AndroidStall = false;
         ChunkLink.AndroidQueue.Clear();
+        GameHUD.OnExit();
         if (XR_Enabled)
         {
             XR_Origin.ClearHands();

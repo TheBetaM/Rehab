@@ -485,7 +485,7 @@ namespace RehabSetup
                 uint Hash = ExportGodot.ExportModelResource(RigidModelCont, path, ExportedTextures);
                 Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(Scene.ModelIDs[i], Hash)}", $".");
                 Nodes[i + 1].Lines.Add($"cast_shadow=0"); // no need for skydome to cast shadows? can always tune for clouds or sth afterwards
-                Nodes[i + 1].Lines.Add($"ignore_occlusion_culling=true");
+                //Nodes[i + 1].Lines.Add($"ignore_occlusion_culling=true");
             }
         }
 
@@ -2896,7 +2896,7 @@ namespace RehabSetup
                         case 27:
                         // Unlit 2D billboard always facing camera?
                         {
-                            //TargetResource.Lines.Add($"{shaderAdd}billboard_mode = 2");
+                            TargetResource.Lines.Add($"{shaderAdd}billboard=true");
                         }
                         break;
                     }

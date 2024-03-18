@@ -19,6 +19,8 @@ public partial class AgentMinigameCreature : AgentCreature
     int IdleSoundSlot = -1;
     [Export]
     public bool CanBeGrappled = true;
+    [Export]
+    public bool CanBeTargeted = true;
     Vector3 SpawnPoint;
     Vector3 TargetPoint;
     CreatureState State = CreatureState.Idle;
@@ -53,6 +55,9 @@ public partial class AgentMinigameCreature : AgentCreature
         switch (State)
         {
             default: break;
+            case CreatureState.Damaged:
+                TranslateObjectLocal(Vector3.Forward * (float)delta);
+            break;
             case CreatureState.Grappled:
                 if (Scale.X > OrigScale.X / 4f)
                 {
@@ -137,8 +142,10 @@ public partial class AgentMinigameCreature : AgentCreature
 
     public override void ForceDeath()
     {
+        if (State == CreatureState.Damaged || State == CreatureState.Dead) return;
         State = CreatureState.Damaged;
         StateTimer = 1d;
+        CanBeTargeted = false;
         AnimState();
     }
 
@@ -146,6 +153,7 @@ public partial class AgentMinigameCreature : AgentCreature
     {
         State = CreatureState.Grappled;
         StateTimer = 1d;
+        CanBeTargeted = false;
         Set("collision_layer", 0);
         Set("collision_mask", 0);
         AnimState();

@@ -43,6 +43,9 @@ public partial class AgentFurniture : Agent
         {
             default: break;
             case "GargoyleSmall":
+                Set("collision_layer", 0);
+                Set("collision_mask", 0);
+                DoAnimation(4, true);
                 var hook = (AgentChiChiGrass)SubActorsScenes[0].Instantiate();
                 hook.Visible = false;
                 hook.Name = "ChiChiGrass_Ceiling";

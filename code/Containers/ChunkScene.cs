@@ -71,10 +71,10 @@ public partial class ChunkScene : Node3D
             }
             if (i is CollisionObject3D col)
             {
-                if (col.GetCollisionLayerValue(1) == false) return;
-                col.SetCollisionLayerValue(1, false);
                 col.SetCollisionMaskValue(1, false);
                 col.SetCollisionMaskValue(ChunkLayer, true);
+                if (col.GetCollisionLayerValue(1) == false) return;
+                col.SetCollisionLayerValue(1, false);
                 col.SetCollisionLayerValue(ChunkLayer, true);
             }
         }

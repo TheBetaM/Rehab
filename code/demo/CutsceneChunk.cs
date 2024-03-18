@@ -35,6 +35,7 @@ public partial class CutsceneChunk : ChunkScene
             XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
             RehabScene.Root.XR_Origin.ResetOrientation();
         }
+        ShadowToggle(true);
         StartCutscene();
     }
 
@@ -101,7 +102,7 @@ public partial class CutsceneChunk : ChunkScene
         LastCamPos = AnimCamera.GlobalPosition;
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
-        RehabScene.Root.XR_Origin.GlobalPosition = node.GlobalPosition + (Vector3.Up * 0.75f);
+        RehabScene.Root.XR_Origin.GlobalPosition = node.GlobalPosition + (Vector3.Up * RehabGame.XR_Height);
         RehabScene.Root.XR_Origin.GlobalRotationDegrees = new Vector3(node.GlobalRotationDegrees.X, node.GlobalRotationDegrees.Y + 180f, node.GlobalRotationDegrees.Z);
         XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
         RehabScene.Root.XR_Origin.ResetOrientation();

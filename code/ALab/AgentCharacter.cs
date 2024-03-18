@@ -156,7 +156,7 @@ public partial class AgentCharacter : Agent
         UpdateFootStep((float)delta);
         if (RehabScene.Root.XR_Enabled)
         {
-            RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 0.75f);
+            RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * RehabGame.XR_Height);
         }
     }
 
@@ -545,7 +545,7 @@ public partial class AgentCharacter : Agent
     void XR_Setup()
     {
         RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
-        RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * 0.75f);
+        RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * RehabGame.XR_Height);
         RehabScene.Root.XR_Origin.GlobalRotationDegrees = new Vector3(GlobalRotationDegrees.X, GlobalRotationDegrees.Y + 180f, GlobalRotationDegrees.Z);
         XRServer.CenterOnHmd(XRServer.RotationMode.ResetButKeepTilt, true);
         Visible = false;

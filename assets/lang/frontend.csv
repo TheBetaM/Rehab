@@ -143,5 +143,6 @@
 #FE-Installer-DetectFailed,"Failed to detect the game.","Das Spiel wurde nicht gefundet.","Jeu non détecté.","Gioco non rilevato","Juego no detectado","Nie wykryto gry."
 #FE-Installer-Detected,"Game detected","Spiel gefunden","Jeu détecté","Gioco rilevato","Juego detectado","Gra wykryta"
 #FE-Installer-Complete,"Install complete!","Installation abgeschlossen!","Installation terminée!","Installazione completata!","¡Instalación completa!","Instalacja zakończona pomyślnie!"
-#XR-Tutorial-Punch,"Close your fist with Grip\nand press Trigger to throw a punch!",,,,,
-#XR-Tutorial-Grapple,"With your hand open\npress Trigger to grapple!",,,,,
+#XR-Tutorial-Punch,"Close your fist with GRIP\nand press TRIGGER to throw a punch!",,,,,
+#XR-Tutorial-Grapple,"With your hand open\npress TRIGGER to grapple!",,,,,
+#XR-Tutorial-Jump,"Hold the A or X button to aim,\nthen press TRIGGER to jump!",,,,,

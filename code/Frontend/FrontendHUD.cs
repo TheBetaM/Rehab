@@ -242,6 +242,11 @@ public partial class FrontendHUD : Control
         GetNode<Control>("TouchControls").Visible = true;
     }
 
+    public void OnExit()
+    {
+        GetNode<Control>("TouchControls").Visible = false;
+    }
+
     void UpdateXR()
     {
         if (RehabScene.Root.XR_Enabled)

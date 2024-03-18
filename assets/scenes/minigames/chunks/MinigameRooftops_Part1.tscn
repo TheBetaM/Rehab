@@ -41,7 +41,6 @@ size = Vector3(12, 12, 8)
 
 [node name="MinigameRooftops_Part1" type="Node3D"]
 script = ExtResource("1_rln5c")
-SkydomePath = "Skydomes/Skydome_School.tscn"
 WorldEnv = SubResource("Environment_ic44i")
 
 [node name="levels_school_crash_crgpa02-Collision" parent="." instance=ExtResource("2_vos3p")]
@@ -197,7 +196,10 @@ PlayerGrappledAnimSlot = 8
 DamagedAnimSlot = 8
 DeadAnimSlot = 9
 WalkAnimSlot = 1
+DeadSoundSlot = 4
+IdleSoundSlot = 4
 CanBeGrappled = true
+CanBeTargeted = true
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
@@ -210,13 +212,16 @@ PlayerGrappledAnimSlot = 8
 DamagedAnimSlot = 8
 DeadAnimSlot = 9
 WalkAnimSlot = 1
+DeadSoundSlot = 4
+IdleSoundSlot = 4
 CanBeGrappled = true
+CanBeTargeted = true
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
 
 [node name="ChiChiGrass_Ceiling" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("7_jjee4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.1111, 1.75392, -26.6086)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 10.111, 1.04, -26.609)
 LinkInstance = []
 LinkPath = []
 LinkPoint = [NodePath("../../Locators/Points/Landing1")]
@@ -224,8 +229,11 @@ LinkPoint = [NodePath("../../Locators/Points/Landing1")]
 [node name="Models" parent="Actors/ChiChiGrass_Ceiling" index="1"]
 visible = false
 
+[node name="Armature" parent="Actors/ChiChiGrass_Ceiling/Models/Rig_CeilingChiChiGrass/RigidBody" index="0"]
+bones/0/enabled = true
+
 [node name="Rig_NinaHook" parent="Actors/ChiChiGrass_Ceiling" instance=ExtResource("8_2hpew")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
 
 [node name="Armature" parent="Actors/ChiChiGrass_Ceiling/Rig_NinaHook/RigidBody" index="0"]
 bones/0/enabled = true
@@ -308,7 +316,7 @@ LinkPath = []
 LinkPoint = []
 
 [node name="Pickup_Gem_Clear" parent="Pickups" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("11_k5dta")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.8577, -3.65606, -17.788)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.938, -3.65606, -4.79215)
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
@@ -403,7 +411,7 @@ LinkPath = []
 LinkPoint = []
 
 [node name="Crate_ExtraLifeNina" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("12_xby46")]
-transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -44.0037, -4.05897, -23.2352)
+transform = Transform3D(0.89861, 0, 0.438748, 0, 1, 0, -0.438748, 0, 0.89861, -43.545, -4.05897, -23.3553)
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
@@ -457,19 +465,19 @@ LinkPath = []
 LinkPoint = []
 
 [node name="Crate_Surprise2" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("13_6yoek")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.7773, -4.05897, -35.6839)
+transform = Transform3D(0.843166, 0, -0.537653, 0, 1, 0, 0.537653, 0, 0.843166, -34.3461, -4.05897, -34.879)
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
 
 [node name="Crate_Basic5" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("11_0tplu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.3793, -4.05897, -29.2419)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.8943, -4.05897, -29.6254)
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
 
 [node name="Crate_Basic6" parent="Crates" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("11_0tplu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.3362, -3.05897, -29.2319)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.8512, -3.05897, -29.6154)
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
@@ -492,5 +500,6 @@ LinkPoint = []
 [connection signal="OnTriggerExited" from="Volumes/TutorialHint2" to="." method="ClearMessage"]
 
 [editable path="Actors/ChiChiGrass_Ceiling"]
+[editable path="Actors/ChiChiGrass_Ceiling/Models/Rig_CeilingChiChiGrass"]
 [editable path="Actors/ChiChiGrass_Ceiling/Rig_NinaHook"]
 [editable path="Pickups/Pickup_Gem_Clear"]

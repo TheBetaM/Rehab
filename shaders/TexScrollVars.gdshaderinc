@@ -1,6 +1,6 @@
 uniform vec2 speed;
 uniform sampler2D albedo_texture : source_color;
-uniform int billboard_mode;
+uniform bool billboard;
 #ifdef IS_REFLECT
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 #endif
@@ -10,6 +10,9 @@ uniform bool deform = false;
 uniform vec2 deformspeed;
 uniform vec2 deformspeed2;
 uniform float metallic_specular = 0.0;
+
+uniform vec3 uv1_scale = vec3(1);
+uniform vec3 uv1_offset;
 
 vec4 texturePanorama(vec3 normal, sampler2D pano) 
 {

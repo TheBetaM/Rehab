@@ -17,7 +17,7 @@ public partial class AgentCrate : Agent
         {
             ExplosionShape = new SphereShape3D
             {
-                Radius = 2f
+                Radius = 3.5f
             };
         }
     }
