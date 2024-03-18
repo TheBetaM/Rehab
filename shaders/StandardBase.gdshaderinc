@@ -1,4 +1,4 @@
-#include "TexScrollVars.gdshaderinc"
+#include "StandardVars.gdshaderinc"
 
 void vertex()
 {

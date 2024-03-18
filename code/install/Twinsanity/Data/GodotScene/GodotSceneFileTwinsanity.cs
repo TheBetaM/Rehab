@@ -2793,21 +2793,21 @@ namespace RehabSetup
 
                     if (ExtraShaderNeeded)
                     {
-                        string shaderName = "TexScroll";
+                        string shaderName = "Standard";
                         if (shader.ABlending == TwinsShader.AlphaBlending.ON)
                         {
-                            //shaderName = "TexScrollAlphaBlend";
+                            //shaderName = "StandardAlphaBlend";
                             if (shader.AlphaRegSettingsIndex == 0)
                             {
-                                shaderName = "TexScrollAlphaBlendMix";
+                                shaderName = "StandardAlphaBlendMix";
                             }
                             else if (shader.AlphaRegSettingsIndex == 1)
                             {
-                                shaderName = "TexScrollAlphaBlendAdd";
+                                shaderName = "StandardAlphaBlendAdd";
                             }
                             else if (shader.AlphaRegSettingsIndex == 2)
                             {
-                                shaderName = "TexScrollAlphaBlendSub";
+                                shaderName = "StandardAlphaBlendSub";
                             }
                             else
                             {
@@ -2816,7 +2816,7 @@ namespace RehabSetup
                         }
                         else if (shader.ATest == TwinsShader.AlphaTest.ON)
                         {
-                            shaderName = "TexScrollAlphaTest";
+                            shaderName = "StandardAlphaTest";
                         }
                         if (ExtraShaderID == -1 || ExtraShaderType != shaderName)
                         {
