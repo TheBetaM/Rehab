@@ -391,6 +391,15 @@ namespace RehabSetup
                             writer.Write(str);
                         }
                     }
+                    else if (Value is int[] intArray)
+                    {
+                        writer.Write((uint)32);
+                        writer.Write(intArray.Length);
+                        foreach (var str in intArray)
+                        {
+                            writer.Write(str);
+                        }
+                    }
                     else if (Value is Vector3[] vec3array)
                     {
                         writer.Write((uint)35);

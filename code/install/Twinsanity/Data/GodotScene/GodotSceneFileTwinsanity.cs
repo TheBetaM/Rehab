@@ -526,12 +526,16 @@ namespace RehabSetup
             RootNode.KeyValues.Add("parent", ".");
             Nodes.Add(RootNode);
 
+            string OcclFilePath = $"{Scene.ChunkName.Replace('\\', '_')}-Occlusion.res";
             Node OccluderNode = new Node($"SceneryOccluder", "OccluderInstance3D");
             OccluderNode.KeyValues.Add("parent", ".");
-            InternalResource OccludeShape = new InternalResource();
-            OccludeShape.Type = "ArrayOccluder3D";
-            InternalResourceList.Add(OccludeShape);
-            OccluderNode.Lines.Add($"occluder=SubResource({InternalResourceList.Count})");
+            ExternalResource OccluderShape = new ExternalResource(OcclFilePath, "ArrayOccluder3D");
+            ExternalResourceList.Add(OccluderShape);
+            OccluderNode.Lines.Add($"occluder=ExtResource({ExternalResourceList.Count})");
+            //InternalResource OccludeShape = new InternalResource();
+            //OccludeShape.Type = "ArrayOccluder3D";
+            //InternalResourceList.Add(OccludeShape);
+            //OccluderNode.Lines.Add($"occluder=SubResource({InternalResourceList.Count})");
             List<int> Indices = new List<int>();
             List<Pos> Vertices = new List<Pos>();
             int vertexcount = 0;
@@ -541,6 +545,7 @@ namespace RehabSetup
             Dictionary<uint, int> ExportedLODs = new Dictionary<uint, int>();
             ParseSceneryTree(Scene.SceneryRoot, scene_rigid_sec, scene_lod_sec, path, false, ref NodeID, "SceneryRoot", ExportedModels, ExportedLODs, ExportedTextures, Indices, Vertices, ref vertexcount);
 
+            /*
             StringBuilder IndArray = new StringBuilder();
             StringBuilder VertArray = new StringBuilder();
             IndArray.Append($"indices=PackedInt32Array(");
@@ -555,9 +560,14 @@ namespace RehabSetup
                 VertArray.Append($"{Vertices[i].X.ToText()},{Vertices[i].Y.ToText()},{Vertices[i].Z.ToText()},");
             }
             VertArray.Append($"{Vertices[Vertices.Count - 1].X.ToText()},{Vertices[Vertices.Count - 1].Y.ToText()},{Vertices[Vertices.Count - 1].Z.ToText()})");
-
             OccludeShape.Lines.Add(VertArray.ToString());
             OccludeShape.Lines.Add(IndArray.ToString());
+            */
+
+            string ShapeFilePath = $"{path}\\Scenery\\{OcclFilePath}";
+            var OcFile = new GodotBinaryArrayOccluder(Vertices, Indices);
+            OcFile.WriteToFile(ShapeFilePath);
+
             Nodes.Add(OccluderNode);
         }
 
