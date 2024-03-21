@@ -34,7 +34,7 @@ public static class RehabGame
     public static List<ModInfo> ModsInstalled = new List<ModInfo>();
     public static bool NoHUDMode = false;
     public static bool InvisibleTargetingMode = false;
-    public static bool XR_Comfort_HookTeleport = false;
+    public static bool XR_Comfort_ReducedMotion = true;
     public static float XR_Height = 0.75f;
 
     public static void Init()

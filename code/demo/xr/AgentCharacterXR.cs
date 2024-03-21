@@ -8,7 +8,7 @@ public partial class AgentCharacterXR : AgentCharacter
     {
         ActiveActorTypes[(int)CharType] = GetPath();
         if (ProcessMode == ProcessModeEnum.Disabled) return;
-        UpdateDynamicCollision();
+        UpdateDynamicCollision((float)delta);
         if (activeCharacter != this) return;
         if (Input.IsActionJustPressed("pad1_start"))
         {

@@ -15,27 +15,13 @@ public partial class AgentPickup : Agent
         base._Ready();
 
         RotationDegrees = new Vector3(0f, (GD.Randf() - 0.5f) * 360f, 0f);
-        Set("contact_monitor", true);
-        Set("max_contacts_reported", 1);
         Set("collision_layer", 0);
-        Set("freeze_mode", (int) RigidBody3D.FreezeModeEnum.Static);
-        Connect("body_entered", Callable.From<Node3D>(OnPickup));
-        var shapeNode = new CollisionShape3D();
-        var shape = new SphereShape3D();
-        shape.Radius = 0.6f;
-        shapeNode.Shape = shape;
-        var zone = new Area3D();
-        zone.Connect("body_entered", Callable.From<Node3D>(OnPickup));
-        zone.AddChild(shapeNode);
-        zone.CollisionLayer = (uint)Get("collision_layer");
-        zone.CollisionMask = (uint)Get("collision_mask");
-        AddChild(zone);
+
         string name = (string)Name;
         if (!name.Contains("Pickup_Wumpa"))
             IsWumpa = false;
         else
         {
-            zone.Position += Vector3.Up;
             CreateShadow(0, Vector2.One * 0.5f, 0);
         }
     }
@@ -132,5 +118,10 @@ public partial class AgentPickup : Agent
             case "Pickup_ExtraLifeNina": RehabGame.AddLives(1); break;
             default: break;
         }
+    }
+
+    public override void OnNonSolidCollisionEnter(Node3D body)
+    {
+        OnPickup(body);
     }
 }

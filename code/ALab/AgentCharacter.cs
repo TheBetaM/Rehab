@@ -33,7 +33,7 @@ public partial class AgentCharacter : Agent
     public Vector3 SpawnPos;
     public Vector3 SpawnRot;
     CollisionShape3D DynamicCol;
-    //MeshInstance3D DynamicColVis;
+    MeshInstance3D DynamicColVis;
 
     AudioStream FS_Dirt_1;
     AudioStream FS_Dirt_2 ;
@@ -59,7 +59,7 @@ public partial class AgentCharacter : Agent
     public static float[] SpinLength = [0.4f, 0f, 0f, 0.7f, 0f, 0f];
     public static float[] CrawlSpeed = [1.75f, 1.75f, 0f, 0f, 0f, 0f];
     public static float[] SlideSpeed = [18f, 10f, 0f, 0f, 0f, 0f];
-    public static float[] SlideTime = [0.4f, 1.2f, 0f, 0f, 0f, 0f];
+    public static float[] SlideTime = [0.4f, 0.4f, 0f, 0f, 0f, 0f];
 
     public static AgentCharacter activeCharacter;
     public static Dictionary<int, string> ActiveActorTypes = new();
@@ -83,10 +83,10 @@ public partial class AgentCharacter : Agent
         DynamicCol.Shape = box;
         DynamicCol.Name = "DynamicCol";
         AddChild(DynamicCol);
-        //DynamicColVis = new MeshInstance3D();
-        //var boxmesh = new BoxMesh();
-        //DynamicColVis.Mesh = boxmesh;
-        //AddChild(DynamicColVis);
+        DynamicColVis = new MeshInstance3D();
+        var boxmesh = new BoxMesh();
+        DynamicColVis.Mesh = boxmesh;
+        AddChild(DynamicColVis);
         
         SpawnPos = GlobalPosition;
         SpawnRot = GlobalRotationDegrees;
@@ -143,7 +143,7 @@ public partial class AgentCharacter : Agent
     {
         ActiveActorTypes[(int)CharType] = GetPath();
         if (ProcessMode == ProcessModeEnum.Disabled) return;
-        UpdateDynamicCollision();
+        UpdateDynamicCollision((float)delta);
         if (activeCharacter != this) return;
         if (Input.IsActionJustPressed("pad1_start"))
         {
@@ -200,9 +200,31 @@ public partial class AgentCharacter : Agent
         var pressed = dirLength > 0.05;
         
         if (spinTimer > 0f)
+        {
             spinTimer -= delta;
+            if (spinTimer <= 0f)
+            {                
+                Call("set_collision_mask_value", 9, true);
+                Call("set_collision_mask_value", 10, true);
+                Call("set_collision_mask_value", 11, true);
+                Call("set_collision_mask_value", 12, true);
+                Call("set_collision_mask_value", 13, true);
+                Call("set_collision_mask_value", 14, true);
+            }
+        }
         if (slideTimer > 0f)
+        {
             slideTimer -= delta;
+            if (slideTimer <= 0f)
+            {
+                Call("set_collision_mask_value", 9, true);
+                Call("set_collision_mask_value", 10, true);
+                Call("set_collision_mask_value", 11, true);
+                Call("set_collision_mask_value", 12, true);
+                Call("set_collision_mask_value", 13, true);
+                Call("set_collision_mask_value", 14, true);
+            }
+        }
         
         if (Input.IsActionPressed("pad1_cross"))
         {
@@ -235,6 +257,12 @@ public partial class AgentCharacter : Agent
                 DoSound(2, 1f, 0f);
             else
                 DoSound(3, 1f, 0f);
+            Call("set_collision_mask_value", 12, true);
+            Call("set_collision_mask_value", 9, false);
+            Call("set_collision_mask_value", 10, false);
+            Call("set_collision_mask_value", 11, false);
+            Call("set_collision_mask_value", 13, false);
+            Call("set_collision_mask_value", 14, false);
         }
         if (Input.IsActionJustPressed("pad1_circle"))
         {
@@ -243,6 +271,12 @@ public partial class AgentCharacter : Agent
                 slideTimer = SlideTime[(int)CharType];
                 DoAnimation(36, true);
                 DoSound(6, 1f, 0f);
+                Call("set_collision_mask_value", 11, true);
+                Call("set_collision_mask_value", 9, false);
+                Call("set_collision_mask_value", 10, false);
+                Call("set_collision_mask_value", 12, false);
+                Call("set_collision_mask_value", 13, false);
+                Call("set_collision_mask_value", 14, false);
             }
         }
         if (Input.IsActionPressed("pad1_circle"))
@@ -355,6 +389,10 @@ public partial class AgentCharacter : Agent
             for (int a = 0; a < colCount; a++)
             {
                 var hit = colData.GetCollider(a);
+                if (hit is Area3D area && area.GetParent() is Agent agent)
+                {
+                    hit = agent;
+                }
                 if (hit is AgentCrate crate)
                 {
                     crate.OnBodyEntered(this);
@@ -520,14 +558,42 @@ public partial class AgentCharacter : Agent
            
     }
 
-    public void UpdateDynamicCollision()
+    public void UpdateDynamicCollision(float delta)
     {
         Aabb box = new Aabb();
         UpdateDynamicColNested(SubModels[ActiveModel], ref box);
+        /*
+        float MinX = 10000f, MinY = 10000f, MinZ = 10000f, MaxX = -10000f, MaxY = -10000f, MaxZ = -10000f;;
+        for (int i = 0; i < ActiveSkeleton.GetBoneCount(); i++)
+        {
+            var pos = ActiveSkeleton.GetBoneGlobalPose(i);
+            if (pos.Origin.X < MinX)
+                MinX = pos.Origin.X;
+            if (pos.Origin.Y < MinY)
+                MinY = pos.Origin.Y;
+            if (pos.Origin.Z < MinZ)
+                MinZ = pos.Origin.Z;
+            if (pos.Origin.X > MaxX)
+                MaxX = pos.Origin.X;
+            if (pos.Origin.Y > MaxY)
+                MaxY = pos.Origin.Y;
+            if (pos.Origin.Z > MaxZ)
+                MaxZ = pos.Origin.Z;
+        }
+        MinY = 0f;
+        Vector3 center = new Vector3(0f, (MaxY - MinY) / 2f, 0f);
+        Vector3 size = new Vector3((MaxX - MinX), (MaxY - MinY), (MaxZ - MinZ)) + new Vector3(0.1f, 0.1f, 0.1f);
+        DynamicCol.Position = center;
+        var oldSize = (Vector3)DynamicCol.Shape.Get("size");
+        DynamicCol.Shape.Set("size", oldSize.MoveToward(size, delta * 10f));
+        */
+        var oldSize = (Vector3)DynamicCol.Shape.Get("size");
         DynamicCol.Position = box.Position + box.Size / 2f;
-        DynamicCol.Shape.Set("size", box.Size);
+        DynamicCol.Shape.Set("size", oldSize.MoveToward(box.Size, delta * 10f));
+        //DynamicCol.Shape.Set("size", box.Size);
         //DynamicColVis.Position = DynamicCol.Position;
-        //DynamicColVis.Mesh.Set("size", box.Size);
+        //DynamicColVis.Mesh.Set("size", size);
+        //GD.Print($"{center} {size}");
     }
 
     void UpdateDynamicColNested(Node parent, ref Aabb inBox)

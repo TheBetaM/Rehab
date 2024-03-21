@@ -7,14 +7,15 @@
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="4_w5x18"]
 
 [sub_resource type="Gradient" id="Gradient_6e6ww"]
-colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0, 1)
+colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_fmcm4"]
 gradient = SubResource("Gradient_6e6ww")
+width = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n5075"]
 shader = ExtResource("2_n118i")
-shader_parameter/gradient_offset = 47.0
+shader_parameter/gradient_offset = 100.0
 shader_parameter/multiline = false
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
@@ -22,7 +23,7 @@ shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f861j"]
 shader = ExtResource("2_n118i")
-shader_parameter/gradient_offset = 47.0
+shader_parameter/gradient_offset = 100.0
 shader_parameter/multiline = false
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 

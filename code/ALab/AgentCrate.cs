@@ -17,7 +17,7 @@ public partial class AgentCrate : Agent
         {
             ExplosionShape = new SphereShape3D
             {
-                Radius = 3.5f
+                Radius = 2.0f//3.5f
             };
         }
     }
@@ -28,26 +28,10 @@ public partial class AgentCrate : Agent
 
         CreateShadow(1, Vector2.One, 0);
 
-        Set("contact_monitor", true);
-        Set("max_contacts_reported", 1);
-        Set("freeze_mode", (int) RigidBody3D.FreezeModeEnum.Static);
-        Connect("body_entered", Callable.From<Node3D>(OnBodyEntered));
-        Connect("body_exited", Callable.From<Node3D>(OnBodyExited));
         string name = (string)Name;
         if (name.Contains("CheckPoint") || name.Contains("Level"))
         {
             IsCheckPoint = true;
-            Set("collision_layer", 0);
-            var shapeNode = new CollisionShape3D();
-            var shape = new BoxShape3D();
-            shapeNode.Shape = shape;
-            var zone = new Area3D();
-            zone.Connect("body_entered", Callable.From<Node3D>(OnBodyEntered));
-            zone.AddChild(shapeNode);
-            zone.CollisionLayer = (uint)Get("collision_layer");
-            zone.CollisionMask = (uint)Get("collision_mask");
-            AddChild(zone);
-            zone.Position = new Vector3(0f, 0.5f, 0f);
         }
         else if (name.Contains("Iron") || name.Contains("Detonator"))
         {
@@ -69,8 +53,14 @@ public partial class AgentCrate : Agent
         {
             Set("collision_layer", 0);
             Set("collision_mask", 0);
+            NonSolidCollisionArea.ProcessMode = ProcessModeEnum.Disabled;
             DoAnimation(3, false);
         }
+    }
+
+    public override void OnNonSolidCollisionEnter(Node3D body)
+    {
+        OnBodyEntered(body);
     }
 
     public void OnBodyEntered(Node3D body)

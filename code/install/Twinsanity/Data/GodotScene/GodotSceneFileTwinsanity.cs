@@ -532,10 +532,6 @@ namespace RehabSetup
             ExternalResource OccluderShape = new ExternalResource(OcclFilePath, "ArrayOccluder3D");
             ExternalResourceList.Add(OccluderShape);
             OccluderNode.Lines.Add($"occluder=ExtResource({ExternalResourceList.Count})");
-            //InternalResource OccludeShape = new InternalResource();
-            //OccludeShape.Type = "ArrayOccluder3D";
-            //InternalResourceList.Add(OccludeShape);
-            //OccluderNode.Lines.Add($"occluder=SubResource({InternalResourceList.Count})");
             List<int> Indices = new List<int>();
             List<Pos> Vertices = new List<Pos>();
             int vertexcount = 0;
@@ -544,25 +540,6 @@ namespace RehabSetup
             Dictionary<uint, (int, uint)> ExportedModels = new Dictionary<uint, (int, uint)>();
             Dictionary<uint, int> ExportedLODs = new Dictionary<uint, int>();
             ParseSceneryTree(Scene.SceneryRoot, scene_rigid_sec, scene_lod_sec, path, false, ref NodeID, "SceneryRoot", ExportedModels, ExportedLODs, ExportedTextures, Indices, Vertices, ref vertexcount);
-
-            /*
-            StringBuilder IndArray = new StringBuilder();
-            StringBuilder VertArray = new StringBuilder();
-            IndArray.Append($"indices=PackedInt32Array(");
-            for (int i = 0; i < Indices.Count - 1; i++)
-            {
-                IndArray.Append($"{Indices[i]},");
-            }
-            IndArray.Append($"{Indices[Indices.Count - 1]})");
-            VertArray.Append($"vertices=PackedVector3Array(");
-            for (int i = 0; i < Vertices.Count - 1; i++)
-            {
-                VertArray.Append($"{Vertices[i].X.ToText()},{Vertices[i].Y.ToText()},{Vertices[i].Z.ToText()},");
-            }
-            VertArray.Append($"{Vertices[Vertices.Count - 1].X.ToText()},{Vertices[Vertices.Count - 1].Y.ToText()},{Vertices[Vertices.Count - 1].Z.ToText()})");
-            OccludeShape.Lines.Add(VertArray.ToString());
-            OccludeShape.Lines.Add(IndArray.ToString());
-            */
 
             string ShapeFilePath = $"{path}\\Scenery\\{OcclFilePath}";
             var OcFile = new GodotBinaryArrayOccluder(Vertices, Indices);
@@ -1037,49 +1014,46 @@ namespace RehabSetup
             Nodes[0].Lines.Add($"JointIDCount={AgentJointIDs}");
             Nodes[0].Lines.Add($"ExitPointCount={AgentExitPoints}");
 
-            #region Template Resource
+            #region Default Registers / Flags
             
-            //InternalResource TemplateRes = new InternalResource();
-            //TemplateRes.Lines.Add($"script = ExtResource( { TemplateCodeID } )");
-            //TemplateRes.Lines.Add($"Flags = { Agent.PUI32 }");
-            //TemplateRes.Lines.Add($"Bitfield = { Agent.PHeader }");
-            /*
-            if (Agent.instIntegerList.Count != 0)
+            if ((Agent.UnkBitfield & 0x20000000) != 0x0)
             {
-                StringBuilder IntReg = new StringBuilder();
-                IntReg.Append($"Regint = [ ");
-                for (int a = 0; a < Agent.instIntegerList.Count - 1; a++)
+                Nodes[0].Lines.Add($"HasFlags=true");
+                Nodes[0].Lines.Add($"Flags={(int)Agent.PUI32}");
+                if (Agent.instFlagsList.Count != 0)
                 {
-                    IntReg.Append($"{Agent.instIntegerList[a]}, ");
+                    StringBuilder AngleReg = new StringBuilder();
+                    AngleReg.Append($"RegAngle=[");
+                    for (int a = 0; a < Agent.instFlagsList.Count - 1; a++)
+                    {
+                        AngleReg.Append($"{Agent.instFlagsList[a]},");
+                    }
+                    AngleReg.Append($"{Agent.instFlagsList.Last()}]");
+                    Nodes[0].Lines.Add(AngleReg.ToString());
                 }
-                IntReg.Append($"{Agent.instIntegerList.Last()} ]");
-                //TemplateRes.Lines.Add(IntReg.ToString());
-            }
-            if (Agent.instFlagsList.Count != 0)
-            {
-                StringBuilder IntReg = new StringBuilder();
-                IntReg.Append($"RegAngle = [ ");
-                for (int a = 0; a < Agent.instFlagsList.Count - 1; a++)
+                if (Agent.instFloatsList.Count != 0)
                 {
-                    IntReg.Append($"{Agent.instFlagsList[a]}, ");
+                    StringBuilder FloatReg = new StringBuilder();
+                    FloatReg.Append($"RegFloat=[");
+                    for (int a = 0; a < Agent.instFloatsList.Count - 1; a++)
+                    {
+                        FloatReg.Append($"{Agent.instFloatsList[a].ToText()},");
+                    }
+                    FloatReg.Append($"{Agent.instFloatsList.Last().ToText()}]");
+                    Nodes[0].Lines.Add(FloatReg.ToString());
                 }
-                IntReg.Append($"{Agent.instFlagsList.Last()} ]");
-                //TemplateRes.Lines.Add(IntReg.ToString());
-            }
-            if (Agent.instFloatsList.Count != 0)
-            {
-                StringBuilder IntReg = new StringBuilder();
-                IntReg.Append($"RegFloat = [ ");
-                for (int a = 0; a < Agent.instFloatsList.Count - 1; a++)
+                if (Agent.instIntegerList.Count != 0)
                 {
-                    IntReg.Append($"{Agent.instFloatsList[a].ToText()}, ");
+                    StringBuilder IntReg = new StringBuilder();
+                    IntReg.Append($"RegInt=[");
+                    for (int a = 0; a < Agent.instIntegerList.Count - 1; a++)
+                    {
+                        IntReg.Append($"{Agent.instIntegerList[a]},");
+                    }
+                    IntReg.Append($"{Agent.instIntegerList.Last()}]");
+                    Nodes[0].Lines.Add(IntReg.ToString());
                 }
-                IntReg.Append($"{Agent.instFloatsList.Last().ToText()} ]");
-                //TemplateRes.Lines.Add(IntReg.ToString());
             }
-            */
-            //InternalResourceList.Add(TemplateRes);
-            //int TemplateResID = InternalResourceList.Count;
             
             #endregion
 
@@ -2049,6 +2023,7 @@ namespace RehabSetup
                     //HolderNode.Lines.Add($"InstanceScript = ExtResource ( {ExternalResourceList.Count} )");
                 }
 
+                HolderNode.Lines.Add($"Flags={(int)Inst.Flags}");
                 if (Inst.RefList != -1)
                 {
                     HolderNode.Lines.Add($"RefList={Inst.RefList}");

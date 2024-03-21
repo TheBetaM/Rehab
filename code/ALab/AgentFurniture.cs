@@ -29,15 +29,9 @@ public partial class AgentFurniture : Agent
         DoAnimation(0, true);
 	
         // temp to make exploring in explorer easier
-        Set("freeze_mode", (int)RigidBody3D.FreezeModeEnum.Static);
         if (Doors.Contains(Name))
         {
             IsDoor = true;
-            Set("contact_monitor", true);
-            Set("max_contacts_reported", 1);
-            Set("freeze_mode", (int)RigidBody3D.FreezeModeEnum.Static);
-            //Set("collision_layer", 0);
-            Connect("body_entered", Callable.From<Node3D>(OnDoorTouch));
         }
         switch (Name)
         {
@@ -110,4 +104,8 @@ public partial class AgentFurniture : Agent
         ProcessMode = ProcessModeEnum.Disabled;
     }
 
+    public override void OnNonSolidCollisionEnter(Node3D body)
+    {
+        OnDoorTouch(body);
+    }
 }

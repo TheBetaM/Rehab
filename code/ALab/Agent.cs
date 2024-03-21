@@ -24,16 +24,19 @@ public partial class Agent : Node3D
     public List<Node3D> ExitPoints = new();
     public Dictionary<int, List<CollisionShape3D>> ColShapes = new();
     bool FirstSetup = true;
+    public Area3D NonSolidCollisionArea;
 
     // Instance data
-    [Export] public bool OutlineCrate;
-    [Export] public int RefList;
     [Export] public Godot.Collections.Array<Node3D> LinkInstance;
     [Export] public Godot.Collections.Array<Path3D> LinkPath;
     [Export] public Godot.Collections.Array<Marker3D> LinkPoint;
     [Export] public Godot.Collections.Array<int> RegAngle;
     [Export] public Godot.Collections.Array<float> RegFloat;
     [Export] public Godot.Collections.Array<int> RegInt;
+    [Export] public bool HasFlags = false;
+    [Export] public ActorInstance.IFlags Flags;
+    [Export] public bool OutlineCrate;
+    [Export] public int RefList;
 
     string[] ShadowPaths = [
         "res://assets/textures/shadow/clin.png",
@@ -62,8 +65,6 @@ public partial class Agent : Node3D
             foreach (var i in GetNode("Models").GetChildren())
             {
                 var body = (RigidBody3D)i.GetChild(0);
-                //body.FreezeMode = RigidBody3D.FreezeModeEnum.Static;
-                //body.ProcessMode = ProcessModeEnum.Disabled;
                 foreach (var a in body.GetChildren())
                 {
                     if (a is CollisionShape3D col)
@@ -90,6 +91,26 @@ public partial class Agent : Node3D
         if (SubModels.Count > 0)
             ActiveSkeleton = (Skeleton3D)SubModels[ActiveModel].GetChild(0).GetChild(0);
         
+        NonSolidCollisionArea = new Area3D();
+        NonSolidCollisionArea.Name = "NonSolid";
+        NonSolidCollisionArea.CollisionMask = 0;
+        NonSolidCollisionArea.CollisionLayer = 0;
+        NonSolidCollisionArea.Connect("body_entered", Callable.From<Node3D>(OnNonSolidCollisionEnter));
+        var ColShape = new CollisionShape3D();
+        if (ColShapes.ContainsKey(ActiveModel))
+        {
+            ColShape.Shape = ColShapes[ActiveModel][0].Shape;
+            ColShape.Transform = ColShapes[ActiveModel][0].Transform;
+        }
+        else
+        {
+            ColShape.Shape = new BoxShape3D();
+            ColShape.Position = new Vector3(0f, 0.5f, 0f);
+        }
+        NonSolidCollisionArea.AddChild(ColShape);
+        NonSolidCollisionArea.ProcessMode = ProcessModeEnum.Disabled;
+        AddChild(NonSolidCollisionArea);
+        
         var parent = GetParent();
         while (ParentScene == null && parent != null)
         {
@@ -98,12 +119,12 @@ public partial class Agent : Node3D
             else
                 parent = parent.GetParent();
         }
-        
         if (ParentScene != null)
         {
             UpdateLayers(ParentScene.ChunkLayer);
         }
         UpdateActiveModel();
+        UpdateFlags();
     }
 
     public void DoAnimation(int slot, bool loop)
@@ -138,10 +159,21 @@ public partial class Agent : Node3D
             SubModels[ogi].ProcessMode = ProcessModeEnum.Inherit;
             if (this is not AgentCharacter && ColShapes.ContainsKey(ogi))
             {
-                foreach (var i in ColShapes[ogi])
+                if (!HasFlags || Flags.HasFlag(ActorInstance.IFlags.Collidable))
                 {
-                    i.ProcessMode = ProcessModeEnum.Inherit;
-                    i.Disabled = false;
+                    foreach (var i in ColShapes[ogi])
+                    {
+                        i.ProcessMode = ProcessModeEnum.Inherit;
+                        i.Disabled = false;
+                    }
+                }
+                else
+                {
+                    foreach (var i in ColShapes[ogi])
+                    {
+                        i.ProcessMode = ProcessModeEnum.Disabled;
+                        i.Disabled = true;
+                    }
                 }
             }
             if (ColShapes.ContainsKey(ActiveModel))
@@ -218,13 +250,49 @@ public partial class Agent : Node3D
         var agentcol = Call("get_collision_layer_value", 1);
         if (!FirstSetup || (bool)agentcol == true)
         {
-            for (int a = 1; a < 9; a++)
+            for (int a = 1; a < 15; a++)
             {
                 Call("set_collision_mask_value", a, false);
                 Call("set_collision_layer_value", a, false);
             }
             Call("set_collision_mask_value", layer, true);
-            Call("set_collision_layer_value", layer, true);
+            if (this is AgentCharacter)
+            {
+                Call("set_collision_layer_value", layer, true);
+            }
+            if (HasFlags)
+            {
+                if (Flags.HasFlag(ActorInstance.IFlags.Collidable))
+                {
+                    Call("set_collision_layer_value", 9, true);
+                    Call("set_collision_mask_value", 9, true);
+                    Call("set_collision_mask_value", 10, true);
+                    Call("set_collision_mask_value", 11, true);
+                    Call("set_collision_mask_value", 12, true);
+                    Call("set_collision_mask_value", 13, true);
+                    Call("set_collision_mask_value", 14, true);
+                }
+                if (Flags.HasFlag(ActorInstance.IFlags.SolidToBodyslam))
+                {
+                    Call("set_collision_layer_value", 10, true);
+                }
+                if (Flags.HasFlag(ActorInstance.IFlags.SolidToSlide))
+                {
+                    Call("set_collision_layer_value", 11, true);
+                }
+                if (Flags.HasFlag(ActorInstance.IFlags.SolidToSpin))
+                {
+                    Call("set_collision_layer_value", 12, true);
+                }
+                if (Flags.HasFlag(ActorInstance.IFlags.SolidToTwinSlam))
+                {
+                    Call("set_collision_layer_value", 13, true);
+                }
+                if (Flags.HasFlag(ActorInstance.IFlags.SolidToSomething))
+                {
+                    Call("set_collision_layer_value", 14, true);
+                }
+            }
         }
         bool LimitDrawDistance = false;
         if (OS.GetName() == "Android")
@@ -236,6 +304,51 @@ public partial class Agent : Node3D
         }
 	    UpdateLayersNested(this, layer, LimitDrawDistance);
 	    FirstSetup = false;
+        if (HasFlags)
+        {
+            for (int a = 9; a < 15; a++)
+            {
+                NonSolidCollisionArea.SetCollisionLayerValue(a, false);
+                NonSolidCollisionArea.SetCollisionMaskValue(a, true);
+            }
+            if (Flags.HasFlag(ActorInstance.IFlags.Collidable))
+            {
+                NonSolidCollisionArea.SetCollisionLayerValue(9, true);
+                if (!Flags.HasFlag(ActorInstance.IFlags.SolidToBodyslam))
+                {
+                    NonSolidCollisionArea.ProcessMode = ProcessModeEnum.Inherit;
+                    NonSolidCollisionArea.SetCollisionLayerValue(10, true);
+                }
+                if (!Flags.HasFlag(ActorInstance.IFlags.SolidToSlide))
+                {
+                    NonSolidCollisionArea.ProcessMode = ProcessModeEnum.Inherit;
+                    NonSolidCollisionArea.SetCollisionLayerValue(11, true);
+                }
+                if (!Flags.HasFlag(ActorInstance.IFlags.SolidToSpin))
+                {
+                    NonSolidCollisionArea.ProcessMode = ProcessModeEnum.Inherit;
+                    NonSolidCollisionArea.SetCollisionLayerValue(12, true);
+                }
+                if (!Flags.HasFlag(ActorInstance.IFlags.SolidToTwinSlam))
+                {
+                    NonSolidCollisionArea.ProcessMode = ProcessModeEnum.Inherit;
+                    NonSolidCollisionArea.SetCollisionLayerValue(13, true);
+                }
+                if (!Flags.HasFlag(ActorInstance.IFlags.SolidToSomething))
+                {
+                    NonSolidCollisionArea.ProcessMode = ProcessModeEnum.Inherit;
+                    NonSolidCollisionArea.SetCollisionLayerValue(14, true);
+                }
+            }
+            else
+            {
+                NonSolidCollisionArea.ProcessMode = ProcessModeEnum.Disabled;
+            }
+        }
+        else
+        {
+            NonSolidCollisionArea.ProcessMode = ProcessModeEnum.Disabled;
+        }
     }
 
     void UpdateLayersNested(Node i, int layer, bool LimitDrawDistance)
@@ -261,13 +374,48 @@ public partial class Agent : Node3D
         {
             if (!FirstSetup || col.GetCollisionLayerValue(1) != false)
             {
-                for (int a = 1; a < 9; a++)
+                for (int a = 1; a < 14; a++)
                 {
                     col.SetCollisionMaskValue(a, false);
                     col.SetCollisionLayerValue(a, false);
                 }
                 col.SetCollisionMaskValue(layer, true);
-                col.SetCollisionLayerValue(layer, true);
+                if (this is AgentCharacter)
+                {
+                    col.SetCollisionLayerValue(layer, true);
+                }
+                if (HasFlags)
+                {
+                    if (Flags.HasFlag(ActorInstance.IFlags.Collidable))
+                    {
+                        col.SetCollisionLayerValue(9, true);
+                        col.SetCollisionMaskValue(9, false);
+                        col.SetCollisionMaskValue(10, false);
+                        col.SetCollisionMaskValue(11, false);
+                        col.SetCollisionMaskValue(12, false);
+                        col.SetCollisionMaskValue(13, false);
+                    }
+                    if (Flags.HasFlag(ActorInstance.IFlags.SolidToBodyslam))
+                    {
+                        col.SetCollisionLayerValue(10, true);
+                    }
+                    if (Flags.HasFlag(ActorInstance.IFlags.SolidToSlide))
+                    {
+                        col.SetCollisionLayerValue(11, true);
+                    }
+                    if (Flags.HasFlag(ActorInstance.IFlags.SolidToSpin))
+                    {
+                        col.SetCollisionLayerValue(12, true);
+                    }
+                    if (Flags.HasFlag(ActorInstance.IFlags.SolidToTwinSlam))
+                    {
+                        col.SetCollisionLayerValue(13, true);
+                    }
+                    if (Flags.HasFlag(ActorInstance.IFlags.SolidToSomething))
+                    {
+                        col.SetCollisionLayerValue(14, true);
+                    }
+                }
             }
         }
         foreach (var id in i.GetChildren())
@@ -318,5 +466,43 @@ public partial class Agent : Node3D
         //SubModels[ActiveModel].GetChild(0).AddChild(shad);
         GetNode("Shadows").AddChild(shad);
         shad.Position = new Vector3(shad.Position.X, -4.99f, shad.Position.Z);
+    }
+
+    void UpdateFlags()
+    {
+        if (!HasFlags) return;
+        if (Flags.HasFlag(ActorInstance.IFlags.Inactive))
+        {
+            ProcessMode = ProcessModeEnum.Disabled;
+            Visible = false;
+            return;
+        }
+        Visible = Flags.HasFlag(ActorInstance.IFlags.Visible);
+        GetNode<Node3D>("Shadows").Visible = Flags.HasFlag(ActorInstance.IFlags.Shadow);
+        GetNode<Node3D>("Shadows").ProcessMode = Flags.HasFlag(ActorInstance.IFlags.Shadow) ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
+        if (ColShapes.ContainsKey(ActiveModel))
+        {
+            if (!Flags.HasFlag(ActorInstance.IFlags.Collidable))
+            {
+                foreach (var i in ColShapes[ActiveModel])
+                {
+                    i.ProcessMode = ProcessModeEnum.Disabled;
+                    i.Disabled = true;
+                }
+            }
+            else
+            {
+                foreach (var i in ColShapes[ActiveModel])
+                {
+                    i.ProcessMode = ProcessModeEnum.Inherit;
+                    i.Disabled = false;
+                }
+            }
+        }
+    }
+
+    public virtual void OnNonSolidCollisionEnter(Node3D body)
+    {
+
     }
 }
