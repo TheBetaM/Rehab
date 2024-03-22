@@ -33,7 +33,7 @@ public partial class AgentCharacter : Agent
     public Vector3 SpawnPos;
     public Vector3 SpawnRot;
     CollisionShape3D DynamicCol;
-    MeshInstance3D DynamicColVis;
+    //MeshInstance3D DynamicColVis;
 
     AudioStream FS_Dirt_1;
     AudioStream FS_Dirt_2 ;
@@ -69,7 +69,9 @@ public partial class AgentCharacter : Agent
         base._Ready();
 
         if (!ActiveActorTypes.ContainsKey((int)CharType))
+        {
             ActiveActorTypes[(int)CharType] = GetPath();
+        }
         else
         {
             Visible = false;
@@ -79,14 +81,25 @@ public partial class AgentCharacter : Agent
         CreateShadow(0, Vector2.One, 0);
 
         DynamicCol = new CollisionShape3D();
-        var box = new BoxShape3D();
+        //var box = new BoxShape3D();
+        var box = new ConvexPolygonShape3D();
+        box.Points = [
+            new Vector3(0.5f, 0, 0.5f),
+            new Vector3(-0.5f, 0, -0.5f),
+            new Vector3(0.5f, 0, -0.5f),
+            new Vector3(-0.5f, 0, 0.5f),
+            new Vector3(0.5f, 1, 0.5f),
+            new Vector3(-0.5f, 1, -0.5f),
+            new Vector3(0.5f, 1, -0.5f),
+            new Vector3(-0.5f, 1, 0.5f),
+        ];
         DynamicCol.Shape = box;
         DynamicCol.Name = "DynamicCol";
         AddChild(DynamicCol);
-        DynamicColVis = new MeshInstance3D();
-        var boxmesh = new BoxMesh();
-        DynamicColVis.Mesh = boxmesh;
-        AddChild(DynamicColVis);
+        //DynamicColVis = new MeshInstance3D();
+        //var boxmesh = new BoxMesh();
+        //DynamicColVis.Mesh = boxmesh;
+        //AddChild(DynamicColVis);
         
         SpawnPos = GlobalPosition;
         SpawnRot = GlobalRotationDegrees;
@@ -139,21 +152,26 @@ public partial class AgentCharacter : Agent
             activeCharacter = null;
     }
 
-    public override void _PhysicsProcess(double delta)
+    public override void _PhysicsProcess(double delt)
     {
         ActiveActorTypes[(int)CharType] = GetPath();
         if (ProcessMode == ProcessModeEnum.Disabled) return;
-        UpdateDynamicCollision((float)delta);
-        if (activeCharacter != this) return;
+        float delta = (float)delt;
+        UpdateDynamicCollision(delta);
+        if (activeCharacter != this)
+        {
+            UpdateNPC(delta);
+            return;
+        }
         if (Input.IsActionJustPressed("pad1_start"))
         {
             RehabScene.Root.StartPauseMenu(false);
             return;
         }
         
-        UpdateMovement((float)delta);
-        UpdateHeadAnim((float)delta);
-        UpdateFootStep((float)delta);
+        UpdateMovement(delta);
+        UpdateHeadAnim(delta);
+        UpdateFootStep(delta);
         if (RehabScene.Root.XR_Enabled)
         {
             RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * RehabGame.XR_Height);
@@ -560,40 +578,54 @@ public partial class AgentCharacter : Agent
 
     public void UpdateDynamicCollision(float delta)
     {
-        Aabb box = new Aabb();
-        UpdateDynamicColNested(SubModels[ActiveModel], ref box);
-        /*
-        float MinX = 10000f, MinY = 10000f, MinZ = 10000f, MaxX = -10000f, MaxY = -10000f, MaxZ = -10000f;;
+        //Aabb box = new Aabb();
+        //UpdateDynamicColNested(SubModels[ActiveModel], ref box);
+        
+        float MinX = 10000f, MinZ = 10000f, MaxX = -10000f, MaxY = -10000f, MaxZ = -10000f;;
         for (int i = 0; i < ActiveSkeleton.GetBoneCount(); i++)
         {
             var pos = ActiveSkeleton.GetBoneGlobalPose(i);
-            if (pos.Origin.X < MinX)
-                MinX = pos.Origin.X;
-            if (pos.Origin.Y < MinY)
-                MinY = pos.Origin.Y;
-            if (pos.Origin.Z < MinZ)
-                MinZ = pos.Origin.Z;
-            if (pos.Origin.X > MaxX)
-                MaxX = pos.Origin.X;
-            if (pos.Origin.Y > MaxY)
-                MaxY = pos.Origin.Y;
-            if (pos.Origin.Z > MaxZ)
-                MaxZ = pos.Origin.Z;
+            if (pos.Origin.X < MinX) MinX = pos.Origin.X;
+            if (pos.Origin.Z < MinZ) MinZ = pos.Origin.Z;
+            if (pos.Origin.X > MaxX) MaxX = pos.Origin.X;
+            if (pos.Origin.Y > MaxY) MaxY = pos.Origin.Y;
+            if (pos.Origin.Z > MaxZ) MaxZ = pos.Origin.Z;
         }
-        MinY = 0f;
-        Vector3 center = new Vector3(0f, (MaxY - MinY) / 2f, 0f);
-        Vector3 size = new Vector3((MaxX - MinX), (MaxY - MinY), (MaxZ - MinZ)) + new Vector3(0.1f, 0.1f, 0.1f);
-        DynamicCol.Position = center;
+        if (spinTimer > 0f)
+        {
+            MaxY = 1.8f;
+            MinX = -1.25f;
+            MaxX = 1.25f;
+            MinZ = -1.25f;
+            MaxZ = 1.25f;
+        }
+        /*
+        Vector3 center = new Vector3(0f, MaxY / 2f, 0f);
+        Vector3 size = new Vector3((MaxX - MinX) + 0.1f, MaxY, (MaxZ - MinZ) + 0.1f);
+        DynamicCol.Position = DynamicCol.Position.MoveToward(center, delta * 10f);
         var oldSize = (Vector3)DynamicCol.Shape.Get("size");
         DynamicCol.Shape.Set("size", oldSize.MoveToward(size, delta * 10f));
         */
-        var oldSize = (Vector3)DynamicCol.Shape.Get("size");
-        DynamicCol.Position = box.Position + box.Size / 2f;
-        DynamicCol.Shape.Set("size", oldSize.MoveToward(box.Size, delta * 10f));
+        Vector3 size = new Vector3((MaxX - MinX) + 0.1f, MaxY, (MaxZ - MinZ) + 0.1f);
+        var oldPts = (Vector3[])DynamicCol.Shape.Get("points");
+        Vector3[] Points = [
+            oldPts[0].MoveToward(new Vector3(0.5f, 0, 0.5f) * size, 10f * delta),
+            oldPts[1].MoveToward(new Vector3(-0.5f, 0, -0.5f) * size, 10f * delta),
+            oldPts[2].MoveToward(new Vector3(0.5f, 0, -0.5f) * size, 10f * delta),
+            oldPts[3].MoveToward(new Vector3(-0.5f, 0, 0.5f) * size, 10f * delta),
+            oldPts[4].MoveToward(new Vector3(0.5f, 1, 0.5f) * size, 10f * delta),
+            oldPts[5].MoveToward(new Vector3(-0.5f, 1, -0.5f) * size, 10f * delta),
+            oldPts[6].MoveToward(new Vector3(0.5f, 1, -0.5f) * size, 10f * delta),
+            oldPts[7].MoveToward(new Vector3(0.5f, 1, 0.5f) * size, 10f * delta),
+        ];
+        DynamicCol.Shape.Set("points", Points);
+        
+        //var oldSize = (Vector3)DynamicCol.Shape.Get("size");
+        //DynamicCol.Position = box.Position + (box.Size / 2f);
+        //DynamicCol.Shape.Set("size", oldSize.MoveToward(box.Size, delta * 10f));
         //DynamicCol.Shape.Set("size", box.Size);
         //DynamicColVis.Position = DynamicCol.Position;
         //DynamicColVis.Mesh.Set("size", size);
-        //GD.Print($"{center} {size}");
     }
 
     void UpdateDynamicColNested(Node parent, ref Aabb inBox)
@@ -646,4 +678,8 @@ public partial class AgentCharacter : Agent
         //AudioSource.AttenuationModel = AudioStreamPlayer3D.AttenuationModelEnum.Disabled;
     }
 
+    void UpdateNPC(float delta)
+    {
+        DoAnimation(8, true);
+    }
 }

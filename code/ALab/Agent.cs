@@ -157,9 +157,9 @@ public partial class Agent : Node3D
             ActiveAnim = -1;
             SubModels[ogi].Visible = true;
             SubModels[ogi].ProcessMode = ProcessModeEnum.Inherit;
-            if (this is not AgentCharacter && ColShapes.ContainsKey(ogi))
+            if (ColShapes.ContainsKey(ogi))
             {
-                if (!HasFlags || Flags.HasFlag(ActorInstance.IFlags.Collidable))
+                if (this is not AgentCharacter && (!HasFlags || Flags.HasFlag(ActorInstance.IFlags.Collidable)))
                 {
                     foreach (var i in ColShapes[ogi])
                     {
@@ -454,18 +454,19 @@ public partial class Agent : Node3D
     public void CreateShadow(int type, Vector2 dsize, int boneAttach)
     {
         if (SubModels.Count == 0) return;
-        var shad = new Decal();
-        shad.Size = new Vector3(dsize.X, 10f, dsize.Y);
-        shad.TextureAlbedo = (Texture2D)ResourceLoader.Load(ShadowPaths[type]);
-        shad.UpperFade = 0f;
-        shad.LowerFade = 0.5f;
-        shad.DistanceFadeEnabled= true;
-        shad.DistanceFadeBegin= 40;
-        shad.Layers = 1;
-        shad.Modulate = new Color(1f, 1f, 1f, 0.5f);
+        var shadow = new Decal();
+        shadow.Size = new Vector3(dsize.X, 10f, dsize.Y);
+        shadow.TextureAlbedo = (Texture2D)ResourceLoader.Load(ShadowPaths[type]);
+        shadow.UpperFade = 0f;
+        shadow.LowerFade = 0.5f;
+        shadow.DistanceFadeEnabled = true;
+        shadow.DistanceFadeBegin = 40;
+        shadow.Layers = 1;
+        shadow.Modulate = new Color(1f, 1f, 1f, 0.5f);
+        shadow.SortingOffset = -100f;
         //SubModels[ActiveModel].GetChild(0).AddChild(shad);
-        GetNode("Shadows").AddChild(shad);
-        shad.Position = new Vector3(shad.Position.X, -4.99f, shad.Position.Z);
+        GetNode("Shadows").AddChild(shadow);
+        shadow.Position = new Vector3(shadow.Position.X, -4.99f, shadow.Position.Z);
     }
 
     void UpdateFlags()
@@ -490,7 +491,7 @@ public partial class Agent : Node3D
                     i.Disabled = true;
                 }
             }
-            else
+            else if (this is not AgentCharacter)
             {
                 foreach (var i in ColShapes[ActiveModel])
                 {
