@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://by5ieljhkskx8"]
+[gd_scene load_steps=26 format=3 uid="uid://by5ieljhkskx8"]
 
 [ext_resource type="Script" path="res://code/Game/RehabScene.cs" id="1_nokr2"]
 [ext_resource type="Script" path="res://code/Game/XR/RehabXROrigin.cs" id="2_3q0m5"]
@@ -44,6 +44,8 @@ size = Vector3(16, 0, 9)
 
 [sub_resource type="Environment" id="Environment_e4v8o"]
 background_mode = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_h33tr"]
 
 [node name="Root" type="Node3D"]
 script = ExtResource("1_nokr2")
@@ -214,7 +216,16 @@ bus = &"Voice"
 [node name="ConfigHandler" type="Node" parent="."]
 script = ExtResource("12_x2vfy")
 
-[node name="PlayerCam" type="Camera3D" parent="."]
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="CameraArm" type="SpringArm3D" parent="CameraPivot"]
+collision_mask = 32767
+shape = SubResource("SphereShape3D_h33tr")
+spring_length = 6.0
+margin = 0.5
+
+[node name="PlayerCam" type="Camera3D" parent="CameraPivot/CameraArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
 far = 90000.0
 script = ExtResource("4_dyya7")
 

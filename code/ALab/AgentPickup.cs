@@ -9,6 +9,9 @@ public partial class AgentPickup : Agent
     Node3D pickupTarget = null;
     bool IsWumpa = true;
     public double CrateTimer;
+    bool AnimMode = false;
+    Vector3 UpPos = new(0f, 0.2f, 0f);
+    Vector3 DownPos = new(0f, -0.2f, 0f);
 
     public override void _Ready()
     {
@@ -23,6 +26,10 @@ public partial class AgentPickup : Agent
         else
         {
             CreateShadow(0, Vector2.One * 0.5f, 0);
+            SubModels[ActiveModel].RotationDegrees = new Vector3(0f, (System.Random.Shared.NextSingle() * 360f) - 180f, 0f);
+            SubModels[ActiveModel].Position = new Vector3(0f, (System.Random.Shared.NextSingle() * 0.4f) - 0.2f, 0f);
+            if (System.Random.Shared.Next(2) == 0)
+                AnimMode = true;
         }
     }
 
@@ -57,6 +64,21 @@ public partial class AgentPickup : Agent
                 DoSound(1, (GD.Randf() / 5f) + 0.9f, 0f);
                 ProcessMode = ProcessModeEnum.Disabled;;
                 Visible = false;
+            }
+        }
+        else
+        {
+            if (AnimMode)
+            {
+                SubModels[ActiveModel].Position = SubModels[ActiveModel].Position.MoveToward(UpPos, 1f * (float)delta);
+                if (SubModels[ActiveModel].Position.Y == UpPos.Y)
+                    AnimMode = false;
+            }
+            else
+            {
+                SubModels[ActiveModel].Position = SubModels[ActiveModel].Position.MoveToward(DownPos, 1f * (float)delta);
+                if (SubModels[ActiveModel].Position.Y == DownPos.Y)
+                    AnimMode = true;
             }
         }
     }

@@ -47,7 +47,7 @@ public partial class RehabScene : Node3D
     public override void _Ready()
     {
         FE = GetNode<Control>("FE");
-        PlayerCam = GetNode<PlayerCamera>("PlayerCam");
+        PlayerCam = GetNode<PlayerCamera>("CameraPivot/CameraArm/PlayerCam");
         FreeLookCam = GetNode<FreeLookCamera>("FreeLookCam");
         GameHUD = FE.GetNode<FrontendHUD>("FE_HUD");
         GameMenu = FE.GetNode<FrontendMenu>("FE_Menu");
@@ -260,6 +260,7 @@ public partial class RehabScene : Node3D
             if (XR_Origin.XR_HandR.HasHand) 
                 XR_Origin.XR_HandR.HandModel.UpdateLayers(loadedScene.ChunkLayer);
         }
+        PlayerCam.Arm.CollisionMask = (uint)(1 << (loadedScene.ChunkLayer - 1)) + 0x7F00;
         IsLoadingXR = false;
         IsLoadingScene = false;
     }
@@ -344,8 +345,9 @@ public partial class RehabScene : Node3D
         {
             XR_Origin.GlobalPosition += -ChunkOffset;
         }
-        PlayerCam.pivot += -ChunkOffset;
+        PlayerCam.ArmPivot.GlobalPosition += -ChunkOffset;
         PlayerCam.GlobalPosition += -ChunkOffset;
+        PlayerCam.Arm.CollisionMask = (uint)(1 << (chunk.ChunkLayer - 1)) + 0x7F00;
         
         // Activating and starting links of entered chunk
         foreach (var i in chunk.Links)
@@ -456,7 +458,7 @@ public partial class RehabScene : Node3D
         {
             XR_Origin.GlobalPosition += -ChunkOffset;
         }
-        PlayerCam.pivot += -ChunkOffset;
+        PlayerCam.ArmPivot.GlobalPosition += -ChunkOffset;
         PlayerCam.GlobalPosition += -ChunkOffset;
     }
 
