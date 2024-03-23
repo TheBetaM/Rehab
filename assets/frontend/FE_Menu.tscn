@@ -19,8 +19,6 @@ width = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eyg1k"]
 shader = ExtResource("6_mhqpa")
-shader_parameter/gradient_offset = 0.0
-shader_parameter/multiline = true
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [sub_resource type="Gradient" id="Gradient_yoo12"]

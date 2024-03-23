@@ -8,6 +8,7 @@ public partial class AgentCrate : Agent
     bool IsNitro;
     bool IsTNT;
     bool IsSwitch;
+    bool IsReinforced;
     bool WasTriggered;
     static SphereShape3D ExplosionShape;
 
@@ -30,25 +31,17 @@ public partial class AgentCrate : Agent
 
         string name = (string)Name;
         if (name.Contains("CheckPoint") || name.Contains("Level"))
-        {
             IsCheckPoint = true;
-        }
         else if (name.Contains("Iron") || name.Contains("Detonator"))
-        {
             IsBreakable = false;
-        }
         else if (name.Contains("Nitro"))
-        {
             IsNitro = true;
-        }
         else if (name.Contains("TNT"))
-        {
             IsTNT = true;
-        }
+        else if (name.Contains("Reinforced"))
+            IsReinforced = true;
         if (name.Contains("Switch"))
-        {
             IsSwitch = true;
-        }
         if (OutlineCrate)
         {
             Set("collision_layer", 0);
@@ -69,7 +62,8 @@ public partial class AgentCrate : Agent
         {
             if (agent.spinTimer > 0f || agent.slideTimer > 0f || IsNitro || IsCheckPoint)
             {
-                CallDeferred("ForceBreak");
+                if (!IsReinforced)
+                    CallDeferred("ForceBreak");
                 return;
             }
         }

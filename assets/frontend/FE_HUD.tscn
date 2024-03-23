@@ -15,16 +15,12 @@ width = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n5075"]
 shader = ExtResource("2_n118i")
-shader_parameter/gradient_offset = 100.0
-shader_parameter/multiline = false
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vbfre"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f861j"]
 shader = ExtResource("2_n118i")
-shader_parameter/gradient_offset = 100.0
-shader_parameter/multiline = false
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wbc15"]
@@ -42,8 +38,6 @@ width = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i0ouu"]
 shader = ExtResource("2_n118i")
-shader_parameter/gradient_offset = 0.0
-shader_parameter/multiline = true
 shader_parameter/gradient = SubResource("GradientTexture1D_gi2ny")
 
 [sub_resource type="Animation" id="Animation_b4efc"]
@@ -105,22 +99,22 @@ offset_bottom = 150.0
 
 [node name="CountWumpa" type="Label" parent="Wumpa"]
 material = SubResource("ShaderMaterial_n5075")
-custom_minimum_size = Vector2(0, 200)
+custom_minimum_size = Vector2(0, 190)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -10.0
-offset_top = -75.0
-offset_right = 148.0
-offset_bottom = 115.0
+offset_left = 42.5
+offset_top = -80.0
+offset_right = 200.5
+offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.66, 1.66)
 pivot_offset = Vector2(79, 95)
 theme = ExtResource("3_updjh")
-theme_override_font_sizes/font_size = 80
 text = "00"
 vertical_alignment = 1
 
@@ -151,22 +145,22 @@ grow_horizontal = 0
 
 [node name="CountLives" type="Label" parent="Lives"]
 material = SubResource("ShaderMaterial_f861j")
-custom_minimum_size = Vector2(0, 200)
+custom_minimum_size = Vector2(0, 190)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -170.0
-offset_top = -75.0
-offset_right = -12.0
-offset_bottom = 115.0
+offset_left = -220.0
+offset_top = -80.0
+offset_right = -62.0
+offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.66, 1.66)
 pivot_offset = Vector2(79, 95)
 theme = ExtResource("3_updjh")
-theme_override_font_sizes/font_size = 80
 text = "99"
 horizontal_alignment = 2
 vertical_alignment = 1

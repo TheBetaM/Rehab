@@ -13,7 +13,6 @@ gradient = SubResource("Gradient_6e6ww")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pbrsb"]
 shader = ExtResource("1_881wj")
-shader_parameter/gradient_offset = 20.0
 shader_parameter/gradient = SubResource("GradientTexture1D_fmcm4")
 
 [node name="Button1" type="Button"]
