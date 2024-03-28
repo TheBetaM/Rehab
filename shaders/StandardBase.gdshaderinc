@@ -11,6 +11,15 @@ void vertex()
 	}
 	if (billboard)
 	{
+		// Face towards point (0,0,0) of chunk
+		vec3 nodepos = vec3(NODE_POSITION_WORLD.x, 0, NODE_POSITION_WORLD.z);
+		vec3 nodeoffset = vec3(0);
+		vec3 w = normalize(nodepos + nodeoffset);
+		vec3 v = normalize(cross(w, vec3(0,0,1)));
+		v = vec3(v.x, abs(v.y), v.z);
+		vec3 u = cross(w, v);
+		mat3 rot_mat = transpose(mat3(u, v, w));
+		VERTEX *= rot_mat;
 		//MODELVIEW_MATRIX = VIEW_MATRIX * mat4(vec4(normalize(cross(vec3(0.0, 1.0, 0.0), INV_VIEW_MATRIX[2].xyz)), 0.0), vec4(0.0, 1.0, 0.0, 0.0), vec4(normalize(cross(INV_VIEW_MATRIX[0].xyz, vec3(0.0, 1.0, 0.0))), 0.0), MODEL_MATRIX[3]);
 		//MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
 	}

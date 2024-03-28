@@ -541,8 +541,7 @@ namespace RehabSetup
             if (!MultiExport)
             {
                 GodotBinaryImageTexture TexRes = new(Textures, Widths, Heights);
-                if (!AssetExporter.Check(OutName))
-                    TexRes.WriteToFile(OutName);
+                TexRes.WriteToFileForce(OutName);
             }
             else
             {
@@ -550,8 +549,7 @@ namespace RehabSetup
                 {
                     string TexName = $"{OutName}\\{Names[i]}.res";
                     GodotBinaryImageTexture TexRes = new(Textures[i], Widths[i], Heights[i]);
-                    if (!AssetExporter.Check(TexName))
-                        TexRes.WriteToFile(TexName);
+                    TexRes.WriteToFileForce(TexName);
                 }
             }
 

@@ -13,9 +13,9 @@
 [ext_resource type="AudioStream" path="res://import/Sounds/GlobalVO/English/DRC356-03_07.res" id="9_kc1u2"]
 [ext_resource type="PackedScene" path="res://import/Rigs/Rig_TribesmanA.tscn" id="10_6x4ic"]
 [ext_resource type="Animation" path="res://import/Animations/Tribesman_Cutscene_L03E.res" id="10_pjf6y"]
-[ext_resource type="AudioStream" path="res://import/Sounds/Totem_CutsceneDirector_1.res" id="10_r2q0x"]
+[ext_resource type="AudioStream" path="res://import/Sounds/Cutscene/Totem_CutsceneDirector_NativeVoice.res" id="10_r2q0x"]
 [ext_resource type="PackedScene" path="res://import/Actors/Global_Ambient_Sound.tscn" id="11_4xjk1"]
-[ext_resource type="AudioStream" path="res://import/Sounds/Totem_CutsceneDirector_2.res" id="11_t6m1t"]
+[ext_resource type="AudioStream" path="res://import/Sounds/Cutscene/Totem_CutsceneDirector_Clapping.res" id="11_t6m1t"]
 [ext_resource type="PackedScene" path="res://import/Actors/CutsceneDirector_Totem.tscn" id="18_5yfmm"]
 
 [sub_resource type="Environment" id="1"]

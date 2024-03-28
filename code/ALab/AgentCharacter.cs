@@ -133,7 +133,7 @@ public partial class AgentCharacter : Agent
         FS_Wood_2 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/fs_wood_2.res");
         FS_Tile_1 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/L09_Cortex_boots_tile_2.res");
         FS_Tile_2 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/L09_Cortex_boots_tile_7.res");
-        FS_Slippy = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/L03_TotemHokum/L03_Tribesmn_fs.res");
+        FS_Slippy = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/L03_Tribesman_fs.res");
         RehabGame.SetCheckPoint(SpawnPos, SpawnRot, ParentScene.Name, true);
     }
 

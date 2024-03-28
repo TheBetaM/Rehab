@@ -121,7 +121,14 @@ namespace RehabSetup
         public GodotBinaryAudioStreamWAV(SoundEffectX sfx)
         {
             var res = new Resource(ResType, $"local://{ResType}_aaaaa");
-            res.Add("data", sfx.SoundData);
+            byte[] data = sfx.SoundData;
+            if (sfx.ID == 297)
+            {
+                // Cropping broken sound
+                data = new byte[0xC0F8];
+                Array.Copy(sfx.SoundData, data, 0xC0F8);
+            }
+            res.Add("data", data);
             res.Add("format", 1);
             res.Add("mix_rate", sfx.Freq);
             Resources.Add(res);

@@ -2553,13 +2553,12 @@ namespace RehabSetup
             // Export materials and textures
             TwinsSection mat_sec = MCont.Parent.Parent.GetItem<TwinsSection>(1);
 
-            List<Material> Materials = new List<Material>();
+            List<uint> Materials = new List<uint>();
             for (int i = 0; i < MCont.MaterialIDs.Length; i++)
             {
-                Material Mat = mat_sec.GetItem<Material>(MCont.MaterialIDs[i]);
-                Materials.Add(Mat);
+                Materials.Add(MCont.MaterialIDs[i]);
             }
-            AddMaterialsTextures(path, Materials, ExportedTextures);
+            AddMaterialsTextures(path, Materials, mat_sec, ExportedTextures);
 
             // Create mesh node
             //Node GeomNode = new Node($"mesh", ExportGodot.MeshInstance3D);
@@ -2593,13 +2592,12 @@ namespace RehabSetup
             // Export materials and textures
             TwinsSection mat_sec = Cont.Parent.Parent.GetItem<TwinsSection>(1);
 
-            List<Material> Materials = new List<Material>();
+            List<uint> Materials = new List<uint>();
             for (int i = 0; i < Cont.SubModels.Count; i++)
             {
-                Material Mat = mat_sec.GetItem<Material>(Cont.SubModels[i].MaterialID);
-                Materials.Add(Mat);
+                Materials.Add(Cont.SubModels[i].MaterialID);
             }
-            AddMaterialsTextures(path, Materials, ExportedTextures);
+            AddMaterialsTextures(path, Materials, mat_sec, ExportedTextures);
 
             // Create mesh node
             //Node GeomNode = new Node($"mesh", ExportGodot.MeshInstance3D);
@@ -2634,13 +2632,12 @@ namespace RehabSetup
             TwinsSection tex_sec = Cont.Parent.Parent.GetItem<TwinsSection>(0);
             TwinsSection mat_sec = Cont.Parent.Parent.GetItem<TwinsSection>(1);
 
-            List<Material> Materials = new List<Material>();
+            List<uint> Materials = new List<uint>();
             for (int i = 0; i < Cont.SubModels.Count; i++)
             {
-                Material Mat = mat_sec.GetItem<Material>(Cont.SubModels[i].MaterialID);
-                Materials.Add(Mat);
+                Materials.Add(Cont.SubModels[i].MaterialID);
             }
-            AddMaterialsTextures(path, Materials, ExportedTextures);
+            AddMaterialsTextures(path, Materials, mat_sec, ExportedTextures);
 
             // Create mesh node
             //Node GeomNode = new Node($"mesh", ExportGodot.MeshInstance3D);
@@ -2674,13 +2671,12 @@ namespace RehabSetup
             // Export materials and textures
             TwinsSection mat_sec = Cont.Parent.Parent.GetItem<TwinsSection>(1);
 
-            List<Material> Materials = new List<Material>();
+            List<uint> Materials = new List<uint>();
             for (int i = 0; i < Cont.Models.Length; i++)
             {
-                Material Mat = mat_sec.GetItem<Material>(Cont.Models[i].MaterialID);
-                Materials.Add(Mat);
+                Materials.Add(Cont.Models[i].MaterialID);
             }
-            AddMaterialsTextures(path, Materials, ExportedTextures);
+            AddMaterialsTextures(path, Materials, mat_sec, ExportedTextures);
 
             // Create mesh node
             //Node GeomNode = new Node($"mesh", ExportGodot.MeshInstance3D);
@@ -2714,13 +2710,12 @@ namespace RehabSetup
             // Export materials and textures
             TwinsSection mat_sec = Cont.Parent.Parent.GetItem<TwinsSection>(1);
 
-            List<Material> Materials = new List<Material>();
+            List<uint> Materials = new List<uint>();
             for (int i = 0; i < Cont.SubModels.Count; i++)
             {
-                Material Mat = mat_sec.GetItem<Material>(Cont.SubModels[i].MaterialID);
-                Materials.Add(Mat);
+                Materials.Add(Cont.SubModels[i].MaterialID);
             }
-            AddMaterialsTextures(path, Materials, ExportedTextures);
+            AddMaterialsTextures(path, Materials, mat_sec, ExportedTextures);
 
             // Create mesh node
             //Node GeomNode = new Node($"mesh", ExportGodot.MeshInstance3D);
@@ -2734,22 +2729,24 @@ namespace RehabSetup
             //Nodes.Add(GeomNode);
         }
 
-        public void AddMaterialsTextures(string path, List<Material> Materials, Dictionary<uint, string> ExportedTextures)
+        public void AddMaterialsTextures(string path, List<uint> MaterialIDs, TwinsSection MatSection, Dictionary<uint, string> ExportedTextures)
         {
             string DirPath = $"{path}\\Materials\\";
-            string TexPath = $"{path}\\Textures\\";
-            //Directory.CreateDirectory(DirPath);
-            //Directory.CreateDirectory(TexPath);
 
             List<string> MaterialFileNames = new List<string>();
-            for (int mat = 0; mat < Materials.Count; mat++)
+            for (int material = 0; material < MaterialIDs.Count; material++)
             {
+                //if (!MatSection.ContainsItem(MaterialIDs[material]))
+                //{
+                    //continue;
+                //}
+                Material mat = MatSection.GetItem<Material>(MaterialIDs[material]);
                 var MaterialFile = new GodotResourceFile();
                 int ExtraShaderID = -1;
                 string ExtraShaderType = "";
-                for (int i = 0; i < Materials[mat].Shaders.Count; i++)
+                for (int i = 0; i < mat.Shaders.Count; i++)
                 {
-                    TwinsShader shader = Materials[mat].Shaders[i];
+                    TwinsShader shader = mat.Shaders[i];
                     string shaderAdd = "";
                     bool ExtraShaderNeeded = true;
                     InternalResource TargetResource = MaterialFile.Resource;
@@ -2759,8 +2756,8 @@ namespace RehabSetup
                     }
 
                     // or shader.AlphaValueToBeComparedTo?
-                    //int render_priority = Math.Clamp(Materials[mat].Unknown + (shader.AlphaValueToBeComparedTo - 128), -127, 128);
-                    int render_priority = Math.Clamp((int)(shader.UnkVector2.W - 128f) + Materials[mat].Unknown + i, -127, 128);
+                    //int render_priority = Math.Clamp(mat.Unknown + (shader.AlphaValueToBeComparedTo - 128), -127, 128);
+                    int render_priority = Math.Clamp((int)(shader.UnkVector2.W - 128f) + mat.Unknown + i, -127, 128);
                     //int render_priority = Math.Clamp(i, -127, 128);
                     TargetResource.Lines.Add($"render_priority={render_priority}");
                     //TargetResource.Lines.Add($"render_priority = {shader.FixedAlphaValue - 128}");
@@ -2993,13 +2990,16 @@ namespace RehabSetup
                         }
                     }
                 }
-                // Re-hashing material due to ID collisions
+
                 MaterialFile.Serialize();
-                string MatHash = MaterialFile.FileLines.GetSequenceHashCode().ToString("X8");
-                string MatName = $"Mat{Materials[mat].ID.ToString("X8")}-{Materials[mat].Name.Replace("\0", "")}-{MatHash}";
+                string MatName = $"{mat.Name.Replace("\0", "")}-{mat.ID.ToString("X8")}";
+                if (DefaultHashes.DupeMaterialIDs.Contains(MaterialIDs[material]))
+                {
+                    string MatHash = MaterialFile.FileLines.GetSequenceHashCode().ToString("X8");
+                    MatName += $"-{MatHash}";
+                }
                 string MatPath = $"{DirPath}{MatName}.tres";
-                if (!AssetExporter.Check(MatPath))
-                    MaterialFile.WriteToFile(MatPath);
+                MaterialFile.WriteToFile(MatPath);
                 MaterialFileNames.Add($"../Materials/{MatName}.tres");
             }
 

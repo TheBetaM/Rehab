@@ -772,6 +772,13 @@ namespace RehabSetup
                 Cache.TryAdd(name.Replace('\\','/').Replace("//","/"), data);
             }
         }
+        public static void Set(string name, byte[] data)
+        {
+            lock (Cache)
+            {
+                Cache[name.Replace('\\','/').Replace("//","/")] = data;
+            }
+        }
 
     }
 }

@@ -38,7 +38,7 @@ namespace RehabSetup
                     Write(writer);
                     stream.Position = 0;
                     //File.WriteAllBytes(path, stream.ToArray());
-                    AssetExporter.Add(path, stream.ToArray());
+                    AssetExporter.Set(path, stream.ToArray());
                 }
             }
         }
