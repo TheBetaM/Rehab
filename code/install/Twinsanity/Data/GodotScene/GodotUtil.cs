@@ -106,6 +106,7 @@ namespace RehabSetup
             Vector3 scale = new Vector3();
             var jointSetting = Data.JointsSettings[jointIndex];
             var useAddRot = (jointSetting.Flags >> 0xC & 0x1) != 0;
+            bool useParentScale = (jointSetting.Flags >> 0xD & 0x1) != 0;
             var transformIndex = jointSetting.TransformationIndex;
             int currentFrameTransformIndex = jointSetting.AnimatedTransformIndex;
             var nextFrameTransformIndex = jointSetting.AnimatedTransformIndex;
@@ -277,11 +278,15 @@ namespace RehabSetup
             rotQuat = new Quaternion(-rotQuat.X, rotQuat.Y, rotQuat.Z, -rotQuat.W);
             //var rotQuat = Quaternion.CreateFromYawPitchRoll(endRotY1, endRotX1, -endRotZ1);
             var addRotQuat = new Quaternion(-addRotVectorPos.X, addRotVectorPos.Y, addRotVectorPos.Z, -addRotVectorPos.W);
-            var mulQuat = Quaternion.Multiply(addRotQuat, rotQuat);
+            var mulQuat = rotQuat;
+            if (useAddRot)
+                mulQuat = Quaternion.Multiply(addRotQuat, rotQuat);
             //var mulQuat = rotQuat;
             //mulQuat = Quaternion.Normalize(mulQuat);
 
-            var resultScale = new Vector3(scale.X / parentScale.X, scale.Y / parentScale.Y, scale.Z / parentScale.Z);
+            var resultScale = scale;
+            if (useParentScale)
+                resultScale = new Vector3(scale.X / parentScale.X, scale.Y / parentScale.Y, scale.Z / parentScale.Z);;
             if (float.IsNaN(resultScale.X))
                 resultScale.X = 0f;
             if (float.IsNaN(resultScale.Y))
@@ -291,14 +296,14 @@ namespace RehabSetup
 
             var localRot = Matrix4x4.CreateFromQuaternion(mulQuat);
             var localTranslate = Matrix4x4.CreateTranslation(translation);
-            var localScale = Matrix4x4.CreateScale(resultScale);
-            var localTransform = localRot * localScale * localTranslate;
+            //var localScale = Matrix4x4.CreateScale(resultScale);
+            var localTransform = localRot * localTranslate;
 
             Matrix4x4.Decompose(localTransform, out var tscale, out var rotFix, out var tpos);
             outPos = tpos;
-            outRot = Vector4.Normalize(new Vector4(rotFix.X, rotFix.Y, rotFix.Z, rotFix.W));
-            //outRot = new Vector4(rotFix.X, rotFix.Y, rotFix.Z, rotFix.W);
-            outScale = tscale;
+            //outRot = Vector4.Normalize(new Vector4(rotFix.X, rotFix.Y, rotFix.Z, rotFix.W));
+            outRot = new Vector4(rotFix.X, rotFix.Y, rotFix.Z, rotFix.W);
+            outScale = resultScale;
             rawScale = scale;
             return;
         }

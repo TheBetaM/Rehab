@@ -100,6 +100,7 @@ public partial class AgentCharacter : Agent
         //var boxmesh = new BoxMesh();
         //DynamicColVis.Mesh = boxmesh;
         //AddChild(DynamicColVis);
+        Set("floor_constant_speed", true);
         
         SpawnPos = GlobalPosition;
         SpawnRot = GlobalRotationDegrees;
