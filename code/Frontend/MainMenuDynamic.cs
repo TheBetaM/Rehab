@@ -9,14 +9,14 @@ public partial class MainMenuDynamic : Control
     bool ActorsExist;
     PackedScene ActorScene;
     Node3D ActorNode;
-    string AudioPath = RehabGame.AssetsPath + "Sounds/VO/Cortex_Panic_08.res";
+    string AudioPath = RehabGame.AssetsPath + "Sounds/VO/Cortex_Panic_08.sample";
     string[] RequiredAssets = [
-        RehabGame.AssetsPath + "Rigs/Rig_Crash.tscn",
-        RehabGame.AssetsPath + "Rigs/Rig_Cortex.tscn",
-        RehabGame.AssetsPath + "Rigs/RigRESET_Crash.res",
-        RehabGame.AssetsPath + "Rigs/RigRESET_Cortex.res",
+        RehabGame.AssetsPath + "Rigs/Crash_Rig.tscn",
+        RehabGame.AssetsPath + "Rigs/Cortex_Rig.tscn",
+        RehabGame.AssetsPath + "Rigs/Crash_RigRESET.anim",
+        RehabGame.AssetsPath + "Rigs/Cortex_RigRESET.anim",
     ];
-    string DemoCheck = RehabGame.AssetsPath + "Animations/Cortex_SkateFall.res";
+    string DemoCheck = RehabGame.AssetsPath + "Rigs/Cortex_SkateFall.anim";
 
     public override void _Ready()
     {

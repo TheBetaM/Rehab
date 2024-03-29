@@ -526,7 +526,7 @@ namespace RehabSetup
             RootNode.KeyValues.Add("parent", ".");
             Nodes.Add(RootNode);
 
-            string OcclFilePath = $"{Scene.ChunkName.Replace('\\', '_')}-Occlusion.res";
+            string OcclFilePath = $"{Scene.ChunkName.Replace('\\', '_')}-Occlusion.occ";
             Node OccluderNode = new Node($"SceneryOccluder", "OccluderInstance3D");
             OccluderNode.KeyValues.Add("parent", ".");
             ExternalResource OccluderShape = new ExternalResource(OcclFilePath, "ArrayOccluder3D");
@@ -627,6 +627,7 @@ namespace RehabSetup
         public void AddCollisionData(ColData Data, string path, string ModelFilePath, bool SceneOnly = false)
         {
             string DirPath = $"{path}\\Scenery\\";
+            string Extension = ".shape";
             //string ModelFilePath = System.IO.Path.GetFileNameWithoutExtension(path);
             // optional collision visuals
             /*
@@ -705,10 +706,10 @@ namespace RehabSetup
 
                 int ShapeID = 0;
                 GodotBinaryCollisionShape shape = new GodotBinaryCollisionShape(Data, (int)i);
-                string ShapeFilePath = $"{DirPath}{ModelFilePath}_{(DefaultEnums.SurfaceTypes)i}.res";
+                string ShapeFilePath = $"{DirPath}{ModelFilePath}-{DefaultHashes.ToName(SectionType.CollisionSurface, i)}{Extension}";
                 shape.WriteToFile(ShapeFilePath);
 
-                ExternalResource ShapeRes = new ExternalResource($"{ModelFilePath}_{(DefaultEnums.SurfaceTypes)i}.res", shape.ResType);
+                ExternalResource ShapeRes = new ExternalResource($"{ModelFilePath}-{DefaultHashes.ToName(SectionType.CollisionSurface, i)}{Extension}", shape.ResType);
                 ExternalResourceList.Add(ShapeRes);
                 ShapeID = ExternalResourceList.Count;
 
@@ -777,7 +778,7 @@ namespace RehabSetup
                 if (GI.BlendSkinID != 0)
                 {
                     BlendShapeCount = DefaultHashes.BlendShapeCounts[GI.BlendSkinID];
-                    string ModelFilePath = $"../Skins/BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}";
+                    string ModelFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}_BlendSkin";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
 
                     // adjusting name for blend shape animation access
@@ -785,7 +786,7 @@ namespace RehabSetup
                 }
                 if (GI.SkinID != 0)
                 {
-                    string ModelFilePath = $"../Skins/Skin_{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}";
+                    string ModelFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}_Skin";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
                 }
             }
@@ -794,7 +795,7 @@ namespace RehabSetup
                 if (GI.BlendSkinID != 0)
                 {
                     BlendShapeCount = DefaultHashes.BlendShapeCounts[GI.BlendSkinID];
-                    string ModelFilePath = $"../Skins/BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}";
+                    string ModelFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}_BlendSkin";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
 
                     // adjusting name for blend shape animation access
@@ -802,14 +803,14 @@ namespace RehabSetup
                 }
                 if (GI.SkinID != 0)
                 {
-                    string ModelFilePath = $"../Skins/Skin_{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}";
+                    string ModelFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}_Skin";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
                 }
             }
 
             // Export RESET animation
             GodotBinaryAnimation ResetAnim = new GodotBinaryAnimation(GI, BlendShapeCount);
-            string AnimPath = $"{path}\\Rigs\\RigRESET_{DefaultHashes.ToName(SectionType.OGI, GI.ID)}.res";
+            string AnimPath = $"{path}\\Rigs\\{DefaultHashes.ToName(SectionType.OGI, GI.ID)}_RigRESET.anim";
             ResetAnim.WriteToFile(AnimPath);
 
             // Attachments
@@ -891,7 +892,7 @@ namespace RehabSetup
                     Nodes.Add(attach);
                 }
 
-                string ModelFilePath = $"../Mesh/";
+                string ModelFilePath = $"../Rigs/";
                 //RigidModel model = rigid_sec.GetItem<RigidModel>(modelID);
                 //uint Hash = ExportGodot.ExportModelResource(model, path);
                 //string outName = DefaultHashes.RigidToName(model.ID, Hash);
@@ -1147,12 +1148,12 @@ namespace RehabSetup
             Dictionary<int, int> AnimList = new Dictionary<int, int>();
             if (Agent.Anims.Count != 0)
             {
-                string Extension = ".res";
+                string Extension = ".anim";
                 for (int i = 0; i < Agent.Anims.Count; i++)
                 {
                     if (Agent.Anims[i] != 65535 && !AnimList.ContainsKey(Agent.Anims[i]))
                     {
-                        string AnimFilePath = $"../Animations/{DefaultHashes.ToName(SectionType.Animation, Agent.Anims[i])}";
+                        string AnimFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.Animation, Agent.Anims[i])}";
                         ExternalResource AnimFileReference = new ExternalResource($"{AnimFilePath}{Extension}");
                         //AnimFileReference.SetAsAnimation();
                         ExternalResourceList.Add(AnimFileReference);
@@ -1191,13 +1192,13 @@ namespace RehabSetup
                 {
                     if (Agent.OGIs[i] != 65535 && !ModelList.ContainsKey(Agent.OGIs[i]))
                     {
-                        string ModelFilePath = $"../Rigs/Rig_{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[i])}";
+                        string ModelFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[i])}_Rig";
                         //ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}.tscn");
                         //ModelFileReference.SetAsPackedScene();
                         //ExternalResourceList.Add(ModelFileReference);
 
-                        string Extension = ".res";
-                        ExternalResource ResetAnimRef = new ExternalResource($"../Rigs/RigRESET_{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[i])}{Extension}");
+                        string Extension = ".anim";
+                        ExternalResource ResetAnimRef = new ExternalResource($"../Rigs/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[i])}_RigRESET{Extension}");
                         ResetAnimRef.SetAsAnimation();
                         ExternalResourceList.Add(ResetAnimRef);
                         int ResetAnimRefID = ExternalResourceList.Count;
@@ -1229,11 +1230,11 @@ namespace RehabSetup
                                     InternalResourceList.Add(AnimLib);
                                     AnimRefNode = new Node("AnimationPlayer");
                                     AnimRefNode.KeyValues.Add("index", "1");
-                                    AnimRefNode.KeyValues.Add("parent", $"Models/Rig_{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[a])}");
+                                    AnimRefNode.KeyValues.Add("parent", $"Models/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[a])}_Rig");
                                     AnimRefNode.Lines.Add("libraries = {");
                                     AnimRefNode.Lines.Add($"\"\": SubResource( {InternalResourceList.Count} )");
                                     AnimRefNode.Lines.Add("}");
-                                    Editables.Add($"Models/Rig_{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[a])}");
+                                    Editables.Add($"Models/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[a])}_Rig");
                                 }
                                 else
                                 {
@@ -1300,7 +1301,7 @@ namespace RehabSetup
 
             if (Agent.Sounds.Count != 0)
             {
-                string Extension = ".res";
+                string Extension = ".sample";
                 Dictionary<int, int> SoundIDs = new Dictionary<int, int>();
                 for (int i = 0; i < Agent.Sounds.Count; i++)
                 {
@@ -2204,7 +2205,7 @@ namespace RehabSetup
             */
             #endregion
 
-            Nodes[0].Lines.Add($"script = ExtResource( {CodeResourceID_Scene} )");
+            Nodes[0].Lines.Add($"script=ExtResource({CodeResourceID_Scene})");
             
             #region Export Graphics
             TwinsSection tex_sec = Cont.GetItem<TwinsSection>(11).GetItem<TwinsSection>(0);
@@ -2213,7 +2214,7 @@ namespace RehabSetup
             TwinsSection skin_sec = Cont.GetItem<TwinsSection>(11).GetItem<TwinsSection>(4);
             TwinsSection bskin_sec = Cont.GetItem<TwinsSection>(11).GetItem<TwinsSection>(5);
             string TexPath = $"{path}\\Textures\\";
-            string MeshPath = $"{path}\\Mesh\\";
+            string MeshPath = $"{path}\\Rigs\\";
             Dictionary<uint, string> ExportedTextures = new();
             if (tex_sec.Type == SectionType.TextureX)
             {
@@ -2327,7 +2328,7 @@ namespace RehabSetup
             for (int i = 0; i < ogi_sec.Records.Count; i++)
             {
                 uint OGID = ogi_sec.Records[i].ID;
-                string ObjectName = $"Rig_{DefaultHashes.ToName(SectionType.OGI, OGID)}";
+                string ObjectName = $"{DefaultHashes.ToName(SectionType.OGI, OGID)}_Rig";
                 ExportGodot.ExportOGI(ogi_sec.GetItem<GraphicsInfo>(OGID), path, ExportedTextures);
             }
 
@@ -2439,7 +2440,7 @@ namespace RehabSetup
 
         public void ExportSounds(TwinsSection Cont, string path)
         {
-            string SoundExt = ".res";
+            string SoundExt = ".sample";
             TwinsSection CodeSection = Cont.GetItem<TwinsSection>(10);
             bool IsXbox = CodeSection.Type == SectionType.CodeX;
             if (CodeSection.ContainsItem(6))
@@ -2517,6 +2518,14 @@ namespace RehabSetup
         public void AddRigidModelResource(RigidModel MCont, string path, Dictionary<uint, string> ExportedTextures)
         {
             string DirPath = $"{path}\\Mesh\\";
+            switch (MCont.ParentFile.Type)
+            {
+                case TwinsFile.FileType.RM2:
+                case TwinsFile.FileType.RMX:
+                case TwinsFile.FileType.DemoRM2:
+                    DirPath = $"{path}\\Rigs\\";
+                break;
+            }
             string Extension = ".res";
             TwinsSection mesh_sec = MCont.Parent.Parent.GetItem<TwinsSection>(2);
             string MeshName;
@@ -2573,9 +2582,9 @@ namespace RehabSetup
         }
         public void AddSkinResource(Skin Cont, string path, Dictionary<uint, string> ExportedTextures)
         {
-            string DirPath = $"{path}\\Skins\\";
+            string DirPath = $"{path}\\Rigs\\";
             //Directory.CreateDirectory(DirPath);
-            string ModelFilePath = $"Skin_{DefaultHashes.ToName(SectionType.Skin, Cont.ID)}";
+            string ModelFilePath = $"{DefaultHashes.ToName(SectionType.Skin, Cont.ID)}_Skin";
             string Extension = ".res";
 
             // Export resource
@@ -2612,9 +2621,9 @@ namespace RehabSetup
         }
         public void AddSkinXResource(SkinX Cont, string path, Dictionary<uint, string> ExportedTextures)
         {
-            string DirPath = $"{path}\\Skins\\";
+            string DirPath = $"{path}\\Rigs\\";
             //Directory.CreateDirectory(DirPath);
-            string ModelFilePath = $"Skin_{DefaultHashes.ToName(SectionType.Skin, Cont.ID)}";
+            string ModelFilePath = $"{DefaultHashes.ToName(SectionType.Skin, Cont.ID)}_Skin";
             string Extension = ".res";
 
             // Export resource
@@ -2652,9 +2661,9 @@ namespace RehabSetup
         }
         public void AddBlendSkinResource(BlendSkin Cont, string path, Dictionary<uint, string> ExportedTextures)
         {
-            string DirPath = $"{path}\\Skins\\";
+            string DirPath = $"{path}\\Rigs\\";
             //Directory.CreateDirectory(DirPath);
-            string ModelFilePath = $"BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, Cont.ID)}";
+            string ModelFilePath = $"{DefaultHashes.ToName(SectionType.BlendSkin, Cont.ID)}_BlendSkin";
             string Extension = ".res";
 
             // Export resource
@@ -2691,9 +2700,9 @@ namespace RehabSetup
         }
         public void AddBlendSkinXResource(BlendSkinX Cont, string path, Dictionary<uint, string> ExportedTextures)
         {
-            string DirPath = $"{path}\\Skins\\";
+            string DirPath = $"{path}\\Rigs\\";
             //Directory.CreateDirectory(DirPath);
-            string ModelFilePath = $"BlendSkin_{DefaultHashes.ToName(SectionType.BlendSkin, Cont.ID)}";
+            string ModelFilePath = $"{DefaultHashes.ToName(SectionType.BlendSkin, Cont.ID)}_BlendSkin";
             string Extension = ".res";
 
             // Export resource
@@ -2953,7 +2962,7 @@ namespace RehabSetup
                         string OutName;
                         if (!DefaultHashes.DupeTextureIDs.Contains(shader.TextureId))
                         {
-                            OutName = $"{DefaultHashes.TexToName(shader.TextureId, 0)}.res";
+                            OutName = $"{DefaultHashes.TexToName(shader.TextureId, 0)}.tex";
                         }
                         else
                         {
@@ -3018,7 +3027,7 @@ namespace RehabSetup
             int THeight = Tex.Height;
             List<Color> Texture = new List<Color>(Tex.RawData);
             string Path;
-            string Extenstion = ".res";
+            string Extenstion = ".tex";
 
             if (ReHash)
             {
@@ -3237,7 +3246,7 @@ namespace RehabSetup
             // Duplicate names are skipped to save time where possible
             List<Color> Texture = new List<Color>(Tex.RawData);
             string Path;
-            string Extenstion = ".res";
+            string Extenstion = ".tex";
 
             if (ReHash)
             {

@@ -12,10 +12,10 @@ public partial class LoadingVisuals : Control
     PackedScene ActorScene;
     Node3D ActorNode;
     string[] RequiredAssets = [
-        RehabGame.AssetsPath + "Rigs/Rig_Crash.tscn",
-        RehabGame.AssetsPath + "Rigs/Rig_Cortex.tscn",
-        RehabGame.AssetsPath + "Rigs/RigRESET_Crash.res",
-        RehabGame.AssetsPath + "Rigs/RigRESET_Cortex.res",
+        RehabGame.AssetsPath + "Rigs/Crash_Rig.tscn",
+        RehabGame.AssetsPath + "Rigs/Cortex_Rig.tscn",
+        RehabGame.AssetsPath + "Rigs/Crash_RigRESET.anim",
+        RehabGame.AssetsPath + "Rigs/Cortex_RigRESET.anim",
     ];
     Material LoadMat1;
 
@@ -48,13 +48,13 @@ public partial class LoadingVisuals : Control
             ActorNode = (Node3D)ActorScene.Instantiate();
             Root3D.AddChild(ActorNode);
             UpdateActorMat(ActorNode);
-            var list = ActorNode.GetNode("Rig_Crash").GetNode<AnimationPlayer>("AnimationPlayer").GetAnimationLibrary("actor1");
+            var list = ActorNode.GetNode("Crash_Rig").GetNode<AnimationPlayer>("AnimationPlayer").GetAnimationLibrary("actor1");
             foreach (var item in list.GetAnimationList())
             {
                 var anim = list.GetAnimation(item);
                 anim.LoopMode = Animation.LoopModeEnum.Linear;
             }
-            list = ActorNode.GetNode("Rig_Cortex").GetNode<AnimationPlayer>("AnimationPlayer").GetAnimationLibrary("actor2");
+            list = ActorNode.GetNode("Cortex_Rig").GetNode<AnimationPlayer>("AnimationPlayer").GetAnimationLibrary("actor2");
             foreach (var item in list.GetAnimationList())
             {
                 var anim = list.GetAnimation(item);
@@ -130,37 +130,37 @@ public partial class LoadingVisuals : Control
         switch (GetNode<Label>("LabelLevelName").Text)
         {
             case "levels/earth/hub/beach":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub01.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub01.tex";
             break; case "levels/earth/hub/huba":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level01.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level01.tex";
             break; case "levels/earth/cavern/cavent":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level02.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level02.tex";
             break; case "levels/earth/docamok/docamok1":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level03.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level03.tex";
             break; case "levels/ice/hub/labext":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub02.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub02.tex";
             break; case "levels/ice/iceclimb/caveent":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level04.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level04.tex";
             break; case "levels/ice/slipslide/l05start":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level05.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level05.tex";
             break; case "levels/ice/highseas/gpa01":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level06.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level06.tex";
             break; case "levels/school/sch/hub/sch/hub":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub03.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub03.tex";
             break; case "levels/school/boiler/boiler/1":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level08.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level08.tex";
             break; case "levels/school/crash/crashent":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level09.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level09.tex";
             break; case "levels/school/rooftop/roof01":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level10.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level10.tex";
             break; case "levels/altearth/lab/labext":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub04.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Hub04.tex";
             break; case "levels/altearth/rockslid/l10start":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level11.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level11.tex";
             break; case "levels/altearth/hub/altdoc":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level12.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level12.tex";
             break; case "levels/altearth/core/corea":
-                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level13.res";
+                path = RehabGame.AssetsPath + "Textures/Language/Titles/English/Level13.tex";
             break; default:
                 if (ActorsExist)
                     GetNode<Label>("LabelLevelName").Text = "";

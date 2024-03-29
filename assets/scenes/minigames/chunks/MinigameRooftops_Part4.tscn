@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" path="res://import/Scenery/levels_school_cortex_cogpa04-Scenery.tscn" id="3_ocygp"]
 [ext_resource type="Script" path="res://code/Containers/ChunkLink.cs" id="4_sgyk5"]
 [ext_resource type="Script" path="res://code/demo/PlayerOnlyTrigger.cs" id="5_uv2qw"]
-[ext_resource type="PackedScene" path="res://import/Rigs/Rig_School_ClassroomDoor.tscn" id="6_605o5"]
+[ext_resource type="PackedScene" path="res://import/Rigs/School_ClassroomDoor_Rig.tscn" id="6_605o5"]
 [ext_resource type="PackedScene" path="res://import/Actors/Pickup_Gem_Yellow.tscn" id="7_mrhpq"]
 [ext_resource type="PackedScene" path="res://import/Actors/Pickup_Wumpa.tscn" id="8_5y2n1"]
 [ext_resource type="PackedScene" path="res://import/Actors/Crate_CheckPoint.tscn" id="8_6ll7n"]
@@ -40,7 +40,7 @@ length = 0.1
 tracks/0/type = "rotation_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../../../Actors/Rig_School_ClassroomDoor")
+tracks/0/path = NodePath("../../../Actors/School_ClassroomDoor_Rig")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.707107, 0, 0.707107)
@@ -51,7 +51,7 @@ length = 0.2
 tracks/0/type = "rotation_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../../../Actors/Rig_School_ClassroomDoor")
+tracks/0/path = NodePath("../../../Actors/School_ClassroomDoor_Rig")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.707107, 0, 0.707107, 0.2, 1, 0, 1, 0, -4.37114e-08)
@@ -203,7 +203,7 @@ libraries = {
 
 [node name="Actors" type="Node3D" parent="."]
 
-[node name="Rig_School_ClassroomDoor" parent="Actors" instance=ExtResource("6_605o5")]
+[node name="School_ClassroomDoor_Rig" parent="Actors" instance=ExtResource("6_605o5")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.79211, -0.844851, -20.4393)
 
 [node name="Pickup_Gem_Yellow" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("7_mrhpq")]

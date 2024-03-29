@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://decx5s58pn20m"]
 
 [ext_resource type="Script" path="res://code/Game/XR/RehabXRHand.cs" id="1_aecup"]
-[ext_resource type="PackedScene" path="res://import/Mesh/Crunch_ArmRight.tscn" id="1_iuxoc"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Crunch_ArmRight.tscn" id="1_iuxoc"]
 
 [node name="XRHand" type="Node3D"]
 script = ExtResource("1_aecup")

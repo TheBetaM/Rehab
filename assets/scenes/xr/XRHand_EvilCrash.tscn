@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bphpi61wxsoe1"]
 
 [ext_resource type="Script" path="res://code/Game/XR/RehabXRHand.cs" id="1_8erl4"]
-[ext_resource type="PackedScene" path="res://import/Mesh/CrashAngel_LeftHand.tscn" id="1_xqr46"]
+[ext_resource type="PackedScene" path="res://import/Rigs/CrashAngel_LeftHand.tscn" id="1_xqr46"]
 [ext_resource type="Material" uid="uid://bn21eav5lldpw" path="res://import/Materials/MatD165C9CA-evil_body01-D94C08E5.tres" id="2_65vw7"]
 
 [node name="XRHand" type="Node3D"]

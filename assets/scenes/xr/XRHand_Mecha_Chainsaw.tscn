@@ -1,18 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://bsopnphx2fh7o"]
 
 [ext_resource type="Script" path="res://code/Game/XR/RehabXRHand.cs" id="1_aoisd"]
-[ext_resource type="PackedScene" path="res://import/Rigs/Rig_Mecha_Chainsaw.tscn" id="1_hpn3f"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Mecha_Chainsaw_Rig.tscn" id="1_hpn3f"]
 
 [node name="XRHand" type="Node3D"]
 script = ExtResource("1_aoisd")
 
-[node name="Rig_Mecha_Chainsaw" parent="." instance=ExtResource("1_hpn3f")]
+[node name="Mecha_Chainsaw_Rig" parent="." instance=ExtResource("1_hpn3f")]
 transform = Transform3D(6.55671e-09, -0.15, -1.31134e-08, -0.15, -6.55671e-09, 0, -5.73206e-16, 1.31134e-08, -0.15, 0, 0, 0)
 
-[node name="Armature" parent="Rig_Mecha_Chainsaw/RigidBody" index="0"]
+[node name="Armature" parent="Mecha_Chainsaw_Rig/RigidBody" index="0"]
 bones/0/enabled = true
 
-[node name="CollisionShape0" parent="Rig_Mecha_Chainsaw/RigidBody" index="1"]
+[node name="CollisionShape0" parent="Mecha_Chainsaw_Rig/RigidBody" index="1"]
 disabled = true
 
-[editable path="Rig_Mecha_Chainsaw"]
+[editable path="Mecha_Chainsaw_Rig"]

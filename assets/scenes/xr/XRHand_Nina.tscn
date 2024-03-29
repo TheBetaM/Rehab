@@ -1,15 +1,15 @@
 [gd_scene load_steps=32 format=3 uid="uid://c77u2gvl3be2"]
 
-[ext_resource type="PackedScene" path="res://import/Rigs/Rig_NinaHand.tscn" id="1_i2vld"]
+[ext_resource type="PackedScene" path="res://import/Rigs/NinaHand_Rig.tscn" id="1_i2vld"]
 [ext_resource type="Script" path="res://code/Game/XR/RehabXRHand.cs" id="1_t0s41"]
-[ext_resource type="Animation" path="res://import/Animations/NinaHand_FistClosed.res" id="2_f4dvi"]
-[ext_resource type="Animation" path="res://import/Animations/NinaHand_FistOpen.res" id="3_c08yh"]
-[ext_resource type="Animation" path="res://import/Animations/NinaHand_Grow.res" id="4_kgpxp"]
-[ext_resource type="Animation" path="res://import/Animations/NinaHand_Shrink.res" id="5_ch8ls"]
-[ext_resource type="Animation" path="res://import/Rigs/RigRESET_NinaHand.res" id="6_20n23"]
-[ext_resource type="PackedScene" path="res://import/Skins/Skin_NinaHand.tscn" id="8_7y0lk"]
-[ext_resource type="PackedScene" path="res://import/Rigs/Rig_Nina_GrabTarget.tscn" id="8_ffp15"]
-[ext_resource type="PackedScene" path="res://import/Rigs/Rig_MultiTool_Target.tscn" id="9_2qpf3"]
+[ext_resource type="Animation" path="res://import/Rigs/NinaHand_FistClosed.anim" id="2_f4dvi"]
+[ext_resource type="Animation" path="res://import/Rigs/NinaHand_FistOpen.anim" id="3_c08yh"]
+[ext_resource type="Animation" path="res://import/Rigs/NinaHand_Grow.anim" id="4_kgpxp"]
+[ext_resource type="Animation" path="res://import/Rigs/NinaHand_Shrink.anim" id="5_ch8ls"]
+[ext_resource type="Animation" path="res://import/Rigs/NinaHand_RigRESET.anim" id="6_20n23"]
+[ext_resource type="PackedScene" path="res://import/Rigs/NinaHand_Skin.tscn" id="8_7y0lk"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Nina_GrabTarget_Rig.tscn" id="8_ffp15"]
+[ext_resource type="PackedScene" path="res://import/Rigs/MultiTool_Target_Rig.tscn" id="9_2qpf3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yur3k"]
 transparency = 1
@@ -411,7 +411,7 @@ length = 0.02
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_NinaHand/AnimationPlayer")
+tracks/0/path = NodePath("NinaHand_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -421,7 +421,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Rig_NinaHand/AnimationPlayer:speed_scale")
+tracks/1/path = NodePath("NinaHand_Rig/AnimationPlayer:speed_scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -437,7 +437,7 @@ length = 0.15
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_NinaHand/AnimationPlayer")
+tracks/0/path = NodePath("NinaHand_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -451,7 +451,7 @@ length = 0.15
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_NinaHand/AnimationPlayer")
+tracks/0/path = NodePath("NinaHand_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -466,7 +466,7 @@ step = 0.01
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_NinaHand/AnimationPlayer")
+tracks/0/path = NodePath("NinaHand_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -480,7 +480,7 @@ length = 0.15
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_NinaHand/AnimationPlayer")
+tracks/0/path = NodePath("NinaHand_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -495,7 +495,7 @@ step = 0.01
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_NinaHand/AnimationPlayer")
+tracks/0/path = NodePath("NinaHand_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -509,7 +509,7 @@ length = 0.15
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_NinaHand/AnimationPlayer")
+tracks/0/path = NodePath("NinaHand_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -545,10 +545,10 @@ albedo_color = Color(1, 1, 1, 0)
 script = ExtResource("1_t0s41")
 IsNinaHand = true
 
-[node name="Rig_NinaHand" parent="." instance=ExtResource("1_i2vld")]
+[node name="NinaHand_Rig" parent="." instance=ExtResource("1_i2vld")]
 transform = Transform3D(-0.00683117, 0.99863, 0.0518883, 0.991445, -4.33374e-08, 0.130526, 0.130347, 0.052336, -0.990086, -0.01, -0.015, 0.22)
 
-[node name="Armature" parent="Rig_NinaHand/RigidBody" index="0"]
+[node name="Armature" parent="NinaHand_Rig/RigidBody" index="0"]
 bones/0/enabled = true
 bones/1/enabled = true
 bones/2/enabled = true
@@ -562,19 +562,19 @@ bones/8/enabled = true
 bones/9/enabled = true
 bones/9/rotation = Quaternion(-0.121821, -0.0442226, -0.00269279, 0.991563)
 
-[node name="Skin_NinaHand" parent="Rig_NinaHand/RigidBody/Armature" index="0"]
+[node name="NinaHand_Skin" parent="NinaHand_Rig/RigidBody/Armature" index="0"]
 surface_material_override/1 = SubResource("StandardMaterial3D_yur3k")
 
-[node name="attach3" parent="Rig_NinaHand/RigidBody/Armature" index="1"]
+[node name="attach3" parent="NinaHand_Rig/RigidBody/Armature" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.42354e-17, -1.8735e-16, 0.04)
 
-[node name="attach2" parent="Rig_NinaHand/RigidBody/Armature" index="3"]
+[node name="attach2" parent="NinaHand_Rig/RigidBody/Armature" index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03)
 
-[node name="CollisionShape0" parent="Rig_NinaHand/RigidBody" index="1"]
+[node name="CollisionShape0" parent="NinaHand_Rig/RigidBody" index="1"]
 disabled = true
 
-[node name="AnimationPlayer" parent="Rig_NinaHand" index="1"]
+[node name="AnimationPlayer" parent="NinaHand_Rig" index="1"]
 libraries = {
 "": SubResource("AnimationLibrary_siyt4")
 }
@@ -613,7 +613,7 @@ bones/8/enabled = true
 bones/9/enabled = true
 bones/9/rotation = Quaternion(-0.121821, -0.0442226, -0.00269279, 0.991563)
 
-[node name="Skin_NinaHand" parent="NinaHandFired/NinaHandFiredModel/RigidBody/Armature" index="0"]
+[node name="NinaHand_Skin" parent="NinaHandFired/NinaHandFiredModel/RigidBody/Armature" index="0"]
 surface_material_override/1 = SubResource("StandardMaterial3D_0vxs3")
 
 [node name="attach3" parent="NinaHandFired/NinaHandFiredModel/RigidBody/Armature" index="1"]
@@ -641,7 +641,7 @@ bus = &"SFX"
 [node name="NinaHandSpring" type="Node3D" parent="."]
 visible = false
 
-[node name="Skin_NinaHand" parent="NinaHandSpring" instance=ExtResource("8_7y0lk")]
+[node name="NinaHand_Skin" parent="NinaHandSpring" instance=ExtResource("8_7y0lk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 54.5, -0.014, 0, 0.394)
 surface_material_override/0 = SubResource("StandardMaterial3D_mfctk")
 
@@ -667,7 +667,7 @@ disabled = true
 [node name="Audio" type="AudioStreamPlayer3D" parent="."]
 bus = &"SFX"
 
-[editable path="Rig_NinaHand"]
+[editable path="NinaHand_Rig"]
 [editable path="NinaHandFired/NinaHandFiredModel"]
 [editable path="NinaGrabTarget"]
 [editable path="MultiToolTarget"]

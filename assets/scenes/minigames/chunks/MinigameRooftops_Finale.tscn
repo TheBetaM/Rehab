@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" path="res://import/Scenery/levels_school_rooftop_buschase-Scenery.tscn" id="3_b1uq1"]
 [ext_resource type="Script" path="res://code/Containers/ChunkLink.cs" id="4_1d8bn"]
 [ext_resource type="Script" path="res://code/demo/PlayerOnlyTrigger.cs" id="5_sr8jn"]
-[ext_resource type="PackedScene" path="res://import/Rigs/Rig_Rooftop_Bus.tscn" id="6_jhfp6"]
-[ext_resource type="Animation" path="res://import/Rigs/RigRESET_Rooftop_Bus.res" id="7_mbtv3"]
-[ext_resource type="Animation" path="res://import/Animations/RooftopBus_Swing.res" id="8_3pgq2"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Rooftop_Bus_Rig.tscn" id="6_jhfp6"]
+[ext_resource type="Animation" path="res://import/Rigs/Rooftop_Bus_RigRESET.anim" id="7_mbtv3"]
+[ext_resource type="Animation" path="res://import/Rigs/RooftopBus_Swing.anim" id="8_3pgq2"]
 
 [sub_resource type="Environment" id="1"]
 background_mode = 1
@@ -29,7 +29,7 @@ size = Vector3(8, 4, 5)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jaoop"]
 _data = {
-"RigRESET_Rooftop_Bus": ExtResource("7_mbtv3"),
+"Rooftop_Bus_RigRESET": ExtResource("7_mbtv3"),
 "RooftopBus_Swing": ExtResource("8_3pgq2")
 }
 
@@ -157,10 +157,10 @@ shape = SubResource("BoxShape3D_tq0ib")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Actors"]
 
-[node name="Rig_Rooftop_Bus" parent="Actors" instance=ExtResource("6_jhfp6")]
+[node name="Rooftop_Bus_Rig" parent="Actors" instance=ExtResource("6_jhfp6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.4012, -80.657)
 
-[node name="Armature" parent="Actors/Rig_Rooftop_Bus/RigidBody" index="0"]
+[node name="Armature" parent="Actors/Rooftop_Bus_Rig/RigidBody" index="0"]
 bones/0/enabled = true
 bones/1/enabled = true
 bones/1/rotation = Quaternion(0, 0, 0.0113393, 0.999936)
@@ -170,24 +170,24 @@ bones/4/enabled = true
 bones/4/rotation = Quaternion(-0.00239636, 0.0210325, 0.113178, 0.993349)
 bones/5/enabled = true
 
-[node name="attach1" parent="Actors/Rig_Rooftop_Bus/RigidBody/Armature" index="0"]
+[node name="attach1" parent="Actors/Rooftop_Bus_Rig/RigidBody/Armature" index="0"]
 transform = Transform3D(0.999743, -0.0226772, 0, 0.0226772, 0.999743, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="attach2" parent="Actors/Rig_Rooftop_Bus/RigidBody/Armature" index="1"]
+[node name="attach2" parent="Actors/Rooftop_Bus_Rig/RigidBody/Armature" index="1"]
 transform = Transform3D(0.994937, -0.100504, 0, 0.100504, 0.994937, 0, 0, 0, 1, 0.145134, -6.39835, 0)
 
-[node name="attach3" parent="Actors/Rig_Rooftop_Bus/RigidBody/Armature" index="2"]
+[node name="attach3" parent="Actors/Rooftop_Bus_Rig/RigidBody/Armature" index="2"]
 transform = Transform3D(0.972091, -0.234604, 0, 0.234604, 0.972091, 0, 0, 0, 1, 0.78836, -12.7659, 0)
 
-[node name="attach4" parent="Actors/Rig_Rooftop_Bus/RigidBody/Armature" index="3"]
+[node name="attach4" parent="Actors/Rooftop_Bus_Rig/RigidBody/Armature" index="3"]
 transform = Transform3D(0.8936, -0.447265, 0.0378579, 0.446864, 0.894401, 0.0189317, -0.0423276, 0, 0.999104, 2.28983, -18.9873, 0)
 
-[node name="attach5" parent="Actors/Rig_Rooftop_Bus/RigidBody/Armature" index="4"]
+[node name="attach5" parent="Actors/Rooftop_Bus_Rig/RigidBody/Armature" index="4"]
 transform = Transform3D(0.99993, 0.0117995, -0.000122764, -0.0118001, 0.999876, -0.0104029, -7.27596e-12, 0.0104036, 0.999946, 0, -0.000974321, 0)
 
-[node name="AnimationPlayer" parent="Actors/Rig_Rooftop_Bus" index="1"]
+[node name="AnimationPlayer" parent="Actors/Rooftop_Bus_Rig" index="1"]
 libraries = {
 "": SubResource("AnimationLibrary_jaoop")
 }
 
-[editable path="Actors/Rig_Rooftop_Bus"]
+[editable path="Actors/Rooftop_Bus_Rig"]

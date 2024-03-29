@@ -5,7 +5,7 @@ public partial class FrontendCredits : Control
 {
     TextureRect ImageRect;
     PackedScene LabelScene;
-    string ImagePath = RehabGame.AssetsPath + "Textures/Language/Credits/CreditNew.res";
+    string ImagePath = RehabGame.AssetsPath + "Textures/Language/Credits/CreditNew.tex";
     string CreditsPath = "res://import/credits.tres";
     string CreditsText;
     bool CreditsActive;

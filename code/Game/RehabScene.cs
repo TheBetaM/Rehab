@@ -80,12 +80,12 @@ public partial class RehabScene : Node3D
         LoadPacks();
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
-        if (ResourceLoader.Exists(RehabGame.AssetsPath + "Sounds/Menu/FE_BACK.res"))
-            SoundFE_Back = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Menu/FE_BACK.res");
-	    if (ResourceLoader.Exists(RehabGame.AssetsPath + "Sounds/Menu/FE_CLICK.res"))
-            SoundFE_Click = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Menu/FE_CLICK.res");
-	    if (ResourceLoader.Exists(RehabGame.AssetsPath + "Sounds/Menu/FE_SELECT.res"))
-            SoundFE_Select = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Menu/FE_SELECT.res");
+        if (ResourceLoader.Exists(RehabGame.AssetsPath + "Sounds/Menu/FE_BACK.sample"))
+            SoundFE_Back = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Menu/FE_BACK.sample");
+	    if (ResourceLoader.Exists(RehabGame.AssetsPath + "Sounds/Menu/FE_CLICK.sample"))
+            SoundFE_Click = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Menu/FE_CLICK.sample");
+	    if (ResourceLoader.Exists(RehabGame.AssetsPath + "Sounds/Menu/FE_SELECT.sample"))
+            SoundFE_Select = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Menu/FE_SELECT.sample");
 	
         var dir = DirAccess.Open(RehabGame.AssetsPath + "Levels/");
         if (dir != null)
@@ -568,7 +568,7 @@ public partial class RehabScene : Node3D
         if (MusicSwitching) return;
         var path = "";
         if (RehabGame.MusicPaths.ContainsKey(id))
-            path = RehabGame.AssetsPath + "Sounds/Music/" + RehabGame.MusicPaths[id] + ".res";
+            path = RehabGame.AssetsPath + "Sounds/Music/" + RehabGame.MusicPaths[id] + ".sample";
         if (path == "" || !ResourceLoader.Exists(path)) return;
         if (ActiveMusic == path) return;
         ActiveMusic = path;
@@ -613,7 +613,7 @@ public partial class RehabScene : Node3D
         if (AmbSwitching) return;
         var path = "";
         if (RehabGame.MusicPaths.ContainsKey(id))
-            path = RehabGame.AssetsPath + "Sounds/Music/" + RehabGame.MusicPaths[id] + ".res";
+            path = RehabGame.AssetsPath + "Sounds/Music/" + RehabGame.MusicPaths[id] + ".sample";
         if (path == "" || !ResourceLoader.Exists(path)) return;
         if (ActiveAmbience == path) return;
         ActiveAmbience = path;

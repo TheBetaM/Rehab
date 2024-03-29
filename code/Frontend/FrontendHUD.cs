@@ -16,20 +16,20 @@ public partial class FrontendHUD : Control
 
     float WumpaTimer;
     float LivesTimer;
-    string WumpaIconPath = RehabGame.AssetsPath + "Textures/Icons/wumpa_icon.res";
-    string[] LivesIconPaths = [RehabGame.AssetsPath + "Textures/Icons/1up-crash.res", RehabGame.AssetsPath + "Textures/Icons/1up-cortex.res",
-    RehabGame.AssetsPath + "Textures/Icons/1up-coco.res", RehabGame.AssetsPath + "Textures/Icons/1up-nina.res", 
-    RehabGame.AssetsPath + "Textures/Icons/1up-evilcrash.res", RehabGame.AssetsPath + "Textures/Icons/1up-mechabandicoot.res"];
+    string WumpaIconPath = RehabGame.AssetsPath + "Textures/Icons/wumpa_icon.tex";
+    string[] LivesIconPaths = [RehabGame.AssetsPath + "Textures/Icons/1up-crash.tex", RehabGame.AssetsPath + "Textures/Icons/1up-cortex.tex",
+    RehabGame.AssetsPath + "Textures/Icons/1up-coco.tex", RehabGame.AssetsPath + "Textures/Icons/1up-nina.tex", 
+    RehabGame.AssetsPath + "Textures/Icons/1up-evilcrash.tex", RehabGame.AssetsPath + "Textures/Icons/1up-mechabandicoot.tex"];
     Tween WumpaHolderAnim;
     Tween LivesHolderAnim;
-    string CrystalIconPath = RehabGame.AssetsPath + "Textures/Icons/Crystal_Single.res";
+    string CrystalIconPath = RehabGame.AssetsPath + "Textures/Icons/Crystal_Single.tex";
     string[] GemIconPaths = [
-        RehabGame.AssetsPath + "Textures/Icons/gem-blue.res",
-        RehabGame.AssetsPath + "Textures/Icons/gem-clear.res",
-        RehabGame.AssetsPath + "Textures/Icons/gem-green.res",
-        RehabGame.AssetsPath + "Textures/Icons/gem-purple.res",
-        RehabGame.AssetsPath + "Textures/Icons/gem-red.res",
-        RehabGame.AssetsPath + "Textures/Icons/gem-yellow.res",
+        RehabGame.AssetsPath + "Textures/Icons/gem-blue.tex",
+        RehabGame.AssetsPath + "Textures/Icons/gem-clear.tex",
+        RehabGame.AssetsPath + "Textures/Icons/gem-green.tex",
+        RehabGame.AssetsPath + "Textures/Icons/gem-purple.tex",
+        RehabGame.AssetsPath + "Textures/Icons/gem-red.tex",
+        RehabGame.AssetsPath + "Textures/Icons/gem-yellow.tex",
     ];
 
     public override void _Ready()

@@ -32,20 +32,20 @@ public partial class FrontendMenu : Control
     bool MenuActive;
     bool OptionsOnly;
     bool IconsInit;
-    string CrystalIconPath = RehabGame.AssetsPath + "Textures/Icons/crystal_icon.res";
-    string WumpaIconPath = RehabGame.AssetsPath + "Textures/Icons/wumpa_icon.res";
-    string[] LivesIconPaths = [RehabGame.AssetsPath + "Textures/Icons/1up-crash.res", RehabGame.AssetsPath + "Textures/Icons/1up-cortex.res",
-    RehabGame.AssetsPath + "Textures/Icons/1up-coco.res", RehabGame.AssetsPath + "Textures/Icons/1up-nina.res", 
-    RehabGame.AssetsPath + "Textures/Icons/1up-evilcrash.res", RehabGame.AssetsPath + "Textures/Icons/1up-mechabandicoot.res"];
+    string CrystalIconPath = RehabGame.AssetsPath + "Textures/Icons/crystal_icon.tex";
+    string WumpaIconPath = RehabGame.AssetsPath + "Textures/Icons/wumpa_icon.tex";
+    string[] LivesIconPaths = [RehabGame.AssetsPath + "Textures/Icons/1up-crash.tex", RehabGame.AssetsPath + "Textures/Icons/1up-cortex.tex",
+    RehabGame.AssetsPath + "Textures/Icons/1up-coco.tex", RehabGame.AssetsPath + "Textures/Icons/1up-nina.tex", 
+    RehabGame.AssetsPath + "Textures/Icons/1up-evilcrash.tex", RehabGame.AssetsPath + "Textures/Icons/1up-mechabandicoot.tex"];
     string[] GemIconPaths = [
-        RehabGame.AssetsPath + "Textures/Icons/gem-blue.res",
-        RehabGame.AssetsPath + "Textures/Icons/gem-clear.res",
-        RehabGame.AssetsPath + "Textures/Icons/gem-green.res",
-        RehabGame.AssetsPath + "Textures/Icons/gem-purple.res",
-        RehabGame.AssetsPath + "Textures/Icons/gem-red.res",
-        RehabGame.AssetsPath + "Textures/Icons/gem-yellow.res",
+        RehabGame.AssetsPath + "Textures/Icons/gem-blue.tex",
+        RehabGame.AssetsPath + "Textures/Icons/gem-clear.tex",
+        RehabGame.AssetsPath + "Textures/Icons/gem-green.tex",
+        RehabGame.AssetsPath + "Textures/Icons/gem-purple.tex",
+        RehabGame.AssetsPath + "Textures/Icons/gem-red.tex",
+        RehabGame.AssetsPath + "Textures/Icons/gem-yellow.tex",
     ];
-    string EmptyGemIconPath = RehabGame.AssetsPath + "Textures/Icons/gem_greyed.res";
+    string EmptyGemIconPath = RehabGame.AssetsPath + "Textures/Icons/gem_greyed.tex";
     float BaseScale = 0.9f;
     int LastExtrasItem;
 
@@ -772,22 +772,22 @@ public partial class FrontendMenu : Control
         
         switch (LevelID)
         {
-            case 0: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub01.res";
-            break; case 1: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level01.res";
-            break; case 3: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level02.res";
-            break; case 4: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level03.res";
-            break; case 6: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub02.res";
-            break; case 7: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level04.res";
-            break; case 9: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level05.res";
-            break; case 10: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level06.res";
-            break; case 13: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub03.res";
-            break; case 15: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level08.res";
-            break; case 17: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level09.res";
-            break; case 18: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level10.res";
-            break; case 20: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub04.res";
-            break; case 21: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level11.res";
-            break; case 22: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level12.res";
-            break; case 23: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level13.res";
+            case 0: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub01.tex";
+            break; case 1: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level01.tex";
+            break; case 3: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level02.tex";
+            break; case 4: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level03.tex";
+            break; case 6: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub02.tex";
+            break; case 7: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level04.tex";
+            break; case 9: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level05.tex";
+            break; case 10: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level06.tex";
+            break; case 13: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub03.tex";
+            break; case 15: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level08.tex";
+            break; case 17: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level09.tex";
+            break; case 18: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level10.tex";
+            break; case 20: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Hub04.tex";
+            break; case 21: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level11.tex";
+            break; case 22: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level12.tex";
+            break; case 23: IconPath = $"{RehabGame.AssetsPath}Textures/Language/Titles/{langPath}/Level13.tex";
             break; default: break;
         }
         

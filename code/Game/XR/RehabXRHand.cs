@@ -61,7 +61,7 @@ public partial class RehabXRHand : Node3D
             MultiToolTarget = GetNode<Node3D>("MultiToolTarget");
             NinaHandSpring = GetNode<Node3D>("NinaHandSpring");
             HandAudio = GetNode<AudioStreamPlayer3D>("Audio");
-            NinaHandMain = GetNode<Node3D>("Rig_NinaHand");
+            NinaHandMain = GetNode<Node3D>("NinaHand_Rig");
             NinaHandFiredAnim = GetNode<AnimationPlayer>("NinaHandFired/NinaHandFiredModel/AnimationPlayer");
             NinaHandFiredBody = GetNode<RigidBody3D>("NinaHandFired/NinaHandFiredModel/RigidBody");
             NinaHandFiredBody.Connect("body_entered", Callable.From<Node3D>(NinaFiredHand_BodyEntered));
@@ -353,8 +353,8 @@ public partial class RehabXRHand : Node3D
         NinaHandMain.Visible = false;
         NinaHandFired.Visible = true;
         if (!InvisibleSpring) NinaHandSpring.Visible = true;
-        string SoundPath = RehabGame.AssetsPath + "Sounds/Actor/Nina_SFX_2.res";
-        if (System.Random.Shared.Next(2) == 0) SoundPath = RehabGame.AssetsPath + "Sounds/Actor/Nina_SFX_3.res";
+        string SoundPath = RehabGame.AssetsPath + "Sounds/Actor/Nina_SFX_2.sample";
+        if (System.Random.Shared.Next(2) == 0) SoundPath = RehabGame.AssetsPath + "Sounds/Actor/Nina_SFX_3.sample";
         HandAudio.Stream = (AudioStream)ResourceLoader.Load(SoundPath);
         HandAudio.Play();
         NinaHandFired.Reparent(RehabScene.Root);
@@ -468,7 +468,7 @@ public partial class RehabXRHand : Node3D
             }
             else
             {
-                string SoundPath = RehabGame.AssetsPath + "Sounds/GenericDamage.res";
+                string SoundPath = RehabGame.AssetsPath + "Sounds/GenericDamage.sample";
                 NinaHandFiredAudio.Stream = (AudioStream)ResourceLoader.Load(SoundPath);
                 NinaHandFiredAudio.Play();
                 enemy.ForceDeath();
@@ -549,7 +549,7 @@ public partial class RehabXRHand : Node3D
 
     async void Nina_CeilingHookTravel(AgentChiChiGrass hook)
     {
-        string SoundPath = RehabGame.AssetsPath + "Sounds/Actor/Nina_SFX_4.res";
+        string SoundPath = RehabGame.AssetsPath + "Sounds/Actor/Nina_SFX_4.sample";
         NinaHandFiredAudio.Stream = (AudioStream)ResourceLoader.Load(SoundPath);
         NinaHandFiredAudio.Play();
         NinaHandIsDetached = true;
@@ -561,7 +561,7 @@ public partial class RehabXRHand : Node3D
         AgentCharacter.activeCharacter.GlobalPosition = hook.LinkPoint[0].GlobalPosition;
         AgentCharacter.activeCharacter.GlobalRotation = hook.LinkPoint[0].GlobalRotation;
         CallDeferred("Nina_ResetFist");
-        SoundPath = RehabGame.AssetsPath + "Sounds/Actor/Nina_SFX_1.res";
+        SoundPath = RehabGame.AssetsPath + "Sounds/Actor/Nina_SFX_1.sample";
         HandAudio.Stream = (AudioStream)ResourceLoader.Load(SoundPath);
         HandAudio.Play();
         await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
@@ -572,7 +572,7 @@ public partial class RehabXRHand : Node3D
 
     async void Nina_WallHookTravel(AgentChiChiGrass hook)
     {
-        string SoundPath = RehabGame.AssetsPath + "Sounds/Actor/Nina_SFX_4.res";
+        string SoundPath = RehabGame.AssetsPath + "Sounds/Actor/Nina_SFX_4.sample";
         NinaHandFiredAudio.Stream = (AudioStream)ResourceLoader.Load(SoundPath);
         NinaHandFiredAudio.Play();
         NinaHandIsDetached = true;

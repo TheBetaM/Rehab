@@ -1,21 +1,21 @@
 [gd_scene load_steps=27 format=3 uid="uid://bbemu2a4ujpuy"]
 
-[ext_resource type="PackedScene" path="res://import/Rigs/Rig_Crash.tscn" id="1_g5qhi"]
-[ext_resource type="Animation" path="res://import/Rigs/RigRESET_Crash.res" id="2_65yfv"]
-[ext_resource type="Animation" path="res://import/Animations/Crash_SkateKickflip.res" id="3_tns36"]
-[ext_resource type="Animation" path="res://import/Animations/Crash_SkateIdleFront.res" id="4_av2ax"]
-[ext_resource type="PackedScene" path="res://import/Rigs/Rig_Cortex.tscn" id="4_v1kc4"]
-[ext_resource type="Animation" path="res://import/Rigs/RigRESET_Cortex.res" id="5_inlr2"]
-[ext_resource type="Animation" path="res://import/Animations/Crash_SkateIdleBack.res" id="5_oxdyu"]
-[ext_resource type="Animation" path="res://import/Animations/Crash_Brawl1.res" id="6_mr6wf"]
-[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateFall.res" id="6_uortp"]
-[ext_resource type="Animation" path="res://import/Animations/Crash_Brawl2.res" id="7_2jjpi"]
-[ext_resource type="Animation" path="res://import/Animations/Crash_TwinSlam.res" id="8_2ba73"]
-[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateIdle1Back.res" id="12_s4f5c"]
-[ext_resource type="Animation" path="res://import/Animations/Cortex_SkateIdleFront.res" id="13_2ivsp"]
-[ext_resource type="Animation" path="res://import/Animations/Cortex_Brawl1.res" id="14_qgre3"]
-[ext_resource type="Animation" path="res://import/Animations/Cortex_Brawl2.res" id="15_08if8"]
-[ext_resource type="Animation" path="res://import/Animations/Cortex_TwinSlam.res" id="16_tcr5f"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Crash_Rig.tscn" id="1_g5qhi"]
+[ext_resource type="Animation" path="res://import/Rigs/Crash_RigRESET.anim" id="2_65yfv"]
+[ext_resource type="Animation" path="res://import/Rigs/Crash_SkateKickflip.anim" id="3_tns36"]
+[ext_resource type="Animation" path="res://import/Rigs/Crash_SkateIdleFront.anim" id="4_av2ax"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Cortex_Rig.tscn" id="4_v1kc4"]
+[ext_resource type="Animation" path="res://import/Rigs/Cortex_RigRESET.anim" id="5_inlr2"]
+[ext_resource type="Animation" path="res://import/Rigs/Crash_SkateIdleBack.anim" id="5_oxdyu"]
+[ext_resource type="Animation" path="res://import/Rigs/Crash_Brawl1.anim" id="6_mr6wf"]
+[ext_resource type="Animation" path="res://import/Rigs/Cortex_SkateFall.anim" id="6_uortp"]
+[ext_resource type="Animation" path="res://import/Rigs/Crash_Brawl2.anim" id="7_2jjpi"]
+[ext_resource type="Animation" path="res://import/Rigs/Crash_TwinSlam.anim" id="8_2ba73"]
+[ext_resource type="Animation" path="res://import/Rigs/Cortex_SkateIdle1Back.anim" id="12_s4f5c"]
+[ext_resource type="Animation" path="res://import/Rigs/Cortex_SkateIdleFront.anim" id="13_2ivsp"]
+[ext_resource type="Animation" path="res://import/Rigs/Cortex_Brawl1.anim" id="14_qgre3"]
+[ext_resource type="Animation" path="res://import/Rigs/Cortex_Brawl2.anim" id="15_08if8"]
+[ext_resource type="Animation" path="res://import/Rigs/Cortex_TwinSlam.anim" id="16_tcr5f"]
 
 [sub_resource type="Animation" id="Animation_ba26i"]
 resource_name = "RESET"
@@ -23,27 +23,27 @@ length = 0.1
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_Crash/AnimationPlayer")
+tracks/0/path = NodePath("Crash_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"clips": PackedStringArray("actor1/RigRESET_Crash"),
+"clips": PackedStringArray("actor1/Crash_RigRESET"),
 "times": PackedFloat32Array(0)
 }
 tracks/1/type = "animation"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Rig_Cortex/AnimationPlayer")
+tracks/1/path = NodePath("Cortex_Rig/AnimationPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"clips": PackedStringArray("actor2/RigRESET_Cortex"),
+"clips": PackedStringArray("actor2/Cortex_RigRESET"),
 "times": PackedFloat32Array(0)
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Rig_Crash/AnimationPlayer:speed_scale")
+tracks/2/path = NodePath("Crash_Rig/AnimationPlayer:speed_scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -55,7 +55,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Rig_Cortex/AnimationPlayer:speed_scale")
+tracks/3/path = NodePath("Cortex_Rig/AnimationPlayer:speed_scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -67,7 +67,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Rig_Crash:position")
+tracks/4/path = NodePath("Crash_Rig:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -79,7 +79,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Rig_Cortex:position")
+tracks/5/path = NodePath("Cortex_Rig:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -91,7 +91,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Rig_Cortex:rotation")
+tracks/6/path = NodePath("Cortex_Rig:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -103,7 +103,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Rig_Crash/AnimationPlayer:process_mode")
+tracks/7/path = NodePath("Crash_Rig/AnimationPlayer:process_mode")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -115,7 +115,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("Rig_Cortex/AnimationPlayer:process_mode")
+tracks/8/path = NodePath("Cortex_Rig/AnimationPlayer:process_mode")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -138,7 +138,7 @@ step = 0.05
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_Crash/AnimationPlayer")
+tracks/0/path = NodePath("Crash_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -148,7 +148,7 @@ tracks/0/keys = {
 tracks/1/type = "animation"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Rig_Cortex/AnimationPlayer")
+tracks/1/path = NodePath("Cortex_Rig/AnimationPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -164,7 +164,7 @@ step = 0.01
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_Crash/AnimationPlayer")
+tracks/0/path = NodePath("Crash_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -174,7 +174,7 @@ tracks/0/keys = {
 tracks/1/type = "animation"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Rig_Cortex/AnimationPlayer")
+tracks/1/path = NodePath("Cortex_Rig/AnimationPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -184,7 +184,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Rig_Crash:position")
+tracks/2/path = NodePath("Crash_Rig:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -196,7 +196,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Rig_Cortex:position")
+tracks/3/path = NodePath("Cortex_Rig:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -214,7 +214,7 @@ step = 0.01
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_Crash/AnimationPlayer")
+tracks/0/path = NodePath("Crash_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -224,7 +224,7 @@ tracks/0/keys = {
 tracks/1/type = "animation"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Rig_Cortex/AnimationPlayer")
+tracks/1/path = NodePath("Cortex_Rig/AnimationPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -234,7 +234,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Rig_Cortex:position")
+tracks/2/path = NodePath("Cortex_Rig:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -249,7 +249,7 @@ length = 2.0
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_Crash/AnimationPlayer")
+tracks/0/path = NodePath("Crash_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -259,7 +259,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Rig_Cortex/AnimationPlayer:speed_scale")
+tracks/1/path = NodePath("Cortex_Rig/AnimationPlayer:speed_scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -271,7 +271,7 @@ tracks/1/keys = {
 tracks/2/type = "animation"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Rig_Cortex/AnimationPlayer")
+tracks/2/path = NodePath("Cortex_Rig/AnimationPlayer")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -281,7 +281,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Rig_Crash:position")
+tracks/3/path = NodePath("Crash_Rig:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -293,7 +293,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Rig_Cortex:position")
+tracks/4/path = NodePath("Cortex_Rig:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -305,7 +305,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Rig_Cortex:rotation")
+tracks/5/path = NodePath("Cortex_Rig:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -317,7 +317,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Rig_Crash/AnimationPlayer:speed_scale")
+tracks/6/path = NodePath("Crash_Rig/AnimationPlayer:speed_scale")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -329,14 +329,14 @@ tracks/6/keys = {
 tracks/7/type = "rotation_3d"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Rig_Cortex/RigidBody/Armature:joint5")
+tracks/7/path = NodePath("Cortex_Rig/RigidBody/Armature:joint5")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = PackedFloat32Array(0.9, 1, -0.00293231, 3.21994e-05, 9.44189e-08, 0.999996, 1, 1, -0.290525, 0.000474975, 0.000474975, 0.956475)
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("Rig_Cortex/AnimationPlayer:process_mode")
+tracks/8/path = NodePath("Cortex_Rig/AnimationPlayer:process_mode")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -348,7 +348,7 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("Rig_Crash/AnimationPlayer:process_mode")
+tracks/9/path = NodePath("Crash_Rig/AnimationPlayer:process_mode")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -360,14 +360,14 @@ tracks/9/keys = {
 tracks/10/type = "rotation_3d"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("Rig_Crash/RigidBody/Armature:joint12")
+tracks/10/path = NodePath("Crash_Rig/RigidBody/Armature:joint12")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = PackedFloat32Array(0.9, 1, 0.214261, -0.0278939, -0.000323822, 0.976378, 1, 1, 0.243671, 0.34454, -0.229344, 0.877108)
 tracks/11/type = "rotation_3d"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("Rig_Cortex/RigidBody/Armature:joint9")
+tracks/11/path = NodePath("Cortex_Rig/RigidBody/Armature:joint9")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = PackedFloat32Array(0.9, 1, -0.000132388, -6.77434e-05, 0.058699, 0.998276, 1, 1, 0.205745, 0.0120392, 0.0574511, 0.976844)
@@ -377,7 +377,7 @@ length = 2.0
 tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Rig_Crash/AnimationPlayer")
+tracks/0/path = NodePath("Crash_Rig/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -387,7 +387,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Rig_Cortex/AnimationPlayer:speed_scale")
+tracks/1/path = NodePath("Cortex_Rig/AnimationPlayer:speed_scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -399,7 +399,7 @@ tracks/1/keys = {
 tracks/2/type = "animation"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Rig_Cortex/AnimationPlayer")
+tracks/2/path = NodePath("Cortex_Rig/AnimationPlayer")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -409,7 +409,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Rig_Crash:position")
+tracks/3/path = NodePath("Crash_Rig:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -421,7 +421,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Rig_Cortex:position")
+tracks/4/path = NodePath("Cortex_Rig:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -433,7 +433,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Rig_Cortex:rotation")
+tracks/5/path = NodePath("Cortex_Rig:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -445,7 +445,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Rig_Crash/AnimationPlayer:speed_scale")
+tracks/6/path = NodePath("Crash_Rig/AnimationPlayer:speed_scale")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -457,14 +457,14 @@ tracks/6/keys = {
 tracks/7/type = "rotation_3d"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Rig_Cortex/RigidBody/Armature:joint5")
+tracks/7/path = NodePath("Cortex_Rig/RigidBody/Armature:joint5")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = PackedFloat32Array(0.9, 1, -0.00293231, 3.21994e-05, 9.44189e-08, 0.999996, 1, 1, -0.290525, 0.000474975, 0.000474975, 0.956475)
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("Rig_Cortex/AnimationPlayer:process_mode")
+tracks/8/path = NodePath("Cortex_Rig/AnimationPlayer:process_mode")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -476,7 +476,7 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("Rig_Crash/AnimationPlayer:process_mode")
+tracks/9/path = NodePath("Crash_Rig/AnimationPlayer:process_mode")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -488,14 +488,14 @@ tracks/9/keys = {
 tracks/10/type = "rotation_3d"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("Rig_Crash/RigidBody/Armature:joint12")
+tracks/10/path = NodePath("Crash_Rig/RigidBody/Armature:joint12")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = PackedFloat32Array(0.9, 1, 0.214261, -0.0278939, -0.000323822, 0.976378, 1, 1, 0.243671, 0.34454, -0.229344, 0.877108)
 tracks/11/type = "rotation_3d"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("Rig_Cortex/RigidBody/Armature:joint9")
+tracks/11/path = NodePath("Cortex_Rig/RigidBody/Armature:joint9")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = PackedFloat32Array(0.9, 1, -0.000132388, -6.77434e-05, 0.058699, 0.998276, 1, 1, 0.205745, 0.0120392, 0.0574511, 0.976844)
@@ -518,7 +518,7 @@ _data = {
 "Crash_SkateIdleFront": ExtResource("4_av2ax"),
 "Crash_SkateKickflip": ExtResource("3_tns36"),
 "Crash_TwinSlam": ExtResource("8_2ba73"),
-"RigRESET_Crash": ExtResource("2_65yfv")
+"Crash_RigRESET": ExtResource("2_65yfv")
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p53eh"]
@@ -529,7 +529,7 @@ _data = {
 "Cortex_SkateIdle1Back": ExtResource("12_s4f5c"),
 "Cortex_SkateIdleFront": ExtResource("13_2ivsp"),
 "Cortex_TwinSlam": ExtResource("16_tcr5f"),
-"RigRESET_Cortex": ExtResource("5_inlr2")
+"Cortex_RigRESET": ExtResource("5_inlr2")
 }
 
 [node name="FE_Actors" type="Node3D"]
@@ -540,19 +540,19 @@ libraries = {
 "scene": SubResource("AnimationLibrary_6rh8v")
 }
 
-[node name="Rig_Crash" parent="." instance=ExtResource("1_g5qhi")]
+[node name="Crash_Rig" parent="." instance=ExtResource("1_g5qhi")]
 
-[node name="AnimationPlayer" parent="Rig_Crash" index="1"]
+[node name="AnimationPlayer" parent="Crash_Rig" index="1"]
 libraries = {
 "actor1": SubResource("AnimationLibrary_i8dls")
 }
 
-[node name="Rig_Cortex" parent="." instance=ExtResource("4_v1kc4")]
+[node name="Cortex_Rig" parent="." instance=ExtResource("4_v1kc4")]
 
-[node name="AnimationPlayer" parent="Rig_Cortex" index="1"]
+[node name="AnimationPlayer" parent="Cortex_Rig" index="1"]
 libraries = {
 "actor2": SubResource("AnimationLibrary_p53eh")
 }
 
-[editable path="Rig_Crash"]
-[editable path="Rig_Cortex"]
+[editable path="Crash_Rig"]
+[editable path="Cortex_Rig"]

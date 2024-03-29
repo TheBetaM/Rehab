@@ -6,12 +6,12 @@ public partial class FrontendGameOver : Control
     TextureRect Icon;
 
     string[] IconPaths = [
-        RehabGame.AssetsPath + "Textures/Language/GameOver/Crash.res", 
-        RehabGame.AssetsPath + "Textures/Language/GameOver/Cortex.res",
-        RehabGame.AssetsPath + "Textures/Language/GameOver/CrashAndCortex.res", 
-        RehabGame.AssetsPath + "Textures/Language/GameOver/Nina.res", 
-        RehabGame.AssetsPath + "Textures/Language/GameOver/Crash.res",
-        RehabGame.AssetsPath + "Textures/Language/GameOver/Mecha.res"
+        RehabGame.AssetsPath + "Textures/Language/GameOver/Crash.tex", 
+        RehabGame.AssetsPath + "Textures/Language/GameOver/Cortex.tex",
+        RehabGame.AssetsPath + "Textures/Language/GameOver/CrashAndCortex.tex", 
+        RehabGame.AssetsPath + "Textures/Language/GameOver/Nina.tex", 
+        RehabGame.AssetsPath + "Textures/Language/GameOver/Crash.tex",
+        RehabGame.AssetsPath + "Textures/Language/GameOver/Mecha.tex"
     ];
 
     public override void _Ready()

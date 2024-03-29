@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" path="res://import/Actors/ZomBot.tscn" id="6_1eee4"]
 [ext_resource type="Script" path="res://code/demo/xr/AgentMinigameCreature.cs" id="7_38f15"]
 [ext_resource type="PackedScene" path="res://import/Actors/ChiChiGrass_Ceiling.tscn" id="7_jjee4"]
-[ext_resource type="PackedScene" path="res://import/Rigs/Rig_NinaHook.tscn" id="8_2hpew"]
+[ext_resource type="PackedScene" path="res://import/Rigs/NinaHook_Rig.tscn" id="8_2hpew"]
 [ext_resource type="PackedScene" path="res://import/Actors/Pickup_Wumpa.tscn" id="9_b2bsi"]
 [ext_resource type="PackedScene" path="res://import/Actors/Crate_Iron.tscn" id="10_kwduq"]
 [ext_resource type="PackedScene" path="res://import/Actors/Crate_Basic.tscn" id="11_0tplu"]
@@ -229,16 +229,16 @@ LinkPoint = [NodePath("../../Locators/Points/Landing1")]
 [node name="Models" parent="Actors/ChiChiGrass_Ceiling" index="1"]
 visible = false
 
-[node name="Armature" parent="Actors/ChiChiGrass_Ceiling/Models/Rig_CeilingChiChiGrass/RigidBody" index="0"]
+[node name="Armature" parent="Actors/ChiChiGrass_Ceiling/Models/CeilingChiChiGrass_Rig/RigidBody" index="0"]
 bones/0/enabled = true
 
-[node name="Rig_NinaHook" parent="Actors/ChiChiGrass_Ceiling" instance=ExtResource("8_2hpew")]
+[node name="NinaHook_Rig" parent="Actors/ChiChiGrass_Ceiling" instance=ExtResource("8_2hpew")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
 
-[node name="Armature" parent="Actors/ChiChiGrass_Ceiling/Rig_NinaHook/RigidBody" index="0"]
+[node name="Armature" parent="Actors/ChiChiGrass_Ceiling/NinaHook_Rig/RigidBody" index="0"]
 bones/0/enabled = true
 
-[node name="CollisionShape0" parent="Actors/ChiChiGrass_Ceiling/Rig_NinaHook/RigidBody" index="1"]
+[node name="CollisionShape0" parent="Actors/ChiChiGrass_Ceiling/NinaHook_Rig/RigidBody" index="1"]
 disabled = true
 
 [node name="Pickups" type="Node3D" parent="."]
@@ -500,6 +500,6 @@ LinkPoint = []
 [connection signal="OnTriggerExited" from="Volumes/TutorialHint2" to="." method="ClearMessage"]
 
 [editable path="Actors/ChiChiGrass_Ceiling"]
-[editable path="Actors/ChiChiGrass_Ceiling/Models/Rig_CeilingChiChiGrass"]
-[editable path="Actors/ChiChiGrass_Ceiling/Rig_NinaHook"]
+[editable path="Actors/ChiChiGrass_Ceiling/Models/CeilingChiChiGrass_Rig"]
+[editable path="Actors/ChiChiGrass_Ceiling/NinaHook_Rig"]
 [editable path="Pickups/Pickup_Gem_Clear"]

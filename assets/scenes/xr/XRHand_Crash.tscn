@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://24wqvw6ro0ky"]
 
-[ext_resource type="PackedScene" path="res://import/Mesh/CrashAngel_LeftHand.tscn" id="1_tys38"]
+[ext_resource type="PackedScene" path="res://import/Rigs/CrashAngel_LeftHand.tscn" id="1_tys38"]
 [ext_resource type="Script" path="res://code/Game/XR/RehabXRHand.cs" id="1_uf3sk"]
 [ext_resource type="Material" path="res://import/Materials/MatA948FFBE-CR_Crash_no_shoes_CR__CR__lambert18-4109E933.tres" id="2_arh5c"]
 
