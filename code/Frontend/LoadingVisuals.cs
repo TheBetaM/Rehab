@@ -12,10 +12,10 @@ public partial class LoadingVisuals : Control
     PackedScene ActorScene;
     Node3D ActorNode;
     string[] RequiredAssets = [
-        RehabGame.AssetsPath + "Rigs/Crash_Rig.tscn",
-        RehabGame.AssetsPath + "Rigs/Cortex_Rig.tscn",
-        RehabGame.AssetsPath + "Rigs/Crash_RigRESET.anim",
-        RehabGame.AssetsPath + "Rigs/Cortex_RigRESET.anim",
+        RehabGame.AssetsPath + "Rigs/Actor/Chars/Crash/Crash_Rig.tscn",
+        RehabGame.AssetsPath + "Rigs/Actor/Chars/Cortex/Cortex_Rig.tscn",
+        RehabGame.AssetsPath + "Rigs/Actor/Chars/Crash/Crash_RigRESET.anim",
+        RehabGame.AssetsPath + "Rigs/Actor/Chars/Cortex/Cortex_RigRESET.anim",
     ];
     Material LoadMat1;
 

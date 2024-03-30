@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" path="res://import/Scenery/levels_school_rooftop_buschase-Scenery.tscn" id="3_b1uq1"]
 [ext_resource type="Script" path="res://code/Containers/ChunkLink.cs" id="4_1d8bn"]
 [ext_resource type="Script" path="res://code/demo/PlayerOnlyTrigger.cs" id="5_sr8jn"]
-[ext_resource type="PackedScene" path="res://import/Rigs/Rooftop_Bus_Rig.tscn" id="6_jhfp6"]
-[ext_resource type="Animation" path="res://import/Rigs/Rooftop_Bus_RigRESET.anim" id="7_mbtv3"]
-[ext_resource type="Animation" path="res://import/Rigs/RooftopBus_Swing.anim" id="8_3pgq2"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Prop/School/Rooftop/Bus_Rig.tscn" id="6_jhfp6"]
+[ext_resource type="Animation" path="res://import/Rigs/Prop/School/Rooftop/Bus_RigRESET.anim" id="7_mbtv3"]
+[ext_resource type="Animation" path="res://import/Rigs/Prop/School/Rooftop/Bus_Swing.anim" id="8_3pgq2"]
 
 [sub_resource type="Environment" id="1"]
 background_mode = 1

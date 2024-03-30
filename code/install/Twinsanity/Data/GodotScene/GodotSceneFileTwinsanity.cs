@@ -180,22 +180,15 @@ namespace RehabSetup
             {
                 ChunkLinks.ChunkLink Link = Links.Links[i];
 
-                //ExternalResource LinkChunkRes = new ExternalResource($"../Levels/{Link.Path.Replace('\\', '_')}.tscn");
-                //LinkChunkRes.SetAsPackedScene();
-                //ExternalResourceList.Add(LinkChunkRes);
-                //int LinkChunkID = ExternalResourceList.Count;
-
                 Node LinkNode = new Node($"Link{i}-{Link.Path.Replace('\\', '_')}", ExportGodot.Node3D);
                 LinkNode.KeyValues.Add("parent", LinksNode.Name);
                 LinkNode.Lines.Add($"script=ExtResource({LinkCode})");
-                //LinkNode.Lines.Add($"Chunk = ExtResource( {LinkChunkID} )");
                 LinkNode.Lines.Add($"ChunkPath=\"Levels/{Link.Path.Replace('\\', '_')}.tscn\"");
                 LinkNode.Lines.Add($"ChunkName=\"{Link.Path.Replace('\\', '_')}\"");
                 if (!Link.WallIsEnabled) LinkNode.Lines.Add($"IsDisabled=true");
                 if (!Link.IsVisible) 
                 {
                     LinkNode.Lines.Add($"SpawnInvisible=true");
-                    //LinkNode.Lines.Add($"visible = false");
                 }
                 //LinkNode.Lines.Add($"Flags = {Link.Flags}");
                 Nodes.Add(LinkNode);
@@ -204,16 +197,6 @@ namespace RehabSetup
                 ChunkHolder.KeyValues.Add("parent", $"{LinksNode.Name}/{LinkNode.Name}");
                 ChunkHolder.Lines.Add($"transform={MatrixToTransform(Link.ChunkMatrix)}");
                 Nodes.Add(ChunkHolder);
-
-                //Node ChunkNode = new Node($"{Link.Path.Replace('\\', '_')}", ExportGodot.Node3D);
-                //LinkNode.KeyValues.Add("parent", $"{LinksNode.Name}/{ChunkHolder.Name}");
-                //LinkNode.KeyValues.Add("instance_placeholder", $"../Levels/{Link.Path.Replace('\\', '_')}.tscn");
-                //Nodes.Add(ChunkNode);
-
-                //Node ObjectHolder = new Node("ObjectHolder", ExportGodot.Node3D);
-                //ObjectHolder.KeyValues.Add("parent", $"{LinksNode.Name}/{LinkNode.Name}");
-                //ObjectHolder.Lines.Add($"transform = {MatrixToTransform(Link.ObjectMatrix)}");
-                //Nodes.Add(ObjectHolder);
 
                 if (Link.HasWall)
                 {
@@ -317,14 +300,14 @@ namespace RehabSetup
                 bool HasRot = ThisModel.AnimRotX != null || ThisModel.AnimRotY != null || ThisModel.AnimRotZ != null;
                 ColNode.KeyValues.Add("parent", RootNode.Name);
                 //ColNode.Lines.Add($"mode = 1"); // static
-                ColNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-ThisModel.WorldPosition.X).ToText()}, {ThisModel.WorldPosition.Y.ToText()}, {ThisModel.WorldPosition.Z.ToText()} )");
+                ColNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-ThisModel.WorldPosition.X).ToText()},{ThisModel.WorldPosition.Y.ToText()},{ThisModel.WorldPosition.Z.ToText()})");
                 ColNode.Lines.Add($"sync_to_physics=false"); //fixes animation bug
                 Nodes.Add(ColNode);
 
                 // Export DAE and textures
                 RigidModel RigidModelCont = rigid_sec.GetItem<RigidModel>(ThisModel.ModelID);
                 uint Hash = ExportGodot.ExportModelResource(RigidModelCont, path, ExportedTextures);
-                Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(ThisModel.ModelID, Hash)}", $"{RootNode.Name}/{ColNode.Name}");
+                Add_InstancedScene($"{ExportGodot.AssetsPath}Mesh/{DefaultHashes.RigidToName(ThisModel.ModelID, Hash)}", $"{RootNode.Name}/{ColNode.Name}");
 
                 if (Scene.Models[i].GI_Types.Count == 0) continue;
 
@@ -483,7 +466,7 @@ namespace RehabSetup
                 // Export DAE and textures
                 RigidModel RigidModelCont = rigid_sec.GetItem<RigidModel>(Scene.ModelIDs[i]);
                 uint Hash = ExportGodot.ExportModelResource(RigidModelCont, path, ExportedTextures);
-                Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(Scene.ModelIDs[i], Hash)}", $".");
+                Add_InstancedScene($"{ExportGodot.AssetsPath}Mesh/{DefaultHashes.RigidToName(Scene.ModelIDs[i], Hash)}", $".");
                 Nodes[i + 1].Lines.Add($"cast_shadow=0"); // no need for skydome to cast shadows? can always tune for clouds or sth afterwards
                 //Nodes[i + 1].Lines.Add($"ignore_occlusion_culling=true");
             }
@@ -499,7 +482,7 @@ namespace RehabSetup
                 // Export DAE and textures
                 RigidModel RigidModelCont = rigid_sec.GetItem<RigidModel>(Scene.LODModelIDs[i]);
                 uint Hash = ExportGodot.ExportModelResource(RigidModelCont, path, ExportedTextures);
-                Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(Scene.LODModelIDs[i], Hash)}", $".");
+                Add_InstancedScene($"{ExportGodot.AssetsPath}Mesh/{DefaultHashes.RigidToName(Scene.LODModelIDs[i], Hash)}", $".");
                 
                 if (i != 0)
                 {
@@ -617,7 +600,7 @@ namespace RehabSetup
             {
                 ExportGodot.ExportScenery(Scene, path, ExportedTextures);
             }
-            Add_InstancedScene($"../Scenery/{SceneryFilePath}", $".");
+            Add_InstancedScene($"{ExportGodot.AssetsPath}Scenery/{SceneryFilePath}", $".");
             Nodes.Last().Lines.Add("metadata/_edit_lock_ = true"); // prevents scenery from being selected in editor (easier for level editing)
 
             AddLights(Scene);
@@ -778,7 +761,7 @@ namespace RehabSetup
                 if (GI.BlendSkinID != 0)
                 {
                     BlendShapeCount = DefaultHashes.BlendShapeCounts[GI.BlendSkinID];
-                    string ModelFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}_BlendSkin";
+                    string ModelFilePath = $"{ExportGodot.AssetsPath}Rigs/{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}_BlendSkin";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
 
                     // adjusting name for blend shape animation access
@@ -786,7 +769,7 @@ namespace RehabSetup
                 }
                 if (GI.SkinID != 0)
                 {
-                    string ModelFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}_Skin";
+                    string ModelFilePath = $"{ExportGodot.AssetsPath}Rigs/{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}_Skin";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
                 }
             }
@@ -795,7 +778,7 @@ namespace RehabSetup
                 if (GI.BlendSkinID != 0)
                 {
                     BlendShapeCount = DefaultHashes.BlendShapeCounts[GI.BlendSkinID];
-                    string ModelFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}_BlendSkin";
+                    string ModelFilePath = $"{ExportGodot.AssetsPath}Rigs/{DefaultHashes.ToName(SectionType.BlendSkin, GI.BlendSkinID)}_BlendSkin";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
 
                     // adjusting name for blend shape animation access
@@ -803,7 +786,7 @@ namespace RehabSetup
                 }
                 if (GI.SkinID != 0)
                 {
-                    string ModelFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}_Skin";
+                    string ModelFilePath = $"{ExportGodot.AssetsPath}Rigs/{DefaultHashes.ToName(SectionType.Skin, GI.SkinID)}_Skin";
                     Add_InstancedScene(ModelFilePath, $"RigidBody/{RootNode.Name}");
                 }
             }
@@ -892,7 +875,7 @@ namespace RehabSetup
                     Nodes.Add(attach);
                 }
 
-                string ModelFilePath = $"../Rigs/";
+                string ModelFilePath = $"{ExportGodot.AssetsPath}Rigs/";
                 //RigidModel model = rigid_sec.GetItem<RigidModel>(modelID);
                 //uint Hash = ExportGodot.ExportModelResource(model, path);
                 //string outName = DefaultHashes.RigidToName(model.ID, Hash);
@@ -1117,7 +1100,7 @@ namespace RehabSetup
                 {
                     if (Agent.Objects[i] != 65535 && Agent.Objects[i] != Agent.ID)
                     {
-                        string ModelFilePath = $"../Actors/{DefaultHashes.ToName(SectionType.Object, Agent.Objects[i])}";
+                        string ModelFilePath = $"{ExportGodot.AssetsPath}Actors/{DefaultHashes.ToName(SectionType.Object, Agent.Objects[i])}";
                         ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}.tscn");
                         ModelFileReference.SetAsPackedScene();
                         ExternalResourceList.Add(ModelFileReference);
@@ -1153,7 +1136,7 @@ namespace RehabSetup
                 {
                     if (Agent.Anims[i] != 65535 && !AnimList.ContainsKey(Agent.Anims[i]))
                     {
-                        string AnimFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.Animation, Agent.Anims[i])}";
+                        string AnimFilePath = $"{ExportGodot.AssetsPath}Rigs/{DefaultHashes.ToName(SectionType.Animation, Agent.Anims[i])}";
                         ExternalResource AnimFileReference = new ExternalResource($"{AnimFilePath}{Extension}");
                         //AnimFileReference.SetAsAnimation();
                         ExternalResourceList.Add(AnimFileReference);
@@ -1192,13 +1175,13 @@ namespace RehabSetup
                 {
                     if (Agent.OGIs[i] != 65535 && !ModelList.ContainsKey(Agent.OGIs[i]))
                     {
-                        string ModelFilePath = $"../Rigs/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[i])}_Rig";
+                        string ModelFilePath = $"{ExportGodot.AssetsPath}Rigs/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[i])}_Rig";
                         //ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}.tscn");
                         //ModelFileReference.SetAsPackedScene();
                         //ExternalResourceList.Add(ModelFileReference);
 
                         string Extension = ".anim";
-                        ExternalResource ResetAnimRef = new ExternalResource($"../Rigs/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[i])}_RigRESET{Extension}");
+                        ExternalResource ResetAnimRef = new ExternalResource($"{ExportGodot.AssetsPath}Rigs/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[i])}_RigRESET{Extension}");
                         ResetAnimRef.SetAsAnimation();
                         ExternalResourceList.Add(ResetAnimRef);
                         int ResetAnimRefID = ExternalResourceList.Count;
@@ -1230,17 +1213,17 @@ namespace RehabSetup
                                     InternalResourceList.Add(AnimLib);
                                     AnimRefNode = new Node("AnimationPlayer");
                                     AnimRefNode.KeyValues.Add("index", "1");
-                                    AnimRefNode.KeyValues.Add("parent", $"Models/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[a])}_Rig");
+                                    AnimRefNode.KeyValues.Add("parent", $"Models/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[a]).Split('/').Last()}_Rig");
                                     AnimRefNode.Lines.Add("libraries = {");
                                     AnimRefNode.Lines.Add($"\"\": SubResource( {InternalResourceList.Count} )");
                                     AnimRefNode.Lines.Add("}");
-                                    Editables.Add($"Models/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[a])}_Rig");
+                                    Editables.Add($"Models/{DefaultHashes.ToName(SectionType.OGI, Agent.OGIs[a]).Split('/').Last()}_Rig");
                                 }
                                 else
                                 {
                                     AnimLib.Lines[AnimLib.Lines.Count - 2] = AnimLib.Lines[AnimLib.Lines.Count - 2] + ",";
                                 }
-                                AnimLib.Lines.Insert(AnimLib.Lines.Count - 1, $"\"{DefaultHashes.ToName(SectionType.Animation, Agent.Anims[a])}\": ExtResource( {AnimList[Agent.Anims[a]]} )");
+                                AnimLib.Lines.Insert(AnimLib.Lines.Count - 1, $"\"{DefaultHashes.ToName(SectionType.Animation, Agent.Anims[a]).Split('/').Last()}\": ExtResource( {AnimList[Agent.Anims[a]]} )");
                                 OGI_AnimAdd.Add((Agent.Anims[a], Agent.OGIs[a]));
                             }
                         }
@@ -1307,7 +1290,7 @@ namespace RehabSetup
                 {
                     if (Agent.Sounds[i] != 65535 && !SoundIDs.ContainsKey(Agent.Sounds[i]))
                     {
-                        ExternalResource SoundRes = new ExternalResource($"../Sounds/{DefaultHashes.ToName(SectionType.SE, Agent.Sounds[i])}{Extension}");
+                        ExternalResource SoundRes = new ExternalResource($"{ExportGodot.AssetsPath}Sounds/{DefaultHashes.ToName(SectionType.SE, Agent.Sounds[i])}{Extension}");
                         SoundRes.SetAsAudio();
                         ExternalResourceList.Add(SoundRes);
                         SoundIDs.Add(Agent.Sounds[i], ExternalResourceList.Count);
@@ -1420,7 +1403,7 @@ namespace RehabSetup
                     ModelActionList.Append($": ");
                     if (Agent.Anims[i] != 65535)
                     {
-                        var animName = DefaultHashes.ToName(SectionType.Animation, Agent.Anims[i]);
+                        var animName = DefaultHashes.ToName(SectionType.Animation, Agent.Anims[i]).Split('/').Last();
                         ModelActionList.Append($"\"{animName}\"");
                     }
                     else
@@ -1434,7 +1417,7 @@ namespace RehabSetup
                 {
                     if (Agent.Anims.Last() != 65535)
                     {
-                        var animName = DefaultHashes.ToName(SectionType.Animation, Agent.Anims.Last());
+                        var animName = DefaultHashes.ToName(SectionType.Animation, Agent.Anims.Last()).Split('/').Last();
                         Nodes[0].Lines.Add($"{OGI_IndexList[Agent.OGIs.Last()]}: \"{animName}\"");
                     }
                     else
@@ -1446,7 +1429,7 @@ namespace RehabSetup
                 {
                     if (Agent.Anims.Last() != 65535)
                     {
-                        var animName = DefaultHashes.ToName(SectionType.Animation, Agent.Anims.Last());
+                        var animName = DefaultHashes.ToName(SectionType.Animation, Agent.Anims.Last()).Split('/').Last();
                         Nodes[0].Lines.Add($"null: \"{animName}\"");
                     }
                     else
@@ -2007,7 +1990,7 @@ namespace RehabSetup
                 }
                 else
                 {
-                    ExternalResource PrefabRes = new ExternalResource($"../Actors/{DefaultHashes.ToName(SectionType.Object, Inst.ObjectID)}{ExportGodot.SceneExtension}");
+                    ExternalResource PrefabRes = new ExternalResource($"{ExportGodot.AssetsPath}Actors/{DefaultHashes.ToName(SectionType.Object, Inst.ObjectID)}{ExportGodot.SceneExtension}");
                     PrefabRes.SetAsPackedScene();
                     ExternalResourceList.Add(PrefabRes);
                     PrefabResID = ExternalResourceList.Count;
@@ -2228,10 +2211,11 @@ namespace RehabSetup
                 }
                 foreach (var item in model_sec.Records)
                 {
+                    if (DefaultHashes.DupeModelIDs.Contains(item.ID)) continue;
                     ModelX model = (ModelX)item;
                     GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(model);
                     ModelResource.WriteResourceToBuffer();
-                    string MeshName = $"Mesh{DefaultHashes.ModelToName(item.ID, 0)}.res";
+                    string MeshName = $"{DefaultHashes.ModelToName(item.ID, 0)}_Mesh.res";
                     ModelResource.WriteBufferToFile($"{MeshPath}{MeshName}");
                 }
                 foreach (var item in skin_sec.Records)
@@ -2257,10 +2241,11 @@ namespace RehabSetup
                 }
                 foreach (var item in model_sec.Records)
                 {
+                    if (DefaultHashes.DupeModelIDs.Contains(item.ID)) continue;
                     Model model = (Model)item;
                     GodotBinaryArrayMesh ModelResource = new GodotBinaryArrayMesh(model);
                     ModelResource.WriteResourceToBuffer();
-                    string MeshName = $"Mesh{DefaultHashes.ModelToName(item.ID, 0)}.res";
+                    string MeshName = $"{DefaultHashes.ModelToName(item.ID, 0)}_Mesh.res";
                     ModelResource.WriteBufferToFile($"{MeshPath}{MeshName}");
                 }
                 foreach (var item in skin_sec.Records)
@@ -2319,7 +2304,6 @@ namespace RehabSetup
             for (int i = 0; i < anim_sec.Records.Count; i++)
             {
                 uint ObjectID = anim_sec.Records[i].ID;
-                string ObjectName = DefaultHashes.ToName(SectionType.Animation, ObjectID);
                 ExportGodot.ExportAnimation(anim_sec.GetItem<Animation>(ObjectID), path);
             }
 
@@ -2328,7 +2312,6 @@ namespace RehabSetup
             for (int i = 0; i < ogi_sec.Records.Count; i++)
             {
                 uint OGID = ogi_sec.Records[i].ID;
-                string ObjectName = $"{DefaultHashes.ToName(SectionType.OGI, OGID)}_Rig";
                 ExportGodot.ExportOGI(ogi_sec.GetItem<GraphicsInfo>(OGID), path, ExportedTextures);
             }
 
@@ -2533,7 +2516,7 @@ namespace RehabSetup
             // Export resource
             if (DefaultHashes.Hash_Models.ContainsKey(MCont.MeshID))
             {
-                MeshName = $"Mesh{DefaultHashes.ModelToName(MCont.MeshID, 0)}{Extension}";
+                MeshName = $"{DefaultHashes.ModelToName(MCont.MeshID, 0)}_Mesh{Extension}";
             }
             else
             {
@@ -2550,9 +2533,20 @@ namespace RehabSetup
                 }
                 ModelResource.WriteResourceToBuffer();
                 uint MeshHash = ModelResource.WriteBuffer.GetSequenceHashCode();
-                MeshName = $"Mesh{DefaultHashes.ModelToName(MCont.MeshID, MeshHash)}{Extension}";
+                MeshName = $"{DefaultHashes.ModelToName(MCont.MeshID, MeshHash)}_Mesh{Extension}";
                 if (!AssetExporter.Check($"{DirPath}{MeshName}"))
                     ModelResource.WriteBufferToFile($"{DirPath}{MeshName}");
+            }
+            switch (MCont.ParentFile.Type)
+            {
+                default:
+                    MeshName = $"{ExportGodot.AssetsPath}Rigs/{MeshName}";
+                break;
+                case TwinsFile.FileType.SM2:
+                case TwinsFile.FileType.SMX:
+                case TwinsFile.FileType.DemoSM2:
+                    MeshName = $"{ExportGodot.AssetsPath}Mesh/{MeshName}";
+                break;
             }
 
             ExternalResource ModelFileReference = new ExternalResource(MeshName);
@@ -2594,7 +2588,7 @@ namespace RehabSetup
                 ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
             }
 
-            ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}{Extension}");
+            ExternalResource ModelFileReference = new ExternalResource($"{ExportGodot.AssetsPath}Rigs/{ModelFilePath}{Extension}");
             ModelFileReference.SetAsArrayMesh();
             ExternalResourceList.Add(ModelFileReference);
 
@@ -2633,7 +2627,7 @@ namespace RehabSetup
                 ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
             }
 
-            ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}{Extension}");
+            ExternalResource ModelFileReference = new ExternalResource($"{ExportGodot.AssetsPath}Rigs/{ModelFilePath}{Extension}");
             ModelFileReference.SetAsArrayMesh();
             ExternalResourceList.Add(ModelFileReference);
 
@@ -2673,7 +2667,7 @@ namespace RehabSetup
                 ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
             } 
 
-            ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}{Extension}");
+            ExternalResource ModelFileReference = new ExternalResource($"{ExportGodot.AssetsPath}Rigs/{ModelFilePath}{Extension}");
             ModelFileReference.SetAsArrayMesh();
             ExternalResourceList.Add(ModelFileReference);
 
@@ -2712,7 +2706,7 @@ namespace RehabSetup
                 ModelResource.WriteToFile($"{DirPath}{ModelFilePath}{Extension}");
             } 
 
-            ExternalResource ModelFileReference = new ExternalResource($"{ModelFilePath}{Extension}");
+            ExternalResource ModelFileReference = new ExternalResource($"{ExportGodot.AssetsPath}Rigs/{ModelFilePath}{Extension}");
             ModelFileReference.SetAsArrayMesh();
             ExternalResourceList.Add(ModelFileReference);
 
@@ -2969,7 +2963,7 @@ namespace RehabSetup
                             OutName = ExportedTextures[shader.TextureId];
                         }
 
-                        ExternalResource TexResource = new ExternalResource($"../Textures/{OutName}");
+                        ExternalResource TexResource = new ExternalResource($"{ExportGodot.AssetsPath}Textures/{OutName}");
                         TexResource.SetAsTexture();
                         MaterialFile.ExternalResourceList.Add(TexResource);
 
@@ -3009,7 +3003,7 @@ namespace RehabSetup
                 }
                 string MatPath = $"{DirPath}{MatName}.tres";
                 MaterialFile.WriteToFile(MatPath);
-                MaterialFileNames.Add($"../Materials/{MatName}.tres");
+                MaterialFileNames.Add($"{ExportGodot.AssetsPath}Materials/{MatName}.tres");
             }
 
             for (int i = 0; i < MaterialFileNames.Count; i++)
@@ -3087,7 +3081,7 @@ namespace RehabSetup
             else
             {
                 uint Hash = ExportGodot.ExportModelResource(RigidCont, path, ExportedTextures);
-                Add_InstancedScene($"../Mesh/{DefaultHashes.RigidToName(ModelID, Hash)}", ParentNodeName);
+                Add_InstancedScene($"{ExportGodot.AssetsPath}Mesh/{DefaultHashes.RigidToName(ModelID, Hash)}", ParentNodeName);
                 ExportedModels.Add(ModelID, (ExternalResourceList.Count, Hash));
             }
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://brxgpw5s3up2j"]
 
-[ext_resource type="PackedScene" path="res://import/Rigs/Mecha_Fist_RocketHand.tscn" id="1_ehx7u"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Actor/Chars/Mecha/Mecha_Fist_RocketHand.tscn" id="1_ehx7u"]
 [ext_resource type="Script" path="res://code/Game/XR/RehabXRHand.cs" id="1_hom15"]
 
 [node name="XRHand" type="Node3D"]

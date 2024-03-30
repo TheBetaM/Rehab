@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" path="res://import/Scenery/levels_school_rooftop_roof01-Collision.tscn" id="2_n8hpa"]
 [ext_resource type="PackedScene" path="res://import/Scenery/levels_school_rooftop_roof01-Scenery.tscn" id="3_t2kos"]
 [ext_resource type="Script" path="res://code/Containers/ChunkLink.cs" id="4_eno1p"]
-[ext_resource type="PackedScene" path="res://import/Actors/DJ.tscn" id="5_kcigf"]
-[ext_resource type="PackedScene" path="res://import/Actors/Global_Ambient_Sound.tscn" id="6_2lpxa"]
+[ext_resource type="PackedScene" path="res://import/Actors/Sound/DJ.tscn" id="5_kcigf"]
+[ext_resource type="PackedScene" path="res://import/Actors/Sound/Global_Ambient_Sound.tscn" id="6_2lpxa"]
 
 [sub_resource type="Environment" id="1"]
 background_mode = 1

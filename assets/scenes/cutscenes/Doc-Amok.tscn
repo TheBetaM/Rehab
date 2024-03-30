@@ -5,18 +5,18 @@
 [ext_resource type="PackedScene" path="res://import/Scenery/levels_earth_hub_docent-Scenery.tscn" id="3_l15cf"]
 [ext_resource type="PackedScene" path="res://import/Scenery/levels_earth_docamok_docamok1-Scenery.tscn" id="3_wfxy4"]
 [ext_resource type="AudioStream" path="res://import/Sounds/GlobalVO/English/DRC082_P.sample" id="6_wxq8o"]
-[ext_resource type="Animation" path="res://import/Rigs/TribesmanA_RigRESET.anim" id="7_dq614"]
+[ext_resource type="Animation" path="res://import/Rigs/Actor/Earth/TribesmanA_RigRESET.anim" id="7_dq614"]
 [ext_resource type="AudioStream" path="res://import/Sounds/GlobalVO/English/DRC085.sample" id="7_hpi5o"]
-[ext_resource type="Animation" path="res://import/Rigs/Tribesman_Idle.anim" id="8_g0x72"]
+[ext_resource type="Animation" path="res://import/Rigs/Actor/Earth/Tribesman_Idle.anim" id="8_g0x72"]
 [ext_resource type="AudioStream" path="res://import/Sounds/GlobalVO/English/DRC086_P.sample" id="8_srtca"]
-[ext_resource type="Animation" path="res://import/Rigs/Tribesman_Cutscene_Clapping.anim" id="9_5vde6"]
+[ext_resource type="Animation" path="res://import/Rigs/Actor/Earth/Tribesman_Cutscene_Clapping.anim" id="9_5vde6"]
 [ext_resource type="AudioStream" path="res://import/Sounds/GlobalVO/English/DRC356-03_07.sample" id="9_kc1u2"]
-[ext_resource type="PackedScene" path="res://import/Rigs/TribesmanA_Rig.tscn" id="10_6x4ic"]
-[ext_resource type="Animation" path="res://import/Rigs/Tribesman_Cutscene_L03E.anim" id="10_pjf6y"]
+[ext_resource type="PackedScene" path="res://import/Rigs/Actor/Earth/TribesmanA_Rig.tscn" id="10_6x4ic"]
+[ext_resource type="Animation" path="res://import/Rigs/Actor/Earth/Tribesman_Cutscene_L03E.anim" id="10_pjf6y"]
 [ext_resource type="AudioStream" path="res://import/Sounds/Cutscene/Totem_CutsceneDirector_NativeVoice.sample" id="10_r2q0x"]
-[ext_resource type="PackedScene" path="res://import/Actors/Global_Ambient_Sound.tscn" id="11_4xjk1"]
+[ext_resource type="PackedScene" path="res://import/Actors/Sound/Global_Ambient_Sound.tscn" id="11_4xjk1"]
 [ext_resource type="AudioStream" path="res://import/Sounds/Cutscene/Totem_CutsceneDirector_Clapping.sample" id="11_t6m1t"]
-[ext_resource type="PackedScene" path="res://import/Actors/CutsceneDirector_Totem.tscn" id="18_5yfmm"]
+[ext_resource type="PackedScene" path="res://import/Actors/Cutscene/CutsceneDirector_Totem.tscn" id="18_5yfmm"]
 
 [sub_resource type="Environment" id="1"]
 background_mode = 1
@@ -94,7 +94,7 @@ tracks/5/keys = {
 tracks/6/type = "animation"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Actors/CutsceneDirector_Totem/Models/Docamok_SwarmOfBees_Rig/AnimationPlayer")
+tracks/6/path = NodePath("Actors/CutsceneDirector_Totem/Models/SwarmOfBees_Rig/AnimationPlayer")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -169,7 +169,7 @@ tracks/12/keys = {
 tracks/13/type = "value"
 tracks/13/imported = false
 tracks/13/enabled = true
-tracks/13/path = NodePath("Actors/CutsceneDirector_Totem/Models/Docamok_SwarmOfBees_Rig:position")
+tracks/13/path = NodePath("Actors/CutsceneDirector_Totem/Models/SwarmOfBees_Rig:position")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
@@ -181,7 +181,7 @@ tracks/13/keys = {
 tracks/14/type = "value"
 tracks/14/imported = false
 tracks/14/enabled = true
-tracks/14/path = NodePath("Actors/CutsceneDirector_Totem/Models/Docamok_SwarmOfBees_Rig:rotation")
+tracks/14/path = NodePath("Actors/CutsceneDirector_Totem/Models/SwarmOfBees_Rig:rotation")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/keys = {
@@ -422,7 +422,7 @@ tracks/16/keys = {
 tracks/17/type = "animation"
 tracks/17/imported = false
 tracks/17/enabled = true
-tracks/17/path = NodePath("Actors/CutsceneDirector_Totem/Models/Docamok_SwarmOfBees_Rig/AnimationPlayer")
+tracks/17/path = NodePath("Actors/CutsceneDirector_Totem/Models/SwarmOfBees_Rig/AnimationPlayer")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/keys = {
@@ -442,7 +442,7 @@ tracks/18/keys = {
 tracks/19/type = "value"
 tracks/19/imported = false
 tracks/19/enabled = true
-tracks/19/path = NodePath("Actors/CutsceneDirector_Totem/Models/Docamok_SwarmOfBees_Rig:position")
+tracks/19/path = NodePath("Actors/CutsceneDirector_Totem/Models/SwarmOfBees_Rig:position")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/keys = {
@@ -454,7 +454,7 @@ tracks/19/keys = {
 tracks/20/type = "value"
 tracks/20/imported = false
 tracks/20/enabled = true
-tracks/20/path = NodePath("Actors/CutsceneDirector_Totem/Models/Docamok_SwarmOfBees_Rig:rotation")
+tracks/20/path = NodePath("Actors/CutsceneDirector_Totem/Models/SwarmOfBees_Rig:rotation")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/keys = {
@@ -682,7 +682,7 @@ process_mode = 0
 transform = Transform3D(0.04313, 0, 0.999069, 0, 1, 0, -0.999069, 0, 0.04313, -59.0676, -25.1466, 54.4894)
 visible = true
 
-[node name="Docamok_SwarmOfBees_Rig" parent="Actors/CutsceneDirector_Totem/Models" index="6"]
+[node name="SwarmOfBees_Rig" parent="Actors/CutsceneDirector_Totem/Models" index="6"]
 process_mode = 0
 visible = true
 
@@ -713,7 +713,7 @@ RegInt = Array[int]([0, 0, 90])
 [editable path="Actors/CutsceneDirector_Totem/Models/TribesmanA_Rig"]
 [editable path="Actors/CutsceneDirector_Totem/Models/TribesmanA_Rig2"]
 [editable path="Actors/CutsceneDirector_Totem/Models/Pig_WildBoar_Rig"]
-[editable path="Actors/CutsceneDirector_Totem/Models/Docamok_SwarmOfBees_Rig"]
+[editable path="Actors/CutsceneDirector_Totem/Models/SwarmOfBees_Rig"]
 [editable path="Actors/CutsceneDirector_Totem/Models/Bee_Single_Rig"]
 [editable path="Actors/CutsceneDirector_Totem/Models/CortexPimple_Rig"]
 [editable path="Actors/CutsceneDirector_Totem/Models/BeeHiveCutscene_Rig"]
