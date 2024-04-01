@@ -11,8 +11,9 @@ uniform vec2 deformspeed;
 uniform vec2 deformspeed2;
 uniform float metallic_specular = 0.0;
 
-uniform vec3 uv1_scale = vec3(1);
-uniform vec3 uv1_offset;
+uniform vec4 albedo_color : source_color = vec4(1);
+uniform vec2 uv1_scale = vec2(1);
+uniform vec2 uv1_offset;
 
 vec4 texturePanorama(vec3 normal, sampler2D pano) 
 {

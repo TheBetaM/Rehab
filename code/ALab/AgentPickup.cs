@@ -66,7 +66,7 @@ public partial class AgentPickup : Agent
                 Visible = false;
             }
         }
-        else
+        else if (IsWumpa)
         {
             if (AnimMode)
             {

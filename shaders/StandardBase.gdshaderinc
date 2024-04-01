@@ -4,9 +4,9 @@ void vertex()
 {
 	if (deform)
 	{
-		float vy = sin(TIME + float(VERTEX_ID)) * deformspeed.y * 0.1;
-		float vx = sin(TIME + float(VERTEX_ID)) * deformspeed.x * 0.1;
-		float vz = sin(TIME + float(VERTEX_ID)) * deformspeed.x * 0.1;
+		float vy = sin(TIME + float(VERTEX.y)) * deformspeed.y * 0.1;
+		float vx = sin(TIME + float(VERTEX.y)) * deformspeed.x * 0.1;
+		float vz = sin(TIME + float(VERTEX.y)) * deformspeed.x * 0.1;
 		VERTEX *= vec3(vx + 1.0, vy + 1.0, vz + 1.0);
 	}
 	if (billboard)
@@ -29,18 +29,18 @@ void vertex()
 	#ifdef DOUBLE_COLOR
 	    COLOR.rgb = COLOR.rgb * 2.0;
 	#endif
-	UV = UV * uv1_scale.xy + uv1_offset.xy + speed * vec2(TIME);
+	UV = UV * uv1_scale + uv1_offset + speed * vec2(TIME);
 }
 
 void fragment() 
 {
 	vec4 tex = texture(albedo_texture, UV);
-	ALBEDO = tex.xyz * COLOR.rgb;
+	ALBEDO = tex.xyz * COLOR.rgb * albedo_color.xyz;
 	#ifdef IS_ALPHA_TEST
-	ALPHA = tex.w * COLOR.a;
+	ALPHA = tex.w * COLOR.a * albedo_color.w;
 	#endif
 	#ifdef IS_ALPHA_BLEND
-	ALPHA = tex.w * COLOR.a;
+	ALPHA = tex.w * COLOR.a * albedo_color.w;
 	#endif
 	
 	
@@ -69,5 +69,6 @@ void fragment()
     BACKLIGHT = vec3(1);
 	#ifdef IS_ALPHA_TEST
 	ALPHA_SCISSOR_THRESHOLD = 0.5;
-	#endif	
+	//ALPHA_ANTIALIASING_EDGE = 0.1;
+	#endif
 }

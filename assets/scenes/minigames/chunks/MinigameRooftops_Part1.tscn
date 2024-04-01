@@ -203,6 +203,8 @@ CanBeTargeted = true
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
+HasFlags = true
+Flags = 65030
 
 [node name="ZomBot2" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("6_1eee4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.5046, -4.06012, -26.3914)
@@ -219,14 +221,20 @@ CanBeTargeted = true
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
+HasFlags = true
+Flags = 65030
 
 [node name="ChiChiGrass_Ceiling" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("7_jjee4")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 10.111, 1.04, -26.609)
 LinkInstance = []
 LinkPath = []
 LinkPoint = [NodePath("../../Locators/Points/Landing1")]
+Flags = 33028
 
 [node name="Models" parent="Actors/ChiChiGrass_Ceiling" index="1"]
+visible = false
+
+[node name="CeilingChiChiGrass_Rig" parent="Actors/ChiChiGrass_Ceiling/Models" index="0"]
 visible = false
 
 [node name="Armature" parent="Actors/ChiChiGrass_Ceiling/Models/CeilingChiChiGrass_Rig/RigidBody" index="0"]

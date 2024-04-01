@@ -1650,22 +1650,20 @@ namespace RehabSetup
                 TrigNode.Groups.Add($"InstanceLayer{SectionID}");
                 TrigNode.KeyValues.Add("parent", $"{RootNodeName}");
 
-                TrigNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-Pos.Coords[1].X).ToText()}, {Pos.Coords[1].Y.ToText()}, {Pos.Coords[1].Z.ToText()} )");
+                TrigNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Pos.Coords[1].X).ToText()},{Pos.Coords[1].Y.ToText()},{Pos.Coords[1].Z.ToText()})");
 
                 Pos TriggerRot = Pos.Coords[0];
                 TriggerRot.X = (float)(TriggerRot.X * Math.PI);
                 TriggerRot.Y = (float)(TriggerRot.Y * Math.PI);
                 TriggerRot.Z = (float)(TriggerRot.Z * Math.PI);
 
-                TrigNode.Lines.Add($"rotation = Vector3( {TriggerRot.X.ToText()}, {(TriggerRot.Y).ToText()}, {(TriggerRot.Z).ToText()} )"); // or quaternion with W?
+                TrigNode.Lines.Add($"rotation=Vector3({TriggerRot.X.ToText()},{(TriggerRot.Y).ToText()},{(TriggerRot.Z).ToText()})"); // or quaternion with W?
 
-                TrigNode.Lines.Add($"script = ExtResource ( {CodeResourceID_Container_Trigger} )");
-                TrigNode.Lines.Add("Messages = {");
-                TrigNode.Lines.Add($"{Pos.Arg1}: {Pos.Arg1_Used.ToString().ToLower()},");
-                TrigNode.Lines.Add($"{Pos.Arg2}: {Pos.Arg2_Used.ToString().ToLower()},");
-                TrigNode.Lines.Add($"{Pos.Arg3}: {Pos.Arg3_Used.ToString().ToLower()},");
-                TrigNode.Lines.Add($"{Pos.Arg4}: {Pos.Arg4_Used.ToString().ToLower()}");
-                TrigNode.Lines.Add("}");
+                TrigNode.Lines.Add($"script=ExtResource({CodeResourceID_Container_Trigger})");
+                if (Pos.Arg1_Used) TrigNode.Lines.Add($"MsgOnEnterOnce={Pos.Arg1}");
+                if (Pos.Arg2_Used) TrigNode.Lines.Add($"MsgOnEnter={Pos.Arg2}");
+                if (Pos.Arg3_Used) TrigNode.Lines.Add($"MsgOnStay={Pos.Arg3}");
+                if (Pos.Arg4_Used) TrigNode.Lines.Add($"MsgOnExit={Pos.Arg4}");
 
                 bool[] TrigMask = Pos.Mask;
                 StringBuilder MaskLine = new StringBuilder();
@@ -1689,14 +1687,14 @@ namespace RehabSetup
                     TrigNode.Lines.Add(TrigRefs.ToString());
                 }
 
-                TrigNode.Lines.Add($"SomeFloat = {Pos.SomeFloat.ToText()}");
-                TrigNode.Lines.Add($"SectionHead = {Pos.SectionHead}");
+                TrigNode.Lines.Add($"SomeFloat={Pos.SomeFloat.ToText()}");
+                TrigNode.Lines.Add($"SectionHead={Pos.SectionHead}");
 
                 Nodes.Add(TrigNode);
 
                 Node TrigColNode = new Node($"TriggerCollision", ExportGodot.CollisionShape3D);
                 TrigColNode.KeyValues.Add("parent", $"{RootNodeName}/{TrigNode.Name}");
-                TrigColNode.Lines.Add($"shape = SubResource( {InternalResourceList.Count} )");
+                TrigColNode.Lines.Add($"shape=SubResource({InternalResourceList.Count})");
                 Nodes.Add(TrigColNode);
             }
         }

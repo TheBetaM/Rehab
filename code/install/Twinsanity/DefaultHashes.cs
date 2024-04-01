@@ -2242,7 +2242,7 @@ namespace Twinsanity
             [(0x2578F1E8,0x54547845)] = $"{TexEarth}SkyDome_Earth_SunAdd",
             [(0x2578F1E8,0x6B634F5F)] = $"{TexAltEarth}SkyDome_AltEarth_SunAdd",
             [(0x348B2300,0xFFF69256)] = $"{TexAltEarth}SkyDome_AltEarth_Sky",
-            [(0x348B2300,0xD47701E7)] = $"{TexEarth}SkyDome_Earth_Sky",
+            [(0x348B2300,0xD47701E7)] = $"{TexIce}SkyDome_Ice_Sky",
             [(0x39237D77,0xC89C462A)] = $"{TexTotem}Village_ColoredXPattern",
             [(0x39237D77,0x07F91019)] = $"{TexTotem}Village_ColoredXPattern_Old", // low quality, old version
             [(0x3E723B2C,0x67B71C07)] = $"{TexAltEarth}SkyDome_AltEarth_Sun",
@@ -2307,7 +2307,7 @@ namespace Twinsanity
             [(0x2578F1E8,0x13A1FB79)] = $"{TexEarth}SkyDome_Earth_SunAdd",
             [(0x2578F1E8,0x6C87993F)] = $"{TexAltEarth}SkyDome_AltEarth_SunAdd",
             [(0x348B2300,0x2B6249F3)] = $"{TexAltEarth}SkyDome_AltEarth_Sky",
-            [(0x348B2300,0x595201E7)] = $"{TexEarth}SkyDome_Earth_Sky",
+            [(0x348B2300,0x595201E7)] = $"{TexIce}SkyDome_Ice_Sky",
             [(0x39237D77,0xBBF87278)] = $"{TexTotem}Village_ColoredXPattern",
             [(0x39237D77,0xE8A45079)] = $"{TexTotem}Village_ColoredXPattern_Old", // low quality, old version
             [(0x3E723B2C,0x6101F111)] = $"{TexAltEarth}SkyDome_AltEarth_Sun",
