@@ -968,10 +968,6 @@ namespace RehabSetup
 
         public void AddGameObject(GameObject Agent, string path, bool SceneOnly = false)
         {
-            //TwinsSection gi_sec = Agent.Parent.Parent.GetItem<TwinsSection>(3);
-            //TwinsSection obj_sec = Agent.Parent.Parent.GetItem<TwinsSection>(0);
-            //TwinsSection ca_sec = Agent.Parent.Parent.GetItem<TwinsSection>(4);
-            //TwinsSection scr_sec = Agent.Parent.Parent.GetItem<TwinsSection>(1);
             byte AgentType = (byte)(Agent.UnkBitfield >> 0x14 & 0xFF);
             byte AgentUnkTypeValue = (byte)(Agent.UnkBitfield >> 0xC & 0xFF);
             byte AgentJointIDs = (byte)(Agent.UnkBitfield >> 0x6 & 0x3F);
@@ -1072,8 +1068,6 @@ namespace RehabSetup
             */
             #endregion
 
-            //Nodes[0].Lines.Add($"Template = SubResource( {TemplateResID} )");
-            
             /*
             if (SpawnActions.Count != 0)
             {
@@ -1321,70 +1315,6 @@ namespace RehabSetup
                 Nodes[0].Lines.Add(AudioList.ToString());
             }
 
-            /*
-            if (ExportGodot.ExportScripts)
-            {
-                Dictionary<int, int> ScriptIDs = new Dictionary<int, int>();
-                if (Agent.Scripts.Count != 0)
-                {
-                    for (int i = 0; i < Agent.Scripts.Count; i++)
-                    {
-                        if (Agent.Scripts[i] != 65535 && !ScriptIDs.ContainsKey(Agent.Scripts[i]))
-                        {
-                            AddObjectScript(Agent, scr_sec, Agent.Scripts[i]);
-                            ScriptIDs.Add(Agent.Scripts[i], InternalResourceList.Count);
-                        }
-                    }
-
-                    StringBuilder AudioList = new StringBuilder();
-                    AudioList.Append($"Scripts = [ ");
-                    for (int a = 0; a < Agent.Scripts.Count - 1; a++)
-                    {
-                        if (Agent.Scripts[a] == 65535)
-                        {
-                            AudioList.Append($"null, ");
-                        }
-                        else
-                        {
-                            AudioList.Append($"SubResource( {ScriptIDs[Agent.Scripts[a]]} ), ");
-                        }
-                    }
-                    if (Agent.Scripts.Last() == 65535)
-                    {
-                        AudioList.Append($"null ]");
-                    }
-                    else
-                    {
-                        AudioList.Append($"SubResource( {ScriptIDs[Agent.Scripts.Last()]} ) ]");
-                    }
-                    Nodes[0].Lines.Add(AudioList.ToString());
-                }
-                if (Agent.UI32.Count != 0)
-                {
-                    StringBuilder MessList = new StringBuilder();
-                    MessList.Append("Messages = { ");           
-                    for (int i = 0; i < Agent.UI32.Count; i++)
-                    {
-                        uint Message = Agent.UI32[i];
-                        ushort script = (ushort)((Message >> 0xA) & 0x3FFF);
-                        ushort arg = (ushort)(Message & 0x3FF);
-                        ushort caller = (ushort)((Message >> 0x18 & 0x1));
-
-                        if (script != 65535 && !ScriptIDs.ContainsKey(script))
-                        {
-                            AddObjectScript(Agent, scr_sec, script);
-                            ScriptIDs.Add(script, InternalResourceList.Count);
-                        }
-                        MessList.Append($"{arg} : SubResource( {ScriptIDs[script]} ), "); 
-                        
-                    }
-                    MessList.Remove(MessList.Length - 2, 2);
-                    MessList.Append("}");  
-                    Nodes[0].Lines.Add(MessList.ToString());
-                }
-            }
-            */
-
             if (Agent.OGIs.Count != 0 && ModelList.Count != 0)
             {
                 
@@ -1440,95 +1370,6 @@ namespace RehabSetup
                 Nodes[0].Lines.Add("} ]");
             }
 
-            // optional shadow attachment node
-            //Node ShadowsRootNode = new Node($"Shadows", ExportGodot.Node3D);
-            //ShadowsRootNode.KeyValues.Add("parent", ".");
-            //Nodes.Add(ShadowsRootNode);
-
-            // not required, but might aswell
-            //Node AudioNode = new Node($"AudioStreamPlayer3D", "AudioStreamPlayer3D");
-            //AudioNode.KeyValues.Add("parent", ".");
-            //Nodes.Add(AudioNode);
-        }
-
-        void AddObjectScript(GameObject Agent, TwinsSection scr_sec, ushort scriptID)
-        {
-            /*
-            uint TargetScript = scriptID;
-            Script target = null;
-            bool isStarter = false;
-            bool isCustom = false;
-            if (DefaultHashes.CustomAgentScripts.Contains(scriptID))
-            {
-                isCustom = true;
-            }
-            if (!isCustom && TargetScript % 2 == 0)
-            {
-                target = scr_sec.GetItem<Script>(TargetScript);
-                TargetScript = (uint)(target.Header.pairs[0].mainScriptIndex - 1);
-                isStarter = true;
-            }
-            string hashName = DefaultHashes.Hash_Scripts[TargetScript];
-            if (isCustom)
-            {
-                hashName = $"{DefaultHashes.ToName(SectionType.Object, Agent.ID)}_{hashName}";
-            }
-            ExternalResource ScriptCode = new ExternalResource($"../Scripts/{hashName}{ExportGodot.ScriptExt}");
-            ScriptCode.SetAsScript();
-            ExternalResourceList.Add(ScriptCode);
-            InternalResource ScriptRes = new InternalResource();
-            ScriptRes.Lines.Add($"script = ExtResource( {ExternalResourceList.Count} )");
-            if (isStarter)
-            {
-                ScriptRes.Lines.Add($"Priority = {target.mask}");
-                if (target.Header.pairs.Count > 1)
-                {
-                    StringBuilder PartList = new StringBuilder();
-                    PartList.Append($"ParticipantTypes = [ ");
-                    for (int a = 1; a < target.Header.pairs.Count - 1; a++)
-                    {
-                        var partType = 0;
-                        if (target.Header.pairs[a].AssignType == Script.HeaderScript.AssignTypeID.HUMAN_PLAYER)
-                        {
-                            partType = 1;
-                        }
-                        else if (target.Header.pairs[a].AssignType == Script.HeaderScript.AssignTypeID.ORIGINATOR)
-                        {
-                            partType = 2;
-                        }
-                        else if (target.Header.pairs[a].AssignType == Script.HeaderScript.AssignTypeID.GLOBAL_AGENT)
-                        {
-                            partType = 3;
-                            if (target.Header.pairs[a].ObjectID != 0)
-                            {
-                                partType = 4;
-                            }
-                        }
-                        PartList.Append($"{partType}, ");
-                    }
-                    var partTypeA = 0;
-                    if (target.Header.pairs.Last().AssignType == Script.HeaderScript.AssignTypeID.HUMAN_PLAYER)
-                    {
-                        partTypeA = 1;
-                    }
-                    else if (target.Header.pairs.Last().AssignType == Script.HeaderScript.AssignTypeID.ORIGINATOR)
-                    {
-                        partTypeA = 2;
-                    }
-                    else if (target.Header.pairs.Last().AssignType == Script.HeaderScript.AssignTypeID.GLOBAL_AGENT)
-                    {
-                        partTypeA = 3;
-                        if (target.Header.pairs.Last().ObjectID != 0)
-                        {
-                            partTypeA = 4;
-                        }
-                    }
-                    PartList.Append($"{partTypeA} ]");
-                    ScriptRes.Lines.Add(PartList.ToString());
-                }
-            }
-            InternalResourceList.Add(ScriptRes);
-            */
         }
 
         public void AddAIPositions(TwinsSection Section, uint SectionID, string RootNodeName)
@@ -1539,10 +1380,10 @@ namespace RehabSetup
 
                 Node PosNode = new Node($"AI_Node_{SectionID}_{i}", ExportGodot.Marker3D);
                 PosNode.KeyValues.Add("parent", RootNodeName);
-                //PosNode.Lines.Add($"script = ExtResource( {CodeResourceID_Container_AIPathNode} )");
+                //PosNode.Lines.Add($"script=ExtResource({CodeResourceID_Container_AIPathNode})");
                 PosNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Pos.Pos.X).ToText()},{Pos.Pos.Y.ToText()},{Pos.Pos.Z.ToText()})");
-                PosNode.Lines.Add($"Weight={Pos.Pos.W.ToText()}");
-                PosNode.Lines.Add($"Type={(ushort)Pos.Node}");
+                //PosNode.Lines.Add($"Weight={Pos.Pos.W.ToText()}");
+                //PosNode.Lines.Add($"Type={(ushort)Pos.Node}");
                 Nodes.Add(PosNode);
             }
         }
@@ -1567,11 +1408,11 @@ namespace RehabSetup
 
                 Node PosNode = new Node($"AI_Path_{SectionID}_{i}", ExportGodot.Path3D);
                 PosNode.KeyValues.Add("parent", RootNodeName);
-                //PosNode.Lines.Add($"script = ExtResource( {CodeResourceID_Container_AIPath} )");
+                //PosNode.Lines.Add($"script=ExtResource({CodeResourceID_Container_AIPath})");
                 PosNode.Lines.Add($"curve=SubResource({InternalResourceList.Count})");
-                PosNode.Lines.Add($"Param1={Pos.Arg[2]}");
-                PosNode.Lines.Add($"Param2={Pos.Arg[3]}");
-                PosNode.Lines.Add($"Param3={Pos.Arg[4]}");
+                //PosNode.Lines.Add($"Param1={Pos.Arg[2]}");
+                //PosNode.Lines.Add($"Param2={Pos.Arg[3]}");
+                //PosNode.Lines.Add($"Param3={Pos.Arg[4]}");
                 Nodes.Add(PosNode);
             }
 
@@ -1647,17 +1488,13 @@ namespace RehabSetup
                 InternalResourceList.Add(LinkShapeData);
 
                 Node TrigNode = new Node($"Trigger_{SectionID}_{i}", ExportGodot.Area3D);
-                TrigNode.Groups.Add($"InstanceLayer{SectionID}");
+                //TrigNode.Groups.Add($"InstanceLayer{SectionID}");
                 TrigNode.KeyValues.Add("parent", $"{RootNodeName}");
 
                 TrigNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Pos.Coords[1].X).ToText()},{Pos.Coords[1].Y.ToText()},{Pos.Coords[1].Z.ToText()})");
 
                 Pos TriggerRot = Pos.Coords[0];
-                TriggerRot.X = (float)(TriggerRot.X * Math.PI);
-                TriggerRot.Y = (float)(TriggerRot.Y * Math.PI);
-                TriggerRot.Z = (float)(TriggerRot.Z * Math.PI);
-
-                TrigNode.Lines.Add($"rotation=Vector3({TriggerRot.X.ToText()},{(TriggerRot.Y).ToText()},{(TriggerRot.Z).ToText()})"); // or quaternion with W?
+                TrigNode.Lines.Add($"quaternion=Quaternion({TriggerRot.X.ToText()},{(-TriggerRot.Y).ToText()},{(-TriggerRot.Z).ToText()},{TriggerRot.W.ToText()})");
 
                 TrigNode.Lines.Add($"script=ExtResource({CodeResourceID_Container_Trigger})");
                 if (Pos.Arg1_Used) TrigNode.Lines.Add($"MsgOnEnterOnce={Pos.Arg1}");
@@ -1665,30 +1502,22 @@ namespace RehabSetup
                 if (Pos.Arg3_Used) TrigNode.Lines.Add($"MsgOnStay={Pos.Arg3}");
                 if (Pos.Arg4_Used) TrigNode.Lines.Add($"MsgOnExit={Pos.Arg4}");
 
-                bool[] TrigMask = Pos.Mask;
-                StringBuilder MaskLine = new StringBuilder();
-                MaskLine.Append($"Mask = [ ");
-                for (int a = 0; a < TrigMask.Length - 1; a++)
-                {
-                    MaskLine.Append($"{TrigMask[a].ToString().ToLower()}, ");
-                }
-                MaskLine.Append($"{TrigMask.Last().ToString().ToLower()} ]");
-                TrigNode.Lines.Add(MaskLine.ToString());
+                TrigNode.Lines.Add($"Mask={Pos.Enabled}");
 
                 if (Pos.Instances.Count != 0)
                 {
                     StringBuilder TrigRefs = new StringBuilder();
-                    TrigRefs.Append($"InstanceRefs = [ ");
+                    TrigRefs.Append($"InstanceRefs=[");
                     for (int a = 0; a < Pos.Instances.Count - 1; a++)
                     {
-                        TrigRefs.Append($"NodePath(\"../../../Instances/Instance_{SectionID}_{Pos.Instances[a]}\"), ");
+                        TrigRefs.Append($"NodePath(\"../../../Instances/Instance_{SectionID}_{Pos.Instances[a]}\"),");
                     }
-                    TrigRefs.Append($"NodePath(\"../../../Instances/Instance_{SectionID}_{Pos.Instances.Last()}\") ]");
+                    TrigRefs.Append($"NodePath(\"../../../Instances/Instance_{SectionID}_{Pos.Instances.Last()}\")]");
                     TrigNode.Lines.Add(TrigRefs.ToString());
                 }
 
                 TrigNode.Lines.Add($"SomeFloat={Pos.SomeFloat.ToText()}");
-                TrigNode.Lines.Add($"SectionHead={Pos.SectionHead}");
+                //TrigNode.Lines.Add($"SectionHead={Pos.SectionHead}");
 
                 Nodes.Add(TrigNode);
 
@@ -1711,116 +1540,105 @@ namespace RehabSetup
                 InternalResourceList.Add(TrigShapeData);
 
                 Node TrigNode = new Node($"CameraTrigger_{SectionID}_{i}", ExportGodot.Area3D);
-                TrigNode.Groups.Add($"InstanceLayer{SectionID}");
+                //TrigNode.Groups.Add($"InstanceLayer{SectionID}");
                 TrigNode.KeyValues.Add("parent", $"{RootNodeName}");
 
-                TrigNode.Lines.Add($"script = ExtResource ( {CodeResourceID_Container_Camera} )");
+                TrigNode.Lines.Add($"script=ExtResource({CodeResourceID_Container_Camera})");
 
                 if (Pos.Instances.Count != 0)
                 {
                     StringBuilder TrigRefs = new StringBuilder();
-                    TrigRefs.Append($"InstanceRefs = [ ");
+                    TrigRefs.Append($"InstanceRefs=[");
                     for (int a = 0; a < Pos.Instances.Count - 1; a++)
                     {
-                        TrigRefs.Append($"NodePath(\"../../../Instances/Instance_{SectionID}_{Pos.Instances[a]}\"), ");
+                        TrigRefs.Append($"NodePath(\"../../../Instances/Instance_{SectionID}_{Pos.Instances[a]}\"),");
                     }
-                    TrigRefs.Append($"NodePath(\"../../../Instances/Instance_{SectionID}_{Pos.Instances.Last()}\") ]");
+                    TrigRefs.Append($"NodePath(\"../../../Instances/Instance_{SectionID}_{Pos.Instances.Last()}\")]");
                     TrigNode.Lines.Add(TrigRefs.ToString());
                 }
 
-                TrigNode.Lines.Add($"SomeFloat = {Pos.SomeFloat.ToText()}");
-                TrigNode.Lines.Add($"SectionHead = {Pos.SectionHead}");
+                TrigNode.Lines.Add($"SomeFloat={Pos.SomeFloat.ToText()}");
+                //TrigNode.Lines.Add($"SectionHead={Pos.SectionHead}");
 
-                bool[] TrigMask = Pos.Mask;
-                StringBuilder MaskLine = new StringBuilder();
-                MaskLine.Append($"Mask = [ ");
-                for (int a = 0; a < TrigMask.Length - 1; a++)
-                {
-                    MaskLine.Append($"{TrigMask[a].ToString().ToLower()}, ");
-                }
-                MaskLine.Append($"{TrigMask.Last().ToString().ToLower()} ]");
-                TrigNode.Lines.Add(MaskLine.ToString());
+                TrigNode.Lines.Add($"Mask={Pos.Enabled}");
 
-                TrigNode.Lines.Add($"Camera1Type = {Pos.CameraType1}");
-                TrigNode.Lines.Add($"Camera2Type = {Pos.CameraType2}");
-                TrigNode.Lines.Add($"CamHeader = {Pos.CamHeader}");
-                TrigNode.Lines.Add($"CamHeader2 = {Pos.CamHeader2}");
-                TrigNode.Lines.Add($"UnkShort = {Pos.UnkShort}");
+                TrigNode.Lines.Add($"Camera1Type={Pos.CameraType1}");
+                TrigNode.Lines.Add($"Camera2Type={Pos.CameraType2}");
+                TrigNode.Lines.Add($"CamHeader={Pos.CamHeader}");
+                TrigNode.Lines.Add($"CamHeader2={Pos.CamHeader2}");
+                TrigNode.Lines.Add($"UnkShort={Pos.UnkShort}");
 
-                TrigNode.Lines.Add($"UnkFloat1 = {Pos.UnkFloat1.ToText()}");
+                TrigNode.Lines.Add($"UnkFloat1={Pos.UnkFloat1.ToText()}");
                 if ((Pos.CamHeader & (1 << 8)) != 0 || (Pos.CamHeader & (1 << 28)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkCoords1 = Vector2( {Pos.UnkCoords1.X.ToText()}, {Pos.UnkCoords1.Y.ToText()} )");
-                    TrigNode.Lines.Add($"UnkCoords2 = Vector2( {Pos.UnkCoords1.Z.ToText()}, {Pos.UnkCoords1.W.ToText()} )");
-                    TrigNode.Lines.Add($"UnkCoords3 = Vector2( {Pos.UnkCoords2.X.ToText()}, {Pos.UnkCoords2.Y.ToText()} )");
-                    TrigNode.Lines.Add($"UnkCoords4 = Vector2( {Pos.UnkCoords2.Z.ToText()}, {Pos.UnkCoords2.W.ToText()} )");
+                    TrigNode.Lines.Add($"UnkCoords1=Vector2({Pos.UnkCoords1.X.ToText()},{Pos.UnkCoords1.Y.ToText()})");
+                    TrigNode.Lines.Add($"UnkCoords2=Vector2({Pos.UnkCoords1.Z.ToText()},{Pos.UnkCoords1.W.ToText()})");
+                    TrigNode.Lines.Add($"UnkCoords3=Vector2({Pos.UnkCoords2.X.ToText()},{Pos.UnkCoords2.Y.ToText()})");
+                    TrigNode.Lines.Add($"UnkCoords4=Vector2({Pos.UnkCoords2.Z.ToText()},{Pos.UnkCoords2.W.ToText()})");
                 }
                 if ((Pos.CamHeader & (1 << 9)) != 0 || (Pos.CamHeader & (1 << 10)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkFloat2 = {Pos.UnkFloat2.GetValueOrDefault().ToText()}");
-                    TrigNode.Lines.Add($"UnkFloat3 = {Pos.UnkFloat3.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"UnkFloat2={Pos.UnkFloat2.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"UnkFloat3={Pos.UnkFloat3.GetValueOrDefault().ToText()}");
                 }
                 if ((Pos.CamHeader & (1 << 7)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkUInt1 = {Pos.UnkUInt1.GetValueOrDefault()}");
-                    TrigNode.Lines.Add($"UnkUInt2 = {Pos.UnkUInt2.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkUInt1={Pos.UnkUInt1.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkUInt2={Pos.UnkUInt2.GetValueOrDefault()}");
                 }
                 if ((Pos.CamHeader & (1 << 2)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkUInt3 = {Pos.UnkUInt3.GetValueOrDefault()}");
-                    TrigNode.Lines.Add($"UnkUInt4 = {Pos.UnkUInt4.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkUInt3={Pos.UnkUInt3.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkUInt4={Pos.UnkUInt4.GetValueOrDefault()}");
                 }
                 if ((Pos.CamHeader & (1 << 6)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkInt5 = {Pos.UnkInt5.GetValueOrDefault()}");
-                    TrigNode.Lines.Add($"UnkInt6 = {Pos.UnkInt6.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkInt5={Pos.UnkInt5.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkInt6={Pos.UnkInt6.GetValueOrDefault()}");
                 }
                 if ((Pos.CamHeader & (1 << 3)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkFloat4 = {Pos.UnkFloat4.GetValueOrDefault().ToText()}");
-                    TrigNode.Lines.Add($"UnkFloat5 = {Pos.UnkFloat5.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"UnkFloat4={Pos.UnkFloat4.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"UnkFloat5={Pos.UnkFloat5.GetValueOrDefault().ToText()}");
                 }
                 if ((Pos.CamHeader & (1 << 12)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkFloat6 = {Pos.UnkFloat6.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"UnkFloat6={Pos.UnkFloat6.GetValueOrDefault().ToText()}");
                 }
                 if ((Pos.CamHeader & (1 << 13)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkFloat7 = {Pos.UnkFloat7.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"UnkFloat7={Pos.UnkFloat7.GetValueOrDefault().ToText()}");
                 }
                 if ((Pos.CamHeader & (1 << 15)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkUInt7 = {Pos.UnkUInt7.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkUInt7={Pos.UnkUInt7.GetValueOrDefault()}");
                 }
                 if ((Pos.CamHeader & (1 << 16)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkInt8 = {Pos.UnkInt8.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkInt8={Pos.UnkInt8.GetValueOrDefault()}");
                 }
                 if ((Pos.CamHeader & (1 << 17)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkUInt9 = {Pos.UnkUInt9.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkUInt9={Pos.UnkUInt9.GetValueOrDefault()}");
                 }
                 if ((Pos.CamHeader & (1 << 18)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkFloat8 = {Pos.UnkFloat8.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"UnkFloat8={Pos.UnkFloat8.GetValueOrDefault().ToText()}");
                 }
 
-                TrigNode.Lines.Add($"UnkByte = {Pos.UnkByte}");
+                TrigNode.Lines.Add($"UnkByte={Pos.UnkByte}");
                 
 
                 Nodes.Add(TrigNode);
 
                 Node TrigColNode = new Node($"TriggerCollision", ExportGodot.CollisionShape3D);
                 TrigColNode.KeyValues.Add("parent", $"{RootNodeName}/{TrigNode.Name}");
-                TrigColNode.Lines.Add($"{ExportGodot.transformPosition} = Vector3( {(-Pos.Coords[1].X).ToText()}, {Pos.Coords[1].Y.ToText()}, {Pos.Coords[1].Z.ToText()} )");
+                TrigColNode.Lines.Add($"{ExportGodot.transformPosition}=Vector3({(-Pos.Coords[1].X).ToText()},{Pos.Coords[1].Y.ToText()},{Pos.Coords[1].Z.ToText()})");
 
                 Pos TriggerRot = Pos.Coords[0];
-                TriggerRot.X = (float)(TriggerRot.X * Math.PI);
-                TriggerRot.Y = (float)(TriggerRot.Y * Math.PI);
-                TriggerRot.Z = (float)(TriggerRot.Z * Math.PI);
+                TrigColNode.Lines.Add($"quaternion=Quaternion({TriggerRot.X.ToText()},{(-TriggerRot.Y).ToText()},{(-TriggerRot.Z).ToText()},{TriggerRot.W.ToText()})");
 
-                TrigColNode.Lines.Add($"rotation = Vector3( {TriggerRot.X.ToText()}, {(TriggerRot.Y).ToText()}, {(TriggerRot.Z).ToText()} )"); // or quaternion with W?
-                TrigColNode.Lines.Add($"shape = SubResource( {InternalResourceList.Count} )");
+                TrigColNode.Lines.Add($"shape=SubResource({InternalResourceList.Count})");
                 Nodes.Add(TrigColNode);
 
                 AddCameraData($"{RootNodeName}/{TrigNode.Name}", (Camera.CameraType)Pos.CameraType1, Pos.Cameras[0], 0);

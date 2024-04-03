@@ -15,9 +15,7 @@ public partial class TriggerVolume : Area3D
     [Export]
     public float SomeFloat;
     [Export]
-    public int SectionHead;
-    [Export]
-    public Godot.Collections.Array<bool> Mask;
+    public uint Mask;
 
     public override void _Ready()
     {
