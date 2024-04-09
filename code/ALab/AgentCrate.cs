@@ -169,4 +169,12 @@ public partial class AgentCrate : Agent
             }
         }
     }
+
+    public override void OnMessage(int id)
+    {
+        if (IsCheckPoint && id == 138)
+        {
+            CallDeferred("ForceBreak");
+        }
+    }
 }

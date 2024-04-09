@@ -165,7 +165,7 @@ public partial class FreeLookCamera : Camera3D
     void _update_mouselook()
     {
         if (Input.MouseMode != Input.MouseModeEnum.Captured) return;
-        _mouse_position *= sensitivity;
+        _mouse_position *= sensitivity * RehabGame.MouseSensitivity;
         float yaw = _mouse_position.X;
         float pitch = _mouse_position.Y;
         _mouse_position = Vector2.Zero;

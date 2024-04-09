@@ -204,7 +204,7 @@ public partial class Agent : Node3D
         }
     }
 
-    public void DoSound(int slot, float pitch, float volume)
+    public void DoSound(int slot, float pitch, float volume, bool loop = false)
     {
         if (slot >= Sounds.Count || slot < 0)
             return;
@@ -213,34 +213,79 @@ public partial class Agent : Node3D
             //AudioSource.Reparent(SubModels[ActiveModel].GetChild(0));
             AudioSource.VolumeDb = volume;
             AudioSource.Position = Vector3.Zero;
-            AudioSource.ProcessMode = ProcessModeEnum.Always;
+            AudioSource.ProcessMode = ProcessModeEnum.Pausable;
             AudioSource.Stream = (AudioStream)Sounds[slot];
+            if (loop)
+            {
+                var stream = (AudioStreamWav)Sounds[slot];
+                stream.LoopMode = AudioStreamWav.LoopModeEnum.Forward;
+                if (stream.Stereo)
+                {
+                    stream.LoopBegin = 16;
+                    stream.LoopEnd = stream.Data.Length / 4;
+                }
+                else
+                {
+                    stream.LoopEnd = 32;
+                    stream.LoopEnd = stream.Data.Length / 2;
+                }
+            }
             AudioSource.PitchScale = pitch;
             AudioSource.Play();
         }
     }
 
-    public void DoSoundPath(string path, float pitch, float volume)
+    public void DoSoundPath(string path, float pitch, float volume, bool loop = false)
     {
         if (!ResourceLoader.Exists(path))
             return;
         //AudioSource.Reparent(SubModels[ActiveModel].GetChild(0));
         AudioSource.VolumeDb = volume;
         AudioSource.Position = Vector3.Zero;
-        AudioSource.ProcessMode = ProcessModeEnum.Always;
+        AudioSource.ProcessMode = ProcessModeEnum.Pausable;
         AudioSource.Stream = (AudioStream)ResourceLoader.Load(path);
         AudioSource.PitchScale = pitch;
+        if (loop)
+        {
+            var stream = (AudioStreamWav)AudioSource.Stream;
+            stream.LoopMode = AudioStreamWav.LoopModeEnum.Forward;
+            if (stream.Stereo)
+            {
+                stream.LoopBegin = 16;
+                stream.LoopEnd = stream.Data.Length / 4;
+            }
+            else
+            {
+                stream.LoopEnd = 32;
+                stream.LoopEnd = stream.Data.Length / 2;
+            }
+        }
         AudioSource.Play();
     }
 
-    public void DoSoundStream(AudioStream stream, float pitch, float volume)
+    public void DoSoundStream(AudioStream s, float pitch, float volume, bool loop = false)
     {
         //AudioSource.Reparent(SubModels[ActiveModel].GetChild(0));
         AudioSource.VolumeDb = volume;
         AudioSource.Position = Vector3.Zero;
-        AudioSource.ProcessMode = ProcessModeEnum.Always;
-        AudioSource.Stream = stream;
+        AudioSource.ProcessMode = ProcessModeEnum.Pausable;
+        AudioSource.Stream = s;
         AudioSource.PitchScale = pitch;
+        if (loop)
+        {
+            var stream = (AudioStreamWav)AudioSource.Stream;
+            stream.LoopMode = AudioStreamWav.LoopModeEnum.Forward;
+            if (stream.Stereo)
+            {
+                stream.LoopBegin = 16;
+                stream.LoopEnd = stream.Data.Length / 4;
+            }
+            else
+            {
+                stream.LoopEnd = 32;
+                stream.LoopEnd = stream.Data.Length / 2;
+            }
+        }
         AudioSource.Play();
     }
 
@@ -503,6 +548,11 @@ public partial class Agent : Node3D
     }
 
     public virtual void OnNonSolidCollisionEnter(Node3D body)
+    {
+
+    }
+
+    public virtual void OnMessage(int id)
     {
 
     }

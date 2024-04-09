@@ -4,21 +4,21 @@ namespace Rehab;
 public partial class AgentFurniture : Agent
 {
     List<string> Doors = [
-        "Boiler_DoubleDoor_Anim",
-        "Door_Cortex_Lab_Big",
-        "AltEarth_AntCaves_GiantBlastDoor",
-        "AltEarth_Core_BlastDoor_Small",
+        "DoubleDoor_Anim",
+        "Door_CortexLab_Big",
+        "GiantBlastDoor",
+        "BlastDoor_Small",
         "Battleship_Door_B",
         "Battleship_IronDoor_B",
         "Generic_GreyStoneDoor",
         "Global_StreamingDoor",
-        "Ice_CortexDoorCockBlocker",
-        "School_Classroom_Door",
-        "School_OneWayActiveDoor",
-        "School_OneWayDoor",
-        "Village_Stockade_Gate",
-        "Boiler_Glass_Panel",
-        "Boiler_Steam_Hazard",
+        "Ice_CortexDoorBlocker",
+        "Classroom_Door",
+        "OneWayActiveDoor",
+        "OneWayDoor",
+        "Village_StockadeGate",
+        "GlassPanel",
+        "Steam_Hazard",
     ];
     bool IsDoor;
 
@@ -32,6 +32,7 @@ public partial class AgentFurniture : Agent
         if (Doors.Contains(Name))
         {
             IsDoor = true;
+            Connect("body_entered", Callable.From<Node3D>(OnSolidCollisionEnter));
         }
         switch (Name)
         {
@@ -45,6 +46,49 @@ public partial class AgentFurniture : Agent
                 hook.Name = "ChiChiGrass_Ceiling";
                 hook.LinkPoint = LinkPoint;
                 AddChild(hook);
+            break;
+            case "IceClimb_AmbientSounds":
+                switch (RegInt[0])
+                {
+                    case 1: DoSound(4, 1f, 0f, true); break;
+                    case 2: DoSound(5, 1f, 0f, true); break;
+                    case 4: DoSound(10, 1f, 0f, true); break;
+                    case 3: break; // COM_ICECLIMB_AMBIENT_SOUNDS_WATERSPLASHES
+                }
+            break;
+            case "School_Hub_Ambient_Sounds":
+            case "Sound_Ambient_SlipSlide":
+                DoSound(0, 1f, 0f, true);
+            break;
+            case "SoundSpot_CamShaft":
+            case "SoundSpot_ElectricFence":
+            case "SoundSpot_Engine_Wheel":
+            case "SoundSpot_Fan_Spin":
+            case "SoundSpot_Lava":
+            case "SoundSpot_Piston":
+            case "SoundSpot_Pistons":
+            case "SoundSpot_Engine_Piston":
+            case "SoundSpot_Plank_Spin":
+            case "SoundSpot_Psychetron":
+            case "SoundSpot_Psychetron_Beams":
+            case "SoundSpot_PurplePipes":
+            case "SoundSpot_PurplePits":
+            case "SoundSpot_River_Below":
+            case "SoundSpot_Waterfall":
+            case "Sound_Spot_Engine_Piston":
+                DelayedSoundStart();
+            break;
+            case "Sound_Ambient_IceHub":
+                switch (RegInt[0])
+                {
+                    case 1: DoSound(2, 1f, 0f, true); break;
+                    case 2: DoSound(3, 1f, 0f, true); break;
+                    case 3: DoSound(4, 1f, 0f, true); break;
+                    case 4: DoSound(1, 1f, 0f, true); break;
+                    case 5: DoSound(5, 1f, 0f, true); break;
+                    case 6: DoSound(6, 1f, 0f, true); break;
+                    default: DoSound(0, 1f, 0f, true); break;
+                }
             break;
         }
 
@@ -107,5 +151,72 @@ public partial class AgentFurniture : Agent
     public override void OnNonSolidCollisionEnter(Node3D body)
     {
         OnDoorTouch(body);
+    }
+
+    public void OnSolidCollisionEnter(Node3D body)
+    {
+        OnDoorTouch(body);
+    }
+
+    public override void OnMessage(int id)
+    {
+        switch (Name)
+        {
+            default: break;
+            case "DJ_Triggerable":
+                if (id == 87 || id == 138) RehabScene.Root.PlayMusic(RegInt[0]);
+            break;
+            case "Boiler_TriggeredSound":
+                if (id == 4)
+                {
+                    switch (RegInt[0])
+                    {
+                        case 1: DoSound(0, 1f, 0f); break;
+                        case 2: DoSound(1, 1f, 0f); break;
+                        case 3: DoSound(2, 1f, 0f); break;
+                        case 4: DoSound(3, 1f, 0f); break;
+                    }
+                }
+            break;
+        }
+    }
+
+    async void DelayedSoundStart()
+    {
+        await ToSignal(GetTree().CreateTimer(RegFloat[4]), SceneTreeTimer.SignalName.Timeout);
+        switch (Name)
+        {
+            default: break;
+            case "SoundSpot_CamShaft":
+            case "SoundSpot_ElectricFence":
+            case "SoundSpot_Engine_Wheel":
+            case "SoundSpot_Fan_Spin":
+            case "SoundSpot_Piston":
+            case "SoundSpot_Pistons":
+            case "SoundSpot_Engine_Piston":
+            case "SoundSpot_Plank_Spin":
+            case "SoundSpot_PurplePipes":
+            case "SoundSpot_River_Below":
+            case "SoundSpot_Waterfall":
+            case "Sound_Spot_Engine_Piston":
+                switch (RegInt[0])
+                {
+                    case 1: DoSound(0, 1f, 0f, true); break;
+                    case 2: DoSound(1, 1f, 0f, true); break;
+                    case 3: DoSound(2, 1f, 0f, true); break;
+                    case 4: DoSound(3, 1f, 0f, true); break;
+                    case 5: DoSound(4, 1f, 0f, true); break;
+                    case 6: DoSound(5, 1f, 0f, true); break;
+                    case 7: DoSound(6, 1f, 0f, true); break;
+                    case 8: DoSound(7, 1f, 0f, true); break;
+                    default: DoSound(0, 1f, 0f, true); break;
+                }
+            break;
+            case "SoundSpot_Lava": 
+            case "SoundSpot_Psychetron":
+            case "SoundSpot_Psychetron_Beams":
+            case "SoundSpot_PurplePits":
+                DoSound(0, 1f, 0f, true); break;
+        }
     }
 }

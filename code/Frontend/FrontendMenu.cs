@@ -123,6 +123,7 @@ public partial class FrontendMenu : Control
         OptionsOnly = optOnly;
         Full_AnimIn();
         ProcessMode = ProcessModeEnum.Always;
+        GetTree().Paused = true;
         HeaderHolder.Visible = false;
         FooterHolder.Visible = true;
         HeaderLabel.Text = "#FE-Paused";
@@ -168,6 +169,7 @@ public partial class FrontendMenu : Control
     {
         Full_AnimIn();
         ProcessMode = ProcessModeEnum.Always;
+        GetTree().Paused = true;
         HeaderHolder.Visible = false;
         FooterHolder.Visible = true;
         MainLabel.Text = text;
@@ -191,6 +193,7 @@ public partial class FrontendMenu : Control
     public async void Notice_Close()
     {
         if (!MenuActive) return;
+        GetTree().Paused = false;
         Full_AnimOut();
         await ToSignal(GetTree().CreateTimer(FadeTime), SceneTreeTimer.SignalName.Timeout);
         RehabScene.Root.ProcessMode = ProcessModeEnum.Inherit;
@@ -227,6 +230,7 @@ public partial class FrontendMenu : Control
         RehabScene.Root.ProcessMode = ProcessModeEnum.Inherit;
         ProcessMode = ProcessModeEnum.Inherit;
         RehabScene.Root.ExitLevel(false);
+        GetTree().Paused = false;
     }
 
     public void Pause_ReturnToMainMenu()
@@ -236,6 +240,7 @@ public partial class FrontendMenu : Control
         RehabScene.Root.ProcessMode = ProcessModeEnum.Inherit;
         ProcessMode = ProcessModeEnum.Inherit;
         RehabScene.Root.ExitLevel(true);
+        GetTree().Paused = false;
     }
 
     public void Pause_ToOptions()
@@ -312,6 +317,11 @@ public partial class FrontendMenu : Control
             GetNode<Button>("WindowMainRound/MenuOptionsGame/Button3").Text = "#FE-CamInvertV-On";
         else
             GetNode<Button>("WindowMainRound/MenuOptionsGame/Button3").Text = "#FE-CamInvertV-Off";
+        if (RehabGame.UseMouseCamera)
+            GetNode<Button>("WindowMainRound/MenuOptionsGame/Button5").Text = $"{Tr("#FE-MouseCamera")}: {Tr("#FE-On")}";
+        else
+            GetNode<Button>("WindowMainRound/MenuOptionsGame/Button5").Text = $"{Tr("#FE-MouseCamera")}: {Tr("#FE-Off")}";
+        GetNode<Button>("WindowMainRound/MenuOptionsGame/Button6").Text = $"{Tr("#FE-MouseSensitivity")}: {Mathf.CeilToInt(RehabGame.MouseSensitivity * 100f)}%";
         GetNode<Button>("WindowMainRound/MenuOptionsGame/Button4").Text = $"{Tr("#FE-Language")}: {Tr("#FE-LanguageName")}";
         GetNode<Control>("WindowMainRound/MenuOptionsMain").Visible = false;
         GetNode<Control>("WindowMainRound/MenuOptionsGame").Visible = true;
@@ -392,6 +402,25 @@ public partial class FrontendMenu : Control
     public void OptionsGame_ToggleVibrations()
     {
         
+    }
+
+    public void OptionsGame_ToggleMouseCamera()
+    {
+        RehabGame.UseMouseCamera = !RehabGame.UseMouseCamera;
+        if (RehabGame.UseMouseCamera)
+            GetNode<Button>("WindowMainRound/MenuOptionsGame/Button5").Text = $"{Tr("#FE-MouseCamera")}: {Tr("#FE-On")}";
+        else
+            GetNode<Button>("WindowMainRound/MenuOptionsGame/Button5").Text = $"{Tr("#FE-MouseCamera")}: {Tr("#FE-Off")}";
+    }
+
+    public void OptionsGame_ToggleMouseSens()
+    {
+        RehabGame.MouseSensitivity -= 0.1f;
+        if (RehabGame.MouseSensitivity <= 0f)
+        {
+            RehabGame.MouseSensitivity = 2f;
+        }
+        GetNode<Button>("WindowMainRound/MenuOptionsGame/Button6").Text = $"{Tr("#FE-MouseSensitivity")}: {Mathf.CeilToInt(RehabGame.MouseSensitivity * 100f)}%";
     }
 
     public void OptionsGraphics_ToggleMSAA()

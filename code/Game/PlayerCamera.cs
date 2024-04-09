@@ -100,8 +100,8 @@ public partial class PlayerCamera : Camera3D
         bool instant = false;
         if (mouse_last_motion == 2)
         {
-            camdirX -= mouse_position.X;
-            camdirY += mouse_position.Y;
+            camdirX -= mouse_position.X * RehabGame.MouseSensitivity;
+            camdirY += mouse_position.Y * RehabGame.MouseSensitivity;
             instant = true;
             mouse_last_motion = 1;
         }

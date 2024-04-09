@@ -26,6 +26,7 @@ public static class RehabGame
     public static bool InvertCameraX = false;
     public static bool InvertCameraY = false;
     public static bool UseMouseCamera = true;
+    public static float MouseSensitivity = 1f;
     public static VoiceLanguage VoiceLang = VoiceLanguage.Unknown;
     public static string AssetsPath = "res://import/";
     public static string ConfigPath = "user://rehab.cfg";

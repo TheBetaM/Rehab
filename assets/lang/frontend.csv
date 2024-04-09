@@ -106,6 +106,8 @@
 #FE-ToggleFullScreen,Toggle Full Screen,Vollbild umschalten,Basculer en plein écran,Passare a schermo intero,Alternar pantalla completa,Przełącz pełny ekran
 #FE-GlobalVolume,Global Volume,Globales-Lautstärke,Volume global,Volume globale,Volumen global,Głośność globalna
 #FE-VoiceVolume,Voice Volume,Stimmen-Lautstärke,Volume de la voix,Volume della voce,Volumen de voz,Głośność głosów
+#FE-MouseSensitivity,Mouse Sensitivity,Maus-Empfindlichkeit,Sensibilité de la souris,Sensibilità del mouse,Sensibilidad del ratón,Czułość myszy
+#FE-MouseCamera,Mouse Camera Control,Camerasteuerung mit Maus,Contrôler la caméra avec la souris,Controlla la telecamera con il mouse,Controlar la cámara con el ratón,Kontrola kamery myszką
 #FE-NoGameData,No game data installed.\nMake sure the data pack\nis in the Packs folder.,Keine Spiel-Datei installiert.\nStellen sicher dass\nder Datenpaket im\nPacks Ordner befindet.,Aucune donnée de jeu installée.\nAssurez-vous que le pack\nde données se trouve\ndans le dossier Packs.,Nessun dato di gioco installato.\nAssicurati che il pacchetto\ndati sia nella\ncartella Packs.,No hay datos\ndel juego instalados.\nAsegúrese de que el paquete\nde datos esté\nen la carpeta Packs.,"Nic nie zainstalowano.\nUpewnij się, że paczka\njest w folderze Packs."
 #FE-MSAA-Off,MSAA: OFF,MSAA: AUS,MSAA: OFF,MSAA: OFF,MSAA: DESACTIVAR,MSAA: WYŁĄCZONE
 #FE-MSAA-2x,MSAA: 2x,MSAA: 2x,MSAA: 2x,MSAA: 2x,MSAA: 2x,MSAA: 2x

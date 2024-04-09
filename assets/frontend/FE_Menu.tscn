@@ -208,6 +208,14 @@ text = "#FE-CamInvertH-Off"
 layout_mode = 2
 text = "#FE-CamInvertV-Off"
 
+[node name="Button5" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-MouseCamera"
+
+[node name="Button6" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-MouseSensitivity"
+
 [node name="Button2" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Back"
@@ -888,6 +896,8 @@ expand_icon = true
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button4" to="." method="OptionsGame_ToggleLanguage"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button1" to="." method="OptionsGame_ToggleCameraH"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button3" to="." method="OptionsGame_ToggleCameraV"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button5" to="." method="OptionsGame_ToggleMouseCamera"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button6" to="." method="OptionsGame_ToggleMouseSens"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button2" to="." method="OptionsGame_ToMain"]
 [connection signal="pressed" from="WindowMainRound/MenuExtras/Button1" to="." method="Extras_ToBlue"]
 [connection signal="pressed" from="WindowMainRound/MenuExtras/Button2" to="." method="Extras_ToClear"]

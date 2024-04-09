@@ -58,6 +58,8 @@ public partial class ConfigHandler : Node
         Dict[Key_VolumeMusic] = AudioServer.GetBusVolumeDb(1);
         Dict[Key_VolumeSFX] = AudioServer.GetBusVolumeDb(2);
         Dict[Key_VolumeVoice] = AudioServer.GetBusVolumeDb(4);
+        Dict[Key_MouseCam] = RehabGame.UseMouseCamera;
+        Dict[Key_MouseSens] = RehabGame.MouseSensitivity;
     }
 
     public void Update(string key, Variant val)
@@ -120,6 +122,10 @@ public partial class ConfigHandler : Node
             TranslationServer.SetLocale((string)Dict[Key_Lang]);
         if (Dict.ContainsKey(Key_VoiceLang))
             RehabGame.VoiceLang = (RehabGame.VoiceLanguage)(int)Dict[Key_VoiceLang];
+        if (Dict.ContainsKey(Key_MouseCam))
+            RehabGame.UseMouseCamera = (bool)Dict[Key_MouseCam];
+        if (Dict.ContainsKey(Key_MouseSens))
+            RehabGame.MouseSensitivity = (float)Dict[Key_MouseSens];
     }
 
     public Dictionary<string, Variant> LoadModInfo(string path)
@@ -160,4 +166,6 @@ public partial class ConfigHandler : Node
     const string Key_VoiceLang = "voice-lang";
     const string Key_WindowSizeX = "window-size-x";
     const string Key_WindowSizeY = "window-size-y";
+    const string Key_MouseCam = "mouse-cam";
+    const string Key_MouseSens = "mouse-sens";
 }
