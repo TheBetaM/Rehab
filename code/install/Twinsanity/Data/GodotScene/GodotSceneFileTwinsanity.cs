@@ -186,9 +186,13 @@ namespace RehabSetup
                 LinkNode.Lines.Add($"ChunkPath=\"Levels/{Link.Path.Replace('\\', '_')}.tscn\"");
                 LinkNode.Lines.Add($"ChunkName=\"{Link.Path.Replace('\\', '_')}\"");
                 if (!Link.WallIsEnabled) LinkNode.Lines.Add($"IsDisabled=true");
-                if (!Link.IsVisible) 
+                if (Link.VisibleAlways) 
                 {
-                    LinkNode.Lines.Add($"SpawnInvisible=true");
+                    LinkNode.Lines.Add($"VisibleAlways=true");
+                }
+                if (Link.VisibleInFrustum)
+                {
+                    LinkNode.Lines.Add($"VisibleInFrustum=true");
                 }
                 //LinkNode.Lines.Add($"Flags = {Link.Flags}");
                 Nodes.Add(LinkNode);
@@ -207,11 +211,32 @@ namespace RehabSetup
                     ShapeArray.Append("points = PoolVector3Array( ");
 
                     Pos[] MeshPoints = Link.LoadWall;
+                    float MinX = 99999f;
+                    float MaxX = -99999f;
+                    float MinY = 99999f;
+                    float MaxY = -99999f;
+                    float MinZ = 99999f;
+                    float MaxZ = -99999f;
 
                     for (int f = 0; f < MeshPoints.Length; f++)
                     {
                         ShapeArray.Append($"{(-MeshPoints[f].X).ToText()}, {MeshPoints[f].Y.ToText()}, {MeshPoints[f].Z.ToText()}, ");
+                        if (-MeshPoints[f].X < MinX)
+                            MinX = -MeshPoints[f].X;
+                        if (-MeshPoints[f].X > MaxX)
+                            MaxX = -MeshPoints[f].X;
+                        if (MeshPoints[f].Y < MinY)
+                            MinY = MeshPoints[f].Y;
+                        if (MeshPoints[f].Y > MaxY)
+                            MaxY = MeshPoints[f].Y;
+                        if (MeshPoints[f].Z < MinZ)
+                            MinZ = MeshPoints[f].Z;
+                        if (MeshPoints[f].Z > MaxZ)
+                            MaxZ = MeshPoints[f].Z;
                     }
+                    float SizeX = MaxX - MinX;
+                    float SizeY = MaxY - MinY;
+                    float SizeZ = MaxZ - MinZ;
 
                     ShapeArray.Remove(ShapeArray.Length - 2, 2);
                     ShapeArray.Append(" ) ");
@@ -228,6 +253,10 @@ namespace RehabSetup
                     LinkColNode.KeyValues.Add("parent", $"{LinksNode.Name}/{LinkNode.Name}/{LinkAreaNode.Name}");
                     LinkColNode.Lines.Add($"shape=SubResource({LinkShapeID})");
                     Nodes.Add(LinkColNode);
+                    Node LinkNotifierNode = new Node($"EnterNotifier","VisibleOnScreenNotifier3D");
+                    LinkNotifierNode.KeyValues.Add("parent", $"{LinksNode.Name}/{LinkNode.Name}");
+                    LinkNotifierNode.Lines.Add($"aabb=AABB({MinX.ToText()},{MinY.ToText()},{MinZ.ToText()},{SizeX.ToText()},{SizeY.ToText()},{SizeZ.ToText()})");
+                    Nodes.Add(LinkNotifierNode);
                 }
 
                 if (Link.TreeRoot != null)
@@ -1502,6 +1531,7 @@ namespace RehabSetup
                 if (Pos.Arg3_Used) TrigNode.Lines.Add($"MsgOnStay={Pos.Arg3}");
                 if (Pos.Arg4_Used) TrigNode.Lines.Add($"MsgOnExit={Pos.Arg4}");
 
+                TrigNode.Lines.Add($"TrigHeader={Pos.Header}");
                 TrigNode.Lines.Add($"Mask={Pos.Enabled}");
 
                 if (Pos.Instances.Count != 0)
@@ -1560,70 +1590,68 @@ namespace RehabSetup
                 TrigNode.Lines.Add($"SomeFloat={Pos.SomeFloat.ToText()}");
                 //TrigNode.Lines.Add($"SectionHead={Pos.SectionHead}");
 
+                TrigNode.Lines.Add($"TrigHeader={Pos.Header}");
                 TrigNode.Lines.Add($"Mask={Pos.Enabled}");
 
                 TrigNode.Lines.Add($"Camera1Type={Pos.CameraType1}");
                 TrigNode.Lines.Add($"Camera2Type={Pos.CameraType2}");
                 TrigNode.Lines.Add($"CamHeader={Pos.CamHeader}");
-                TrigNode.Lines.Add($"CamHeader2={Pos.CamHeader2}");
                 TrigNode.Lines.Add($"UnkShort={Pos.UnkShort}");
 
                 TrigNode.Lines.Add($"UnkFloat1={Pos.UnkFloat1.ToText()}");
                 if ((Pos.CamHeader & (1 << 8)) != 0 || (Pos.CamHeader & (1 << 28)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkCoords1=Vector2({Pos.UnkCoords1.X.ToText()},{Pos.UnkCoords1.Y.ToText()})");
-                    TrigNode.Lines.Add($"UnkCoords2=Vector2({Pos.UnkCoords1.Z.ToText()},{Pos.UnkCoords1.W.ToText()})");
-                    TrigNode.Lines.Add($"UnkCoords3=Vector2({Pos.UnkCoords2.X.ToText()},{Pos.UnkCoords2.Y.ToText()})");
-                    TrigNode.Lines.Add($"UnkCoords4=Vector2({Pos.UnkCoords2.Z.ToText()},{Pos.UnkCoords2.W.ToText()})");
+                    TrigNode.Lines.Add($"UnkCoords1=Vector4({Pos.UnkCoords1.X.ToText()},{Pos.UnkCoords1.Y.ToText()},{Pos.UnkCoords1.Z.ToText()},{Pos.UnkCoords1.W.ToText()})");
+                    TrigNode.Lines.Add($"UnkCoords2=Vector4({Pos.UnkCoords2.X.ToText()},{Pos.UnkCoords2.Y.ToText()},{Pos.UnkCoords2.Z.ToText()},{Pos.UnkCoords2.W.ToText()})");
                 }
                 if ((Pos.CamHeader & (1 << 9)) != 0 || (Pos.CamHeader & (1 << 10)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkFloat2={Pos.UnkFloat2.GetValueOrDefault().ToText()}");
-                    TrigNode.Lines.Add($"UnkFloat3={Pos.UnkFloat3.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"UnkFloat2={Pos.UnkFloat2.ToText()}");
+                    TrigNode.Lines.Add($"UnkFloat3={Pos.UnkFloat3.ToText()}");
                 }
                 if ((Pos.CamHeader & (1 << 7)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkUInt1={Pos.UnkUInt1.GetValueOrDefault()}");
-                    TrigNode.Lines.Add($"UnkUInt2={Pos.UnkUInt2.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"FoV1={Pos.UnkUInt1}");
+                    TrigNode.Lines.Add($"FoV2={Pos.UnkUInt2}");
                 }
                 if ((Pos.CamHeader & (1 << 2)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkUInt3={Pos.UnkUInt3.GetValueOrDefault()}");
-                    TrigNode.Lines.Add($"UnkUInt4={Pos.UnkUInt4.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkUInt3={Pos.UnkUInt3}");
+                    TrigNode.Lines.Add($"UnkUInt4={Pos.UnkUInt4}");
                 }
                 if ((Pos.CamHeader & (1 << 6)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkInt5={Pos.UnkInt5.GetValueOrDefault()}");
-                    TrigNode.Lines.Add($"UnkInt6={Pos.UnkInt6.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"AngleAroundFocus1={Pos.UnkInt5}");
+                    TrigNode.Lines.Add($"AngleAroundFocus2={Pos.UnkInt6}");
                 }
                 if ((Pos.CamHeader & (1 << 3)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkFloat4={Pos.UnkFloat4.GetValueOrDefault().ToText()}");
-                    TrigNode.Lines.Add($"UnkFloat5={Pos.UnkFloat5.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"Distance1={Pos.UnkFloat4.ToText()}");
+                    TrigNode.Lines.Add($"Distance2={Pos.UnkFloat5.ToText()}");
                 }
                 if ((Pos.CamHeader & (1 << 12)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkFloat6={Pos.UnkFloat6.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"UnkFloat6={Pos.UnkFloat6.ToText()}");
                 }
                 if ((Pos.CamHeader & (1 << 13)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkFloat7={Pos.UnkFloat7.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"MoveSpeed={Pos.UnkFloat7.ToText()}");
                 }
                 if ((Pos.CamHeader & (1 << 15)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkUInt7={Pos.UnkUInt7.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkUInt7={Pos.UnkUInt7}");
                 }
                 if ((Pos.CamHeader & (1 << 16)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkInt8={Pos.UnkInt8.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkInt8={Pos.UnkInt8}");
                 }
                 if ((Pos.CamHeader & (1 << 17)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkUInt9={Pos.UnkUInt9.GetValueOrDefault()}");
+                    TrigNode.Lines.Add($"UnkUInt9={Pos.UnkUInt9}");
                 }
                 if ((Pos.CamHeader & (1 << 18)) != 0)
                 {
-                    TrigNode.Lines.Add($"UnkFloat8={Pos.UnkFloat8.GetValueOrDefault().ToText()}");
+                    TrigNode.Lines.Add($"UnkFloat8={Pos.UnkFloat8.ToText()}");
                 }
 
                 TrigNode.Lines.Add($"UnkByte={Pos.UnkByte}");

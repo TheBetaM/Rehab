@@ -14,28 +14,27 @@ namespace Twinsanity
         public uint SectionHead { get; set; }
         public List<ushort> Instances { get; set; }
 
-        public ushort CamHeader { get; set; }
-        public ushort CamHeader2 { get; set; }
+        public uint CamHeader { get; set; }
         public ushort UnkShort { get; set; }
         public float UnkFloat1 { get; set; }
         public Pos UnkCoords1 { get; set; }
         public Pos UnkCoords2 { get; set; }
-        public float? UnkFloat2 { get; set; }
-        public float? UnkFloat3 { get; set; }
-        public uint? UnkUInt1 { get; set; }
-        public uint? UnkUInt2 { get; set; }
-        public uint? UnkUInt3 { get; set; }
-        public uint? UnkUInt4 { get; set; }
-        public int? UnkInt5 { get; set; }
-        public int? UnkInt6 { get; set; }
-        public float? UnkFloat4 { get; set; }
-        public float? UnkFloat5 { get; set; }
-        public float? UnkFloat6 { get; set; }
-        public float? UnkFloat7 { get; set; }
-        public uint? UnkUInt7 { get; set; }
-        public int? UnkInt8 { get; set; }
-        public uint? UnkUInt9 { get; set; }
-        public float? UnkFloat8 { get; set; }
+        public float UnkFloat2 { get; set; }
+        public float UnkFloat3 { get; set; }
+        public uint UnkUInt1 { get; set; }
+        public uint UnkUInt2 { get; set; }
+        public uint UnkUInt3 { get; set; }
+        public uint UnkUInt4 { get; set; }
+        public int UnkInt5 { get; set; }
+        public int UnkInt6 { get; set; }
+        public float UnkFloat4 { get; set; }
+        public float UnkFloat5 { get; set; }
+        public float UnkFloat6 { get; set; }
+        public float UnkFloat7 { get; set; }
+        public uint UnkUInt7 { get; set; }
+        public int UnkInt8 { get; set; }
+        public uint UnkUInt9 { get; set; }
+        public float UnkFloat8 { get; set; }
         public uint CameraType1 { get; set; }
         public uint CameraType2 { get; set; }
         public object[] Cameras { get; set; } = new object[2];
@@ -104,8 +103,7 @@ namespace Twinsanity
             for (int i = 0; i < n; ++i)
                 Instances.Add(reader.ReadUInt16());
 
-            CamHeader = reader.ReadUInt16();
-            CamHeader2 = reader.ReadUInt16();
+            CamHeader = reader.ReadUInt32();
             if (ParentType != SectionType.CameraDemo)
             {
                 UnkShort = reader.ReadUInt16();
@@ -118,22 +116,22 @@ namespace Twinsanity
 
             UnkCoords1 = new Pos(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
             UnkCoords2 = new Pos(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
-            UnkFloat2 = ReadFloatOrNull(reader);
-            UnkFloat3 = ReadFloatOrNull(reader);
-            UnkUInt1 = ReadUIntOrNull(reader);
-            UnkUInt2 = ReadUIntOrNull(reader);
-            UnkUInt3 = ReadUIntOrNull(reader);
-            UnkUInt4 = ReadUIntOrNull(reader);
-            UnkInt5 = ReadIntOrNull(reader);
-            UnkInt6 = ReadIntOrNull(reader);
-            UnkFloat4 = ReadFloatOrNull(reader);
-            UnkFloat5 = ReadFloatOrNull(reader);
-            UnkFloat6 = ReadFloatOrNull(reader);
-            UnkFloat7 = ReadFloatOrNull(reader);
-            UnkUInt7 = ReadUIntOrNull(reader);
-            UnkInt8 = ReadIntOrNull(reader);
-            UnkUInt9 = ReadUIntOrNull(reader);
-            UnkFloat8 = ReadFloatOrNull(reader);
+            UnkFloat2 = reader.ReadSingle();
+            UnkFloat3 = reader.ReadSingle();
+            UnkUInt1 = reader.ReadUInt32();
+            UnkUInt2 = reader.ReadUInt32();
+            UnkUInt3 = reader.ReadUInt32();
+            UnkUInt4 = reader.ReadUInt32();
+            UnkInt5 = reader.ReadInt32();
+            UnkInt6 = reader.ReadInt32();
+            UnkFloat4 = reader.ReadSingle();
+            UnkFloat5 = reader.ReadSingle();
+            UnkFloat6 = reader.ReadSingle();
+            UnkFloat7 = reader.ReadSingle();
+            UnkUInt7 = reader.ReadUInt32();
+            UnkInt8 = reader.ReadInt32();
+            UnkUInt9 = reader.ReadUInt32();
+            UnkFloat8 = reader.ReadSingle();
 
             CameraType1 = reader.ReadUInt32();
             CameraType2 = reader.ReadUInt32();

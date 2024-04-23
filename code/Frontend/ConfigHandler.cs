@@ -45,7 +45,8 @@ public partial class ConfigHandler : Node
         Dict[Key_Fullscreen] = (int)DisplayServer.WindowGetMode();
         Dict[Key_WindowSizeX] = GetWindow().Size.X;
         Dict[Key_WindowSizeY] = GetWindow().Size.Y;
-        Dict[Key_VSYNC] = (int)DisplayServer.WindowGetVsyncMode();
+        if (!RehabScene.Root.XR_Enabled)
+            Dict[Key_VSYNC] = (int)DisplayServer.WindowGetVsyncMode();
         Dict[Key_FXAA] = (int)view.ScreenSpaceAA;
         Dict[Key_MSAA] = (int)view.Msaa3D;
         Dict[Key_FSR] = (int)view.Scaling3DMode;

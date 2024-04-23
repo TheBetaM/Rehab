@@ -10,7 +10,9 @@ public partial class ChunkLink : Node3D
     [Export]
     public bool IsDisabled;
     [Export]
-    public bool SpawnInvisible;
+    public bool VisibleAlways;
+    [Export]
+    public bool VisibleInFrustum;
     [Export]
     public bool CustomLink;
 
@@ -18,6 +20,7 @@ public partial class ChunkLink : Node3D
     PackedScene LoadedScene;
     Area3D EnterTrigger;
     Area3D LoadTriggers; //todo array
+    VisibleOnScreenNotifier3D EnterNotifier;
     bool IsLoading;
     bool InUse;
     bool AllowSpawn;
@@ -36,6 +39,12 @@ public partial class ChunkLink : Node3D
             EnterTrigger = GetNode<Area3D>("EnterTrigger");
             EnterTrigger.BodyEntered += TrigEnter;
             EnterTrigger.BodyExited += TrigExit;
+        }
+        if (GetNodeOrNull("EnterNotifier") != null && !IsDisabled)
+        {
+            EnterNotifier = GetNode<VisibleOnScreenNotifier3D>("EnterNotifier");
+            EnterNotifier.ScreenEntered += LinkInView;
+            EnterNotifier.ScreenExited += LinkExitView;
         }
 
         if (GetNodeOrNull("LoadTriggers") != null)
@@ -81,11 +90,24 @@ public partial class ChunkLink : Node3D
         if (ParentScene.ActiveScene && RehabScene.Root.ChunkNames.Contains(ChunkName))
         {
             int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
-            RehabScene.Root.Chunks[ind].Visible = !SpawnInvisible;
-            if (SpawnInvisible)
-                RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
+            if (!VisibleAlways)
+            {
+                if (VisibleInFrustum && EnterNotifier != null && EnterNotifier.IsOnScreen())
+                {
+                    RehabScene.Root.Chunks[ind].Visible = true;
+                    RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Inherit;
+                }
+                else
+                {
+                    RehabScene.Root.Chunks[ind].Visible = false;
+                    RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
+                }
+            }
             else
+            {
+                RehabScene.Root.Chunks[ind].Visible = true;
                 RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Inherit;
+            }
         }
         if (ParentScene.ActiveScene && LoadTriggers == null)
             SpawnChunk();
@@ -189,11 +211,32 @@ public partial class ChunkLink : Node3D
             }
         }
         RehabScene.Root.LoadChunk(LoadedScene, ChunkName, GetNode<Node3D>("ChunkHolder"));
-        if (RehabScene.Root.ChunkNames.Contains(ChunkName) && (SpawnInvisible || RehabScene.Root.IsLoadingXR))
+        if (RehabScene.Root.ChunkNames.Contains(ChunkName))
         {
             int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
-            RehabScene.Root.Chunks[ind].Visible = false;
-            RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
+            if (RehabScene.Root.IsLoadingXR)
+            {
+                RehabScene.Root.Chunks[ind].Visible = false;
+                RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
+            }
+            else if (!VisibleAlways)
+            {
+                if (VisibleInFrustum && EnterNotifier != null && EnterNotifier.IsOnScreen())
+                {
+                    RehabScene.Root.Chunks[ind].Visible = true;
+                    RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Inherit;
+                }
+                else
+                {
+                    RehabScene.Root.Chunks[ind].Visible = false;
+                    RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
+                }
+            }
+            else
+            {
+                RehabScene.Root.Chunks[ind].Visible = true;
+                RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Inherit;
+            }
         }
         IsLoading = false;
     }
@@ -213,10 +256,18 @@ public partial class ChunkLink : Node3D
         if (RehabScene.Root.ChunkNames.Contains(ChunkName))
         {
             int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
-            if (SpawnInvisible)
+            if (!VisibleAlways)
             {
-                RehabScene.Root.Chunks[ind].Visible = false;
-                RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
+                if (VisibleInFrustum && EnterNotifier != null && EnterNotifier.IsOnScreen())
+                {
+                    RehabScene.Root.Chunks[ind].Visible = true;
+                    RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Inherit;
+                }
+                else
+                {
+                    RehabScene.Root.Chunks[ind].Visible = false;
+                    RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
+                }
             }
             else
             {
@@ -224,5 +275,21 @@ public partial class ChunkLink : Node3D
                 RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Inherit;
             }
         }
+    }
+
+    public void LinkInView()
+    {
+        if (!VisibleInFrustum || !RehabScene.Root.ChunkNames.Contains(ChunkName) || !ParentScene.ActiveScene || ProcessMode == ProcessModeEnum.Disabled) return;
+        int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
+        RehabScene.Root.Chunks[ind].Visible = true;
+        RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Inherit;
+    }
+
+    public void LinkExitView()
+    {
+        if (!VisibleInFrustum || !RehabScene.Root.ChunkNames.Contains(ChunkName) || !ParentScene.ActiveScene || ProcessMode == ProcessModeEnum.Disabled) return;
+        int ind = RehabScene.Root.ChunkNames.IndexOf(ChunkName);
+        RehabScene.Root.Chunks[ind].Visible = false;
+        RehabScene.Root.Chunks[ind].ProcessMode = ProcessModeEnum.Disabled;
     }
 }

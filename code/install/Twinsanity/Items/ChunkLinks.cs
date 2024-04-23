@@ -106,9 +106,8 @@ namespace Twinsanity
             public Pos[] LoadWall; // 4
             public LinkTree TreeRoot;
 
-            public bool IsVisible => (Flags & 0x1) != 0 || (Flags & 0x2) != 0;
-            public bool Flag1 => (Flags & 0x1) != 0;
-            public bool Flag2 => (Flags & 0x2) != 0;
+            public bool VisibleAlways => (Flags & 0x1) != 0;
+            public bool VisibleInFrustum => (Flags & 0x2) != 0;
             public bool Flag3 => (Flags & 0x80) != 0;
             public bool WallIsEnabled => (Flags & 0x100) != 0;
             public bool HasWall => (Flags & 0x80000) != 0;
