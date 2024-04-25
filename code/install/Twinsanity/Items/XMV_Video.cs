@@ -11,11 +11,12 @@ namespace Twinsanity.Video
 
         public override void Load(BinaryReader reader, int length)
         {
+            long PacketStart = reader.BaseStream.Position;
             uint NextPacketSize = reader.ReadUInt32();
             uint PacketSize = reader.ReadUInt32();
             uint MaxPacksetSize = reader.ReadUInt32();
             uint IDcheck = reader.ReadUInt32();
-            if (IDcheck != 0x58636F78) // "xobX"
+            if (IDcheck != 0x58626F78) // "xobX"
             {
                 throw new Exception("Wrong file header.");
             }
@@ -39,21 +40,40 @@ namespace Twinsanity.Video
 
             while (PacketSize != 0)
             {
-                PacketSize = reader.ReadUInt32();
+                NextPacketSize = reader.ReadUInt32();
                 ulong Header = reader.ReadUInt32();
                 var VideoDataSize = (uint)(Header & 0x7FFFFF);
                 uint Header2 = reader.ReadUInt32();
                 var VideoFrameCount = Header2 & 0xFF;
                 bool VideoHasExtraData = (Header & 0x800000) != 0;
+                VideoDataSize -= (uint)AudioTrackCount * 4;
                 for (int i = 0; i < AudioTrackCount; i++)
                 {
-                    uint AudioHeader = reader.ReadUInt32();
-                    var AudioDataSize = (uint)(Header & 0x7FFFFF);
+                    AudioTracks[i].AudioHeader = reader.ReadUInt32();
+                    AudioTracks[i].AudioDataSize = (uint)(AudioTracks[i].AudioHeader & 0x7FFFFF);
+                    //AudioTracks[i].FrameSize = AudioTracks[i].AudioDataSize / VideoFrameCount;
+                    //AudioTracks[i].FrameSize -= (uint)(AudioTracks[i].FrameSize % (36 * AudioTracks[i].Channels));
                 }
-                for (int i = 0 ; i < VideoFrameCount; i++)
+                reader.BaseStream.Position += VideoDataSize; // Video data here
+                for (int i = 0; i < AudioTrackCount; i++)
                 {
-
+                    AudioTracks[i].DataList.AddRange(reader.ReadBytes((int)AudioTracks[i].AudioDataSize));
                 }
+                //if (VideoDataSize > 0 && VideoHasExtraData)
+                //{
+                //    reader.ReadUInt32();
+                //}
+                if (reader.BaseStream.Position >= reader.BaseStream.Length) break;
+                if (PacketStart + PacketSize >= reader.BaseStream.Length) break;
+                reader.BaseStream.Position = PacketStart + PacketSize;
+                PacketStart = reader.BaseStream.Position;
+                PacketSize = NextPacketSize;
+            }
+
+            for (int i = 0; i < AudioTrackCount; i++)
+            {
+                AudioTracks[i].SoundData = AudioTracks[i].DataList.ToArray();
+                AudioTracks[i].DataList.Clear();
             }
 
         }
@@ -65,6 +85,12 @@ namespace Twinsanity.Video
             public uint SampleRate;
             public ushort BitsPerSample;
             public ushort Flags;
+
+            public uint AudioHeader;
+            public uint AudioDataSize;
+            //public uint FrameSize;
+            public List<byte> DataList = new List<byte>();
+            public byte[] SoundData;
         }
     }
 }

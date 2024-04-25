@@ -16,6 +16,7 @@ namespace RehabSetup
         public string[] CNF_Buffer;
         public GameVersion Version = GameVersion.USA_ver2;
         public List<string> AllowExt = new();
+        public List<string> IgnoreName = new();
 
         public bool DetectPS2(string filePath)
         {
@@ -127,7 +128,7 @@ namespace RehabSetup
                     string filename = ExtractPath.TrimEnd('\\') + file;
                     filename = filename.Replace(";1", string.Empty);
                     string Ext = System.IO.Path.GetExtension(filename).ToLower();
-                    if (AllowExt.Contains(Ext))
+                    if (AllowExt.Contains(Ext) && !IgnoreName.Contains(file.Replace(";1", string.Empty).ToLower()))
                     {
                         Paths.Add(file, filename);
                     }

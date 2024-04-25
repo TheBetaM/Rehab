@@ -7411,16 +7411,16 @@ namespace Twinsanity
         public static Dictionary<(uint, uint), string> Hash_DupeModels = new Dictionary<(uint, uint), string>()
         {
             //PS2
-            [(0x8451391B, 0x1)] = $"{TexActor}{TexChar}Nina/NinaDeathFireGibs_02",
-            [(0x8AAA32AD, 0x1)] = $"{TexActor}{TexChar}Nina/NinaDeathFireGibs_03",
-            [(0x8C71C677, 0x1)] = $"{TexActor}{TexChar}Nina/NinaDeathFireGibs_04",
-            [(0x8E395A41, 0x1)] = $"{TexActor}{TexChar}Nina/NinaDeathFireGibs_06",
-            [(0x8451391B, 0x1)] = $"{TexActor}{TexChar}Cortex/CortexDeathFireGibs_02",
-            [(0x8AAA32AD, 0x1)] = $"{TexActor}{TexChar}Cortex/CortexDeathFireGibs_03",
-            [(0x8C71C677, 0x1)] = $"{TexActor}{TexChar}Cortex/CortexDeathFireGibs_04",
-            [(0x8E395A41, 0x1)] = $"{TexActor}{TexChar}Cortex/CortexDeathFireGibs_05",
-            [(0x16DDC8F9, 0x1)] = $"{TexActor}{TexChar}Cortex/CortexAngel_Halo",
-            [(0x16DDC8F9, 0x1)] = $"{TexActor}{TexChar}Crash/CrashAngel_Halo",
+            [(0x8451391B, 0xEB011E17)] = $"{TexActor}{TexChar}Nina/NinaDeathFireGibs_02",
+            [(0x8AAA32AD, 0xFB2C8C56)] = $"{TexActor}{TexChar}Nina/NinaDeathFireGibs_03",
+            [(0x8C71C677, 0x38EDEBA6)] = $"{TexActor}{TexChar}Nina/NinaDeathFireGibs_04",
+            [(0x8E395A41, 0xADA5854D)] = $"{TexActor}{TexChar}Nina/NinaDeathFireGibs_06",
+            [(0x8451391B, 0x71F79F17)] = $"{TexActor}{TexChar}Cortex/CortexDeathFireGibs_02",
+            [(0x8AAA32AD, 0x00D885FA)] = $"{TexActor}{TexChar}Cortex/CortexDeathFireGibs_03",
+            [(0x8C71C677, 0xF39B14D1)] = $"{TexActor}{TexChar}Cortex/CortexDeathFireGibs_04",
+            [(0x8E395A41, 0xDBA179C1)] = $"{TexActor}{TexChar}Cortex/CortexDeathFireGibs_05",
+            [(0x16DDC8F9, 0xF3F2A24C)] = $"{TexActor}{TexChar}Cortex/CortexAngel_Halo",
+            [(0x16DDC8F9, 0x881971CA)] = $"{TexActor}{TexChar}Crash/CrashAngel_Halo",
 
             //XBOX
             [(0x8451391B, 0xEFD3B9F2)] = $"{TexActor}{TexChar}Nina/NinaDeathFireGibs_02",

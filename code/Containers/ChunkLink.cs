@@ -14,6 +14,8 @@ public partial class ChunkLink : Node3D
     [Export]
     public bool VisibleInFrustum;
     [Export]
+    public bool UnkFlag;
+    [Export]
     public bool CustomLink;
 
     ChunkScene ParentScene;

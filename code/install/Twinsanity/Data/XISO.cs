@@ -204,7 +204,7 @@ namespace RehabSetup
                     XBE_Buffer = data;
                     return;
                 }
-                else if (ExtractFiles && AllowExt.Contains(Ext) && !IgnoreExt.Contains(Ext) && !IgnoreName.Contains(dir.filename + Ext))
+                else if (ExtractFiles && AllowExt.Contains(Ext) && !IgnoreExt.Contains(Ext) && !IgnoreName.Contains(dir.filename.ToLower()))
                 {
                     byte[] data = file.ReadBytes((int)dir.file_size);
                     //Console.WriteLine(FileName);

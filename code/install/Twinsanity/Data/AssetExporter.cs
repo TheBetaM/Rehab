@@ -51,14 +51,18 @@ namespace RehabSetup
         };
 
         static List<string> XISO_Ignore_Name = new List<string>(){
-            "dsstdfx.bin",
+            "dsstdfx.bin", "attract.xmv", "spyro.xmv", "bonus1.xmv", "bonus2.xmv", "bonus3.xmv", "bonus4.xmv",
+        };
+
+        static List<string> ISO_Ignore_Name = new List<string>(){
+            "\\fmv\\attract.pss", "\\fmv\\spyro.pss", "\\fmv\\bonus\\bonus1.pss", "\\fmv\\bonus\\bonus2.pss", "\\fmv\\bonus\\bonus3.pss", "\\fmv\\bonus\\bonus4.pss",
         };
 
         static List<string> ISO_Allow_Ext = new List<string>() {
-            ".rm2", ".sm2", ".psm", ".psf", ".ptc", ".bin", ".bd", ".bh", ".mb", ".mh", ".msb", ".msh", ".txt"
+            ".rm2", ".sm2", ".psm", ".psf", ".ptc", ".bin", ".bd", ".bh", ".mb", ".mh", ".msb", ".msh", ".txt", ".pss"
         };
         static List<string> XISO_Allow_Ext = new List<string>() {
-            ".rmx", ".smx", ".psm", ".psf", ".ptc", ".bin", ".xwb", ".txt"
+            ".rmx", ".smx", ".psm", ".psf", ".ptc", ".bin", ".xwb", ".txt", ".xmv"
         };
 
         public event EventHandler<int> WorkerProgressChanged;
@@ -91,8 +95,10 @@ namespace RehabSetup
             //ISO.IgnoreExt = XISO_Ignore_Ext;
             //ISO.IgnoreName = XISO_Ignore_Name;
             ISO.AllowExt = XISO_Allow_Ext;
+            ISO.IgnoreName = XISO_Ignore_Name;
             ISO_PS2 = new ISO9660();
             ISO_PS2.AllowExt = ISO_Allow_Ext;
+            ISO_PS2.IgnoreName = ISO_Ignore_Name;
             BufferFiles.Clear();
             BufferBD = null;
             AddPercent = 0;
@@ -234,20 +240,14 @@ namespace RehabSetup
                 else if (pair.Key.ToLower().EndsWith(".psm"))
                 {
                     TaskList.Add(ExportPSM(pair));
-                    PSMLeft++;
-                    TotalPSM++;
                 }
                 else if (pair.Key.ToLower().EndsWith(".psf"))
                 {
                     TaskList.Add(ExportPSF(pair));
-                    PSMLeft++;
-                    TotalPSM++;
                 }
                 else if (pair.Key.ToLower().EndsWith(".ptc"))
                 {
                     TaskList.Add(ExportPTC(pair));
-                    PSMLeft++;
-                    TotalPSM++;
                 }
                 else if (pair.Key.ToLower().EndsWith(".mb"))
                 {
@@ -272,13 +272,17 @@ namespace RehabSetup
                 && pair.Key.ToLower().Contains("credits") && (pair.Key.ToLower().Contains("english") || pair.Key.ToLower().Contains("american")))
                 {
                     TaskList.Add(ExportCredits(pair));
-                    PSMLeft++;
-                    TotalPSM++;
+                }
+                else if (pair.Key.ToLower().EndsWith(".xmv"))
+                {
+                    TaskList.Add(ExportXMV(pair));
+                }
+                else if (pair.Key.ToLower().EndsWith(".pss"))
+                {
+                    TaskList.Add(ExportPSS(pair));
                 }
             }
             TaskList.Add(ExportBuildInfo());
-            PSMLeft++;
-            TotalPSM++;
             TotalFiles += TaskList.Count;
             FilesLeft += TaskList.Count;
 
@@ -499,7 +503,10 @@ namespace RehabSetup
                     MemoryStream stream = GetFile(pair);
                     TwinsFile XWB = new TwinsFile();
                     XWB.LoadFileStream(new BinaryReader(stream), TwinsFile.FileType.XWB, pair.Key);
-                    ExportGodot.ExportXWB(XWB, OutputPath);
+                    TwinsSection section = XWB.GetItem<TwinsSection>(0);
+                    TotalFiles += section.Records.Count;
+                    FilesLeft += section.Records.Count;
+                    ExportGodot.ExportXWB(XWB, OutputPath, ref FilesLeft);
                     FilesLeft--;
                     stream.Close();
                     stream.Dispose();
@@ -521,10 +528,13 @@ namespace RehabSetup
                     MemoryStream mhstream = GetFile(mhName);
                     TwinsFile Hash = new TwinsFile();
                     Hash.LoadFileStream(new BinaryReader(mhstream), TwinsFile.FileType.MH, mhName);
+                    var mh = (Twinsanity.Items.MusicHash)Hash.Records[0];
+                    TotalFiles += mh.Tracks.Count;
+                    FilesLeft += mh.Tracks.Count;
                     TwinsFile MB = new TwinsFile();
-                    MB.musicHash = (Twinsanity.Items.MusicHash)Hash.Records[0];
+                    MB.musicHash = mh;
                     MB.LoadFileStream(new BinaryReader(mbstream), TwinsFile.FileType.MB, pair.Key);
-                    ExportGodot.ExportMB(MB, OutputPath);
+                    ExportGodot.ExportMB(MB, OutputPath, ref FilesLeft);
                     FilesLeft--;
                     mbstream.Close();
                     mbstream.Dispose();
@@ -561,6 +571,46 @@ namespace RehabSetup
 
                     BufferFiles.Remove(pair.Key);
                     BufferFiles.Remove(mhName);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                }
+                );
+        }
+
+        async Task ExportXMV(KeyValuePair<string, (uint, uint, byte[])> pair)
+        {
+            await Task.Run(
+                () =>
+                {
+                    MemoryStream stream = GetFile(pair);
+                    TwinsFile XMV = new TwinsFile();
+                    XMV.LoadFileStream(new BinaryReader(stream), TwinsFile.FileType.XMV, pair.Key);
+                    ExportGodot.ExportXMV(XMV, OutputPath);
+                    FilesLeft--;
+                    stream.Close();
+                    stream.Dispose();
+
+                    BufferFiles.Remove(pair.Key);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                }
+                );
+        }
+
+        async Task ExportPSS(KeyValuePair<string, (uint, uint, byte[])> pair)
+        {
+            await Task.Run(
+                () =>
+                {
+                    MemoryStream stream = GetFile(pair);
+                    TwinsFile PSS = new TwinsFile();
+                    PSS.LoadFileStream(new BinaryReader(stream), TwinsFile.FileType.PSS, pair.Key);
+                    ExportGodot.ExportPSS(PSS, OutputPath);
+                    FilesLeft--;
+                    stream.Close();
+                    stream.Dispose();
+
+                    BufferFiles.Remove(pair.Key);
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                 }

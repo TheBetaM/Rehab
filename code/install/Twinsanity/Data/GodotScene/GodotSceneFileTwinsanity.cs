@@ -194,6 +194,10 @@ namespace RehabSetup
                 {
                     LinkNode.Lines.Add($"VisibleInFrustum=true");
                 }
+                if (Link.Flag3)
+                {
+                    LinkNode.Lines.Add($"UnkFlag=true");
+                }
                 //LinkNode.Lines.Add($"Flags = {Link.Flags}");
                 Nodes.Add(LinkNode);
 

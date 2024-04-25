@@ -283,7 +283,7 @@ namespace RehabSetup
             }
         }
 
-        public static void ExportXWB(TwinsFile targetFile, string path)
+        public static void ExportXWB(TwinsFile targetFile, string path, ref int FilesLeft)
         {
             string FolderName = "GlobalVO\\English";
             if (targetFile.FileName.Contains("Music")) FolderName = "Music";
@@ -295,7 +295,11 @@ namespace RehabSetup
             foreach (TwinsItem item in section.Records)
             {
                 XWB.Sound sfx = (XWB.Sound)item;
-                if (sfx.BitsPerSample) continue; // only used in undefined on PAL and one French voiceline
+                if (sfx.BitsPerSample)
+                {
+                    FilesLeft--;
+                    continue; // only used in undefined on PAL and one French voiceline
+                }
                 string SoundPath = $"{path}\\Sounds\\{FolderName}\\{sfx.FileName}.sample";
                 GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, FolderName == "Music");
                 wav.WriteToFile(SoundPath);
@@ -303,10 +307,11 @@ namespace RehabSetup
                 wav = null;
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
+                FilesLeft--;
             }
         }
 
-        public static void ExportMB(TwinsFile targetFile, string path)
+        public static void ExportMB(TwinsFile targetFile, string path, ref int FilesLeft)
         {
             string FolderName = "GlobalVO\\English";
             if (targetFile.FileName.ToUpper().Contains("MUSIC")) FolderName = "Music";
@@ -322,8 +327,16 @@ namespace RehabSetup
             {
                 MusicBank.Sound sfxHolder = (MusicBank.Sound)item;
                 MusicHash.Track sfx = sfxHolder.track;
-                if (sfx.Type >= 2) continue;
-                if (sfx.Name == "undefined" && undefinedDone) continue;
+                if (sfx.Type >= 2)
+                {
+                    FilesLeft--;
+                    continue;
+                }
+                if (sfx.Name == "undefined" && undefinedDone) 
+                {
+                    FilesLeft--;
+                    continue;
+                }
                 string SoundPath = $"{path}\\Sounds\\{FolderName}\\{sfx.Name}.sample";
                 if (sfx.Name == "undefined") undefinedDone = true;
                 GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx, FolderName == "Music");
@@ -333,6 +346,7 @@ namespace RehabSetup
                 wav = null;
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
+                FilesLeft--;
             }
         }
 
@@ -355,6 +369,132 @@ namespace RehabSetup
                 GC.WaitForPendingFinalizers();
             }
         }
+
+        public static void ExportXMV(TwinsFile targetFile, string path)
+        {
+            string[] folders = 
+            [ "GlobalVO\\English", "GlobalVO\\German", "GlobalVO\\French", "GlobalVO\\Italian" ];
+            string FolderName;
+            
+            Twinsanity.Video.XMV_Video xmv = targetFile.GetItem<Twinsanity.Video.XMV_Video>(0);
+            string FMV_Name = targetFile.FileName.Substring(targetFile.FileName.IndexOf("FMV") + 4);
+            FMV_Name = FMV_Name.ToLower().Replace(".xmv","");
+            int id = 0;
+            foreach (var sfx in xmv.AudioTracks)
+            {
+                FolderName = folders[id];
+                string SoundPath = $"{path}\\Sounds\\{FolderName}\\{FMV_Name}";
+                id++;
+                string ResPath = $"{SoundPath}.sample";
+                if (sfx.Channels <= 2)
+                {
+                    GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(sfx.SoundData, sfx.SampleRate, sfx.Channels);
+                    wav.WriteToFile(ResPath);
+                }
+                else
+                {
+                    List<List<byte>> split = new List<List<byte>>();
+                    for (int i = 0; i < sfx.Channels - 1; i++)
+                    {
+                        split.Add(new List<byte>());
+                    }
+                    for (int i = 0; i < sfx.SoundData.Length; i++)
+                    {
+                        split[0].Add(sfx.SoundData[i]);
+                        i++;
+                        split[0].Add(sfx.SoundData[i]);
+                        i++;
+                        split[0].Add(sfx.SoundData[i]);
+                        i++;
+                        split[0].Add(sfx.SoundData[i]);
+                        for (int a = 1; a < sfx.Channels - 1; a++)
+                        {
+                            i++;
+                            split[a].Add(sfx.SoundData[i]);
+                            i++;
+                            split[a].Add(sfx.SoundData[i]);
+                        }
+                    }
+                    for (int i = 0; i < split.Count; i++)
+                    {
+                        if (i == 0)
+                            SoundPath = $"{path}\\Sounds\\{FolderName}\\{FMV_Name}_1";
+                        else if (i != 1)
+                            SoundPath = $"{path}\\Sounds\\{FolderName}\\{FMV_Name}_{i}";
+                        else
+                            SoundPath = $"{path}\\Sounds\\{FolderName}\\{FMV_Name}";
+                        ResPath = $"{SoundPath}.sample";
+                        GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(split[i].ToArray(), sfx.SampleRate, i == 0 ? (ushort)2 : (ushort)1);
+                        wav.WriteToFile(ResPath);
+                    }
+                }
+            }
+        }
+
+        public static void ExportPSS(TwinsFile targetFile, string path)
+        {
+            string[] folders = 
+            [ "GlobalVO\\English", "GlobalVO\\French", "GlobalVO\\German", "GlobalVO\\Spanish", "GlobalVO\\Italian" ];
+            string FolderName;
+            
+            Twinsanity.Video.PSS_Video pss = targetFile.GetItem<Twinsanity.Video.PSS_Video>(0);
+            string FMV_Name = targetFile.FileName.Substring(targetFile.FileName.IndexOf("FMV") + 4);
+            FMV_Name = FMV_Name.ToLower().Replace(".pss","");
+            int id = 0;
+            foreach (var item in pss.AudioTracks)
+            {
+                FolderName = folders[id];
+                string SoundPath = $"{path}\\Sounds\\{FolderName}\\{FMV_Name}";
+                id++;
+                string ResPath = $"{SoundPath}.sample";
+
+                List<byte> Buffer = item.DataList;
+                if (item.Channels != 1)
+                {
+                    // Deinterleave process
+                    List<byte> SideL = new List<byte>();
+                    List<byte> SideR = new List<byte>();
+                    int size = Buffer.Count;
+                    int pos = 0;
+                    bool IsSideL = true;
+                    while (pos < size)
+                    {
+                        List<byte> Side = IsSideL ? SideL : SideR;
+                        for (int i = 0; i < item.Interleave; i++)
+                        {
+                            Side.Add(Buffer[pos]);
+                            pos++;
+                        }
+                        IsSideL = !IsSideL;
+                    }
+                    pos = 0;
+                    for (int i = 0; i < SideL.Count; i++)
+                    {
+                        Buffer[pos] = SideL[i];
+                        pos++;
+                        i++;
+                        Buffer[pos] = SideL[i];
+                        pos++;
+                        Buffer[pos] = SideR[i - 1];
+                        pos++;
+                        Buffer[pos] = SideR[i];
+                        pos++;
+                    }
+                }
+
+                uint SampleRate = item.SampleRate;
+                if (pss.AudioTracks.Count != 1)
+                {
+                    // PAL audio compensation (20% slowed down)
+                    //SampleRate = (uint)(SampleRate * 1.2f);
+                }
+
+                byte[] SoundData = Buffer.ToArray();
+                GodotBinaryAudioStreamWAV wav = new GodotBinaryAudioStreamWAV(SoundData, SampleRate, (ushort)item.Channels);
+                wav.WriteToFile(ResPath);
+            }
+        }
+
 
         public static void ExportCredits(MemoryStream stream, string path)
         {
@@ -571,7 +711,7 @@ namespace RehabSetup
         public static void ExportSkinResource(Skin Cont, string path, Dictionary<uint, string> ExportedTextures)
         {
             string hashName = DefaultHashes.ToName(Cont.ParentType, Cont.ID);
-            string SceneName = $"{hashName})_Skin";
+            string SceneName = $"{hashName}_Skin";
             string outPath = $"{path}\\Rigs\\{SceneName}{SceneExtension}";
             if (AssetExporter.Check(outPath)) return;
             GodotSceneFileTwinsanity ModelScene = GodotSceneFileTwinsanity.Create(SceneName.Split('/').Last(), -1, ExportGodot.MeshInstance3D);

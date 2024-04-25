@@ -225,6 +225,30 @@ namespace Twinsanity
                 reader.Close();
                 return;
             }
+            else if (type == FileType.XMV)
+            {
+                Video.XMV_Video sec = new Video.XMV_Video() { ID = 0, ParentFile = this };
+                //sec.Type = SectionType.XMV;
+                var sk = reader.BaseStream.Position;
+                //sec.Level = 1;
+                sec.Load(reader, (int)reader.BaseStream.Length);
+                RecordIDs.Add(0, Records.Count);
+                Records.Add(sec);
+                reader.Close();
+                return;
+            }
+            else if (type == FileType.PSS)
+            {
+                Video.PSS_Video sec = new Video.PSS_Video() { ID = 0, ParentFile = this };
+                //sec.Type = SectionType.PSS;
+                var sk = reader.BaseStream.Position;
+                //sec.Level = 1;
+                sec.Load(reader, (int)reader.BaseStream.Length);
+                RecordIDs.Add(0, Records.Count);
+                Records.Add(sec);
+                reader.Close();
+                return;
+            }
 
             if (type == FileType.RS2)
             {
@@ -503,7 +527,7 @@ namespace Twinsanity
         }
 
         //NOTE: Do NOT use "First"
-        public enum FileType { First = SectionType.Last, RM2, SM2, DemoRM2, DemoSM2, RMX, SMX, PTL, BIN, DIR, TRI, LIGHTS, GHG, RS2, PSM, PSM_XBOX, PTC, PTC_XBOX, PSF, PSF_XBOX, DemoPSM, DemoPTC, DemoPSF, BIN_XBOX, OldPTL, HGO, MonkeyBallRM, MonkeyBallSM, NuGeom, RawTexture, XWB, BD, MB, BH, MH, MSB, MSH };
+        public enum FileType { First = SectionType.Last, RM2, SM2, DemoRM2, DemoSM2, RMX, SMX, PTL, BIN, DIR, TRI, LIGHTS, GHG, RS2, PSM, PSM_XBOX, PTC, PTC_XBOX, PSF, PSF_XBOX, DemoPSM, DemoPTC, DemoPSF, BIN_XBOX, OldPTL, HGO, MonkeyBallRM, MonkeyBallSM, NuGeom, RawTexture, XWB, BD, MB, BH, MH, MSB, MSH, XMV, PSS };
 
         public enum ConsoleType { First = SectionType.Last, PS2, PSP, XBOX, GCN, }
     }

@@ -138,11 +138,25 @@ namespace RehabSetup
         {
             byte[] RawData = new byte[sfx.SoundSize];
             Array.Copy(sfx.Parent.ExtraData, sfx.SoundOffset, RawData, 0, sfx.SoundSize);
-            byte[] SoundData = RIFF.SaveRiff(ADPCM.ToPCMMono(RawData, (int)sfx.SoundSize), 1, sfx.Freq);
+            //byte[] SoundData = RIFF.SaveRiff(ADPCM.ToPCMMono(RawData, (int)sfx.SoundSize), 1, sfx.Freq);
+            byte[] SoundData = ADPCM.ToPCMMono(RawData, (int)sfx.SoundSize);
             var res = new Resource(ResType, $"local://{ResType}_aaaaa");
             res.Add("data", SoundData);
             res.Add("format", 1);
             res.Add("mix_rate", sfx.Freq);
+            Resources.Add(res);
+        }
+
+        public GodotBinaryAudioStreamWAV(byte[] SoundData, uint SampleRate, ushort Channels)
+        {
+            var res = new Resource(ResType, $"local://{ResType}_aaaaa");
+            res.Add("data", SoundData);
+            res.Add("format", 1);
+            res.Add("mix_rate", SampleRate);
+            if (Channels == 2)
+            {
+                res.Add("stereo", true);
+            }
             Resources.Add(res);
         }
 
