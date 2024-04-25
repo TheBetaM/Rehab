@@ -72,28 +72,28 @@ public partial class LoadingVisuals : Control
         float oldX = Root3D.RotationDegrees.X;
         float oldY = Root3D.RotationDegrees.Y;
         
-        camdirX += Input.GetActionStrength("pad1_dpad_right");
-        camdirX -= Input.GetActionStrength("pad1_dpad_left");
-        if (Input.IsActionPressed("pad1_rstick_left"))
+        camdirX += Input.GetActionStrength(RehabGame.Pad_Dpad_Right);
+        camdirX -= Input.GetActionStrength(RehabGame.Pad_Dpad_Left);
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Left))
             if (!RehabGame.InvertCameraX)
-                camdirX -= Input.GetActionStrength("pad1_rstick_left");
+                camdirX -= Input.GetActionStrength(RehabGame.Pad_RStick_Left);
             else
-                camdirX += Input.GetActionStrength("pad1_rstick_left");
-        if (Input.IsActionPressed("pad1_rstick_right"))
+                camdirX += Input.GetActionStrength(RehabGame.Pad_RStick_Left);
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Right))
             if (!RehabGame.InvertCameraX)
-                camdirX += Input.GetActionStrength("pad1_rstick_right");
+                camdirX += Input.GetActionStrength(RehabGame.Pad_RStick_Right);
             else
-                camdirX -= Input.GetActionStrength("pad1_rstick_right");
-        if (Input.IsActionPressed("pad1_rstick_up"))
+                camdirX -= Input.GetActionStrength(RehabGame.Pad_RStick_Right);
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Up))
             if (!RehabGame.InvertCameraY)
-                _camdirY += Input.GetActionStrength("pad1_rstick_up");
+                _camdirY += Input.GetActionStrength(RehabGame.Pad_RStick_Up);
             else
-                _camdirY -= Input.GetActionStrength("pad1_rstick_up");
-        if (Input.IsActionPressed("pad1_rstick_down"))
+                _camdirY -= Input.GetActionStrength(RehabGame.Pad_RStick_Up);
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Down))
             if (!RehabGame.InvertCameraY)
-                _camdirY -= Input.GetActionStrength("pad1_rstick_down");
+                _camdirY -= Input.GetActionStrength(RehabGame.Pad_RStick_Down);
             else
-                _camdirY += Input.GetActionStrength("pad1_rstick_down");
+                _camdirY += Input.GetActionStrength(RehabGame.Pad_RStick_Down);
         
         //oldX = oldX + (camdirY * (float)delta * 45.0f);
         oldY = oldY + (camdirX * (float)delta * 45.0f);

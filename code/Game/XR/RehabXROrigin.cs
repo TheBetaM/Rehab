@@ -95,19 +95,19 @@ public partial class RehabXROrigin : XROrigin3D
         if (FE_XR_Active) return;
         float camdirX = 0f;
 
-        if (Input.IsActionPressed("pad1_rstick_left"))
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Left))
         {
             if (!RehabGame.InvertCameraX)
-                camdirX -= Input.GetActionStrength("pad1_rstick_left");
+                camdirX -= Input.GetActionStrength(RehabGame.Pad_RStick_Left);
             else
-                camdirX += Input.GetActionStrength("pad1_rstick_left");
+                camdirX += Input.GetActionStrength(RehabGame.Pad_RStick_Left);
         }
-        if (Input.IsActionPressed("pad1_rstick_right"))
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Right))
         {
             if (!RehabGame.InvertCameraX)
-                camdirX += Input.GetActionStrength("pad1_rstick_right");
+                camdirX += Input.GetActionStrength(RehabGame.Pad_RStick_Right);
             else
-                camdirX -= Input.GetActionStrength("pad1_rstick_right");
+                camdirX -= Input.GetActionStrength(RehabGame.Pad_RStick_Right);
         }
 
         if (TurnCooldown > 0f) TurnCooldown -= delta;

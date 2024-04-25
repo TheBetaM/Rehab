@@ -46,6 +46,16 @@ public partial class ChunkScene : Node3D
         RehabGame.SetCheckPoint(AgentCharacter.activeCharacter.SpawnPos, AgentCharacter.activeCharacter.SpawnRot, Name, true);
     }
 
+    public override void _Process(double delt)
+    {
+        if (!ActiveScene || AgentCharacter.activeCharacter == null) return;
+        if (Input.IsActionJustPressed(RehabGame.Pad_Start))
+        {
+            RehabScene.Root.StartPauseMenu(false);
+            return;
+        }
+    }
+
     public void UpdateLayers(int layer)
     {
         ChunkLayer = layer;

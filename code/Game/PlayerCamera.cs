@@ -43,35 +43,35 @@ public partial class PlayerCamera : Camera3D
         float camdirX = 0f;
         float camdirY = 0f;
 
-        if (Input.IsActionPressed("pad1_rstick_left"))
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Left))
         {
             if (!RehabGame.InvertCameraX)
-                camdirX -= Input.GetActionStrength("pad1_rstick_left");
+                camdirX -= Input.GetActionStrength(RehabGame.Pad_RStick_Left);
             else
-                camdirX += Input.GetActionStrength("pad1_rstick_left");
+                camdirX += Input.GetActionStrength(RehabGame.Pad_RStick_Left);
         }
-        if (Input.IsActionPressed("pad1_rstick_right"))
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Right))
         {
             if (!RehabGame.InvertCameraX)
-                camdirX += Input.GetActionStrength("pad1_rstick_right");
+                camdirX += Input.GetActionStrength(RehabGame.Pad_RStick_Right);
             else
-                camdirX -= Input.GetActionStrength("pad1_rstick_right");
+                camdirX -= Input.GetActionStrength(RehabGame.Pad_RStick_Right);
         }
-        if (Input.IsActionPressed("pad1_rstick_up"))
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Up))
         {
             if (!RehabGame.InvertCameraY)
-                camdirY += Input.GetActionStrength("pad1_rstick_up");
+                camdirY += Input.GetActionStrength(RehabGame.Pad_RStick_Up);
             else
-                camdirY -= Input.GetActionStrength("pad1_rstick_up");
+                camdirY -= Input.GetActionStrength(RehabGame.Pad_RStick_Up);
         }
-        if (Input.IsActionPressed("pad1_rstick_down"))
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Down))
         {
             if (!RehabGame.InvertCameraY)
-                camdirY -= Input.GetActionStrength("pad1_rstick_down");
+                camdirY -= Input.GetActionStrength(RehabGame.Pad_RStick_Down);
             else
-                camdirY += Input.GetActionStrength("pad1_rstick_down");
+                camdirY += Input.GetActionStrength(RehabGame.Pad_RStick_Down);
         }
-        if (Input.IsActionJustPressed("pad1_L1") && !RehabScene.Root.XR_Enabled)
+        if (Input.IsActionJustPressed(RehabGame.Pad_L1) && !RehabScene.Root.XR_Enabled)
         {
             Input.MouseMode = Input.MouseModeEnum.Visible;
             FreeLookCamera freeCam = RehabScene.FreeLookCam;
@@ -86,7 +86,7 @@ public partial class PlayerCamera : Camera3D
             RehabGame.DisplayMessage("FREECAM " + Tr("#FE-On"));
             return;
         }
-        if (Input.IsActionPressed("pad1_R3"))
+        if (Input.IsActionPressed(RehabGame.Pad_R3))
         {
             camangleX = (camTarget.GlobalRotationDegrees.Y / 180.0f) + 1f;
             camangleY = 0f;
@@ -108,6 +108,7 @@ public partial class PlayerCamera : Camera3D
         else if (mouse_last_motion == 1)
         {
             mouse_add = -mouse_position;
+            instant = true;
             mouse_last_motion = 0;
         }
         

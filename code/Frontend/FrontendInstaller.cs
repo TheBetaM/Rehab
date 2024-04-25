@@ -133,7 +133,7 @@ public partial class FrontendInstaller : Control
         {
             case ProcessStep.Start:
                 Dialog.UseNativeDialog = false;
-                if (Input.IsActionPressed("pad1_R1"))
+                if (Input.IsActionPressed(RehabGame.Pad_R1))
                 {
                     Dialog.UseNativeDialog = true;
                 }

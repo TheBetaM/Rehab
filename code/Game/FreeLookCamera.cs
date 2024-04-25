@@ -94,26 +94,26 @@ public partial class FreeLookCamera : Camera3D
             return;
         
         
-        _w = Input.GetActionStrength("pad1_lstick_up");
-        _s = Input.GetActionStrength("pad1_lstick_down");
-        _d = Input.GetActionStrength("pad1_lstick_right");
-        _a = Input.GetActionStrength("pad1_lstick_left");
-        _e = Input.GetActionStrength("pad1_cross");
-        _q = Input.GetActionStrength("pad1_triangle");
-        if (Input.IsActionJustPressed("pad1_L1")){
+        _w = Input.GetActionStrength(RehabGame.Pad_LStick_Up);
+        _s = Input.GetActionStrength(RehabGame.Pad_LStick_Down);
+        _d = Input.GetActionStrength(RehabGame.Pad_LStick_Right);
+        _a = Input.GetActionStrength(RehabGame.Pad_LStick_Left);
+        _e = Input.GetActionStrength(RehabGame.Pad_Cross);
+        _q = Input.GetActionStrength(RehabGame.Pad_Triangle);
+        if (Input.IsActionJustPressed(RehabGame.Pad_L1)){
             ExitCam();
             return;
         }
 
         Vector3 targetDeg = GlobalRotationDegrees;
-        if (Input.IsActionPressed("pad1_rstick_left"))
-            targetDeg.Y += 90.0f * (float)delta * Input.GetActionStrength("pad1_rstick_left");
-        else if (Input.IsActionPressed("pad1_rstick_right"))
-            targetDeg.Y += -90.0f * (float)delta * Input.GetActionStrength("pad1_rstick_right");
-        if (Input.IsActionPressed("pad1_rstick_up"))
-            targetDeg.X += 90.0f * (float)delta * Input.GetActionStrength("pad1_rstick_up");
-        else if (Input.IsActionPressed("pad1_rstick_down"))
-            targetDeg.X += -90.0f * (float)delta * Input.GetActionStrength("pad1_rstick_down");
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Left))
+            targetDeg.Y += 90.0f * (float)delta * Input.GetActionStrength(RehabGame.Pad_RStick_Left);
+        else if (Input.IsActionPressed(RehabGame.Pad_RStick_Right))
+            targetDeg.Y += -90.0f * (float)delta * Input.GetActionStrength(RehabGame.Pad_RStick_Right);
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Up))
+            targetDeg.X += 90.0f * (float)delta * Input.GetActionStrength(RehabGame.Pad_RStick_Up);
+        else if (Input.IsActionPressed(RehabGame.Pad_RStick_Down))
+            targetDeg.X += -90.0f * (float)delta * Input.GetActionStrength(RehabGame.Pad_RStick_Down);
         GlobalRotationDegrees = targetDeg;
         
     }

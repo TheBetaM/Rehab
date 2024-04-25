@@ -347,4 +347,29 @@ public static class RehabGame
         public string Name;
         public bool IsPAL;
     }
+
+    public const string Pad_Start = "pad1_start";
+    public const string Pad_Select = "pad1_select";
+    public const string Pad_L3 = "pad1_L3";
+    public const string Pad_R3 = "pad1_R3";
+    public const string Pad_Square = "pad1_square";
+    public const string Pad_Triangle = "pad1_triangle";
+    public const string Pad_Cross = "pad1_cross";
+    public const string Pad_Circle = "pad1_circle";
+    public const string Pad_L1 = "pad1_L1";
+    public const string Pad_L2 = "pad1_L2";
+    public const string Pad_R1 = "pad1_R1";
+    public const string Pad_R2 = "pad1_R2";
+    public const string Pad_Dpad_Up = "pad1_dpad_up";
+    public const string Pad_Dpad_Down = "pad1_dpad_down";
+    public const string Pad_Dpad_Left = "pad1_dpad_left";
+    public const string Pad_Dpad_Right = "pad1_dpad_right";
+    public const string Pad_RStick_Left = "pad1_rstick_left";
+    public const string Pad_RStick_Right = "pad1_rstick_right";
+    public const string Pad_RStick_Up = "pad1_rstick_up";
+    public const string Pad_RStick_Down = "pad1_rstick_down";
+    public const string Pad_LStick_Left = "pad1_lstick_left";
+    public const string Pad_LStick_Right = "pad1_lstick_right";
+    public const string Pad_LStick_Up = "pad1_lstick_up";
+    public const string Pad_LStick_Down = "pad1_lstick_down";
 }

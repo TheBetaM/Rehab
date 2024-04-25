@@ -10,11 +10,6 @@ public partial class AgentCharacterXR : AgentCharacter
         if (ProcessMode == ProcessModeEnum.Disabled) return;
         UpdateDynamicCollision((float)delta);
         if (activeCharacter != this) return;
-        if (Input.IsActionJustPressed("pad1_start"))
-        {
-            RehabScene.Root.StartPauseMenu(false);
-            return;
-        }
         
         UpdateMovement((float)delta);
         UpdateFootStep((float)delta);
@@ -28,19 +23,19 @@ public partial class AgentCharacterXR : AgentCharacter
         bool isJumping = false;
         bool onFloor = (bool)Call("is_on_floor");
         
-        direction.X -= Input.GetActionStrength("pad1_dpad_up");
-        direction.X += Input.GetActionStrength("pad1_dpad_down");
+        direction.X -= Input.GetActionStrength(RehabGame.Pad_Dpad_Up);
+        direction.X += Input.GetActionStrength(RehabGame.Pad_Dpad_Down);
         if (direction.X == 0)
         {
-            direction.X -= Input.GetActionStrength("pad1_lstick_up");
-            direction.X += Input.GetActionStrength("pad1_lstick_down");
+            direction.X -= Input.GetActionStrength(RehabGame.Pad_LStick_Up);
+            direction.X += Input.GetActionStrength(RehabGame.Pad_LStick_Down);
         }
-        direction.Z += Input.GetActionStrength("pad1_dpad_right");
-        direction.Z -= Input.GetActionStrength("pad1_dpad_left");
+        direction.Z += Input.GetActionStrength(RehabGame.Pad_Dpad_Right);
+        direction.Z -= Input.GetActionStrength(RehabGame.Pad_Dpad_Left);
         if (direction.Z == 0)
         {
-            direction.Z += Input.GetActionStrength("pad1_lstick_right");
-            direction.Z -= Input.GetActionStrength("pad1_lstick_left");
+            direction.Z += Input.GetActionStrength(RehabGame.Pad_LStick_Right);
+            direction.Z -= Input.GetActionStrength(RehabGame.Pad_LStick_Left);
         }
         
         direction = direction.Clamp(-Vector3.One, Vector3.One);
@@ -53,23 +48,23 @@ public partial class AgentCharacterXR : AgentCharacter
         float dirLength = Math.Abs(direction.Length());
         var pressed = dirLength > 0.05;
         
-        if (Input.IsActionPressed("pad1_cross"))
+        if (Input.IsActionPressed(RehabGame.Pad_Cross))
         {
             
         }
-        if (Input.IsActionJustPressed("pad1_triangle"))
+        if (Input.IsActionJustPressed(RehabGame.Pad_Triangle))
         {
             RehabGame.DisplayHUD();
         }
-        if (Input.IsActionJustPressed("pad1_R1"))
+        if (Input.IsActionJustPressed(RehabGame.Pad_R1))
         {
             
         }
-        if (Input.IsActionJustPressed("pad1_square"))
+        if (Input.IsActionJustPressed(RehabGame.Pad_Square))
         {
             
         }
-        if (Input.IsActionJustPressed("pad1_circle"))
+        if (Input.IsActionJustPressed(RehabGame.Pad_Circle))
         {
             
         }

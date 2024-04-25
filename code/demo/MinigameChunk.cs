@@ -36,12 +36,12 @@ public partial class MinigameChunk : CutsceneChunk
     public override void _Process(double delta)
     {
         if (!CutsceneActive || !ActiveScene) return;
-        if (Input.IsActionJustPressed("pad1_start"))
+        if (Input.IsActionJustPressed(RehabGame.Pad_Start))
         {
             RehabScene.Root.StartPauseMenu(false);
             return;
         }
-        if (Input.IsActionJustPressed("pad1_triangle"))
+        if (Input.IsActionJustPressed(RehabGame.Pad_Triangle))
         {
             AnimDone("");
             return;

@@ -60,7 +60,7 @@ public partial class CutsceneChunk : ChunkScene
     public override void _Process(double delta)
     {
         if (!CutsceneActive) return;
-        if (Input.IsActionJustPressed("pad1_start"))
+        if (Input.IsActionJustPressed(RehabGame.Pad_Start))
         {
             RehabScene.Root.StartPauseMenu(false);
             return;

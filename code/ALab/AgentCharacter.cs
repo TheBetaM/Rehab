@@ -164,11 +164,6 @@ public partial class AgentCharacter : Agent
             UpdateNPC(delta);
             return;
         }
-        if (Input.IsActionJustPressed("pad1_start"))
-        {
-            RehabScene.Root.StartPauseMenu(false);
-            return;
-        }
         
         UpdateMovement(delta);
         UpdateHeadAnim(delta);
@@ -186,19 +181,19 @@ public partial class AgentCharacter : Agent
         bool isJumping = false;
         bool onFloor = (bool)Call("is_on_floor");
         
-        direction.X -= Input.GetActionStrength("pad1_dpad_up");
-        direction.X += Input.GetActionStrength("pad1_dpad_down");
+        direction.X -= Input.GetActionStrength(RehabGame.Pad_Dpad_Up);
+        direction.X += Input.GetActionStrength(RehabGame.Pad_Dpad_Down);
         if (direction.X == 0)
         {
-            direction.X -= Input.GetActionStrength("pad1_lstick_up");
-            direction.X += Input.GetActionStrength("pad1_lstick_down");
+            direction.X -= Input.GetActionStrength(RehabGame.Pad_LStick_Up);
+            direction.X += Input.GetActionStrength(RehabGame.Pad_LStick_Down);
         }
-        direction.Z += Input.GetActionStrength("pad1_dpad_right");
-        direction.Z -= Input.GetActionStrength("pad1_dpad_left");
+        direction.Z += Input.GetActionStrength(RehabGame.Pad_Dpad_Right);
+        direction.Z -= Input.GetActionStrength(RehabGame.Pad_Dpad_Left);
         if (direction.Z == 0)
         {
-            direction.Z += Input.GetActionStrength("pad1_lstick_right");
-            direction.Z -= Input.GetActionStrength("pad1_lstick_left");
+            direction.Z += Input.GetActionStrength(RehabGame.Pad_LStick_Right);
+            direction.Z -= Input.GetActionStrength(RehabGame.Pad_LStick_Left);
         }
         
         direction = direction.Clamp(-Vector3.One, Vector3.One);
@@ -245,7 +240,7 @@ public partial class AgentCharacter : Agent
             }
         }
         
-        if (Input.IsActionPressed("pad1_cross"))
+        if (Input.IsActionPressed(RehabGame.Pad_Cross))
         {
             char_velocity.Y += 80 * delta;
             if (ActiveAnim != 19 && spinTimer <= 0.0)
@@ -255,11 +250,11 @@ public partial class AgentCharacter : Agent
             }
             isJumping = true;
         }
-        if (Input.IsActionJustPressed("pad1_triangle"))
+        if (Input.IsActionJustPressed(RehabGame.Pad_Triangle))
         {
             RehabGame.DisplayHUD();
         }
-        if (Input.IsActionJustPressed("pad1_R1"))
+        if (Input.IsActionJustPressed(RehabGame.Pad_R1))
         {
             char_velocity.Y = 0f;
             gravityOn = !gravityOn;
@@ -268,7 +263,7 @@ public partial class AgentCharacter : Agent
             else
                 RehabGame.DisplayMessage("GRAVITY " + Tr("#FE-Off"));
         }
-        if (Input.IsActionJustPressed("pad1_square") && spinTimer <= 0f && SpinLength[(int)CharType] > 0f && !isCrouched)
+        if (Input.IsActionJustPressed(RehabGame.Pad_Square) && spinTimer <= 0f && SpinLength[(int)CharType] > 0f && !isCrouched)
         {
             spinTimer = SpinLength[(int)CharType];
             DoAnimation(14, true);
@@ -283,7 +278,7 @@ public partial class AgentCharacter : Agent
             Call("set_collision_mask_value", 13, false);
             Call("set_collision_mask_value", 14, false);
         }
-        if (Input.IsActionJustPressed("pad1_circle"))
+        if (Input.IsActionJustPressed(RehabGame.Pad_Circle))
         {
             if (pressed && slideTimer <= 0f && onFloor && SlideSpeed[(int)CharType] > 0f)
             {
@@ -298,7 +293,7 @@ public partial class AgentCharacter : Agent
                 Call("set_collision_mask_value", 14, false);
             }
         }
-        if (Input.IsActionPressed("pad1_circle"))
+        if (Input.IsActionPressed(RehabGame.Pad_Circle))
         {
             if (!isCrouched && CrawlSpeed[(int)CharType] > 0f && onFloor && slideTimer <= 0f)
             {
@@ -306,7 +301,7 @@ public partial class AgentCharacter : Agent
                 DoAnimation(32, true);
             }
         }
-        if (Input.IsActionJustReleased("pad1_circle"))
+        if (Input.IsActionJustReleased(RehabGame.Pad_Circle))
         {
             if (isCrouched)
                 isCrouched = false;
@@ -451,26 +446,26 @@ public partial class AgentCharacter : Agent
         
         var oldX = headdirX;
         var oldY = headdirY;
-        if (Input.IsActionPressed("pad1_rstick_left"))
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Left))
             if (!RehabGame.InvertCameraX)
-                headdirX -= Input.GetActionStrength("pad1_rstick_left") * delta * 4.0f;
+                headdirX -= Input.GetActionStrength(RehabGame.Pad_RStick_Left) * delta * 4.0f;
             else
-                headdirX += Input.GetActionStrength("pad1_rstick_left") * delta * 4.0f;
-        if (Input.IsActionPressed("pad1_rstick_right"))
+                headdirX += Input.GetActionStrength(RehabGame.Pad_RStick_Left) * delta * 4.0f;
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Right))
             if (!RehabGame.InvertCameraX)
-                headdirX += Input.GetActionStrength("pad1_rstick_right") * delta * 4.0f;
+                headdirX += Input.GetActionStrength(RehabGame.Pad_RStick_Right) * delta * 4.0f;
             else
-                headdirX -= Input.GetActionStrength("pad1_rstick_right") * delta * 4.0f;
-        if (Input.IsActionPressed("pad1_rstick_up"))
+                headdirX -= Input.GetActionStrength(RehabGame.Pad_RStick_Right) * delta * 4.0f;
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Up))
             if (!RehabGame.InvertCameraY)
-                headdirY += Input.GetActionStrength("pad1_rstick_up") * delta * 4.0f;
+                headdirY += Input.GetActionStrength(RehabGame.Pad_RStick_Up) * delta * 4.0f;
             else
-                headdirY -= Input.GetActionStrength("pad1_rstick_up") * delta * 4.0f;
-        if (Input.IsActionPressed("pad1_rstick_down"))
+                headdirY -= Input.GetActionStrength(RehabGame.Pad_RStick_Up) * delta * 4.0f;
+        if (Input.IsActionPressed(RehabGame.Pad_RStick_Down))
             if (!RehabGame.InvertCameraY)
-                headdirY -= Input.GetActionStrength("pad1_rstick_down") * delta * 4.0f;
+                headdirY -= Input.GetActionStrength(RehabGame.Pad_RStick_Down) * delta * 4.0f;
             else
-                headdirY += Input.GetActionStrength("pad1_rstick_down") * delta * 4.0f;
+                headdirY += Input.GetActionStrength(RehabGame.Pad_RStick_Down) * delta * 4.0f;
         
         if (isCrouched || slideTimer > 0f)
         {
