@@ -2989,6 +2989,7 @@ namespace RehabSetup
                             var pos = System.Numerics.Vector4.Transform(vpos, matrix);
                             Vertices.Add(new Pos(pos.X, pos.Y, pos.Z, 1f));
                         }
+                        // Because Xbox indices are messed up, this produces a messy result sometimes (labint)
                         for (int g = 0; g < s.GroupList.Count; g++)
                         {
                             for (int a = 0; a < s.GroupList[g] - 2; ++a)
@@ -3042,6 +3043,8 @@ namespace RehabSetup
                             }
                         }
                         sub++;
+                        vertexcount++;
+                        vertexcount++;
                     }
                 }
             }

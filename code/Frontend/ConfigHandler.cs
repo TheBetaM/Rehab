@@ -61,6 +61,7 @@ public partial class ConfigHandler : Node
         Dict[Key_VolumeVoice] = AudioServer.GetBusVolumeDb(4);
         Dict[Key_MouseCam] = RehabGame.UseMouseCamera;
         Dict[Key_MouseSens] = RehabGame.MouseSensitivity;
+        Dict[Key_Culling] = GetViewport().UseOcclusionCulling;
     }
 
     public void Update(string key, Variant val)
@@ -127,6 +128,10 @@ public partial class ConfigHandler : Node
             RehabGame.UseMouseCamera = (bool)Dict[Key_MouseCam];
         if (Dict.ContainsKey(Key_MouseSens))
             RehabGame.MouseSensitivity = (float)Dict[Key_MouseSens];
+        if (Dict.ContainsKey(Key_Culling))
+        {
+            GetViewport().UseOcclusionCulling = (bool)Dict[Key_Culling];
+        }
     }
 
     public Dictionary<string, Variant> LoadModInfo(string path)
@@ -169,4 +174,5 @@ public partial class ConfigHandler : Node
     const string Key_WindowSizeY = "window-size-y";
     const string Key_MouseCam = "mouse-cam";
     const string Key_MouseSens = "mouse-sens";
+    const string Key_Culling = "culling";
 }

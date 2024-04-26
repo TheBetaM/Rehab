@@ -122,6 +122,8 @@
 #FE-FSR-Off,FSR: OFF,FSR: AUS,FSR: OFF,FSR: OFF,FSR: DESACTIVAR,FSR: WYŁĄCZONE
 #FE-FSR-On1,FSR: ON (1.0),FSR: EIN (1.0),FSR: ON (1.0),FSR: ON (1.0),FSR: ACTIVAR (1.0),FSR: WŁĄCZONE (1.0)
 #FE-FSR-On2,FSR: ON (2.2),FSR: EIN (2.2),FSR: ON (2.2),FSR: ON (2.2),FSR: ACTIVAR (2.2),FSR: WŁĄCZONE (2.2)
+#FE-Culling-Off,Occlusion Culling: OFF,Occlusion Culling: AUS,Occlusion Culling: OFF,Occlusion Culling: OFF,FOcclusion Culling: DESACTIVAR,Occlusion Culling: WYŁĄCZONE
+#FE-Culling-On,Occlusion Culling: ON,Occlusion Culling: EIN,Occlusion Culling: ON,Occlusion Culling: ON,Occlusion Culling: ACTIVAR,Occlusion Culling: WŁĄCZONE
 #FE-RenderScale,Rendering scale,Rendermaßstab,Échelle de rendu,Scala di rendering,Escala de renderizado,Skala renderowania
 #FE-CamInvertH-On,Invert horizontal camera: ON,Horizontale Kamerasteuerung umkehren: EIN,Inverser le contrôle horizontal de la caméra: ON,Inverte il controllo della telecamera orizzontale: ON,Invertir control de cámara horizontal: SÍ,Odwróć poziome sterowanie kamerą: TAK
 #FE-CamInvertH-Off,Invert horizontal camera: OFF,Horizontale Kamerasteuerung umkehren: AUS,Inverser le contrôle horizontal de la caméra: OFF,Inverte il controllo della telecamera orizzontale: OFF,Invertir control de cámara horizontal: NO,Odwróć poziome sterowanie kamerą: NIE

@@ -181,6 +181,10 @@ text = "#FE-RenderScale"
 layout_mode = 2
 text = "#FE-VSync-On"
 
+[node name="Button8" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-Culling-On"
+
 [node name="Button5" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Back"
@@ -892,6 +896,7 @@ expand_icon = true
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button6" to="." method="OptionsGraphics_ToggleFSR"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button7" to="." method="OptionsGraphics_ToggleRenderScale"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button3" to="." method="OptionsGraphics_ToggleVSync"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button8" to="." method="OptionsGraphics_ToggleCulling"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button5" to="." method="OptionsGraphics_ToMain"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button4" to="." method="OptionsGame_ToggleLanguage"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button1" to="." method="OptionsGame_ToggleCameraH"]

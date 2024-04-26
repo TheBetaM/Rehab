@@ -294,6 +294,11 @@ public partial class FrontendMenu : Control
         else
             GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button3").Text = "#FE-VSync-Fast";
         
+        if (GetViewport().UseOcclusionCulling == true)
+            GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button8").Text = "#FE-Culling-On";
+        else
+            GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button8").Text = "#FE-Culling-Off";
+        
         GetNode<Control>("WindowMainRound/MenuOptionsMain").Visible = false;
         GetNode<Control>("WindowMainRound/MenuOptionsGraphics").Visible = true;
         if (OS.HasFeature("mobile"))
@@ -533,6 +538,20 @@ public partial class FrontendMenu : Control
         GetViewport().Scaling3DScale = scaling;
         GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button7").Text = $"{Tr("#FE-RenderScale")}: {(int)Math.Round(scaling * 100)}%";
         RehabScene.Root.MainMenu_UpdateViewport();
+    }
+
+    public void OptionsGraphics_ToggleCulling()
+    {
+        var mset = GetViewport().UseOcclusionCulling;
+        GetViewport().UseOcclusionCulling = !mset;
+        if (mset == false)
+        {
+            GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button8").Text = "#FE-Culling-On";
+        }
+        else
+        {
+            GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button8").Text = "#FE-Culling-Off";
+        }
     }
 
     public void OptionsSound_ToggleVolume_Global()
