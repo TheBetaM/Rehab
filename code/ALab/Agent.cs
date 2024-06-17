@@ -333,7 +333,7 @@ public partial class Agent : Node3D
                 {
                     Call("set_collision_layer_value", 13, true);
                 }
-                if (Flags.HasFlag(ActorInstance.IFlags.SolidToSomething))
+                if (Flags.HasFlag(ActorInstance.IFlags.SolidToTwinThrow))
                 {
                     Call("set_collision_layer_value", 14, true);
                 }
@@ -379,7 +379,7 @@ public partial class Agent : Node3D
                     NonSolidCollisionArea.ProcessMode = ProcessModeEnum.Inherit;
                     NonSolidCollisionArea.SetCollisionLayerValue(13, true);
                 }
-                if (!Flags.HasFlag(ActorInstance.IFlags.SolidToSomething))
+                if (!Flags.HasFlag(ActorInstance.IFlags.SolidToTwinThrow))
                 {
                     NonSolidCollisionArea.ProcessMode = ProcessModeEnum.Inherit;
                     NonSolidCollisionArea.SetCollisionLayerValue(14, true);
@@ -456,7 +456,7 @@ public partial class Agent : Node3D
                     {
                         col.SetCollisionLayerValue(13, true);
                     }
-                    if (Flags.HasFlag(ActorInstance.IFlags.SolidToSomething))
+                    if (Flags.HasFlag(ActorInstance.IFlags.SolidToTwinThrow))
                     {
                         col.SetCollisionLayerValue(14, true);
                     }

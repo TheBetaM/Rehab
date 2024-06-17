@@ -258,7 +258,7 @@ locale/translations=PackedStringArray("res://assets/lang/frontend.en_US.translat
 3d_physics/layer_11="SolidToSlide"
 3d_physics/layer_12="SolidToSpin"
 3d_physics/layer_13="SolidToTwinSlam"
-3d_physics/layer_14="SolidToSomething"
+3d_physics/layer_14="SolidToTwinThrow"
 3d_physics/layer_15="SolidToCamera"
 
 [rendering]
