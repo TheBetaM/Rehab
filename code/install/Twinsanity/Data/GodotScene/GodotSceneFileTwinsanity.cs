@@ -384,7 +384,7 @@ namespace RehabSetup
                 StringBuilder ReStrpos = new();
                 StringBuilder ReStrrot = new();
 
-                System.Numerics.Quaternion resquat = System.Numerics.Quaternion.CreateFromYawPitchRoll(-ThisModel.WorldRotation.Y, ThisModel.WorldRotation.X, ThisModel.WorldRotation.Z);
+                System.Numerics.Quaternion resquat = System.Numerics.Quaternion.CreateFromYawPitchRoll(-ThisModel.WorldRotation.Y, ThisModel.WorldRotation.X, -ThisModel.WorldRotation.Z);
 
                 ReStrpos.Append($"0,1,{(-ThisModel.WorldPosition.X).ToText()},{ThisModel.WorldPosition.Y.ToText()},{ThisModel.WorldPosition.Z.ToText()}");
                 ReStrrot.Append($"0,1,{resquat.X.ToText()},{resquat.Y.ToText()},{resquat.Z.ToText()},{resquat.W.ToText()}");
@@ -451,7 +451,7 @@ namespace RehabSetup
                     else
                         quat.W = ThisModel.WorldRotation.W;
                     
-                    quat = System.Numerics.Quaternion.CreateFromYawPitchRoll(-quat.Y, quat.X, quat.Z);
+                    quat = System.Numerics.Quaternion.CreateFromYawPitchRoll(-quat.Y, quat.X, -quat.Z);
 
                     Strrot.Append($"{quat.X.ToText()},{quat.Y.ToText()},{quat.Z.ToText()},{quat.W.ToText()}, ");
                 }
