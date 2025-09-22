@@ -90,7 +90,7 @@ public partial class ParticleAtlasTexture : ImageTexture
 
     void UpdateAtlas()
     {
-        Image crop = Image.Create(_GetWidth(), _GetHeight(), false, Image.Format.Rgba8);
+        Image crop = Image.CreateEmpty(_GetWidth(), _GetHeight(), false, Image.Format.Rgba8);
         //GD.Print($"updading atlas");
         if (_atlas == null) 
         {

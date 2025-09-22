@@ -46,7 +46,7 @@ namespace RehabSetup
                     EnvData.CreateWorldEnvironment(true, 0.5f, 0, 1);
                     break;
                 case 2: // light blue
-                    EnvData.CreateWorldEnvironment(true, 0.5f, 0.5f, 1);
+                    EnvData.CreateWorldEnvironment(true, 0.5f, 1, 1);
                     break;
                 case 3: // green
                     EnvData.CreateWorldEnvironment(true, 0, 1, 0);
@@ -2594,6 +2594,8 @@ namespace RehabSetup
                 var MaterialFile = new GodotResourceFile();
                 int ExtraShaderID = -1;
                 string ExtraShaderType = "";
+                bool FogDisabled = (mat.Unknown & 0x04) != 0;
+
                 for (int i = 0; i < mat.Shaders.Count; i++)
                 {
                     TwinsShader shader = mat.Shaders[i];
@@ -2650,6 +2652,10 @@ namespace RehabSetup
                         {
                             shaderName = "StandardAlphaTest";
                         }
+                        if (FogDisabled)
+                        {
+                            shaderName += "NoFog";
+                        }
                         if (ExtraShaderID == -1 || ExtraShaderType != shaderName)
                         {
                             switch (shader.ShaderType)
@@ -2694,45 +2700,45 @@ namespace RehabSetup
                         default: break;
                         case 12:
                         case 22:
-                        // Lit/Unlit environment map
-                        {
-                            TargetResource.Lines.Add($"{shaderAdd}envmap=true");
-                        }
-                        break;
+                            // Lit/Unlit environment map
+                            {
+                                TargetResource.Lines.Add($"{shaderAdd}envmap=true");
+                            }
+                            break;
                         case 16:
-                        // Lit reflection surface
-                        {
-                            TargetResource.Lines.Add($"{shaderAdd}reflects=true");
-                            TargetResource.Lines.Add($"{shaderAdd}reflectDist={shader.FloatParam[0].ToText()}");
-                        }
-                        break;
+                            // Lit reflection surface
+                            {
+                                TargetResource.Lines.Add($"{shaderAdd}reflects=true");
+                                TargetResource.Lines.Add($"{shaderAdd}reflectDist={shader.FloatParam[0].ToText()}");
+                            }
+                            break;
                         case 15:
                         case 21:
-                        // Lit/Unlit glossy/metallic/chrome
-                        {
-                            
-                        }
-                        break;
+                            // Lit/Unlit glossy/metallic/chrome
+                            {
+
+                            }
+                            break;
                         case 23:
                         case 26:
-                        // Unlit Cloth/Grass/Tree/Mist/Cobweb deformation
-                        {
-                            TargetResource.Lines.Add($"{shaderAdd}deform=true");
-                            TargetResource.Lines.Add($"{shaderAdd}deformspeed=Vector2({shader.FloatParam[0].ToText()},{(shader.FloatParam[1]).ToText()})");
-                            if (shader.ShaderType == 26)
+                            // Unlit Cloth/Grass/Tree/Mist/Cobweb deformation
                             {
-                                TargetResource.Lines.Add($"{shaderAdd}deformspeed2=Vector2({shader.FloatParam[2].ToText()},{(shader.FloatParam[3]).ToText()})");
+                                TargetResource.Lines.Add($"{shaderAdd}deform=true");
+                                TargetResource.Lines.Add($"{shaderAdd}deformspeed=Vector2({shader.FloatParam[0].ToText()},{(shader.FloatParam[1]).ToText()})");
+                                if (shader.ShaderType == 26)
+                                {
+                                    TargetResource.Lines.Add($"{shaderAdd}deformspeed2=Vector2({shader.FloatParam[2].ToText()},{(shader.FloatParam[3]).ToText()})");
+                                }
                             }
-                        }
-                        break;
+                            break;
                         case 27:
-                        // Unlit 2D billboard always facing camera?
-                        {
-                            TargetResource.Lines.Add($"{shaderAdd}billboard=true");
-                        }
-                        break;
+                            // Unlit 2D billboard always facing camera?
+                            {
+                                TargetResource.Lines.Add($"{shaderAdd}billboard=true");
+                            }
+                            break;
                     }
-                    
+
                     if (!ExtraShaderNeeded)
                     {
                         switch (shader.ShaderType)
@@ -2751,7 +2757,7 @@ namespace RehabSetup
                             case 26:
                             case 27:
                                 TargetResource.Lines.Add($"shading_mode=0");
-                            break;
+                                break;
                         }
                         if (shader.ABlending == TwinsShader.AlphaBlending.ON)
                         {
@@ -2816,7 +2822,7 @@ namespace RehabSetup
 
                         TargetResource.Lines.Add($"{shaderAdd}albedo_texture=ExtResource({MaterialFile.ExternalResourceList.Count})");
                     }
-                   
+
                     if (!ExtraShaderNeeded)
                     {
                         TargetResource.CreateMaterial();
@@ -2826,7 +2832,7 @@ namespace RehabSetup
                     {
                         TargetResource.CreateShaderMaterial();
                     }
-                    
+
                     if (i != 0)
                     {
                         MaterialFile.InternalResourceList.Add(TargetResource);

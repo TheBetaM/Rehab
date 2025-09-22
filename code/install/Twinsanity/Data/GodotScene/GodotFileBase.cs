@@ -189,7 +189,7 @@ namespace RehabSetup
                 Lines.Add($"fog_enabled=true");
                 Lines.Add($"fog_mode=1");
                 Lines.Add($"fog_light_color=Color({R.ToText()},{G.ToText()},{B.ToText()},1)");
-                Lines.Add($"fog_density=0.5");
+                Lines.Add($"fog_density=0.1");
                 Lines.Add($"fog_depth_begin=20.0");
                 Lines.Add($"fog_depth_end=200.0");
                 /* less accurate to original
