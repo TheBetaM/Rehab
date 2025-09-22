@@ -4,7 +4,7 @@
 .vscode/
 
 # Rehab - imported assets must not be checked in!
-
+import/
 android/
 addons/godotopenxrvendors/
 *.translation
