@@ -18,7 +18,7 @@ void vertex()
 		vec3 v = normalize(cross(w, vec3(0,0,1)));
 		v = vec3(v.x, abs(v.y), v.z);
 		vec3 u = cross(w, v);
-		mat3 rot_mat = transpose(mat3(u, v, w));
+		mat3 rot_mat = transpose(mat3(-u, v, w));
 		VERTEX *= rot_mat;
 		//MODELVIEW_MATRIX = VIEW_MATRIX * mat4(vec4(normalize(cross(vec3(0.0, 1.0, 0.0), INV_VIEW_MATRIX[2].xyz)), 0.0), vec4(0.0, 1.0, 0.0, 0.0), vec4(normalize(cross(INV_VIEW_MATRIX[0].xyz, vec3(0.0, 1.0, 0.0))), 0.0), MODEL_MATRIX[3]);
 		//MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
@@ -32,7 +32,7 @@ void vertex()
 	UV = UV * uv1_scale + uv1_offset + speed * vec2(TIME);
 }
 
-void fragment() 
+void fragment()
 {
 	vec4 tex = texture(albedo_texture, UV);
 	ALBEDO = tex.xyz * COLOR.rgb * albedo_color.xyz;
@@ -42,13 +42,13 @@ void fragment()
 	#ifdef IS_ALPHA_BLEND
 	ALPHA = tex.w * COLOR.a * albedo_color.w;
 	#endif
-	
-	
+
+
 	#ifdef IS_REFLECT
 		vec4 current_texture = texture(SCREEN_TEXTURE, vec2(SCREEN_UV.x + reflectDist, SCREEN_UV.y - (0.5 - 0.5) * 2.0 + reflectDist));
 		ALBEDO = current_texture.xyz * COLOR.rgb * tex.xyz;
 	#endif
-	
+
 	if (envmap)
 	{
 		//vec4 albedo_tex = textureProj(albedo_texture,INV_PROJECTION_MATRIX * VIEW_MATRIX * vec4(VIEW,0));
