@@ -29,6 +29,7 @@ window/size/mode=4
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=4
+window/size/mode.editor=0
 
 [dotnet]
 
