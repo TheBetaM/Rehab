@@ -186,14 +186,17 @@ namespace RehabSetup
                 Type = "Environment";
                 Lines.Add("background_mode=1");
                 if (!fog) return;
-                /* looks ok, but doesn't work with skydome
-                Lines.Add($"fog_enabled = true");
-                Lines.Add($"fog_light_color = Color( {R.ToText()}, {G.ToText()}, {B.ToText()}, 1 )");
-                Lines.Add($"fog_density = 0.0005");
-                */
+                Lines.Add($"fog_enabled=true");
+                Lines.Add($"fog_mode=1");
+                Lines.Add($"fog_light_color=Color({R.ToText()},{G.ToText()},{B.ToText()},1)");
+                Lines.Add($"fog_density=0.5");
+                Lines.Add($"fog_depth_begin=20.0");
+                Lines.Add($"fog_depth_end=200.0");
+                /* less accurate to original
                 Lines.Add($"volumetric_fog_enabled=true");
                 Lines.Add($"volumetric_fog_emission=Color({R.ToText()},{G.ToText()},{B.ToText()},1)");
                 Lines.Add($"volumetric_fog_density=0.005");
+                */
             }
 
             public void CreateCurve3D()

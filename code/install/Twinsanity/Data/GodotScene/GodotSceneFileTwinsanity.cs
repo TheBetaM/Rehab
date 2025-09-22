@@ -27,7 +27,6 @@ namespace RehabSetup
 
         public void AddLights(SceneryData Scene)
         {
-            // todo fog, clear color
             int LightCount = Scene.LightsAmbient.Count + Scene.LightsDirectional.Count + Scene.LightsNegative.Count + Scene.LightsPoint.Count;
             if (LightCount <= 0) return;
 
