@@ -55,7 +55,8 @@ namespace RehabSetup
                     EnvData.CreateWorldEnvironment(true, 0.5f, 0.5f, 0.5f);
                     break;
                 case 5: // beige
-                    EnvData.CreateWorldEnvironment(true, 0.5f, 0.5f, 0);
+                    EnvData.CreateWorldEnvironment(true, 0.75f, 0.5f, 0);
+                    //EnvData.CreateWorldEnvironment(true, 0.298f, 0.2353f, 0.1412f);
                     break;
             }
 
