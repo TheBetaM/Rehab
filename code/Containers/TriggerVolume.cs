@@ -38,7 +38,7 @@ public partial class TriggerVolume : Area3D
             if (GetNodeOrNull(item) == null) continue;
             var recieverNode = GetNode(item);
             Agent reciever = null;
-            if (recieverNode is ActorInstance inst)
+            if (recieverNode is AgentInstance inst)
             {
                 reciever = inst.Actor;
             }
@@ -73,7 +73,7 @@ public partial class TriggerVolume : Area3D
             if (GetNodeOrNull(item) == null) continue;
             var recieverNode = GetNode(item);
             Agent reciever = null;
-            if (recieverNode is ActorInstance inst)
+            if (recieverNode is AgentInstance inst)
             {
                 reciever = inst.Actor;
             }

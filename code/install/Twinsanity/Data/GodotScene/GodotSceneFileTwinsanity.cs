@@ -2008,7 +2008,7 @@ namespace RehabSetup
             Code_Container_Scene .SetAsScript();
             ExternalResourceList.Add(Code_Container_Scene);
             CodeResourceID_Scene = ExternalResourceList.Count;
-            ExternalResource Code_Container_Resource_Instance = new ExternalResource($"res://code/Containers/ActorInstance{ExportGodot.ScriptExt}");
+            ExternalResource Code_Container_Resource_Instance = new ExternalResource($"res://code/Containers/AgentInstance{ExportGodot.ScriptExt}");
             Code_Container_Resource_Instance.SetAsScript();
             ExternalResourceList.Add(Code_Container_Resource_Instance);
             CodeResourceID_Container_Instance = ExternalResourceList.Count;

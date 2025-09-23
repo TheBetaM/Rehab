@@ -163,7 +163,7 @@ public partial class AgentCrate : Agent
             {
                 acrate.OnTrigger();
             }
-            else if (item is ActorInstance inst && inst.Actor is AgentCrate crate)
+            else if (item is AgentInstance inst && inst.Actor is AgentCrate crate)
             {
                 crate.OnTrigger();
             }

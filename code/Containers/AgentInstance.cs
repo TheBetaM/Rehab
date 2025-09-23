@@ -3,7 +3,7 @@ using Godot;
 using Godot.Collections;
 namespace Rehab;
 [Tool]
-public partial class ActorInstance : Marker3D
+public partial class AgentInstance : Marker3D
 {
     [Export] PackedScene Prefab;
     [Export] Array<NodePath> LinkInstance;
