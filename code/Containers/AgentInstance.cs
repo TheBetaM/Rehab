@@ -52,7 +52,10 @@ public partial class AgentInstance : Marker3D
         Actor = a;
         Actor.HasFlags = true;
         Actor.Flags = Flags;
-        Actor.OutlineCrate = OutlineCrate;
+        if (Actor is AgentCrate crate)
+        {
+            crate.OutlineCrate = OutlineCrate;
+        }
         Actor.RefList = RefList;
         if (RegAngle != null)
         {

@@ -3,19 +3,20 @@ using System;
 using System.Linq;
 using Godot;
 namespace Rehab;
+
 public partial class AgentCharacter : Agent
 {
-    public enum CharacterType {
+    public enum CharacterType
+    {
         Crash = 0,
         Cortex = 1,
-        Coco = 2,
+        Coco = 2, // Unused
         Nina = 3,
-        EvilCrash = 4,
+        EvilCrash = 4, // DummyFrontendCharacter
         MechaBandicoot = 5,
     }
 
-    [Export]
-    public CharacterType CharType = CharacterType.Crash;
+    public virtual CharacterType CharType => CharacterType.Crash;
     public Vector3 char_velocity = Vector3.Zero;
     PlayerCamera physCam;
     public bool isReparenting;
@@ -36,7 +37,7 @@ public partial class AgentCharacter : Agent
     //MeshInstance3D DynamicColVis;
 
     AudioStream FS_Dirt_1;
-    AudioStream FS_Dirt_2 ;
+    AudioStream FS_Dirt_2;
     AudioStream FS_Grass_1;
     AudioStream FS_Grass_2;
     AudioStream FS_Metal_1;
@@ -54,12 +55,12 @@ public partial class AgentCharacter : Agent
     AudioStream FS_Slippy;
 
     public const float AirGravity = 50f;
-    public static float[] WalkSpeed = [2.5f, 2.5f, 2.5f, 2.5f, 2.5f, 12f];
-    public static float[] RunSpeed = [9f, 7f, 9f, 7f, 7f, 12f];
-    public static float[] SpinLength = [0.4f, 0f, 0f, 0.7f, 0f, 0f];
-    public static float[] CrawlSpeed = [1.75f, 1.75f, 0f, 0f, 0f, 0f];
-    public static float[] SlideSpeed = [18f, 10f, 0f, 0f, 0f, 0f];
-    public static float[] SlideTime = [0.4f, 0.4f, 0f, 0f, 0f, 0f];
+    public virtual float WalkSpeed => 2.5f;
+    public virtual float RunSpeed => 9f;
+    public virtual float SpinLength => 0.4f;
+    public virtual float CrawlSpeed => 1.75f;
+    public virtual float SlideSpeed => 18f;
+    public virtual float SlideTime => 0.4f;
 
     public static AgentCharacter activeCharacter;
     public static Dictionary<int, string> ActiveActorTypes = new();
@@ -77,7 +78,7 @@ public partial class AgentCharacter : Agent
             Visible = false;
             ProcessMode = ProcessModeEnum.Disabled;
         }
-        
+
         CreateShadow(0, Vector2.One, 0);
 
         DynamicCol = new CollisionShape3D();
@@ -101,21 +102,17 @@ public partial class AgentCharacter : Agent
         //DynamicColVis.Mesh = boxmesh;
         //AddChild(DynamicColVis);
         Set("floor_constant_speed", true);
-        
+
         SpawnPos = GlobalPosition;
         SpawnRot = GlobalRotationDegrees;
         if (activeCharacter != null)
             return;
         if (!ParentScene.ActiveScene)
             return;
-        
+
         activeCharacter = this;
         physCam = RehabScene.PlayerCam;
         physCam.SetupCam(this);
-        if (RehabScene.Root.XR_Enabled)
-        {
-            XR_Setup();
-        }
 
         FS_Dirt_1 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/fs_dirt_3.sample");
         FS_Dirt_2 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/fs_dirt_5.sample");
@@ -135,6 +132,16 @@ public partial class AgentCharacter : Agent
         FS_Tile_2 = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/L09_Cortex_boots_tile_7.sample");
         FS_Slippy = (AudioStream)ResourceLoader.Load(RehabGame.AssetsPath + "Sounds/Surface/L03_Tribesman_fs.sample");
         RehabGame.SetCheckPoint(SpawnPos, SpawnRot, ParentScene.Name, true);
+
+        Character_ActivePostSetup();
+    }
+
+    public virtual void Character_ActivePostSetup()
+    {
+        if (RehabScene.Root.XR_Enabled)
+        {
+            XR_Setup();
+        }
     }
 
     public override void _ExitTree()
@@ -164,7 +171,7 @@ public partial class AgentCharacter : Agent
             UpdateNPC(delta);
             return;
         }
-        
+
         UpdateMovement(delta);
         UpdateHeadAnim(delta);
         UpdateFootStep(delta);
@@ -180,7 +187,7 @@ public partial class AgentCharacter : Agent
         Vector3 direction = Vector3.Zero;
         bool isJumping = false;
         bool onFloor = (bool)Call("is_on_floor");
-        
+
         direction.X -= Input.GetActionStrength(RehabGame.Pad_Dpad_Up);
         direction.X += Input.GetActionStrength(RehabGame.Pad_Dpad_Down);
         if (direction.X == 0)
@@ -195,7 +202,7 @@ public partial class AgentCharacter : Agent
             direction.Z += Input.GetActionStrength(RehabGame.Pad_LStick_Right);
             direction.Z -= Input.GetActionStrength(RehabGame.Pad_LStick_Left);
         }
-        
+
         direction = direction.Clamp(-Vector3.One, Vector3.One);
         if (RehabScene.Root.XR_Enabled)
         {
@@ -212,12 +219,12 @@ public partial class AgentCharacter : Agent
         direction.Y = 0f;
         float dirLength = Math.Abs(direction.Length());
         var pressed = dirLength > 0.05;
-        
+
         if (spinTimer > 0f)
         {
             spinTimer -= delta;
             if (spinTimer <= 0f)
-            {                
+            {
                 Call("set_collision_mask_value", 9, true);
                 Call("set_collision_mask_value", 10, true);
                 Call("set_collision_mask_value", 11, true);
@@ -239,7 +246,7 @@ public partial class AgentCharacter : Agent
                 Call("set_collision_mask_value", 14, true);
             }
         }
-        
+
         if (Input.IsActionPressed(RehabGame.Pad_Cross))
         {
             char_velocity.Y += 80 * delta;
@@ -263,9 +270,9 @@ public partial class AgentCharacter : Agent
             else
                 RehabGame.DisplayMessage("GRAVITY " + Tr("#FE-Off"));
         }
-        if (Input.IsActionJustPressed(RehabGame.Pad_Square) && spinTimer <= 0f && SpinLength[(int)CharType] > 0f && !isCrouched)
+        if (Input.IsActionJustPressed(RehabGame.Pad_Square) && spinTimer <= 0f && SpinLength > 0f && !isCrouched)
         {
-            spinTimer = SpinLength[(int)CharType];
+            spinTimer = SpinLength;
             DoAnimation(14, true);
             if (System.Random.Shared.Next(0, 2) == 0)
                 DoSound(2, 1f, 0f);
@@ -280,9 +287,9 @@ public partial class AgentCharacter : Agent
         }
         if (Input.IsActionJustPressed(RehabGame.Pad_Circle))
         {
-            if (pressed && slideTimer <= 0f && onFloor && SlideSpeed[(int)CharType] > 0f)
+            if (pressed && slideTimer <= 0f && onFloor && SlideSpeed > 0f)
             {
-                slideTimer = SlideTime[(int)CharType];
+                slideTimer = SlideTime;
                 DoAnimation(36, true);
                 DoSound(6, 1f, 0f);
                 Call("set_collision_mask_value", 11, true);
@@ -295,7 +302,7 @@ public partial class AgentCharacter : Agent
         }
         if (Input.IsActionPressed(RehabGame.Pad_Circle))
         {
-            if (!isCrouched && CrawlSpeed[(int)CharType] > 0f && onFloor && slideTimer <= 0f)
+            if (!isCrouched && CrawlSpeed> 0f && onFloor && slideTimer <= 0f)
             {
                 isCrouched = true;
                 DoAnimation(32, true);
@@ -306,18 +313,18 @@ public partial class AgentCharacter : Agent
             if (isCrouched)
                 isCrouched = false;
         }
-        
-        var speed = RunSpeed[(int)CharType];
+
+        var speed = RunSpeed;
         if (dirLength < 0.3f)
             speed = 0;
         else if (dirLength < 0.8f)
-            speed = WalkSpeed[(int)CharType];
+            speed = WalkSpeed;
         if (isCrouched && pressed)
-            speed = CrawlSpeed[(int)CharType];
+            speed = CrawlSpeed;
         if (slideTimer > 0f)
-            speed = SlideSpeed[(int)CharType];
+            speed = SlideSpeed;
         direction = direction.Normalized();
-        
+
         if (pressed)
         {
             char_velocity.X = direction.X * speed;
@@ -342,7 +349,7 @@ public partial class AgentCharacter : Agent
                 }
                 else if (speed == 0)
                     DoAnimation(9, true);
-                else if (speed == WalkSpeed[(int)CharType])
+                else if (speed == WalkSpeed)
                     DoAnimation(10, true);
                 else
                     DoAnimation(11, true);
@@ -368,7 +375,7 @@ public partial class AgentCharacter : Agent
                 }
             }
         }
-            
+
         if (!isJumping && !onFloor)
         {
             coyoteTimer -= delta;
@@ -377,7 +384,7 @@ public partial class AgentCharacter : Agent
                 DoAnimation(27, false);
             }
         }
-        
+
         if (!onFloor)
         {
             if (gravityOn && (coyoteTimer <= 0f || isJumping))
@@ -389,7 +396,7 @@ public partial class AgentCharacter : Agent
         {
             coyoteTimer = 0.1f;
         }
-        
+
         Set("velocity", char_velocity);
         Call("move_and_slide");
         var colCount1 = (int)Call("get_slide_collision_count");
@@ -417,7 +424,7 @@ public partial class AgentCharacter : Agent
                 }
             }
         }
-        
+
     }
 
     void UpdateHeadAnim(float delta)
@@ -432,7 +439,7 @@ public partial class AgentCharacter : Agent
             headdirX += delta * 0.4f;
             headdirX = Math.Clamp(headdirX, -0.8f, 0f);
         }
-        
+
         if (headdirY > 0f)
         {
             headdirY -= delta * 0.5f;
@@ -443,7 +450,7 @@ public partial class AgentCharacter : Agent
             headdirY += delta * 0.75f;
             headdirY = Math.Clamp(headdirY, -1.5f, 0f);
         }
-        
+
         var oldX = headdirX;
         var oldY = headdirY;
         if (Input.IsActionPressed(RehabGame.Pad_RStick_Left))
@@ -466,7 +473,7 @@ public partial class AgentCharacter : Agent
                 headdirY -= Input.GetActionStrength(RehabGame.Pad_RStick_Down) * delta * 4.0f;
             else
                 headdirY += Input.GetActionStrength(RehabGame.Pad_RStick_Down) * delta * 4.0f;
-        
+
         if (isCrouched || slideTimer > 0f)
         {
             headdirX = oldX;
@@ -474,7 +481,7 @@ public partial class AgentCharacter : Agent
         }
         headdirX = Math.Clamp(headdirX, -0.8f, 0.8f);
         headdirY = Math.Clamp(headdirY, -1.5f, 1.0f);
-        
+
         SubModels[ActiveModel].GetNode<AnimationPlayer>("AnimationPlayer").CallbackModeProcess = AnimationMixer.AnimationCallbackModeProcess.Manual;
         SubModels[ActiveModel].GetNode<AnimationPlayer>("AnimationPlayer").Advance(delta);
         if (ActiveSkeleton != null && JointsConst[2] != -1 && ActiveSkeleton.GetBoneCount() > JointsConst[2])
@@ -487,11 +494,11 @@ public partial class AgentCharacter : Agent
             ActiveSkeleton.SetBonePoseRotation(JointsConst[2], Quaternion.FromEuler(headBoneEuler));
         }
     }
-    
+
     public void UpdateFootStep(float delta)
     {
         if (ActiveAnim != 11 && ActiveAnim != 10) return;
-        
+
         footsteptimer -= delta;
         if (footsteptimer > 0f) return;
 
@@ -569,15 +576,15 @@ public partial class AgentCharacter : Agent
             else
                 footsteptimer = 0.25f;
         }
-           
+
     }
 
     public void UpdateDynamicCollision(float delta)
     {
         //Aabb box = new Aabb();
         //UpdateDynamicColNested(SubModels[ActiveModel], ref box);
-        
-        float MinX = 10000f, MinZ = 10000f, MaxX = -10000f, MaxY = -10000f, MaxZ = -10000f;;
+
+        float MinX = 10000f, MinZ = 10000f, MaxX = -10000f, MaxY = -10000f, MaxZ = -10000f; ;
         for (int i = 0; i < ActiveSkeleton.GetBoneCount(); i++)
         {
             var pos = ActiveSkeleton.GetBoneGlobalPose(i);
@@ -615,7 +622,7 @@ public partial class AgentCharacter : Agent
             oldPts[7].MoveToward(new Vector3(0.5f, 1, 0.5f) * size, 10f * delta),
         ];
         DynamicCol.Shape.Set("points", Points);
-        
+
         //var oldSize = (Vector3)DynamicCol.Shape.Get("size");
         //DynamicCol.Position = box.Position + (box.Size / 2f);
         //DynamicCol.Shape.Set("size", oldSize.MoveToward(box.Size, delta * 10f));
@@ -636,6 +643,11 @@ public partial class AgentCharacter : Agent
         }
     }
 
+    void UpdateNPC(float delta)
+    {
+        DoAnimation(8, true);
+    }
+    
     void XR_Setup()
     {
         RehabScene.Root.XR_Origin.XR_Camera.Position = Vector3.Zero;
@@ -672,10 +684,5 @@ public partial class AgentCharacter : Agent
         RehabScene.Root.XR_Origin.XR_HandL.SpawnHand(LHandPath, this);
         RehabScene.Root.XR_Origin.XR_HandR.SpawnHand(RHandPath, this);
         //AudioSource.AttenuationModel = AudioStreamPlayer3D.AttenuationModelEnum.Disabled;
-    }
-
-    void UpdateNPC(float delta)
-    {
-        DoAnimation(8, true);
     }
 }

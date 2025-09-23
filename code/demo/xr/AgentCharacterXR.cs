@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using Godot;
 namespace Rehab;
+
 public partial class AgentCharacterXR : AgentCharacter
 {
     public override void _PhysicsProcess(double delta)
@@ -10,7 +11,7 @@ public partial class AgentCharacterXR : AgentCharacter
         if (ProcessMode == ProcessModeEnum.Disabled) return;
         UpdateDynamicCollision((float)delta);
         if (activeCharacter != this) return;
-        
+
         UpdateMovement((float)delta);
         UpdateFootStep((float)delta);
         RehabScene.Root.XR_Origin.GlobalPosition = GlobalPosition + (Vector3.Up * RehabGame.XR_Height);
@@ -22,7 +23,7 @@ public partial class AgentCharacterXR : AgentCharacter
         Vector3 direction = Vector3.Zero;
         bool isJumping = false;
         bool onFloor = (bool)Call("is_on_floor");
-        
+
         direction.X -= Input.GetActionStrength(RehabGame.Pad_Dpad_Up);
         direction.X += Input.GetActionStrength(RehabGame.Pad_Dpad_Down);
         if (direction.X == 0)
@@ -37,7 +38,7 @@ public partial class AgentCharacterXR : AgentCharacter
             direction.Z += Input.GetActionStrength(RehabGame.Pad_LStick_Right);
             direction.Z -= Input.GetActionStrength(RehabGame.Pad_LStick_Left);
         }
-        
+
         direction = direction.Clamp(-Vector3.One, Vector3.One);
         var camvector = RehabScene.Root.XR_Origin.XR_Camera.GlobalTransform.Basis.Z;
         camvector.Y = 0f;
@@ -47,10 +48,10 @@ public partial class AgentCharacterXR : AgentCharacter
         direction.Y = 0f;
         float dirLength = Math.Abs(direction.Length());
         var pressed = dirLength > 0.05;
-        
+
         if (Input.IsActionPressed(RehabGame.Pad_Cross))
         {
-            
+
         }
         if (Input.IsActionJustPressed(RehabGame.Pad_Triangle))
         {
@@ -58,24 +59,24 @@ public partial class AgentCharacterXR : AgentCharacter
         }
         if (Input.IsActionJustPressed(RehabGame.Pad_R1))
         {
-            
+
         }
         if (Input.IsActionJustPressed(RehabGame.Pad_Square))
         {
-            
+
         }
         if (Input.IsActionJustPressed(RehabGame.Pad_Circle))
         {
-            
+
         }
-        
-        var speed = RunSpeed[(int)CharType];
+
+        var speed = RunSpeed;
         if (dirLength < 0.3f)
             speed = 0;
         else if (dirLength < 0.8f)
-            speed = WalkSpeed[(int)CharType];
+            speed = WalkSpeed;
         direction = direction.Normalized();
-        
+
         if (pressed)
         {
             char_velocity.X = direction.X * speed;
@@ -93,7 +94,7 @@ public partial class AgentCharacterXR : AgentCharacter
             {
                 if (speed == 0)
                     DoAnimation(9, true);
-                else if (speed == WalkSpeed[(int)CharType])
+                else if (speed == WalkSpeed)
                     DoAnimation(10, true);
                 else
                     DoAnimation(11, true);
@@ -108,7 +109,7 @@ public partial class AgentCharacterXR : AgentCharacter
                 DoAnimation(8, true);
             }
         }
-            
+
         if (!isJumping && !onFloor)
         {
             coyoteTimer -= delta;
@@ -117,7 +118,7 @@ public partial class AgentCharacterXR : AgentCharacter
                 DoAnimation(27, false);
             }
         }
-        
+
         if (!onFloor)
         {
             if (coyoteTimer <= 0f)
@@ -129,7 +130,7 @@ public partial class AgentCharacterXR : AgentCharacter
         {
             coyoteTimer = 0.1f;
         }
-        
+
         Set("velocity", char_velocity);
         Call("move_and_slide");
         var colData = (KinematicCollision3D)Call("get_last_slide_collision");

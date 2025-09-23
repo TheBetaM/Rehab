@@ -7,9 +7,9 @@ public partial class AgentPickup : Agent
     Vector3 SpinDirection = Vector3.One;
     float SpunTimer;
     Node3D pickupTarget = null;
-    bool IsWumpa = true;
+    public bool IsWumpa = false;
     public double CrateTimer;
-    bool AnimMode = false;
+    public bool AnimMode = false;
     Vector3 UpPos = new(0f, 0.2f, 0f);
     Vector3 DownPos = new(0f, -0.2f, 0f);
 
@@ -20,18 +20,10 @@ public partial class AgentPickup : Agent
         RotationDegrees = new Vector3(0f, (GD.Randf() - 0.5f) * 360f, 0f);
         Set("collision_layer", 0);
 
-        string name = (string)Name;
-        if (!name.Contains("Pickup_Wumpa"))
-            IsWumpa = false;
-        else
-        {
-            CreateShadow(0, Vector2.One * 0.5f, 0);
-            SubModels[ActiveModel].RotationDegrees = new Vector3(0f, (System.Random.Shared.NextSingle() * 360f) - 180f, 0f);
-            SubModels[ActiveModel].Position = new Vector3(0f, (System.Random.Shared.NextSingle() * 0.4f) - 0.2f, 0f);
-            if (System.Random.Shared.Next(2) == 0)
-                AnimMode = true;
-        }
+        PickupPostSpawn();
     }
+
+    public virtual void PickupPostSpawn() { }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -62,7 +54,7 @@ public partial class AgentPickup : Agent
             {
                 RehabGame.AddWumpa(1);
                 DoSound(1, (GD.Randf() / 5f) + 0.9f, 0f);
-                ProcessMode = ProcessModeEnum.Disabled;;
+                ProcessMode = ProcessModeEnum.Disabled;
                 Visible = false;
             }
         }
@@ -126,20 +118,12 @@ public partial class AgentPickup : Agent
         DoSound(1, 1f, 0f);
         if (IsWumpa) return;
         Visible = false;
-        switch (Name)
-        {
-            case "Pickup_Crystal": RehabGame.AddCrystal(); break;
-            case "Pickup_Gem_Blue": RehabGame.AddGem(0); break;
-            case "Pickup_Gem_Clear": RehabGame.AddGem(1); break;
-            case "Pickup_Gem_Green": RehabGame.AddGem(2); break;
-            case "Pickup_Gem_Purple": RehabGame.AddGem(3); break;
-            case "Pickup_Gem_Red": RehabGame.AddGem(4); break;
-            case "Pickup_Gem_Yellow": RehabGame.AddGem(5); break;
-            case "Pickup_ExtraLife":
-            case "Pickup_ExtraLifeCortex":
-            case "Pickup_ExtraLifeNina": RehabGame.AddLives(1); break;
-            default: break;
-        }
+        GotPickup();
+    }
+
+    public virtual void GotPickup()
+    {
+        RehabGame.AddWumpa(1);
     }
 
     public override void OnNonSolidCollisionEnter(Node3D body)

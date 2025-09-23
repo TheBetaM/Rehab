@@ -421,11 +421,11 @@ public partial class RehabXRHand : Node3D
                     if (IsNinaHandGrappling)
                     {
                         // todo grapple and throw crate
-                        cratep.CallDeferred("ForceBreak");
+                        cratep.CallDeferred("Crate_ForceBreak");
                     }
                     else
                     {
-                        cratep.CallDeferred("ForceBreak");
+                        cratep.CallDeferred("Crate_ForceBreak");
                     }
                     HandCont.Vibrate(0.5f, 0.25f);
                     return;
@@ -443,10 +443,9 @@ public partial class RehabXRHand : Node3D
         IsNinaHandRetracting = true;
         if (body is AgentChiChiGrass hook && IsNinaHandGrappling)
         {
-            string name = (string)hook.Name;
             NinaHandFired.GlobalPosition = hook.ExitPoints[0].GlobalPosition;
             NinaHandFired.GlobalRotationDegrees = hook.ExitPoints[0].GlobalRotationDegrees;
-            if (name.Contains("Ceiling") && hook.LinkPoint != null && hook.LinkPoint.Count != 0)
+            if (body is Agents.ChiChi.Ceiling && hook.LinkPoint != null && hook.LinkPoint.Count != 0)
             {
                 Nina_CeilingHookTravel(hook);
             }
@@ -490,11 +489,11 @@ public partial class RehabXRHand : Node3D
             if (IsNinaHandGrappling)
             {
                 // todo grapple and throw crate
-                cratep.CallDeferred("ForceBreak");
+                cratep.CallDeferred("Crate_ForceBreak");
             }
             else
             {
-                cratep.CallDeferred("ForceBreak");
+                cratep.CallDeferred("Crate_ForceBreak");
             }
         }
         HandCont.Vibrate(0.75f, 0.5f);

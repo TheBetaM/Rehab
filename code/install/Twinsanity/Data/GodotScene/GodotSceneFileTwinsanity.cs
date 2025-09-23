@@ -1002,11 +1002,17 @@ namespace RehabSetup
         public void AddGameObject(GameObject Agent, string path, bool SceneOnly = false)
         {
             byte AgentType = (byte)(Agent.UnkBitfield >> 0x14 & 0xFF);
-            byte AgentUnkTypeValue = (byte)(Agent.UnkBitfield >> 0xC & 0xFF);
+            byte AgentMobileType = (byte)(Agent.UnkBitfield >> 0xC & 0xFF);
             byte AgentJointIDs = (byte)(Agent.UnkBitfield >> 0x6 & 0x3F);
             byte AgentExitPoints = (byte)(Agent.UnkBitfield & 0x3F);
 
-            ExternalResource AgentObjectCode = new ExternalResource($"res://code/ALab/Agent{GameObjectTypeScripts[AgentType]}{ExportGodot.ScriptExt}");
+            string CodePath = $"res://code/ALab/Agent{GameObjectTypeScripts[AgentType]}{ExportGodot.ScriptExt}";
+            if (AgentType != 3 && AgentType != 4 && DefaultHashes.Map_ObjectToCode.ContainsKey(Agent.ID))
+            {
+                CodePath = $"res://code/ALab/{DefaultHashes.Map_ObjectToCode[Agent.ID]}{ExportGodot.ScriptExt}";
+            }
+
+            ExternalResource AgentObjectCode = new ExternalResource(CodePath);
             AgentObjectCode.SetAsScript();
             ExternalResourceList.Add(AgentObjectCode);
             int AgentObjectCodeID = ExternalResourceList.Count;
@@ -1015,7 +1021,6 @@ namespace RehabSetup
             if (AgentType == 0)
             {
                 Nodes[0].Type = ExportGodot.CharacterBody3D;
-                Nodes[0].Lines.Add($"CharType={AgentCharacterTypes[Agent.ID]}");
             }
             else
             {
@@ -1023,7 +1028,7 @@ namespace RehabSetup
                 Nodes[0].Lines.Add($"freeze=true"); // static
             }
             Nodes[0].Lines.Add($"Type={AgentType}");
-            Nodes[0].Lines.Add($"UnkTypeValue={AgentUnkTypeValue}");
+            //Nodes[0].Lines.Add($"MobileType={AgentMobileType}");
             Nodes[0].Lines.Add($"JointIDCount={AgentJointIDs}");
             Nodes[0].Lines.Add($"ExitPointCount={AgentExitPoints}");
 

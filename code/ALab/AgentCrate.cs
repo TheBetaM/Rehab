@@ -2,15 +2,14 @@ using Godot;
 namespace Rehab;
 public partial class AgentCrate : Agent
 {
+    [Export] public bool OutlineCrate;
     public bool IsBroken;
-    bool IsCheckPoint;
-    bool IsBreakable = true;
-    bool IsNitro;
-    bool IsTNT;
-    bool IsSwitch;
-    bool IsReinforced;
-    bool WasTriggered;
+    public bool WasTriggered;
     static SphereShape3D ExplosionShape;
+    public virtual int BreakAnimSlot => 7;
+    public virtual bool BreakOnTouch => false;
+    public virtual bool IsReinforced => false;
+    public virtual bool IsBreakable => true;
 
     public AgentCrate()
     {
@@ -29,19 +28,6 @@ public partial class AgentCrate : Agent
 
         CreateShadow(1, Vector2.One, 0);
 
-        string name = (string)Name;
-        if (name.Contains("CheckPoint") || name.Contains("Level"))
-            IsCheckPoint = true;
-        else if (name.Contains("Iron") || name.Contains("Detonator"))
-            IsBreakable = false;
-        else if (name.Contains("Nitro"))
-            IsNitro = true;
-        else if (name.Contains("TNT"))
-            IsTNT = true;
-        else if (name.Contains("Reinforced"))
-            IsReinforced = true;
-        if (name.Contains("Switch"))
-            IsSwitch = true;
         if (OutlineCrate)
         {
             Set("collision_layer", 0);
@@ -60,10 +46,10 @@ public partial class AgentCrate : Agent
     {
         if (body is AgentCharacter agent)
         {
-            if (agent.spinTimer > 0f || agent.slideTimer > 0f || IsNitro || IsCheckPoint)
+            if (agent.spinTimer > 0f || agent.slideTimer > 0f || BreakOnTouch)
             {
                 if (!IsReinforced)
-                    CallDeferred("ForceBreak");
+                    CallDeferred("Crate_ForceBreak");
                 return;
             }
         }
@@ -74,40 +60,20 @@ public partial class AgentCrate : Agent
 
     }
 
-    public void ForceBreak()
+    public virtual void Crate_ForceBreak()
     {
-        if (IsSwitch && !WasTriggered)
-        {
-            OnTrigger();
-        }
-        if (!IsBreakable) return;
-        if (IsBroken) return;
+        if (!IsBreakable || IsBroken) return;
         IsBroken = true;
         Set("collision_layer", 0);
         Set("collision_mask", 0);
-        int slot = 7;
-        if (IsNitro || IsTNT) slot = 4;
-        if (IsCheckPoint) slot = 5;
-        DoAnimation(slot, false);
+        DoAnimation(BreakAnimSlot, false);
         DoSound(1, 1f, -5.0f);
-        if (SubActorsScenes != null && SubActorsScenes.Count != 0)
-        {
-            var item = (Agent)SubActorsScenes[0].Instantiate();
-            if (item is AgentPickup pickup)
-            {
-                pickup.CrateTimer = 1.0f;
-            }
-            AddChild(item);
-        }
         GetNode<Node3D>("Shadows").Visible = false;
-        if (IsCheckPoint)
-        {
-            RehabGame.SetCheckPoint(GlobalPosition, GlobalRotationDegrees, ParentScene.Name, ((string)Name).Contains("Level"));
-        }
-        if (IsNitro || IsTNT)
-        {
-            DelayedExplosion();
-        }
+        Crate_AfterForceBreak();
+    }
+    public virtual void Crate_AfterForceBreak()
+    {
+
     }
 
     public async void DelayedExplosion()
@@ -124,7 +90,7 @@ public partial class AgentCrate : Agent
             var hit = (GodotObject)item["collider"];
             if (hit is AgentCrate crate)
             {
-                crate.CallDeferred("ForceBreak");
+                crate.CallDeferred("Crate_ForceBreak");
             }
             else if (hit is AgentCharacter player)
             {
@@ -145,12 +111,14 @@ public partial class AgentCrate : Agent
             DoAnimation(0, false);
             UpdateLayers(ParentScene.ChunkLayer);
         }
-        if (IsSwitch)
-        {
-            DoAnimation(6, false);
-        }
         DoSound(2, 1f, 0f);
+        Crate_AfterTrigger();
         DelayedTrigger();
+    }
+
+    public virtual void Crate_AfterTrigger()
+    {
+
     }
 
     public async void DelayedTrigger()
@@ -170,11 +138,5 @@ public partial class AgentCrate : Agent
         }
     }
 
-    public override void OnMessage(int id)
-    {
-        if (IsCheckPoint && id == 138)
-        {
-            CallDeferred("ForceBreak");
-        }
-    }
+    
 }

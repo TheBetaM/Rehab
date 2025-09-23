@@ -4,8 +4,6 @@ using System.Linq;
 namespace Rehab;
 public partial class Agent : Node3D
 {
-
-    [Export] public int UnkTypeValue;
     [Export] public int JointIDCount;
     [Export] public int ExitPointCount;
     [Export] public Godot.Collections.Dictionary Messages;
@@ -35,7 +33,6 @@ public partial class Agent : Node3D
     [Export] public Godot.Collections.Array<int> RegInt;
     [Export] public bool HasFlags = false;
     [Export] public AgentInstance.IFlags Flags;
-    [Export] public bool OutlineCrate;
     [Export] public int RefList;
 
     string[] ShadowPaths = [
