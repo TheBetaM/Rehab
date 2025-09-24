@@ -7,7 +7,7 @@ public partial class IceClimb_AmbientSounds : AgentFurniture
     { 
         base._Ready();
         
-        switch (RegInt[0])
+        switch (SubType)
         {
             case 1: DoSound(4, 1f, 0f, true); break;
             case 2: DoSound(5, 1f, 0f, true); break;

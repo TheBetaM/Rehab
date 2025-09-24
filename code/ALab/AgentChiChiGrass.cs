@@ -5,10 +5,9 @@ public partial class AgentChiChiGrass : Agent
 {
     enum FloatSlot
     {
-        Mass = 0,
-        MunchDurationInSeconds = 1,
-        HorizontalReelDistance = 2,
-        VerticalReelDistance = 3,
+        MunchDurationInSeconds = 0,
+        HorizontalReelDistance = 1,
+        VerticalReelDistance = 2,
     }
     enum AngleSlot{
         AttachmentRotationLimit = 0,

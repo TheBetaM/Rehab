@@ -12,7 +12,7 @@ public partial class SoundSpot_Lava : AgentFurniture
     
     async void DelayedSoundStart()
     {
-        await ToSignal(GetTree().CreateTimer(RegFloat[4]), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(GetTree().CreateTimer(RegFloat[3]), SceneTreeTimer.SignalName.Timeout);
         DoSound(0, 1f, 0f, true);
     }
 }

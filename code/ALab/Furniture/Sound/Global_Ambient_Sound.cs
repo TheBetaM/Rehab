@@ -14,6 +14,6 @@ public partial class Global_Ambient_Sound : AgentFurniture
 
     public override void OnChunkEnter(object a, System.EventArgs e)
     {
-        RehabScene.Root.PlayAmbience(RegInt[2]);
+        RehabScene.Root.PlayAmbience(RegInt[0]);
     }
 }

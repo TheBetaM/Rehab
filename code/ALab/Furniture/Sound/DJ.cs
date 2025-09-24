@@ -15,7 +15,7 @@ public partial class DJ : AgentFurniture
 
     public override void OnChunkEnter(object a, System.EventArgs e)
     {
-        RehabScene.Root.PlayMusic(RegInt[0]);
-        RehabGame.SetLevelID(RegInt[2]);
+        RehabScene.Root.PlayMusic(SubType);
+        RehabGame.SetLevelID(RegInt[0]);
     }
 }

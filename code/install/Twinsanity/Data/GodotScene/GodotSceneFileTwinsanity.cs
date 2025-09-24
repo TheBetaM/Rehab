@@ -1051,9 +1051,13 @@ namespace RehabSetup
                 }
                 if (Agent.instFloatsList.Count != 0)
                 {
+                    if (Agent.instFloatsList.Count >= 1)
+                    {
+                        Nodes[0].Lines.Add($"Mass={Agent.instFloatsList[0].ToText()}");
+                    }
                     StringBuilder FloatReg = new StringBuilder();
                     FloatReg.Append($"RegFloat=[");
-                    for (int a = 0; a < Agent.instFloatsList.Count - 1; a++)
+                    for (int a = 1; a < Agent.instFloatsList.Count - 1; a++)
                     {
                         FloatReg.Append($"{Agent.instFloatsList[a].ToText()},");
                     }
@@ -1062,9 +1066,17 @@ namespace RehabSetup
                 }
                 if (Agent.instIntegerList.Count != 0)
                 {
+                    if (Agent.instIntegerList.Count >= 1)
+                    {
+                        Nodes[0].Lines.Add($"SubType={Agent.instIntegerList[0]}");
+                    }
+                    if (Agent.instIntegerList.Count >= 2)
+                    {
+                        Nodes[0].Lines.Add($"AILODBoost={Agent.instIntegerList[1]}");
+                    }
                     StringBuilder IntReg = new StringBuilder();
                     IntReg.Append($"RegInt=[");
-                    for (int a = 0; a < Agent.instIntegerList.Count - 1; a++)
+                    for (int a = 2; a < Agent.instIntegerList.Count - 1; a++)
                     {
                         IntReg.Append($"{Agent.instIntegerList[a]},");
                     }
@@ -1950,9 +1962,13 @@ namespace RehabSetup
                     }
                     if (Inst.UnkI322.Count != 0)
                     {
+                        if (Inst.UnkI322.Count >= 1)
+                        {
+                            HolderNode.Lines.Add($"Mass={Inst.UnkI322[0].ToText()}");
+                        }
                         StringBuilder FloatReg = new StringBuilder();
                         FloatReg.Append($"RegFloat=[");
-                        for (int a = 0; a < Inst.UnkI322.Count - 1; a++)
+                        for (int a = 1; a < Inst.UnkI322.Count - 1; a++)
                         {
                             FloatReg.Append($"{Inst.UnkI322[a].ToText()},");
                         }
@@ -1961,9 +1977,17 @@ namespace RehabSetup
                     }
                     if (Inst.UnkI323.Count != 0)
                     {
+                        if (Inst.UnkI323.Count >= 1)
+                        {
+                            HolderNode.Lines.Add($"SubType={Inst.UnkI323[0]}");
+                        }
+                        if (Inst.UnkI323.Count >= 2)
+                        {
+                            HolderNode.Lines.Add($"AILODBoost={Inst.UnkI323[1]}");
+                        }
                         StringBuilder IntReg = new StringBuilder();
                         IntReg.Append($"RegInt=[");
-                        for (int a = 0; a < Inst.UnkI323.Count - 1; a++)
+                        for (int a = 2; a < Inst.UnkI323.Count - 1; a++)
                         {
                             IntReg.Append($"{Inst.UnkI323[a]},");
                         }

@@ -3,20 +3,17 @@ namespace Rehab;
 public partial class AgentCreature : Agent
 {
     enum AngleSlot{
-        UnkAngle = 0,
+        TurnSpeed = 0,
     }
     enum FloatSlot{
-        UnkFloat1 = 0,
-        UnkFloat2 = 1,
-        UnkFloat3 = 2,
-        UnkFloat4 = 3,
-        UnkFloat5 = 4,
-        UnkFloat6 = 5,
+        GravityStrength = 0,
+        MovementSpeed = 2,
+        StartFallSpeed = 3,
+        TerminalVelocity = 4,
+        ClampAboveGroundHeight = 5,
     }
     enum IntSlot{
-        AgentType = 0,
-        UnkInt1 = 1,
-        UnkInt2 = 2,
+        HitPoints = 0,
     }
 
     public override void _Ready()

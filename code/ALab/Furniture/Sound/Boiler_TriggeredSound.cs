@@ -7,7 +7,7 @@ public partial class Boiler_TriggeredSound : AgentFurniture
     {
         if (id == 4)
         {
-            switch (RegInt[0])
+            switch (SubType)
             {
                 case 1: DoSound(0, 1f, 0f); break;
                 case 2: DoSound(1, 1f, 0f); break;

@@ -34,9 +34,9 @@ public partial class Agent : Node3D
     [Export] public bool HasFlags = false;
     [Export] public AgentInstance.IFlags Flags;
     [Export] public int RefList;
-    //[Export] public int SubType = 0;
-    //[Export] public int AILODBoost = 255;
-    //[Export] public float Mass = 1.0f;
+    [Export] public int SubType = 0;
+    [Export] public int AILODBoost = 255;
+    [Export] public float Mass = 1.0f;
 
     string[] ShadowPaths = [
         "res://assets/textures/shadow/clin.png",

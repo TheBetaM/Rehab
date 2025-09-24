@@ -7,7 +7,7 @@ public partial class Sound_Ambient_IceHub : AgentFurniture
     { 
         base._Ready();
         
-        switch (RegInt[0])
+        switch (SubType)
         {
             case 1: DoSound(2, 1f, 0f, true); break;
             case 2: DoSound(3, 1f, 0f, true); break;

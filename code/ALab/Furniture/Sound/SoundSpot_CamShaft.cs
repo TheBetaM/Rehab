@@ -12,8 +12,8 @@ public partial class SoundSpot_CamShaft : AgentFurniture
     
     async void DelayedSoundStart()
     {
-        await ToSignal(GetTree().CreateTimer(RegFloat[4]), SceneTreeTimer.SignalName.Timeout);
-        switch (RegInt[0])
+        await ToSignal(GetTree().CreateTimer(RegFloat[3]), SceneTreeTimer.SignalName.Timeout);
+        switch (SubType)
         {
             case 1: DoSound(0, 1f, 0f, true); break;
             case 2: DoSound(1, 1f, 0f, true); break;

@@ -148,10 +148,12 @@ shape = SubResource("BoxShape3D_3etyp")
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
-RegInt = Array[int]([41, 255, 18])
+SubType = 41
+RegInt = Array[int]([18])
 
 [node name="Global_Ambient_Sound" parent="." node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("6_2lpxa")]
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
-RegInt = Array[int]([8, 255, 111])
+SubType = 8
+RegInt = Array[int]([111])

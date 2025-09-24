@@ -1110,7 +1110,8 @@ disabled = true
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
-RegInt = Array[int]([8, 255, 18])
+SubType = 8
+RegInt = Array[int]([18])
 
 [node name="Pickup_Gem_Blue" parent="Actors" node_paths=PackedStringArray("LinkInstance", "LinkPath", "LinkPoint") instance=ExtResource("94_n4q0b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.4853, 3.37988, 11.3219)
@@ -1125,7 +1126,7 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
-RegInt = Array[int]([0, 255, 137])
+RegInt = Array[int]([137])
 
 [connection signal="OnTouch" from="Actors/InteractionHint1" to="AnimationPlayer" method="XR_Next"]
 [connection signal="OnGrip" from="Actors/InteractionHint2" to="AnimationPlayer" method="XR_Next"]

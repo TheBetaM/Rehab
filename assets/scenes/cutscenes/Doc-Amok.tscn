@@ -704,7 +704,7 @@ process_mode = 0
 LinkInstance = []
 LinkPath = []
 LinkPoint = []
-RegInt = Array[int]([0, 0, 90])
+RegInt = Array[int]([90])
 
 [editable path="Actors/CutsceneDirector_Totem"]
 [editable path="Actors/CutsceneDirector_Totem/Models/Cortex_Rig"]
