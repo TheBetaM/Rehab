@@ -1,5 +1,5 @@
 using Godot;
 namespace Rehab.Agents.Furniture.Sound;
-public partial class SoundSpot_Plank_Spin : AgentFurniture
+public partial class SoundSpot_Plank_Spin : SoundSpot_CamShaft
 {
 }

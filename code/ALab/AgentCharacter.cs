@@ -418,7 +418,7 @@ public partial class AgentCharacter : Agent
                 {
                     crate.OnBodyEntered(this);
                 }
-                else if (hit is AgentFurniture furn)
+                else if (hit is Agents.Furniture.School.Boiler.DoubleDoor_Anim furn)
                 {
                     furn.OnDoorTouch(this);
                 }
