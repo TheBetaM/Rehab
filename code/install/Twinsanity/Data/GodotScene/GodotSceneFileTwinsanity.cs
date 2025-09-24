@@ -1007,7 +1007,7 @@ namespace RehabSetup
             byte AgentExitPoints = (byte)(Agent.UnkBitfield & 0x3F);
 
             string CodePath = $"res://code/ALab/Agent{GameObjectTypeScripts[AgentType]}{ExportGodot.ScriptExt}";
-            if (AgentType != 4 && DefaultHashes.Map_ObjectToCode.ContainsKey(Agent.ID))
+            if (DefaultHashes.Map_ObjectToCode.ContainsKey(Agent.ID))
             {
                 CodePath = $"res://code/ALab/{DefaultHashes.Map_ObjectToCode[Agent.ID]}{ExportGodot.ScriptExt}";
             }

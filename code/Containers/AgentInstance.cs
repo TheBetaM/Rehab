@@ -15,6 +15,9 @@ public partial class AgentInstance : Marker3D
     [Export] IFlags Flags;
     [Export] bool OutlineCrate;
     [Export] int RefList = -1;
+    //[Export] public int SubType = 0;
+    //[Export] public int AILODBoost = 255;
+    //[Export] public float Mass = 1.0f;
     public Agent Actor;
 
     public override async void _Ready()
