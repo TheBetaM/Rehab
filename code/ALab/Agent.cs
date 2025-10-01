@@ -127,7 +127,7 @@ public partial class Agent : Node3D
         UpdateFlags();
     }
 
-    public void DoAnimation(int slot, bool loop)
+    public void DoAnimation(int slot, bool loop, bool backwards = false)
     {
         if (ModelActions == null) return;
         if (slot >= ModelActions.Count) return;
@@ -197,9 +197,27 @@ public partial class Agent : Node3D
             else
                 animPlayer.GetAnimation(animName).LoopMode = Animation.LoopModeEnum.None;
             if (ActiveAnim == -1)
-                animPlayer.Play(animName);
+            {
+                if (backwards)
+                {
+                    animPlayer.PlayBackwards(animName);
+                }
+                else
+                {
+                    animPlayer.Play(animName, 0.25);
+                }
+            }
             else
-                animPlayer.Play(animName, 0.25);
+            {
+                if (backwards)
+                {
+                    animPlayer.PlayBackwards(animName, 0.25);
+                }
+                else
+                {
+                    animPlayer.Play(animName, 0.25);
+                }
+            }
             ActiveAnim = slot;
         }
     }
@@ -498,7 +516,7 @@ public partial class Agent : Node3D
 
     public void CreateShadow(int type, Vector2 dsize, int boneAttach)
     {
-        if (SubModels.Count == 0) return;
+        if (SubModels.Count == 0 || GetNode("Shadows").GetChildCount() != 0) return;
         var shadow = new Decal();
         shadow.Size = new Vector3(dsize.X, 10f, dsize.Y);
         shadow.TextureAlbedo = (Texture2D)ResourceLoader.Load(ShadowPaths[type]);
@@ -514,7 +532,7 @@ public partial class Agent : Node3D
         shadow.Position = new Vector3(shadow.Position.X, -4.99f, shadow.Position.Z);
     }
 
-    void UpdateFlags()
+    public void UpdateFlags()
     {
         if (!HasFlags) return;
         if (Flags.HasFlag(AgentInstance.IFlags.Inactive))

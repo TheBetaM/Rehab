@@ -7,10 +7,10 @@ public partial class AgentCreature : Agent
     }
     enum FloatSlot{
         GravityStrength = 0,
-        MovementSpeed = 2,
-        StartFallSpeed = 3,
-        TerminalVelocity = 4,
-        ClampAboveGroundHeight = 5,
+        MovementSpeed = 1,
+        StartFallSpeed = 2,
+        TerminalVelocity = 3,
+        ClampAboveGroundHeight = 4,
     }
     enum IntSlot{
         HitPoints = 0,
@@ -20,6 +20,7 @@ public partial class AgentCreature : Agent
     {
         base._Ready();
 
+        // temp
         DoAnimation(1, true);
 	    CreateShadow(0, Vector2.One, 0);
     }
