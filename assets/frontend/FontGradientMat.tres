@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dp20vfogmty8l"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dp20vfogmty8l"]
 
-[ext_resource type="Shader" path="res://shaders/FontGradient.gdshader" id="1_asj53"]
+[ext_resource type="Shader" uid="uid://bm7vm0fivt1mu" path="res://shaders/FontGradient.gdshader" id="1_asj53"]
 
 [sub_resource type="Gradient" id="Gradient_c00ef"]
 colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0.0196078, 1)

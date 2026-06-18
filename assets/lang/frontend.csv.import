@@ -15,3 +15,5 @@ dest_files=["res://assets/lang/frontend.en_US.translation", "res://assets/lang/f
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true

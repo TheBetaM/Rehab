@@ -298,6 +298,11 @@ public partial class FrontendMenu : Control
             GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button8").Text = "#FE-Culling-On";
         else
             GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button8").Text = "#FE-Culling-Off";
+
+        if (GetWindow().HdrOutputRequested == true)
+            GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button9").Text = "#FE-HDR-On";
+        else
+            GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button9").Text = "#FE-HDR-Off";
         
         GetNode<Control>("WindowMainRound/MenuOptionsMain").Visible = false;
         GetNode<Control>("WindowMainRound/MenuOptionsGraphics").Visible = true;
@@ -481,8 +486,10 @@ public partial class FrontendMenu : Control
         }
         else if (mset == DisplayServer.VSyncMode.Enabled)
         {
-            DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Adaptive);
-            GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button3").Text = "#FE-VSync-Adaptive";
+            //DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Adaptive);
+            //GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button3").Text = "#FE-VSync-Adaptive";
+            DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Disabled);
+            GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button3").Text = "#FE-VSync-Off";
         }
         else if (mset == DisplayServer.VSyncMode.Adaptive)
         {
@@ -492,7 +499,6 @@ public partial class FrontendMenu : Control
         else
         {
             DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Disabled);
-            GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button3").Text = "#FE-VSync-Off";
         }
     }
 
@@ -551,6 +557,21 @@ public partial class FrontendMenu : Control
         else
         {
             GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button8").Text = "#FE-Culling-Off";
+        }
+    }
+
+    public void OptionsGraphics_ToggleHDR()
+    {
+        var mset = GetWindow().HdrOutputRequested;
+        GetWindow().HdrOutputRequested = !mset;
+        if (GetWindow().HdrOutputRequested == false)
+        {
+            GetViewport().UseHdr2D = false;
+            GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button9").Text = "#FE-HDR-Off";
+        }
+        else
+        {
+            GetNode<Button>("WindowMainRound/MenuOptionsGraphics/Button9").Text = "#FE-HDR-On";
         }
     }
 

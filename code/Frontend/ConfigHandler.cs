@@ -62,6 +62,7 @@ public partial class ConfigHandler : Node
         Dict[Key_MouseCam] = RehabGame.UseMouseCamera;
         Dict[Key_MouseSens] = RehabGame.MouseSensitivity;
         Dict[Key_Culling] = GetViewport().UseOcclusionCulling;
+        Dict[Key_HDR] = GetWindow().HdrOutputRequested;
     }
 
     public void Update(string key, Variant val)
@@ -132,6 +133,14 @@ public partial class ConfigHandler : Node
         {
             GetViewport().UseOcclusionCulling = (bool)Dict[Key_Culling];
         }
+        if (Dict.ContainsKey(Key_HDR))
+        {
+            GetWindow().HdrOutputRequested = (bool)Dict[Key_HDR];
+        }
+        if (!GetWindow().HdrOutputRequested)
+        {
+            GetViewport().UseHdr2D = false;
+        }
     }
 
     public Dictionary<string, Variant> LoadModInfo(string path)
@@ -161,6 +170,7 @@ public partial class ConfigHandler : Node
     const string Key_FXAA = "fxaa";
     const string Key_VSYNC = "vsync";
     const string Key_FSR = "fsr";
+    const string Key_HDR = "hdr";
     const string Key_RenderScale = "renderscale";
     const string Key_VolumeGlobal = "volume-global";
     const string Key_VolumeMusic = "volume-music";

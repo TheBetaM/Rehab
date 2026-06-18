@@ -119,6 +119,8 @@
 #FE-VSync-On,VSync: ON,VSync: EIN,VSync: ON,VSync: ON,VSync: ACTIVAR,VSync: WŁĄCZONE
 #FE-VSync-Adaptive,VSync: Adaptive,VSync: Adaptiv,VSync: Adaptatif,VSync: Adattivo,VSync: Adaptado,VSync: Adaptywny
 #FE-VSync-Fast,VSync: Fast,VSync: Schnell,VSync: Rapide,VSync: Veloce,VSync: Rápido,VSync: Szybki
+#FE-HDR-Off,HDR: OFF,HDR: AUS,HDR: OFF,HDR: OFF,HDR: DESACTIVAR,HDR: WYŁĄCZONE
+#FE-HDR-On,HDR: ON,HDR: EIN,HDR: ON,HDR: ON,HDR: ACTIVAR,HDR: WŁĄCZONE
 #FE-FSR-Off,FSR: OFF,FSR: AUS,FSR: OFF,FSR: OFF,FSR: DESACTIVAR,FSR: WYŁĄCZONE
 #FE-FSR-On1,FSR: ON (1.0),FSR: EIN (1.0),FSR: ON (1.0),FSR: ON (1.0),FSR: ACTIVAR (1.0),FSR: WŁĄCZONE (1.0)
 #FE-FSR-On2,FSR: ON (2.2),FSR: EIN (2.2),FSR: ON (2.2),FSR: ON (2.2),FSR: ACTIVAR (2.2),FSR: WŁĄCZONE (2.2)

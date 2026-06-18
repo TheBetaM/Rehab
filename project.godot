@@ -32,14 +32,20 @@ buses/default_bus_layout="res://assets/frontend/RehabAudioBus.tres"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/mode=4
+window/hdr/request_hdr_output=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+display_server/driver.linuxbsd="wayland"
 window/handheld/orientation=4
 window/size/mode.editor=0
 
 [dotnet]
 
 project/assembly_name="Rehab"
+
+[editor]
+
+export/convert_text_resources_to_binary=false
 
 [importer_defaults]
 
@@ -274,6 +280,7 @@ locale/translations=PackedStringArray("res://assets/lang/frontend.en_US.translat
 
 [rendering]
 
+rendering_device/driver.windows="d3d12"
 textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 occlusion_culling/use_occlusion_culling=true

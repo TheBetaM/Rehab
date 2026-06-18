@@ -1,14 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://csc3ocq55uwbc"]
+[gd_scene format=3 uid="uid://csc3ocq55uwbc"]
 
 [ext_resource type="PackedScene" uid="uid://bvnasa3s1tj38" path="res://assets/frontend/windows/WindowMainRound.tscn" id="1_cbs7t"]
-[ext_resource type="Script" path="res://code/Frontend/FrontendMenu.cs" id="1_w3elq"]
+[ext_resource type="Script" uid="uid://cvebh1hysrs1d" path="res://code/Frontend/FrontendMenu.cs" id="1_w3elq"]
 [ext_resource type="PackedScene" uid="uid://pej4x1tt5ify" path="res://assets/frontend/RehabLabel.tscn" id="3_d138b"]
 [ext_resource type="PackedScene" uid="uid://v2rbsdmdkbbt" path="res://assets/frontend/windows/WindowRound.tscn" id="4_66hls"]
 [ext_resource type="Material" uid="uid://dp20vfogmty8l" path="res://assets/frontend/FontGradientMat.tres" id="5_c5h6c"]
 [ext_resource type="Theme" uid="uid://b06yjyl4s3uf6" path="res://assets/frontend/ControlTheme_Rehab.tres" id="6_1cstp"]
 [ext_resource type="PackedScene" uid="uid://do0s11ctvcqp1" path="res://assets/frontend/windows/RehabMenuButton.tscn" id="6_2mxrl"]
-[ext_resource type="Shader" path="res://shaders/FontGradient.gdshader" id="6_mhqpa"]
-[ext_resource type="Script" path="res://code/Frontend/TextureRectWobble.cs" id="7_te4ee"]
+[ext_resource type="Shader" uid="uid://bm7vm0fivt1mu" path="res://shaders/FontGradient.gdshader" id="6_mhqpa"]
+[ext_resource type="Script" uid="uid://c4fo8k8q8pyqy" path="res://code/Frontend/TextureRectWobble.cs" id="7_te4ee"]
 
 [sub_resource type="Gradient" id="Gradient_6e6ww"]
 colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0.0196078, 1)
@@ -28,7 +28,7 @@ colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0)
 gradient = SubResource("Gradient_yoo12")
 width = 1
 
-[node name="FE_Menu" type="Control"]
+[node name="FE_Menu" type="Control" unique_id=891190297]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,7 +40,7 @@ script = ExtResource("1_w3elq")
 LabelTheme = ExtResource("6_1cstp")
 LabelMaterial = ExtResource("5_c5h6c")
 
-[node name="WindowMainRound" parent="." instance=ExtResource("1_cbs7t")]
+[node name="WindowMainRound" parent="." unique_id=1489822320 instance=ExtResource("1_cbs7t")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -52,7 +52,7 @@ offset_top = -320.0
 offset_right = 330.0
 offset_bottom = 180.0
 
-[node name="RehabLabel" parent="WindowMainRound" instance=ExtResource("3_d138b")]
+[node name="RehabLabel" parent="WindowMainRound" unique_id=1230295246 instance=ExtResource("3_d138b")]
 z_index = 2
 material = SubResource("ShaderMaterial_eyg1k")
 layout_mode = 1
@@ -72,7 +72,7 @@ pivot_offset = Vector2(350, 0)
 text = "label"
 vertical_alignment = 0
 
-[node name="MenuOptionsMain" type="VBoxContainer" parent="WindowMainRound"]
+[node name="MenuOptionsMain" type="VBoxContainer" parent="WindowMainRound" unique_id=1954398116]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -83,35 +83,35 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button1" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowMainRound/MenuOptionsMain" unique_id=1159309742 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-GFXOptions"
 
-[node name="Button2" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
+[node name="Button2" parent="WindowMainRound/MenuOptionsMain" unique_id=1891557063 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-SFXOptions"
 
-[node name="Button3" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
+[node name="Button3" parent="WindowMainRound/MenuOptionsMain" unique_id=619595960 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-GameOptions"
 
-[node name="Button5" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
+[node name="Button5" parent="WindowMainRound/MenuOptionsMain" unique_id=1869123487 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Extras"
 
-[node name="Button6" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
+[node name="Button6" parent="WindowMainRound/MenuOptionsMain" unique_id=1350493431 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Explorer-Mods"
 
-[node name="Button7" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
+[node name="Button7" parent="WindowMainRound/MenuOptionsMain" unique_id=642699537 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Explorer-ViewLicense"
 
-[node name="Button4" parent="WindowMainRound/MenuOptionsMain" instance=ExtResource("6_2mxrl")]
+[node name="Button4" parent="WindowMainRound/MenuOptionsMain" unique_id=660096696 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Back"
 
-[node name="MenuOptionsSound" type="VBoxContainer" parent="WindowMainRound"]
+[node name="MenuOptionsSound" type="VBoxContainer" parent="WindowMainRound" unique_id=1491116788]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -122,31 +122,31 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button1" parent="WindowMainRound/MenuOptionsSound" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowMainRound/MenuOptionsSound" unique_id=1889594756 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-GlobalVolume"
 
-[node name="Button2" parent="WindowMainRound/MenuOptionsSound" instance=ExtResource("6_2mxrl")]
+[node name="Button2" parent="WindowMainRound/MenuOptionsSound" unique_id=1970812016 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-EffectsVolume"
 
-[node name="Button3" parent="WindowMainRound/MenuOptionsSound" instance=ExtResource("6_2mxrl")]
+[node name="Button3" parent="WindowMainRound/MenuOptionsSound" unique_id=1090127164 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-MusicVolume"
 
-[node name="Button4" parent="WindowMainRound/MenuOptionsSound" instance=ExtResource("6_2mxrl")]
+[node name="Button4" parent="WindowMainRound/MenuOptionsSound" unique_id=1824831336 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-VoiceVolume"
 
-[node name="Button6" parent="WindowMainRound/MenuOptionsSound" instance=ExtResource("6_2mxrl")]
+[node name="Button6" parent="WindowMainRound/MenuOptionsSound" unique_id=1752517363 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "VoiceLang"
 
-[node name="Button5" parent="WindowMainRound/MenuOptionsSound" instance=ExtResource("6_2mxrl")]
+[node name="Button5" parent="WindowMainRound/MenuOptionsSound" unique_id=1097213148 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Back"
 
-[node name="MenuOptionsGraphics" type="VBoxContainer" parent="WindowMainRound"]
+[node name="MenuOptionsGraphics" type="VBoxContainer" parent="WindowMainRound" unique_id=2109786361]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -157,39 +157,43 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button1" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowMainRound/MenuOptionsGraphics" unique_id=1290628215 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-ToggleFullScreen"
 
-[node name="Button2" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
+[node name="Button2" parent="WindowMainRound/MenuOptionsGraphics" unique_id=1471281123 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-MSAA-Off"
 
-[node name="Button4" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
+[node name="Button4" parent="WindowMainRound/MenuOptionsGraphics" unique_id=115798916 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-FXAA-Off"
 
-[node name="Button6" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
+[node name="Button6" parent="WindowMainRound/MenuOptionsGraphics" unique_id=262350690 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-FSR-Off"
 
-[node name="Button7" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
+[node name="Button7" parent="WindowMainRound/MenuOptionsGraphics" unique_id=562136228 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-RenderScale"
 
-[node name="Button3" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
+[node name="Button3" parent="WindowMainRound/MenuOptionsGraphics" unique_id=7138957 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-VSync-On"
 
-[node name="Button8" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
+[node name="Button8" parent="WindowMainRound/MenuOptionsGraphics" unique_id=1109562184 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Culling-On"
 
-[node name="Button5" parent="WindowMainRound/MenuOptionsGraphics" instance=ExtResource("6_2mxrl")]
+[node name="Button9" parent="WindowMainRound/MenuOptionsGraphics" unique_id=262739780 instance=ExtResource("6_2mxrl")]
+layout_mode = 2
+text = "#FE-HDR-Off"
+
+[node name="Button5" parent="WindowMainRound/MenuOptionsGraphics" unique_id=1472818615 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Back"
 
-[node name="MenuOptionsGame" type="VBoxContainer" parent="WindowMainRound"]
+[node name="MenuOptionsGame" type="VBoxContainer" parent="WindowMainRound" unique_id=1106985088]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -200,31 +204,31 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button4" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
+[node name="Button4" parent="WindowMainRound/MenuOptionsGame" unique_id=948091389 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Language"
 
-[node name="Button1" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowMainRound/MenuOptionsGame" unique_id=111891833 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-CamInvertH-Off"
 
-[node name="Button3" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
+[node name="Button3" parent="WindowMainRound/MenuOptionsGame" unique_id=1728049539 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-CamInvertV-Off"
 
-[node name="Button5" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
+[node name="Button5" parent="WindowMainRound/MenuOptionsGame" unique_id=1045119226 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-MouseCamera"
 
-[node name="Button6" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
+[node name="Button6" parent="WindowMainRound/MenuOptionsGame" unique_id=1101028360 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-MouseSensitivity"
 
-[node name="Button2" parent="WindowMainRound/MenuOptionsGame" instance=ExtResource("6_2mxrl")]
+[node name="Button2" parent="WindowMainRound/MenuOptionsGame" unique_id=43163498 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Back"
 
-[node name="MenuExtras" type="VBoxContainer" parent="WindowMainRound"]
+[node name="MenuExtras" type="VBoxContainer" parent="WindowMainRound" unique_id=1964964164]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -235,39 +239,39 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button1" parent="WindowMainRound/MenuExtras" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowMainRound/MenuExtras" unique_id=1571913979 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-GemExtrasBlue"
 
-[node name="Button2" parent="WindowMainRound/MenuExtras" instance=ExtResource("6_2mxrl")]
+[node name="Button2" parent="WindowMainRound/MenuExtras" unique_id=349407858 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-GemExtrasClear"
 
-[node name="Button3" parent="WindowMainRound/MenuExtras" instance=ExtResource("6_2mxrl")]
+[node name="Button3" parent="WindowMainRound/MenuExtras" unique_id=896261327 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-GemExtrasGreen"
 
-[node name="Button4" parent="WindowMainRound/MenuExtras" instance=ExtResource("6_2mxrl")]
+[node name="Button4" parent="WindowMainRound/MenuExtras" unique_id=724309888 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-GemExtrasPurple"
 
-[node name="Button5" parent="WindowMainRound/MenuExtras" instance=ExtResource("6_2mxrl")]
+[node name="Button5" parent="WindowMainRound/MenuExtras" unique_id=578656261 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-GemExtrasRed"
 
-[node name="Button6" parent="WindowMainRound/MenuExtras" instance=ExtResource("6_2mxrl")]
+[node name="Button6" parent="WindowMainRound/MenuExtras" unique_id=1506526980 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-GemExtrasYellow"
 
-[node name="Button7" parent="WindowMainRound/MenuExtras" instance=ExtResource("6_2mxrl")]
+[node name="Button7" parent="WindowMainRound/MenuExtras" unique_id=1238227568 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-CompleteExtras"
 
-[node name="Button8" parent="WindowMainRound/MenuExtras" instance=ExtResource("6_2mxrl")]
+[node name="Button8" parent="WindowMainRound/MenuExtras" unique_id=2088262073 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Back"
 
-[node name="MenuExtrasList" type="ScrollContainer" parent="WindowMainRound"]
+[node name="MenuExtrasList" type="ScrollContainer" parent="WindowMainRound" unique_id=1762342538]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -285,24 +289,24 @@ grow_vertical = 2
 pivot_offset = Vector2(320, 0)
 follow_focus = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WindowMainRound/MenuExtrasList"]
+[node name="VBoxContainer" type="VBoxContainer" parent="WindowMainRound/MenuExtrasList" unique_id=155223619]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button1" parent="WindowMainRound/MenuExtrasList/VBoxContainer" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowMainRound/MenuExtrasList/VBoxContainer" unique_id=234702159 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Back"
 
-[node name="MenuLongText" type="VBoxContainer" parent="WindowMainRound"]
+[node name="MenuLongText" type="VBoxContainer" parent="WindowMainRound" unique_id=2099482740]
 visible = false
 z_index = 10
-layout_mode = 2
+layout_mode = 0
 offset_top = 50.0
 offset_right = 640.0
 offset_bottom = 94.0
 size_flags_horizontal = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="WindowMainRound/MenuLongText"]
+[node name="RichTextLabel" type="RichTextLabel" parent="WindowMainRound/MenuLongText" unique_id=716646687]
 custom_minimum_size = Vector2(0, 400)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -316,13 +320,13 @@ focus_mode = 2
 theme = ExtResource("6_1cstp")
 selection_enabled = true
 
-[node name="Button1" parent="WindowMainRound/MenuLongText" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowMainRound/MenuLongText" unique_id=377957607 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 focus_neighbor_top = NodePath("../RichTextLabel")
 focus_previous = NodePath("../RichTextLabel")
 text = "#FE-Back"
 
-[node name="LevelIcon" type="TextureRect" parent="WindowMainRound"]
+[node name="LevelIcon" type="TextureRect" parent="WindowMainRound" unique_id=1234669646]
 visible = false
 z_index = 3
 layout_mode = 1
@@ -339,7 +343,7 @@ grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 script = ExtResource("7_te4ee")
 
-[node name="LevelIcon2" type="TextureRect" parent="WindowMainRound/LevelIcon"]
+[node name="LevelIcon2" type="TextureRect" parent="WindowMainRound/LevelIcon" unique_id=947586689]
 modulate = Color(0, 0, 0, 0.501961)
 z_index = -1
 layout_mode = 1
@@ -354,7 +358,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 
-[node name="WindowRound" parent="." instance=ExtResource("4_66hls")]
+[node name="WindowRound" parent="." unique_id=1260532900 instance=ExtResource("4_66hls")]
 z_index = 3
 layout_mode = 1
 anchors_preset = 8
@@ -367,7 +371,7 @@ offset_top = 130.0
 offset_right = 115.0
 offset_bottom = 360.0
 
-[node name="MenuMain" type="VBoxContainer" parent="WindowRound"]
+[node name="MenuMain" type="VBoxContainer" parent="WindowRound" unique_id=121781041]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -378,23 +382,23 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button1" parent="WindowRound/MenuMain" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowRound/MenuMain" unique_id=1083838698 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-NewGame"
 
-[node name="Button2" parent="WindowRound/MenuMain" instance=ExtResource("6_2mxrl")]
+[node name="Button2" parent="WindowRound/MenuMain" unique_id=1309660738 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-LoadGame"
 
-[node name="Button3" parent="WindowRound/MenuMain" instance=ExtResource("6_2mxrl")]
+[node name="Button3" parent="WindowRound/MenuMain" unique_id=1651660211 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Options"
 
-[node name="Button4" parent="WindowRound/MenuMain" instance=ExtResource("6_2mxrl")]
+[node name="Button4" parent="WindowRound/MenuMain" unique_id=797429348 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-QuitGame"
 
-[node name="MenuNewGame" type="VBoxContainer" parent="WindowRound"]
+[node name="MenuNewGame" type="VBoxContainer" parent="WindowRound" unique_id=62237414]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -405,15 +409,15 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button1" parent="WindowRound/MenuNewGame" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowRound/MenuNewGame" unique_id=611587390 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-NoSaveOption"
 
-[node name="Button2" parent="WindowRound/MenuNewGame" instance=ExtResource("6_2mxrl")]
+[node name="Button2" parent="WindowRound/MenuNewGame" unique_id=2115558513 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-CancelSaveOption"
 
-[node name="MenuPause" type="VBoxContainer" parent="WindowRound"]
+[node name="MenuPause" type="VBoxContainer" parent="WindowRound" unique_id=790170165]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -424,31 +428,31 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button1" parent="WindowRound/MenuPause" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowRound/MenuPause" unique_id=1971856554 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Options"
 
-[node name="Button2" parent="WindowRound/MenuPause" instance=ExtResource("6_2mxrl")]
+[node name="Button2" parent="WindowRound/MenuPause" unique_id=1010129569 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-SaveGame"
 
-[node name="Button3" parent="WindowRound/MenuPause" instance=ExtResource("6_2mxrl")]
+[node name="Button3" parent="WindowRound/MenuPause" unique_id=2065777911 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-LoadGame"
 
-[node name="Button4" parent="WindowRound/MenuPause" instance=ExtResource("6_2mxrl")]
+[node name="Button4" parent="WindowRound/MenuPause" unique_id=1297192274 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-DisableAutoSave"
 
-[node name="Button5" parent="WindowRound/MenuPause" instance=ExtResource("6_2mxrl")]
+[node name="Button5" parent="WindowRound/MenuPause" unique_id=159708756 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-QuitGame"
 
-[node name="Button6" parent="WindowRound/MenuPause" instance=ExtResource("6_2mxrl")]
+[node name="Button6" parent="WindowRound/MenuPause" unique_id=288413111 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Resume"
 
-[node name="MenuNotice" type="VBoxContainer" parent="WindowRound"]
+[node name="MenuNotice" type="VBoxContainer" parent="WindowRound" unique_id=246214669]
 z_index = 1
 layout_mode = 1
 anchors_preset = -1
@@ -458,11 +462,11 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button1" parent="WindowRound/MenuNotice" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowRound/MenuNotice" unique_id=651622867 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Continue"
 
-[node name="MenuQuitConfirm" type="VBoxContainer" parent="WindowRound"]
+[node name="MenuQuitConfirm" type="VBoxContainer" parent="WindowRound" unique_id=1516845578]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -473,15 +477,15 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button1" parent="WindowRound/MenuQuitConfirm" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowRound/MenuQuitConfirm" unique_id=1389143985 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Yes"
 
-[node name="Button2" parent="WindowRound/MenuQuitConfirm" instance=ExtResource("6_2mxrl")]
+[node name="Button2" parent="WindowRound/MenuQuitConfirm" unique_id=710685559 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-No"
 
-[node name="MenuLoadGame" type="VBoxContainer" parent="WindowRound"]
+[node name="MenuLoadGame" type="VBoxContainer" parent="WindowRound" unique_id=217967305]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -492,11 +496,11 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button1" parent="WindowRound/MenuLoadGame" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowRound/MenuLoadGame" unique_id=1942060186 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-CancelSaveOption"
 
-[node name="MenuPauseExplorer" type="VBoxContainer" parent="WindowRound"]
+[node name="MenuPauseExplorer" type="VBoxContainer" parent="WindowRound" unique_id=39816184]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -507,27 +511,27 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button1" parent="WindowRound/MenuPauseExplorer" instance=ExtResource("6_2mxrl")]
+[node name="Button1" parent="WindowRound/MenuPauseExplorer" unique_id=331772175 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Options"
 
-[node name="Button2" parent="WindowRound/MenuPauseExplorer" instance=ExtResource("6_2mxrl")]
+[node name="Button2" parent="WindowRound/MenuPauseExplorer" unique_id=1996403387 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Explorer-ReturnToLevelSelect"
 
-[node name="Button5" parent="WindowRound/MenuPauseExplorer" instance=ExtResource("6_2mxrl")]
+[node name="Button5" parent="WindowRound/MenuPauseExplorer" unique_id=956653970 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Explorer-ReturnToMainMenu"
 
-[node name="Button3" parent="WindowRound/MenuPauseExplorer" instance=ExtResource("6_2mxrl")]
+[node name="Button3" parent="WindowRound/MenuPauseExplorer" unique_id=1074714110 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-QuitGame"
 
-[node name="Button4" parent="WindowRound/MenuPauseExplorer" instance=ExtResource("6_2mxrl")]
+[node name="Button4" parent="WindowRound/MenuPauseExplorer" unique_id=1638923260 instance=ExtResource("6_2mxrl")]
 layout_mode = 2
 text = "#FE-Resume"
 
-[node name="WindowRoundHeader" parent="." instance=ExtResource("4_66hls")]
+[node name="WindowRoundHeader" parent="." unique_id=865835602 instance=ExtResource("4_66hls")]
 z_index = 3
 layout_mode = 1
 anchors_preset = 8
@@ -540,7 +544,7 @@ offset_top = -360.0
 offset_right = 400.0
 offset_bottom = -280.0
 
-[node name="HeaderLabel" parent="WindowRoundHeader" instance=ExtResource("3_d138b")]
+[node name="HeaderLabel" parent="WindowRoundHeader" unique_id=645536381 instance=ExtResource("3_d138b")]
 z_index = 2
 layout_mode = 1
 anchors_preset = 8
@@ -558,7 +562,7 @@ scale = Vector2(0.6, 0.6)
 pivot_offset = Vector2(350, 182)
 text = "header label"
 
-[node name="WindowRoundCrystals" parent="." instance=ExtResource("4_66hls")]
+[node name="WindowRoundCrystals" parent="." unique_id=1866025053 instance=ExtResource("4_66hls")]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -572,7 +576,7 @@ offset_right = -154.0
 offset_bottom = 208.0
 pivot_offset = Vector2(40, 40)
 
-[node name="CrystalsIcon" type="TextureRect" parent="WindowRoundCrystals"]
+[node name="CrystalsIcon" type="TextureRect" parent="WindowRoundCrystals" unique_id=1593159924]
 z_index = 1
 layout_mode = 1
 anchors_preset = 8
@@ -588,7 +592,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 
-[node name="CountCrystals" parent="WindowRoundCrystals" instance=ExtResource("3_d138b")]
+[node name="CountCrystals" parent="WindowRoundCrystals" unique_id=2035879239 instance=ExtResource("3_d138b")]
 z_index = 2
 layout_mode = 1
 anchors_preset = 8
@@ -607,7 +611,7 @@ pivot_offset = Vector2(350, 182)
 text = "0"
 horizontal_alignment = 2
 
-[node name="WindowRoundLives" parent="." instance=ExtResource("4_66hls")]
+[node name="WindowRoundLives" parent="." unique_id=1094852651 instance=ExtResource("4_66hls")]
 visible = false
 z_index = 3
 layout_mode = 1
@@ -622,7 +626,7 @@ offset_right = -220.0
 offset_bottom = 27.0
 pivot_offset = Vector2(40, 40)
 
-[node name="LivesIcon" type="TextureRect" parent="WindowRoundLives"]
+[node name="LivesIcon" type="TextureRect" parent="WindowRoundLives" unique_id=1286503235]
 z_index = 3
 layout_mode = 1
 anchors_preset = 8
@@ -638,7 +642,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 
-[node name="CountLives" parent="WindowRoundLives" instance=ExtResource("3_d138b")]
+[node name="CountLives" parent="WindowRoundLives" unique_id=143864672 instance=ExtResource("3_d138b")]
 z_index = 2
 layout_mode = 1
 anchors_preset = 8
@@ -657,7 +661,7 @@ pivot_offset = Vector2(350, 182)
 text = "0"
 horizontal_alignment = 2
 
-[node name="WindowRoundWumpa" parent="." instance=ExtResource("4_66hls")]
+[node name="WindowRoundWumpa" parent="." unique_id=586036011 instance=ExtResource("4_66hls")]
 visible = false
 z_index = 3
 layout_mode = 1
@@ -672,7 +676,7 @@ offset_right = -163.0
 offset_bottom = -161.0
 pivot_offset = Vector2(40, 40)
 
-[node name="WumpaIcon" type="TextureRect" parent="WindowRoundWumpa"]
+[node name="WumpaIcon" type="TextureRect" parent="WindowRoundWumpa" unique_id=1483922441]
 z_index = 3
 layout_mode = 1
 anchors_preset = 8
@@ -688,7 +692,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 
-[node name="CountWumpa" parent="WindowRoundWumpa" instance=ExtResource("3_d138b")]
+[node name="CountWumpa" parent="WindowRoundWumpa" unique_id=1230653525 instance=ExtResource("3_d138b")]
 z_index = 2
 layout_mode = 1
 anchors_preset = 8
@@ -707,7 +711,7 @@ pivot_offset = Vector2(350, 182)
 text = "0"
 horizontal_alignment = 2
 
-[node name="WindowGems" type="Control" parent="."]
+[node name="WindowGems" type="Control" parent="." unique_id=1469808097]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -722,7 +726,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GemIcon1" type="TextureRect" parent="WindowGems"]
+[node name="GemIcon1" type="TextureRect" parent="WindowGems" unique_id=737323914]
 z_index = 3
 layout_mode = 1
 anchors_preset = 8
@@ -738,7 +742,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 
-[node name="GemIcon2" type="TextureRect" parent="WindowGems"]
+[node name="GemIcon2" type="TextureRect" parent="WindowGems" unique_id=828746495]
 z_index = 3
 layout_mode = 1
 anchors_preset = 8
@@ -754,7 +758,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 
-[node name="GemIcon3" type="TextureRect" parent="WindowGems"]
+[node name="GemIcon3" type="TextureRect" parent="WindowGems" unique_id=1270031314]
 z_index = 3
 layout_mode = 1
 anchors_preset = 8
@@ -770,7 +774,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 
-[node name="GemIcon4" type="TextureRect" parent="WindowGems"]
+[node name="GemIcon4" type="TextureRect" parent="WindowGems" unique_id=1444383862]
 z_index = 3
 layout_mode = 1
 anchors_preset = 8
@@ -786,7 +790,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 
-[node name="GemIcon5" type="TextureRect" parent="WindowGems"]
+[node name="GemIcon5" type="TextureRect" parent="WindowGems" unique_id=564100972]
 z_index = 3
 layout_mode = 1
 anchors_preset = 8
@@ -802,7 +806,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 
-[node name="GemIcon6" type="TextureRect" parent="WindowGems"]
+[node name="GemIcon6" type="TextureRect" parent="WindowGems" unique_id=725952481]
 z_index = 3
 layout_mode = 1
 anchors_preset = 8
@@ -818,7 +822,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(128, 128)
 
-[node name="WindowExtrasItem" type="Control" parent="."]
+[node name="WindowExtrasItem" type="Control" parent="." unique_id=1979852681]
 visible = false
 z_index = 5
 layout_mode = 1
@@ -830,7 +834,7 @@ grow_vertical = 2
 scale = Vector2(1.12, 1.12)
 pivot_offset = Vector2(640, 360)
 
-[node name="ColorRect" type="ColorRect" parent="WindowExtrasItem"]
+[node name="ColorRect" type="ColorRect" parent="WindowExtrasItem" unique_id=690976828]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -840,7 +844,7 @@ grow_vertical = 2
 scale = Vector2(1.5, 1.5)
 color = Color(0, 0, 0, 1)
 
-[node name="ControlAspect" type="AspectRatioContainer" parent="WindowExtrasItem"]
+[node name="ControlAspect" type="AspectRatioContainer" parent="WindowExtrasItem" unique_id=2033552808]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -850,11 +854,11 @@ grow_vertical = 2
 ratio = 1.7778
 stretch_mode = 1
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="WindowExtrasItem/ControlAspect"]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="WindowExtrasItem/ControlAspect" unique_id=1804585163]
 layout_mode = 2
 expand = true
 
-[node name="TextureRect" type="TextureRect" parent="WindowExtrasItem"]
+[node name="TextureRect" type="TextureRect" parent="WindowExtrasItem" unique_id=258177334]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -863,7 +867,7 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch_mode = 5
 
-[node name="Button" type="Button" parent="WindowExtrasItem"]
+[node name="Button" type="Button" parent="WindowExtrasItem" unique_id=1446384803]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -897,6 +901,7 @@ expand_icon = true
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button7" to="." method="OptionsGraphics_ToggleRenderScale"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button3" to="." method="OptionsGraphics_ToggleVSync"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button8" to="." method="OptionsGraphics_ToggleCulling"]
+[connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button9" to="." method="OptionsGraphics_ToggleHDR"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGraphics/Button5" to="." method="OptionsGraphics_ToMain"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button4" to="." method="OptionsGame_ToggleLanguage"]
 [connection signal="pressed" from="WindowMainRound/MenuOptionsGame/Button1" to="." method="OptionsGame_ToggleCameraH"]
