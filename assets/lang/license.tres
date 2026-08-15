@@ -4,7 +4,10 @@
 
 [resource]
 script = ExtResource("1_u1ol5")
-text = "MIT License
+text = "
+Rehab (https://github.com/TheBetaM/Rehab)
+
+MIT License
 
 Copyright (c) 2026 BetaM (https://github.com/TheBetaM)
 
